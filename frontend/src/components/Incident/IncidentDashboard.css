@@ -1,0 +1,857 @@
+/* Incident KPI Dashboard CSS */
+
+.incident-dashboard-wrapper {
+  padding: 10px 0px 24px 200px;
+  background: #f5f5f5;
+  min-height: 100vh;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  width: 100%;
+  margin-left: 90px;
+  box-sizing: border-box;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.dashboard-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  background: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: #3498db;
+  color: white;
+}
+
+.time-filter {
+  display: flex;
+  align-items: center;
+}
+
+.time-select {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.9rem;
+}
+
+/* KPI Row Layout */
+.kpi-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+/* First row needs extra top margin now that header is gone */
+.kpi-row:first-child {
+  margin-top: 10px;
+}
+
+/* KPI Card Styling */
+.kpi-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  flex: 1;
+  min-width: 280px;
+  max-width: calc(33.333% - 16px);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.kpi-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.kpi-value .unit {
+  font-size: 0.9rem;
+  margin-left: 4px;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.kpi-value-circle {
+  background: #ecf0f1;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.source {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.8rem;
+  color: #95a5a6;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+/* Chart Components */
+.kpi-chart {
+  height: auto;
+  position: relative;
+  margin-bottom: 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.trend-line {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25"><path d="M0,15 Q30,5 50,15 T100,10" fill="none" stroke="%233498db" stroke-width="2"/></svg>') no-repeat;
+  background-size: 100% 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.bar-chart.mini {
+  height: 40px;
+}
+
+.bar-chart.horizontal {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.bar-chart.vertical {
+  align-items: flex-end;
+  height: 40px;
+}
+
+.bar {
+  background: #3498db;
+  flex: 1;
+  margin: 0 3px;
+  border-radius: 3px 3px 0 0;
+}
+
+.bar-chart.horizontal .bar {
+  height: 10px !important;
+  border-radius: 0 3px 3px 0;
+  margin: 3px 0;
+}
+
+.chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 5px;
+}
+
+.gauge-chart {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path d="M10,45 A40,40 0 0,1 90,45" fill="none" stroke="%23ecf0f1" stroke-width="8"/><path d="M10,45 A40,40 0 0,1 60,15" fill="none" stroke="%233498db" stroke-width="8"/><circle cx="60" cy="15" r="5" fill="%232c3e50"/></svg>') no-repeat;
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+
+.progress-bar {
+  background: #ecf0f1;
+  height: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress-bar.horizontal {
+  height: 10px;
+  width: 100%;
+}
+
+.progress-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progress {
+  background: #3498db;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.progress.orange {
+  background: #e67e22;
+}
+
+.progress.green {
+  background: #2ecc71;
+}
+
+.progress.red {
+  background: #ef4444;
+}
+
+.chart-values {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.value-ticks {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.chart-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 10px;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 5px;
+}
+
+/* New Pie Chart Styles */
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.pie-chart {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  overflow: hidden;
+}
+
+.pie-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+}
+
+.pie-segment.critical {
+  background-color: #ef4444;
+  transform: rotate(0deg);
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + var(--segment-size) * 100%) 0%, calc(50% + var(--segment-size) * 100%) 100%, 50% 100%);
+}
+
+.pie-segment.high {
+  background-color: #f97316;
+  transform: rotate(calc(var(--segment-size-critical, 25%) * 3.6deg));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + var(--segment-size) * 100%) 0%, calc(50% + var(--segment-size) * 100%) 100%, 50% 100%);
+}
+
+.pie-segment.medium {
+  background-color: #facc15;
+  transform: rotate(calc((var(--segment-size-critical, 25%) + var(--segment-size-high, 35%)) * 3.6deg));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + var(--segment-size) * 100%) 0%, calc(50% + var(--segment-size) * 100%) 100%, 50% 100%);
+}
+
+.pie-segment.low {
+  background-color: #84cc16;
+  transform: rotate(calc((var(--segment-size-critical, 25%) + var(--segment-size-high, 35%) + var(--segment-size-medium, 30%)) * 3.6deg));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + var(--segment-size) * 100%) 0%, calc(50% + var(--segment-size) * 100%) 100%, 50% 100%);
+}
+
+.pie-segment.user {
+  background-color: #3498db;
+}
+
+.pie-segment.system {
+  background-color: #1abc9c;
+  transform: rotate(calc(var(--segment-size-user, 65%) * 3.6deg));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + var(--segment-size) * 100%) 0%, calc(50% + var(--segment-size) * 100%) 100%, 50% 100%);
+}
+
+.pie-segment.automated {
+  background-color: #9b59b6;
+}
+
+.pie-segment.manual {
+  background-color: #e74c3c;
+  transform: rotate(calc(var(--segment-size-automated, 40%) * 3.6deg));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + var(--segment-size) * 100%) 0%, calc(50% + var(--segment-size) * 100%) 100%, 50% 100%);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.65rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 3px;
+  border-radius: 2px;
+}
+
+.legend-color.critical { background-color: #ef4444; }
+.legend-color.high { background-color: #f97316; }
+.legend-color.medium { background-color: #facc15; }
+.legend-color.low { background-color: #84cc16; }
+.legend-color.user { background-color: #3498db; }
+.legend-color.system { background-color: #1abc9c; }
+.legend-color.automated { background-color: #9b59b6; }
+.legend-color.manual { background-color: #e74c3c; }
+
+/* Donut Chart Styles */
+.donut-chart {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  margin: 0 auto;
+}
+
+.donut-hole {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  top: 20px;
+  left: 20px;
+}
+
+.donut-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  clip: rect(0px, 100px, 100px, 50px);
+  background: #ef4444;
+}
+
+/* Root Cause and Threat Type Card Styles */
+.root-cause-card, .threat-types-card {
+  flex: 2;
+  max-width: calc(66.666% - 24px);
+}
+
+.bar-chart-container {
+  height: 200px;
+  margin-top: 10px;
+}
+
+/* Horizontal Bar Chart Styles */
+.horizontal-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.h-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.h-bar-label {
+  width: 110px;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.h-bar-track {
+  flex: 1;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.h-bar-progress {
+  height: 100%;
+  background: #3498db;
+  border-radius: 6px;
+}
+
+.h-bar-value {
+  width: 40px;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+/* Vertical Bar Chart Styles */
+.vertical-bar-chart {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 30px;
+}
+
+.v-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 18%;
+  position: relative;
+}
+
+.v-bar-progress {
+  width: 100%;
+  background: #3498db;
+  border-radius: 6px 6px 0 0;
+}
+
+.v-bar-label {
+  position: absolute;
+  bottom: -25px;
+  font-size: 0.8rem;
+}
+
+.v-bar-value {
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* Bar colors for severity */
+.bar.critical { background-color: #ef4444; }
+.bar.high { background-color: #f97316; }
+.bar.medium { background-color: #facc15; }
+.bar.low { background-color: #84cc16; }
+
+/* Horizontal bar specific styles */
+.bar-chart.horizontal {
+  flex-direction: column;
+  height: auto;
+}
+
+.bar-chart.horizontal .bar {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  height: 20px !important;
+  margin: 5px 0;
+  color: white;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+/* Popup styles */
+.incident-popup-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.incident-popup-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 300px;
+  max-width: 500px;
+  position: relative;
+}
+
+.incident-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #7f8c8d;
+}
+
+.incident-popup-message {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* Responsive design */
+@media (max-width: 1400px) {
+  .kpi-row {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .kpi-card {
+    min-width: calc(50% - 16px);
+    max-width: calc(50% - 16px);
+    flex-basis: calc(50% - 16px);
+  }
+  
+  .root-cause-card, .threat-types-card {
+    min-width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .incident-dashboard-wrapper {
+    padding: 10px 0px 24px 200px;
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .kpi-card {
+    min-width: 100%;
+    max-width: 100%;
+    flex-basis: 100%;
+  }
+  
+  .dashboard-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .incident-dashboard-wrapper {
+    margin-left: 0;
+    width: 100%;
+    padding: 70px 10px 24px 10px;
+  }
+  
+  .kpi-row {
+    padding: 0 10px;
+  }
+  
+  .horizontal-bar-chart .h-bar-label {
+    width: 80px;
+    font-size: 0.7rem;
+  }
+  
+  .vertical-bar-chart .v-bar-label {
+    font-size: 0.7rem;
+  }
+}
+
+/* Incident Volume Area Chart */
+.volume-chart {
+  height: 80px;
+}
+
+.area-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.area-chart svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Escalation Rate Stacked Bar */
+.stacked-bar-container {
+  height: 40px;
+  margin: 15px 0;
+}
+
+.stacked-bar {
+  display: flex;
+  width: 100%;
+  height: 25px;
+  background: #ecf0f1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.stacked-segment {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.stacked-segment.audit {
+  background-color: #3498db;
+}
+
+.stacked-segment.manual {
+  background-color: #9b59b6;
+}
+
+.legend-color.audit {
+  background-color: #3498db;
+}
+
+.legend-color.manual {
+  background-color: #9b59b6;
+}
+
+/* Repeat Incident Rate Donut */
+.donut-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.repeat-donut {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ecf0f1;
+}
+
+.donut-segment.new {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+  transform-origin: center;
+  transform: rotate(var(--start-angle));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + 100% * cos(var(--end-angle))) calc(50% - 100% * sin(var(--end-angle))), calc(50% + 100% * cos(var(--start-angle))) calc(50% - 100% * sin(var(--start-angle))));
+}
+
+.donut-segment.repeat {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  transform-origin: center;
+  transform: rotate(var(--start-angle));
+  clip-path: polygon(50% 50%, 50% 0%, calc(50% + 100% * cos(var(--end-angle))) calc(50% - 100% * sin(var(--end-angle))), calc(50% + 100% * cos(var(--start-angle))) calc(50% - 100% * sin(var(--start-angle))));
+}
+
+.donut-hole {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-hole-text {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.legend-color.new {
+  background-color: #2ecc71;
+}
+
+.legend-color.repeat {
+  background-color: #e74c3c;
+}
+
+/* Small donut container for origin chart */
+.small-donut-container {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Line Chart Styles */
+.line-chart {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 5px;
+}
+
+.line-chart svg {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-months {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #7f8c8d;
+  margin-top: 5px;
+  padding: 0 5px;
+}
+
+/* Style for value change indicators */
+.value-change {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.value-change.positive {
+  color: #4ade80;
+}
+
+.value-change.negative {
+  color: #f87171;
+}
+
+.value-change i {
+  margin-right: 2px;
+}
+
+/* Update the expanded-card class */
+.expanded-card {
+  flex: 1;  /* Make the cards take equal width */
+  max-width: calc(50% - 12px);  /* Ensure they only take up about half the row width */
+  min-width: 320px;
+}
+
+/* Additional styles for pie charts in expanded cards */
+.expanded-card .pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;  /* Reduce height for better fit */
+}
+
+.expanded-card .small-donut-container {
+  height: 80px;  /* Smaller height for origin chart */
+  margin: 0 auto;
+}
+
+.expanded-card .chart-legend {
+  justify-content: center;
+  margin-top: 15px;
+}
+
+/* Responsive adjustments for expanded cards */
+@media (max-width: 1400px) {
+  .expanded-card {
+    max-width: 49%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .expanded-card {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .expanded-card .pie-chart-container {
+    height: 100px;
+  }
+  
+  .expanded-card .small-donut-container {
+    height: 50px;  /* Even smaller on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .expanded-card .pie-chart-container {
+    height: 90px;
+  }
+  
+  .expanded-card .small-donut-container {
+    height: 40px;  /* Even smaller on mobile */
+  }
+  
+  .expanded-card .chart-legend {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    font-size: 0.6rem;
+  }
+}

@@ -1,0 +1,154 @@
+.sidebar {
+  width: 280px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header .logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: var(--logo-bg);
+  font-weight: bold;
+  font-size: 0.75rem;
+  line-height: 1;
+  margin-right: 1rem;
+}
+
+.sidebar-header .header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.navigation {
+  flex-grow: 1;
+  padding: 1rem 0;
+}
+
+.navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navigation ul li button,
+.navigation ul li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  gap: 0.75rem;
+  font-family: inherit;
+}
+
+.navigation ul li button:hover,
+.navigation ul li a:hover {
+  background-color: var(--hover-bg);
+}
+
+.navigation ul li button {
+  font-weight: bold;
+}
+
+.navigation .submenu {
+  padding-left: 2rem;
+}
+
+.navigation .submenu li a {
+  padding-left: 2.25rem;
+  font-weight: normal;
+  color: var(--text-secondary);
+}
+
+.sidebar-footer {
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.sidebar-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-footer a,
+.sidebar-footer button {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-footer a:hover,
+.sidebar-footer button:hover {
+  background-color: var(--hover-bg);
+}
+
+[data-theme="blue"] .sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+[data-theme="blue"] .sidebar-header {
+  color: var(--sidebar-text-primary);
+}
+[data-theme="blue"] .sidebar-header .logo {
+  background-color: var(--logo-bg);
+  color: #fff;
+  font-weight: bold;
+}
+[data-theme="blue"] .sidebar-header .header-title {
+  color: var(--sidebar-text-primary);
+  font-weight: 600;
+}
+[data-theme="blue"] .navigation ul li button,
+[data-theme="blue"] .navigation ul li a {
+  color: var(--sidebar-text-primary);
+  font-weight: 500;
+}
+[data-theme="blue"] .navigation ul li button:hover,
+[data-theme="blue"] .navigation ul li a:hover {
+  background-color: var(--hover-bg);
+}
+[data-theme="blue"] .navigation .submenu li a {
+  color: var(--sidebar-text-secondary);
+  font-weight: 400;
+}
+[data-theme="blue"] .sidebar-footer a,
+[data-theme="blue"] .sidebar-footer button {
+  color: var(--sidebar-text-secondary);
+  font-weight: 500;
+}
+[data-theme="blue"] .sidebar-footer a:hover,
+[data-theme="blue"] .sidebar-footer button:hover {
+  background-color: var(--hover-bg);
+} 

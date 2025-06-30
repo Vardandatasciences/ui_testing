@@ -1,0 +1,1388 @@
+/* Modern UI Variables for Risk Form */
+:root {
+  --form-primary: #4f7cff;
+  --form-primary-light: #4f7cff;
+  --form-primary-dark: #0b42e9;
+  --form-secondary: #4f7cff;
+  --form-success: #4cc9f0;
+  --form-warning: #f8961e;
+  --form-danger: #e63946;
+  --form-light: #f8f9fa;
+  --form-dark: #212529;
+  --form-gray-100: #f8f9fa;
+  --form-gray-200: #e9ecef;
+  --form-gray-300: #dee2e6;
+  --form-gray-400: #ced4da;
+  --form-gray-500: #adb5bd;
+  --form-gray-600: #6c757d;
+  --form-gray-700: #495057;
+  --form-gray-800: #343a40;
+  --form-gray-900: #212529;
+  --form-border-radius: 8px;
+  --form-box-shadow: 0 4px 6px rgba(106, 90, 205, 0.1), 0 1px 3px rgba(106, 90, 205, 0.08);
+  --form-transition: all 0.3s ease;
+}
+
+/* Compliance Dropdown Styles */
+.risk-compliance-dropdown-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+.risk-register-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--form-header-text, var(--card-view-title-color, var(--text-primary)));
+  margin-bottom: 28px;
+  margin-top: 8px;
+  letter-spacing: 0.01em;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 6px;
+  background: transparent;
+  font-family: var(--font-family-primary);
+}
+.risk-register-title::after {
+  content: '';
+  display: block;
+  margin-top: 4px;
+  margin-left: 0;
+  height: 4px;
+  width: 25%;
+  background: var(--primary-color, #4f7cff);
+  border-radius: 2px;
+}
+
+.risk-compliance-dropdown-container input[type="text"] {
+  flex: 1;
+  padding-right: 40px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  height: 42px;
+  border: 2px solid var(--form-primary);
+  background-color: white;
+}
+
+.risk-compliance-dropdown-container .risk-dropdown-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 42px;
+  width: 42px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--form-primary);
+  transition: var(--form-transition);
+}
+
+.risk-compliance-dropdown-container .risk-dropdown-toggle:hover {
+  color: var(--form-primary-dark);
+}
+
+.risk-compliance-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 400px;
+  background: white;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  box-shadow: var(--form-box-shadow);
+  z-index: 1000;
+  margin-top: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.risk-compliance-dropdown-search {
+  padding: 8px;
+  border-bottom: 1px solid var(--form-gray-200);
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+}
+
+.risk-compliance-dropdown-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  font-size: 0.85rem;
+}
+
+.risk-compliance-dropdown-search input:focus {
+  outline: none;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+}
+
+.risk-compliance-dropdown-list {
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+.risk-compliance-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--form-gray-200);
+  cursor: pointer;
+  transition: var(--form-transition);
+  display: flex;
+  align-items: flex-start;
+}
+
+.risk-compliance-item:hover {
+  background-color: rgba(106, 90, 205, 0.05);
+}
+
+.risk-compliance-item-checkbox {
+  margin-right: 10px;
+  padding-top: 2px;
+}
+
+.risk-compliance-item-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border: 2px solid var(--form-primary);
+}
+
+.risk-compliance-item-content {
+  flex: 1;
+}
+
+.risk-compliance-item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.risk-compliance-id {
+  font-weight: 600;
+  color: var(--form-primary);
+  font-size: 0.85rem;
+}
+
+.risk-compliance-criticality {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.risk-compliance-criticality.critical {
+  background-color: rgba(230, 57, 70, 0.1);
+  color: #e63946;
+}
+
+.risk-compliance-criticality.high {
+  background-color: rgba(248, 150, 30, 0.1);
+  color: #f8961e;
+}
+
+.risk-compliance-criticality.medium {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: #4cc9f0;
+}
+
+.risk-compliance-criticality.low {
+  background-color: rgba(67, 170, 139, 0.1);
+  color: #43aa8b;
+}
+
+.risk-compliance-item-description {
+  font-size: 0.8rem;
+  color: var(--form-gray-700);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.risk-compliance-item-damage {
+  font-size: 0.8rem;
+  color: var(--form-gray-700);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.loading-spinner {
+  padding: 20px;
+  text-align: center;
+  color: var(--form-gray-600);
+}
+
+.no-results {
+  padding: 20px;
+  text-align: center;
+  color: var(--form-gray-600);
+  font-style: italic;
+}
+
+/* Creation Mode Toggle Styles */
+.risk-creation-mode-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding: 0 16px;
+}
+
+.risk-toggle-container {
+  display: flex;
+  position: relative;
+  background-color: #f0f0f7;
+  border-radius: 30px;
+  width: 340px;
+  height: 50px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.risk-toggle-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #6c757d;
+  z-index: 2;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0 10px;
+}
+
+.risk-toggle-option i {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.risk-toggle-option.active {
+  color: white;
+}
+
+.risk-toggle-slider {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 8px);
+  height: calc(100% - 8px);
+  background: #4f7cff;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.risk-toggle-slider.slide-right {
+  transform: translateX(calc(100% + 8px));
+}
+
+/* AI Input Form Styles */
+.risk-ai-input-form {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  padding: 0 16px;
+}
+
+.risk-ai-input-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--form-gray-200);
+}
+
+.risk-ai-input-container h3 {
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--form-primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.risk-ai-input-container h3 i {
+  color: #4f7cff;
+}
+
+.risk-ai-form-group {
+  margin-bottom: 20px;
+}
+
+.risk-ai-form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--form-gray-700);
+}
+
+.risk-ai-form-group input,
+.risk-ai-form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.risk-ai-form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.risk-ai-form-group input:focus,
+.risk-ai-form-group textarea:focus {
+  outline: none;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.1);
+}
+
+/* AI Input Field Styles */
+.risk-ai-input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: var(--form-transition);
+  background-color: white;
+  color: var(--form-gray-800);
+}
+
+.risk-ai-input-field:focus {
+  outline: none;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.1);
+  background-color: #fafbff;
+}
+
+.risk-ai-input-field::placeholder {
+  color: var(--form-gray-500);
+  font-style: italic;
+}
+
+.risk-ai-input-field.description {
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+/* Incident data display */
+.risk-incident-info {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.risk-incident-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.risk-incident-badge i {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.risk-incident-data-box {
+  background-color: #f8f9fa;
+  border: 1px solid var(--form-gray-300);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  color: var(--form-gray-800);
+  line-height: 1.5;
+}
+
+.risk-incident-data-box.description {
+  min-height: 120px;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-line;
+}
+
+/* AI Loading State */
+.risk-ai-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.risk-ai-spinner {
+  margin-bottom: 16px;
+}
+
+.risk-ai-spinner i {
+  font-size: 2.5rem;
+  color: var(--form-primary);
+  animation: spin 1s linear infinite;
+}
+
+.risk-ai-loading-state p {
+  font-size: 1.1rem;
+  color: var(--form-gray-600);
+  margin: 0;
+}
+
+.risk-ai-form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.risk-generate-btn {
+  background: #4f7cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(106, 90, 205, 0.2);
+}
+
+.risk-generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(106, 90, 205, 0.25);
+}
+
+.risk-generate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.risk-generate-btn i {
+  font-size: 1.1rem;
+}
+
+/* Source Risk Badge */
+.risk-source-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--form-primary-light);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--form-box-shadow);
+  margin-left: 16px;
+}
+
+.risk-source-badge i {
+  margin-right: 6px;
+}
+
+.risk-source-badge .fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Global Styles - Create risk specific container */
+.risk-register-container.create-risk {
+  padding: 16px 16px 16px 280px;
+  background: none;
+  min-height: unset;
+  height: auto;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--form-gray-800);
+  overflow: unset;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles for create risk */
+.create-risk .risk-register-header-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.create-risk {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: black;
+  margin: 0;
+  padding-bottom: 8px;
+  position: relative;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+}
+
+
+
+.create-risk .risk-register-icon {
+  color: var(--form-primary);
+  margin-right: 8px;
+}
+
+/* Form Container Styles */
+.create-risk .risk-register-add-form {
+  padding: 0;
+  flex: 1;
+  overflow: unset;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Form Layout */
+.create-risk .risk-register-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+/* Compliance ID Container */
+.create-risk .compliance-id-container {
+  max-width: 300px;
+  margin: 0 auto 32px;
+  width: 100%;
+  overflow: visible;
+  position: relative;
+}
+
+.create-risk .compliance-id-container input {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  height: 42px;
+  border: 2px solid var(--form-primary);
+  background-color: white;
+}
+
+/* Form Rows */
+.create-risk .form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.create-risk .form-row.full-width {
+  grid-template-columns: 1fr;
+}
+
+.create-risk .risk-register-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.create-risk .risk-register-form-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--form-gray-700);
+  margin-bottom: 2px;
+}
+
+.create-risk .risk-register-form-group input[type="text"],
+.create-risk .risk-register-form-group input[type="number"],
+.create-risk .risk-register-form-group textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  resize: none;
+  transition: var(--form-transition);
+  background-color: var(--form-gray-100);
+  width: 100%;
+  box-sizing: border-box;
+  height: 34px;
+}
+
+/* Add left border to specific fields */
+.create-risk .risk-register-form-group input[name="priority"],
+.create-risk .risk-register-form-group input[name="criticality"],
+.create-risk .risk-register-form-group input[name="category"] {
+  border-left: 3px solid var(--form-primary);
+}
+
+/* Select elements with left border */
+.create-risk .risk-register-form-group select {
+  padding: 8px 10px;
+  border: 1px solid var(--form-gray-300);
+  border-left: 3px solid var(--form-primary);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: var(--form-transition);
+  background-color: var(--form-gray-100);
+  width: 100%;
+  box-sizing: border-box;
+  height: 34px;
+}
+
+.create-risk .risk-register-form-group input[disabled] {
+  background-color: rgba(67, 97, 238, 0.05);
+  color: var(--form-primary);
+  font-weight: 500;
+  border-color: transparent;
+}
+
+.create-risk .risk-register-form-group textarea {
+  min-height: 80px;
+  height: 80px;
+}
+
+.create-risk .risk-register-form-group input[type="text"]:focus,
+.create-risk .risk-register-form-group input[type="number"]:focus,
+.create-risk .risk-register-form-group select:focus,
+.create-risk .risk-register-form-group textarea:focus {
+  outline: none;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+  background-color: white;
+}
+
+.create-risk .risk-register-form-actions {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: flex-end;
+  gap: 15px;
+  grid-column: 1 / 5;
+  border-top: none;
+  margin-top: 16px;
+  padding-top: 0;
+}
+
+.create-risk .risk-register-submit-btn {
+  background: #4f7cff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--form-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 38px;
+}
+
+.create-risk .risk-register-submit-btn:hover {
+  background: var(--form-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(67, 97, 238, 0.25);
+}
+
+.create-risk .risk-register-cancel-btn {
+  background: white;
+  color: var(--form-gray-700);
+  border: 1px solid var(--form-gray-300);
+  border-radius: 6px;
+  padding: 6px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--form-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 38px;
+}
+
+.create-risk .risk-register-cancel-btn:hover {
+  background: var(--form-gray-200);
+  color: var(--form-gray-900);
+}
+
+/* Enhanced modern dropdown styling */
+.create-risk .risk-register-form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a5acd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+  padding-right: 28px;
+  background-color: white;
+  border-color: rgba(106, 90, 205, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.create-risk .risk-register-form-group select:hover {
+  border-color: var(--form-primary);
+  border-left-color: var(--form-primary); /* Maintain left border on hover */
+}
+
+.create-risk .risk-register-form-group select:focus {
+  border-color: var(--form-primary);
+  border-left-color: var(--form-primary); /* Maintain left border on focus */
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.15);
+  outline: none;
+}
+
+/* Option colors for different categories */
+.create-risk .risk-register-form-group select option[value="Critical"] {
+  color: #e63946;
+  background-color: rgba(230, 57, 70, 0.05);
+}
+
+.create-risk .risk-register-form-group select option[value="High"] {
+  color: #e63946;
+  background-color: rgba(230, 57, 70, 0.05);
+}
+
+.create-risk .risk-register-form-group select option[value="Medium"] {
+  color: #f8961e;
+  background-color: rgba(248, 150, 30, 0.05);
+}
+
+.create-risk .risk-register-form-group select option[value="Low"] {
+  color: #4cc9f0;
+  background-color: rgba(76, 201, 240, 0.05);
+}
+
+.create-risk .risk-register-form-group select option[value="IT Security"] {
+  color: #e63946;
+}
+
+.create-risk .risk-register-form-group select option[value="Compliance"] {
+  color: #f8961e;
+}
+
+.create-risk .risk-register-form-group select option[value="Operational"] {
+  color: #4cc9f0;
+}
+
+.create-risk .risk-register-form-group select option[value="Financial"] {
+  color: #43aa8b;
+}
+
+.create-risk .risk-register-form-group select option[value="Strategic"] {
+  color: #3a0ca3;
+}
+
+/* Validation Error Styles */
+.risk-register-form-group input.error,
+.risk-register-form-group select.error,
+.risk-register-form-group textarea.error {
+  border-color: var(--form-danger);
+  background-color: rgba(230, 57, 70, 0.05);
+}
+
+.risk-register-form-group input.error:focus,
+.risk-register-form-group select.error:focus,
+.risk-register-form-group textarea.error:focus {
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
+}
+
+.risk-validation-error {
+  color: var(--form-danger);
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.risk-validation-error i {
+  font-size: 0.9rem;
+}
+
+/* Error Message Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+.risk-validation-error {
+  animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Success Message Enhancement */
+.risk-success-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #4f7cff;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(106, 90, 205, 0.2);
+  font-weight: 500;
+  animation: slideInUp 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+}
+
+.risk-success-message i {
+  font-size: 1.2rem;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .create-risk .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .create-risk .form-row.full-width {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .create-risk .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .create-risk .compliance-id-container {
+    max-width: 100%;
+  }
+}
+
+/* Icon Colors */
+.create-risk .risk-register-form-group label span i {
+  color: #4f7cff;
+  font-size: 0.8rem;
+  width: 14px;
+  text-align: center;
+}
+
+/* Remove the + icon */
+.create-risk .fa-plus {
+  display: none;
+}
+
+/* Tooltip Styles */
+.create-risk .risk-register-form-group input[title]:hover::after,
+.create-risk .risk-register-form-group select[title]:hover::after,
+.create-risk .risk-register-form-group textarea[title]:hover::after,
+.create-risk .risk-register-form-group input[title]:hover::before,
+.create-risk .risk-register-form-group select[title]:hover::before,
+.create-risk .risk-register-form-group textarea[title]:hover::before,
+.risk-tooltip-group,
+.risk-custom-tooltip,
+.risk-custom-tooltip-arrow,
+.risk-justification-tooltip,
+.risk-custom-tooltip:has(.risk-justification-tooltip),
+.risk-custom-tooltip:has(.risk-justification-tooltip) .risk-custom-tooltip-arrow::after,
+.risk-custom-tooltip .risk-justification-tooltip,
+.risk-custom-tooltip:has(.risk-justification-tooltip) {
+  display: none;
+}
+
+/* Business Impact Styles */
+.risk-business-impact-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.risk-business-impact-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.risk-selected-impacts {
+  padding: 8px 12px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 38px;
+}
+
+.risk-selected-impacts:hover {
+  border-color: var(--form-primary);
+}
+
+.risk-business-impact-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  margin-top: 4px;
+  box-shadow: var(--form-box-shadow);
+  z-index: 1000;
+}
+
+.risk-business-impact-search {
+  padding: 8px;
+  border-bottom: 1px solid var(--form-gray-200);
+  display: flex;
+  gap: 8px;
+}
+
+.risk-business-impact-search input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  font-size: 0.9rem;
+}
+
+.add-impact-btn {
+  padding: 6px 12px;
+  background: #4f7cff;
+  color: white;
+  border: none;
+  border-radius: var(--form-border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.add-impact-btn:hover {
+  background: var(--form-primary-dark);
+}
+
+.risk-business-impact-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.risk-business-impact-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.risk-business-impact-item:hover {
+  background-color: var(--form-gray-100);
+}
+
+.risk-business-impact-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.risk-selected-impacts-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.risk-selected-impact-tag {
+  background: var(--form-primary-light);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.risk-selected-impact-tag i {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.risk-selected-impact-tag i:hover {
+  opacity: 0.8;
+}
+
+/* Category Styles */
+.risk-category-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.risk-category-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.risk-selected-category {
+  padding: 8px 12px;
+  border: 1px solid var(--form-gray-300);
+  border-left: 3px solid var(--form-primary);
+  border-radius: var(--form-border-radius);
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 34px;
+  box-sizing: border-box;
+  font-size: 0.85rem;
+  transition: var(--form-transition);
+}
+
+.risk-selected-category:hover {
+  border-color: var(--form-primary);
+  border-left-color: var(--form-primary);
+}
+
+.risk-category-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  margin-top: 4px;
+  box-shadow: var(--form-box-shadow);
+  z-index: 1000;
+}
+
+.risk-category-search {
+  padding: 8px;
+  border-bottom: 1px solid var(--form-gray-200);
+  display: flex;
+  gap: 8px;
+}
+
+.risk-category-search input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  font-size: 0.9rem;
+}
+
+.risk-add-category-btn {
+  padding: 6px 12px;
+  background: #4f7cff;
+  color: white;
+  border: none;
+  border-radius: var(--form-border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.risk-add-category-btn:hover {
+  background: var(--form-primary-dark);
+}
+
+.risk-category-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.risk-category-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.risk-category-item:hover {
+  background-color: var(--form-gray-100);
+}
+
+.risk-category-item input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Modal Styles */
+.risk-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.risk-modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.risk-modal-content h3 {
+  margin: 0 0 20px;
+  color: var(--form-gray-900);
+  font-size: 1.3rem;
+}
+
+.risk-modal-form-group {
+  margin-bottom: 20px;
+}
+
+.risk-modal-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--form-gray-700);
+}
+
+.risk-modal-form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: var(--form-border-radius);
+  font-size: 1rem;
+}
+
+.risk-modal-form-group input:focus {
+  outline: none;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 2px rgba(106, 90, 205, 0.1);
+}
+
+.risk-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.risk-modal-actions button {
+  padding: 8px 16px;
+  border-radius: var(--form-border-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.risk-modal-actions .risk-cancel-btn {
+  background: white;
+  border: 1px solid var(--form-gray-300);
+  color: var(--form-gray-700);
+}
+
+.risk-modal-actions .risk-cancel-btn:hover {
+  background: var(--form-gray-100);
+}
+
+.risk-modal-actions .risk-add-btn {
+  background:#4f7cff;
+  border: none;
+  color: white;
+}
+
+.risk-modal-actions .risk-add-btn:hover {
+  background: var(--form-primary-dark);
+}
+
+.risk-modal-actions .risk-add-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.risk-register-form-group input.error,
+.risk-register-form-group select.error,
+.risk-register-form-group textarea.error,
+.risk-register-validation-error,
+.risk-register-error-message {
+  display: none;
+}
+
+/* Dynamic Input Component Styles */
+.create-risk .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.create-risk .form-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--form-gray-700);
+  margin-bottom: 2px;
+}
+
+.create-risk .form-label .required {
+  color: var(--form-danger);
+  font-weight: 600;
+}
+
+.create-risk .input-wrapper {
+  position: relative;
+}
+
+.create-risk .input-wrapper input,
+.create-risk .input-wrapper select,
+.create-risk .input-wrapper textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--form-gray-300);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: var(--form-transition);
+  background-color: var(--form-gray-100);
+  box-sizing: border-box;
+  height: 34px;
+}
+
+.create-risk .input-wrapper textarea {
+  min-height: 80px;
+  height: 80px;
+  resize: vertical;
+}
+
+.create-risk .input-wrapper input:focus,
+.create-risk .input-wrapper select:focus,
+.create-risk .input-wrapper textarea:focus {
+  outline: none;
+  border-color: var(--form-primary);
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+  background-color: white;
+}
+
+.create-risk .input-wrapper input[readonly] {
+  background-color: rgba(67, 97, 238, 0.05);
+  color: var(--form-primary);
+  font-weight: 500;
+  border-color: transparent;
+}
+
+.create-risk .input-wrapper input[disabled],
+.create-risk .input-wrapper select[disabled],
+.create-risk .input-wrapper textarea[disabled] {
+  background-color: var(--form-gray-200);
+  color: var(--form-gray-500);
+  cursor: not-allowed;
+}
+
+.create-risk .helper-text {
+  font-size: 0.75rem;
+  color: var(--form-gray-600);
+  margin-top: 2px;
+}
+
+.create-risk .error-text {
+  font-size: 0.75rem;
+  color: var(--form-danger);
+  margin-top: 2px;
+}
+
+.create-risk .form-group-error .form-label {
+  color: var(--form-danger);
+}
+
+.create-risk .form-group-error input,
+.create-risk .form-group-error select,
+.create-risk .form-group-error textarea {
+  border-color: var(--form-danger);
+  background-color: rgba(230, 57, 70, 0.05);
+}
+
+.create-risk .form-group-error input:focus,
+.create-risk .form-group-error select:focus,
+.create-risk .form-group-error textarea:focus {
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
+}
+
+/* Ensure form rows work with dynamic components */
+.create-risk .form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.create-risk .form-row .form-group {
+  margin: 0;
+}
+
+/* Responsive design for dynamic components */
+@media (max-width: 1200px) {
+  .create-risk .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .create-risk .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.risk-register-form-group input.error,
+.risk-register-form-group select.error,
+.risk-register-form-group textarea.error,
+.risk-register-validation-error,
+.risk-register-error-message {
+  display: none;
+}

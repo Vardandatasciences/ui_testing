@@ -1,0 +1,307 @@
+/* ViewInstance.css - Styling for the Risk Instance Details View */
+:root {
+  --risk-primary: #7B6FDD;
+  --risk-primary-light: #8F84E8;
+  --risk-primary-dark: #6A5ED4;
+  --risk-secondary: #f72585;
+  --risk-success: #4cc9f0;
+  --risk-warning: #f8961e;
+  --risk-danger: #e63946;
+  --risk-light: #f8f9fa;
+  --risk-dark: #212529;
+  --risk-gray-100: #f8f9fa;
+  --risk-gray-200: #e9ecef;
+  --risk-gray-300: #dee2e6;
+  --risk-gray-400: #ced4da;
+  --risk-gray-500: #adb5bd;
+  --risk-gray-600: #6c757d;
+  --risk-gray-700: #495057;
+  --risk-gray-800: #343a40;
+  --risk-gray-900: #212529;
+}
+
+.risk-view-instance-container {
+  padding: 16px 16px 16px 210px;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--risk-gray-800);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.risk-view-instance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.risk-view-instance-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+  margin: 0;
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.risk-view-instance-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 60px;
+  background-color: #7B6FDD;
+  border-radius: 2px;
+}
+
+.risk-view-instance-icon {
+  margin-right: 8px;
+  color: #7B6FDD;
+}
+
+.risk-view-instance-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0f2f5;
+  color: var(--risk-gray-700);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.risk-view-instance-back-button:hover {
+  background-color: #e4e6e9;
+  color: var(--risk-gray-900);
+}
+
+.risk-view-instance-details-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.risk-view-instance-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--risk-gray-200);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.risk-view-instance-id-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.risk-view-instance-id-label {
+  font-weight: 600;
+  color: var(--risk-gray-700);
+  font-size: 0.9rem;
+}
+
+.risk-view-instance-id-value {
+  color: var(--risk-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.risk-view-instance-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.risk-view-instance-meta-item {
+  display: flex;
+  align-items: center;
+}
+
+.risk-view-instance-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.risk-view-instance-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.risk-view-instance-detail-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--risk-gray-700);
+}
+
+.risk-view-instance-detail-value {
+  font-size: 0.95rem;
+  color: var(--risk-gray-800);
+  line-height: 1.5;
+}
+
+.risk-view-instance-no-data {
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  color: var(--risk-gray-600);
+  font-style: italic;
+}
+
+/* Category Badge styling */
+.risk-view-instance-category-badge {
+  background-color: #f0f2ff;
+  color: black;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 500;
+  display: inline-block;
+  font-size: 0.75rem;
+  text-align: center;
+  border: none;
+}
+
+/* Origin badge styling */
+.risk-view-instance-origin-badge {
+  background-color: #eef1ff;
+  color: #7B6FDD;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  display: inline-block;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Priority styling */
+.risk-view-instance-priority-critical {
+  background-color: #fff1f1;
+  color: #e53e3e;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 60px;
+}
+
+.risk-view-instance-priority-high {
+  background-color: #fff1f1;
+  color: #e53e3e;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 60px;
+}
+
+.risk-view-instance-priority-medium {
+  background-color: #fff8e6;
+  color: #d97706;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 60px;
+}
+
+.risk-view-instance-priority-low {
+  background-color: #ecfdf5;
+  color: #059669;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 60px;
+}
+
+/* Status styling */
+.risk-view-instance-status-open {
+  color: #2980b9;
+  font-weight: 600;
+}
+
+.risk-view-instance-status-in-progress {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.risk-view-instance-status-approved {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.risk-view-instance-status-revision {
+  color: #8e44ad;
+  font-weight: 600;
+}
+
+.risk-view-instance-status-closed {
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+.risk-view-instance-status-rejected {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .risk-view-instance-container {
+    padding: 16px 16px 16px 210px;
+  }
+}
+
+@media (max-width: 992px) {
+  .risk-view-instance-details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .risk-view-instance-details-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .risk-view-instance-container {
+    padding: 16px;
+  }
+  
+  .risk-view-instance-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .risk-view-instance-back-button {
+    align-self: flex-start;
+  }
+} 

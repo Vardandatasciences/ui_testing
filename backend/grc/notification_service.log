@@ -1,0 +1,18 @@
+2025-06-11 01:48:49,044 - notification_service - ERROR - Error sending email: (534, b'5.7.9 Please log in with your web browser and then try again. For more\n5.7.9 information, go to\n5.7.9  https://support.google.com/mail/?p=WebLoginRequired 41be03b00d2f7-b2f5ed58b13sm7220664a12.16 - gsmtp')
+2025-06-11 01:48:49,051 - notification_service - ERROR - Database connection error: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 01:48:49,051 - notification_service - ERROR - Error logging notification: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 01:59:05,704 - notification_service - ERROR - Error sending email: (534, b'5.7.9 Please log in with your web browser and then try again. For more\n5.7.9 information, go to\n5.7.9  https://support.google.com/mail/?p=WebLoginRequired 41be03b00d2f7-b2f5ed593ebsm7269496a12.6 - gsmtp')
+2025-06-11 01:59:05,712 - notification_service - ERROR - Database connection error: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 01:59:05,712 - notification_service - ERROR - Error logging notification: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 01:59:57,368 - notification_service - ERROR - Error sending email: (534, b'5.7.9 Please log in with your web browser and then try again. For more\n5.7.9 information, go to\n5.7.9  https://support.google.com/mail/?p=WebLoginRequired d2e1a72fcca58-7482af7ab09sm8124535b3a.58 - gsmtp')
+2025-06-11 01:59:57,401 - notification_service - ERROR - Database connection error: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 01:59:57,401 - notification_service - ERROR - Error logging notification: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 02:05:22,677 - notification_service - ERROR - Error sending email: (534, b'5.7.9 Please log in with your web browser and then try again. For more\n5.7.9 information, go to\n5.7.9  https://support.google.com/mail/?p=WebLoginRequired d9443c01a7336-236034037a4sm75182095ad.141 - gsmtp')
+2025-06-11 02:05:22,708 - notification_service - ERROR - Database connection error: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 02:05:22,709 - notification_service - ERROR - Error logging notification: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 02:12:56,949 - notification_service - INFO - Email sent successfully to syammuni916@gmail.com, type: policySubmitted
+2025-06-11 02:12:56,953 - notification_service - ERROR - Database connection error: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-11 02:12:56,954 - notification_service - ERROR - Error logging notification: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-13 01:28:08,760 - notification_service - INFO - Email sent successfully to syammuni916@gmail.com, type: policySubmitted
+2025-06-13 01:28:08,767 - notification_service - ERROR - Database connection error: Authentication plugin 'caching_sha2_password' is not supported
+2025-06-13 01:28:08,767 - notification_service - ERROR - Error logging notification: Authentication plugin 'caching_sha2_password' is not supported

@@ -1,0 +1,1725 @@
+:root {
+  --primary-color: #6366f1;
+  --secondary-color: #8b5cf6;
+  --success-color: #22c55e;
+  --danger-color: #ef4444;
+  --warning-color: #f59e0b;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --bg-light: #f8fafc;
+  --border-radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px rgba(15, 23, 42, 0.12);
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  margin-left: 230px !important;
+  padding: 80px 32px 32px 16px !important;
+  max-width: 1400px;
+  margin-right: auto;
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+  letter-spacing: 0.015em;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Policy Approver Dashboard heading */
+.dashboard-heading,
+h1.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  display: inline-block;
+  letter-spacing: -0.02em;
+}
+
+.dashboard-heading::after,
+h1.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; width: 60%; }
+  50% { opacity: 1; width: 100%; }
+  100% { opacity: 0.6; width: 60%; }
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.action-btn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--border-radius);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.action-btn i {
+  margin-right: 8px;
+}
+
+.action-btn:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.action-btn.primary {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.15);
+}
+
+.action-btn.primary:hover {
+  background: #4f46e5;
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.25);
+  transform: translateY(-3px);
+}
+
+/* Performance Summary Cards */
+.performance-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.summary-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out;
+  text-align: center;
+}
+
+.summary-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.summary-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.summary-card:hover::after {
+  opacity: 1;
+}
+
+.summary-card:nth-child(1) {
+  background: linear-gradient(to bottom right, #eef2ff, #f8fafc);
+}
+
+.summary-card:nth-child(2) {
+  background: linear-gradient(to bottom right, #ecfdf5, #f8fafc);
+}
+
+.summary-card:nth-child(3) {
+  background: linear-gradient(to bottom right, #fff1f2, #f8fafc);
+}
+
+.summary-card .summary-value {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 16px 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card .summary-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+
+.summary-card .summary-icon {
+  width: 64px;
+  height: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.summary-card:nth-child(1) .summary-icon {
+  color: var(--primary-color);
+}
+
+.summary-card:nth-child(2) .summary-icon {
+  color: var(--success-color);
+}
+
+.summary-card:nth-child(3) .summary-icon {
+  color: var(--danger-color);
+}
+
+/* Main Dashboard Layout for Policy Approver */
+.dashboard-main-row {
+  display: none;
+}
+
+.dashboard-main-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Make tasks column full width */
+.grc-tasks-col {
+  min-width: 100%;
+  max-width: 100%;
+  margin-right: 0;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1200px) {
+  .performance-summary {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-container {
+    margin-left: 0 !important;
+    padding: 80px 16px 16px 16px !important;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+  
+  .dashboard-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .performance-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  .field-label, .field-content {
+    width: 100%;
+  }
+  
+  .subpolicy-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .approve-btn, .reject-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Add some additional responsive tweaks */
+@media screen and (max-width: 480px) {
+  .dashboard-heading {
+    font-size: 24px;
+  }
+  
+  .summary-card {
+    padding: var(--spacing-md);
+  }
+  
+  .summary-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+  
+  .summary-value {
+    font-size: 24px;
+  }
+}
+
+/* My Approval Tasks section */
+.approvals-list {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.approvals-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.approvals-list:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.approvals-list h3 {
+  margin: 0 0 var(--spacing-xl) 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding-bottom: var(--spacing-md);
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, var(--text-primary), #4a5568);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.approvals-list h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; width: 60%; }
+  50% { opacity: 1; width: 100%; }
+  100% { opacity: 0.6; width: 60%; }
+}
+
+/* Enhanced task items styling - updated for 5 columns */
+.approvals-list li {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border-left: 4px solid var(--primary-color);
+  display: grid;
+  grid-template-columns: 90px 100px 1fr 120px 100px;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.approvals-list li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.08);
+}
+
+/* Policy/Type badge styling */
+.item-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  min-width: 90px;
+  max-width: 100px;
+  margin: 0 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.policy-badge {
+  background-color: #6366f1;
+  color: white;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.25);
+}
+
+.compliance-badge {
+  background-color: #0ea5e9;
+  color: white;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.25);
+}
+
+/* Add glow effect on hover */
+.item-type-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Style policy identifier */
+.approvals-list li strong {
+  min-width: 90px;
+  color: var(--primary-color);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.approvals-list li strong:hover {
+  color: #4f46e5;
+  transform: translateX(2px);
+}
+
+/* Make description take available space */
+.approvals-list li span.description {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+  font-size: 14px;
+  padding-right: 8px;
+}
+
+/* Attractive approval status indicator */
+.approvals-list li .approval-status {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  min-width: 80px;
+}
+
+.approval-status.approved {
+  background-color: #14532d; /* dark green */
+  color: #fff;
+}
+
+.approval-status.approved::before {
+  content: '✓';
+  margin-right: 4px;
+  font-size: 12px;
+}
+
+.approval-status.pending {
+  background-color: #fdc82f !important; /* exact yellow from image */
+  color: #fff;
+}
+
+.approval-status.rejected {
+  background-color: #991b1b; /* dark red */
+  color: #fff;
+}
+
+/* Alternate row styling */
+.approvals-list li:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Improve hover effects for status badges */
+.approvals-list li:hover .approval-status {
+  transform: scale(1.05);
+}
+
+.approvals-list li:hover .approval-status.approved {
+  background-color: var(--success-color);
+}
+
+.approvals-list li:hover .approval-status.pending {
+  background-color: #fdc82f !important;
+  color: #fff;
+}
+
+.approvals-list li:hover .approval-status.rejected {
+  background-color: var(--danger-color);
+}
+
+/* Special styling for policy vs compliance rows */
+.approvals-list li.policy-row {
+  border-left-color: var(--primary-color);
+}
+
+.approvals-list li.compliance-row {
+  border-left-color: #0ea5e9;
+}
+
+/* Type indicator badges - more subtle design */
+.policy-badge {
+  color: #4f46e5;
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+.compliance-badge {
+  color: #0ea5e9;
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.subpolicy-badge {
+  color: #8b5cf6;
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Better hover states for the badges */
+.item-type-badge:hover {
+  background-color: rgba(243, 244, 246, 0.5);
+}
+
+/* Adjust spacing between elements */
+.approvals-list li span {
+  margin: 0 8px;
+}
+
+/* Keep the approval status indicators nice */
+.approvals-list li span:last-child {
+  padding: 4px 10px;
+  min-width: 90px;
+  font-size: 12px;
+}
+
+/* Make alternating rows more subtle */
+.approvals-list li:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Adjust the left accent for different types */
+.approvals-list li.policy-item {
+  border-left-color: #4f46e5;
+}
+
+.approvals-list li.compliance-item {
+  border-left-color: #0ea5e9;
+}
+
+.approvals-list li.subpolicy-item {
+  border-left-color: #8b5cf6;
+}
+
+.clickable {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.clickable:hover {
+  color: #4257d6;
+}
+
+.policy-details-modal,
+.reject-modal,
+.edit-policy-modal,
+.subpolicies-modal,
+.edit-subpolicy-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.policy-details-content,
+.reject-modal-content,
+.edit-policy-content,
+.subpolicies-modal-content {
+  background: #fff;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.close-btn:hover {
+  background: #e5e7eb;
+}
+
+.policy-detail-row {
+  margin: 10px 0;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+}
+
+.policy-detail-row strong {
+  min-width: 120px;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.policy-detail-row span {
+  color: #2d3748;
+  flex: 1;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+.my-grc-tasks-header {
+  margin-bottom: var(--spacing-lg);
+  font-size: 17px;
+  color: var(--text-primary);
+  font-weight: 500;
+  background: white;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.my-grc-tasks-header strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.subpolicy-item {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-xl);
+  border: 1px solid #e5e7eb;
+  border-radius: var(--border-radius);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.subpolicy-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.subpolicy-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.subpolicy-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.subpolicy-id {
+  font-weight: 600;
+  color: var(--primary-color);
+  padding: 6px 10px;
+  background-color: rgba(79, 108, 255, 0.1);
+  border-radius: 6px;
+}
+
+.subpolicy-name {
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--text-primary);
+  margin-left: var(--spacing-md);
+}
+
+.subpolicy-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: var(--spacing-md);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  margin-bottom: 10px;
+  gap: var(--spacing-md);
+}
+
+.field-label {
+  font-weight: 600;
+  width: 120px;
+  color: var(--text-secondary);
+}
+
+.field-content {
+  flex: 1;
+  min-width: 200px;
+  line-height: 1.5;
+}
+
+.subpolicy-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  justify-content: flex-end;
+}
+
+.approve-btn, .reject-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.approve-btn {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.approve-btn:hover {
+  background-color: #16a34a;
+  transform: translateY(-2px);
+}
+
+.reject-btn {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.reject-btn:hover {
+  background-color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+.rejected-approvals-list {
+  background: #fff0f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #f87171;
+}
+
+.badge.rejected {
+  background: var(--danger-color);
+  color: #fff;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.resubmit-btn {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin-top: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resubmit-btn:hover {
+  background: #4257d6;
+}
+
+.rejected-subpolicy {
+  margin: 12px 0 12px 24px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #f87171;
+  box-shadow: 0 1px 2px rgba(248,113,113,0.05);
+}
+
+.edit-btn {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  margin-top: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.edit-btn:hover {
+  background: #4257d6;
+}
+
+.badge.resubmitted {
+  background: var(--warning-color);
+  color: #fff;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.grc-task-status.resubmitted {
+  background: #fbbf24;
+  color: #fff;
+}
+
+.badge.accepted {
+  background: var(--success-color);
+  color: #fff;
+}
+.badge.rejected {
+  background: var(--danger-color);
+  color: #fff;
+}
+.badge.pending {
+  background: #d1d5db;
+  color: #444;
+}
+.subpolicy-status {
+  margin: 12px 0 12px 24px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.subpolicies-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+.subpolicies-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  min-width: 400px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+/* Also update the edit subpolicy modal */
+.edit-subpolicy-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.edit-subpolicy-section {
+  margin-top: 20px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 20px;
+}
+
+.subpolicy-edit-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.subpolicy-edit-header {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subpolicy-edit-field {
+  margin-bottom: 12px;
+}
+
+.subpolicy-edit-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.subpolicy-edit-field input,
+.subpolicy-edit-field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.subpolicy-edit-field textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.subpolicy-badge {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+}
+
+/* Type indicator badges */
+.item-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+  margin-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.policy-badge {
+  background-color: #818cf8;
+  color: white;
+  box-shadow: 0 2px 4px rgba(129, 140, 248, 0.2);
+}
+
+.compliance-badge {
+  background-color: #38bdf8;
+  color: white;
+  box-shadow: 0 2px 4px rgba(56, 189, 248, 0.2);
+}
+
+.subpolicy-badge {
+  background-color: #a78bfa;
+  color: white;
+  box-shadow: 0 2px 4px rgba(167, 139, 250, 0.2);
+}
+
+/* Enhance the detail type indicator */
+.detail-type-indicator {
+  background: linear-gradient(to right, var(--primary-color), #6366f1);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 8px;
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.2);
+  text-transform: uppercase;
+}
+
+/* Add hover effect to the badges */
+.item-type-badge:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Enhanced approval indicator styles */
+.approvals-list li span:last-of-type {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 100px;
+  text-align: center;
+  margin-left: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+/* Approved status styling */
+.approvals-list li span:last-of-type:contains("(Approved)") {
+  background-color: var(--success-color);
+  color: white;
+  position: relative;
+}
+
+/* Add checkmark to approved status */
+.approvals-list li span:last-of-type:contains("(Approved)")::before {
+  content: "✓";
+  margin-right: 4px;
+  font-weight: bold;
+}
+
+/* For the existing approved status text, transform it */
+.approvals-list li span:last-of-type:contains("(Approved)") {
+  background-color: rgba(74, 222, 128, 0.9);
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  transform: scale(1.05);
+}
+
+/* Hover effect */
+.approvals-list li:hover span:last-of-type:contains("(Approved)") {
+  background-color: rgba(34, 197, 94, 1);
+  box-shadow: 0 2px 5px rgba(74, 222, 128, 0.4);
+  transform: scale(1.1);
+}
+
+/* Add glow effect on hover */
+.approvals-list li:hover span:last-of-type:contains("(Approved)")::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: rgba(74, 222, 128, 0.2);
+  border-radius: 24px;
+  z-index: -1;
+  animation: pulse-green 1.5s infinite;
+}
+
+@keyframes pulse-green {
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(1); }
+}
+
+/* Assigned By styling */
+.assigned-by {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.assigned-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.new-badge {
+  background-color: #22c55e;  /* Brighter green */
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+  animation: pulse-new 2s infinite;
+}
+
+.new-badge::before {
+  content: "●";  /* Add a dot before NEW */
+  font-size: 8px;
+  margin-right: 2px;
+}
+
+@keyframes pulse-new {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.approvals-list li.new-policy {
+  border-left: 3px solid #22c55e;
+  background-color: rgba(34, 197, 94, 0.05);
+  position: relative;
+}
+
+.approvals-list li.new-policy::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #22c55e;
+  animation: glow 1.5s infinite;
+}
+
+@keyframes glow {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Date info styling */
+.date-info {
+  font-size: 0.85rem;
+  color: #666;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+/* Enhanced new badge styling */
+.new-badge {
+  background-color: #22c55e;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+  animation: pulse-new 2s infinite;
+  position: relative;
+}
+
+.new-badge::before {
+  content: "●";
+  color: white;
+  font-size: 8px;
+  margin-right: 4px;
+}
+
+@keyframes pulse-new {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Enhanced new policy highlighting */
+.approvals-list li.new-policy {
+  border-left: 3px solid #22c55e;
+  background-color: rgba(34, 197, 94, 0.05);
+  position: relative;
+  padding-left: 12px;
+}
+
+.approvals-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  transition: all 0.2s ease;
+}
+
+.approvals-list li:hover {
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+/* Adjust the layout of policy items */
+.policy-scope {
+  flex: 1;
+  margin: 0 12px;
+  color: #4a5568;
+}
+
+.assigned-by {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+}
+
+/* Status badges */
+.approval-status {
+  min-width: 100px;
+  text-align: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.approval-status.pending {
+  background-color: #fdc82f !important; /* exact yellow from image */
+  color: #fff;
+}
+
+.approval-status.approved {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.approval-status.rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Styling for the edit subpolicy modal */
+.edit-modal {
+  max-width: 600px;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input, 
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-group textarea {
+  min-height: 100px;
+}
+
+.rejection-reason {
+  padding: 10px;
+  background-color: #fff3f3;
+  border-left: 3px solid #ff6b6b;
+  color: #333;
+}
+
+/* Button styles */
+.approve-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.reject-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.resubmit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* Subpolicy actions container */
+.subpolicy-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Tabs styling */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.7;
+  transition: all 0.3s;
+}
+
+.tabs button.active {
+  opacity: 1;
+  border-bottom: 3px solid #2196F3;
+  font-weight: bold;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+/* Rejected items list */
+.rejected-list {
+  list-style: none;
+  padding: 0;
+}
+
+.rejected-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.rejected-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rejected-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.status.rejected {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.rejected-details {
+  margin-bottom: 15px;
+}
+
+.rejected-details p {
+  margin: 5px 0;
+}
+
+.rejected-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.no-items {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  color: #666;
+  font-style: italic;
+}
+
+.debug-info {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+  background-color: #f0f0f0;
+  padding: 3px 6px;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.version-tag {
+  background-color: #3b82f6;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.subpolicy-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Version indicator styling - updating to match the mockup */
+.version-indicator {
+  background-color: #3b82f6;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  animation: pulse-version 2s infinite;
+}
+
+@keyframes pulse-version {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+/* Version history container */
+.version-history {
+  background: #f0f9ff;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  border: 1px solid #bae6fd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Current version display */
+.version-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  background-color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #e0f2fe;
+}
+
+.version-label {
+  font-weight: 600;
+  color: #0369a1;
+  font-size: 15px;
+}
+
+.version-value {
+  background: #3b82f6;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+/* Subpolicies version section */
+.subpolicies-versions {
+  margin-top: 16px;
+}
+
+.subpolicies-versions h4 {
+  color: #0369a1;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: 1px solid #bae6fd;
+  padding-bottom: 8px;
+}
+
+.version-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.version-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background-color: white;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #e0f2fe;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.subpolicy-name {
+  flex: 1;
+  font-weight: 500;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.version-tag {
+  background: #3b82f6;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
+}
+
+/* Resubmitted tag */
+.resubmitted-tag {
+  background: #f59e0b;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.15);
+}
+
+/* Version pill in header - matches the mockup exactly */
+.version-pill {
+  background-color: #3b82f6;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.25);
+}
+
+/* Add hover effect to version pill */
+.version-pill:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s ease;
+}
+
+/* Reviewer version styling (for rejected items) */
+.reviewer-version {
+  background-color: #ef4444 !important; /* Red background for rejected/reviewer versions */
+  color: white;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.25) !important;
+}
+
+.reviewer-version:hover {
+  background-color: #dc2626 !important;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3) !important;
+}
+
+.subpolicy-inline-edit h4 {
+  margin-top: 0;
+  color: #6366f1;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subpolicy-inline-edit h4 .version-tag {
+  font-size: 12px;
+  padding: 4px 8px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+/* Add styling for the reviewer version pill */
+.reviewer-version {
+    background-color: #ef4444;
+    color: white;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.reviewer-version:hover {
+    background-color: #dc2626;
+    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
+
+/* Enhanced styling for the submit review button */
+.submit-btn {
+    background-color: #10b981;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(5, 150, 105, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.submit-btn i {
+    font-size: 18px;
+}
+
+/* Styles for the subpolicy inline edit form header */
+.subpolicy-inline-edit h4 {
+    margin-top: 0;
+    color: #4b5563;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.subpolicy-inline-edit h4 .version-tag {
+    font-size: 12px;
+    padding: 4px 8px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.policy-details-inline {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  margin: 24px 0 24px 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  border: 1px solid #e5e7eb;
+  animation: fadeIn 0.3s;
+}
+
+/* Form Controls */
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2d3748;
+  background-color: white;
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234a5568' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.policy-detail-item .form-control {
+  margin-top: 4px;
+} 

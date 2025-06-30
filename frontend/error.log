@@ -1,0 +1,3 @@
+2025-05-25T21:21:34.776Z [ERROR] [RISK] Risk Module - Action: VIEW on RiskInstance | Details: Error viewing user risks: 'datetime.date' object has no attribute 'utcoffset' 
+2025-05-25T21:21:42.186Z [ERROR] [RISK] Risk Module - Action: VIEW on RiskInstance | Details: Error viewing user risks: 'datetime.date' object has no attribute 'utcoffset' 
+2025-05-26T20:50:51.751Z [ERROR] [RISK] Risk Module - Action: VIEW on RiskInstance | Details: Error viewing user risks: 'datetime.date' object has no attribute 'utcoffset' 

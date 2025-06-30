@@ -1,0 +1,706 @@
+2025-06-04 11:06:41,198 - INFO - NumExpr defaulting to 8 threads.
+2025-06-04 11:06:41,831 - INFO - package: mysql.connector.plugins
+2025-06-04 11:06:41,831 - INFO - plugin_name: caching_sha2_password
+2025-06-04 11:06:41,831 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-06-04 11:06:43,221 - INFO - Starting framework monitoring service...
+2025-06-04 11:06:43,221 - INFO - Starting check at: 2025-06-04 11:06:43
+2025-06-04 11:06:43,238 - INFO - No frameworks needed updating
+2025-06-04 11:06:43,238 - INFO - Check completed in 0.02 seconds
+2025-06-04 11:06:43,238 - INFO - Next check scheduled at: 2025-06-04 11:07:43
+2025-06-04 11:06:43,238 - INFO - Sleeping for 59.98 seconds
+2025-06-04 11:07:43,225 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:07:43,225 - INFO - Starting check at: 2025-06-04 11:07:43
+2025-06-04 11:07:43,225 - INFO - Updated framework 51 (ISO 27001 v2) to Active status
+2025-06-04 11:07:43,225 - INFO - Updated 1 frameworks to Active status
+2025-06-04 11:07:43,225 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:07:43,225 - INFO - Next check scheduled at: 2025-06-04 11:08:43
+2025-06-04 11:07:43,225 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:08:43,232 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:08:43,232 - INFO - Starting check at: 2025-06-04 11:08:43
+2025-06-04 11:08:43,232 - INFO - No frameworks needed updating
+2025-06-04 11:08:43,232 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:08:43,232 - INFO - Next check scheduled at: 2025-06-04 11:09:43
+2025-06-04 11:08:43,232 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:09:43,241 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:09:43,241 - INFO - Starting check at: 2025-06-04 11:09:43
+2025-06-04 11:09:43,241 - INFO - No frameworks needed updating
+2025-06-04 11:09:43,241 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:09:43,241 - INFO - Next check scheduled at: 2025-06-04 11:10:43
+2025-06-04 11:09:43,241 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:10:43,249 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:10:43,249 - INFO - Starting check at: 2025-06-04 11:10:43
+2025-06-04 11:10:43,249 - INFO - No frameworks needed updating
+2025-06-04 11:10:43,249 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:10:43,249 - INFO - Next check scheduled at: 2025-06-04 11:11:43
+2025-06-04 11:10:43,249 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:11:43,249 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:11:43,250 - INFO - Starting check at: 2025-06-04 11:11:43
+2025-06-04 11:11:43,251 - INFO - No frameworks needed updating
+2025-06-04 11:11:43,251 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:11:43,251 - INFO - Next check scheduled at: 2025-06-04 11:12:43
+2025-06-04 11:11:43,251 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:12:43,259 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:12:43,260 - INFO - Starting check at: 2025-06-04 11:12:43
+2025-06-04 11:12:43,262 - INFO - No frameworks needed updating
+2025-06-04 11:12:43,262 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:12:43,262 - INFO - Next check scheduled at: 2025-06-04 11:13:43
+2025-06-04 11:12:43,262 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:13:43,265 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:13:43,265 - INFO - Starting check at: 2025-06-04 11:13:43
+2025-06-04 11:13:43,265 - INFO - No frameworks needed updating
+2025-06-04 11:13:43,265 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:13:43,265 - INFO - Next check scheduled at: 2025-06-04 11:14:43
+2025-06-04 11:13:43,265 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:14:43,277 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:14:43,277 - INFO - Starting check at: 2025-06-04 11:14:43
+2025-06-04 11:14:43,279 - INFO - No frameworks needed updating
+2025-06-04 11:14:43,279 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:14:43,279 - INFO - Next check scheduled at: 2025-06-04 11:15:43
+2025-06-04 11:14:43,279 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:15:43,280 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:15:43,280 - INFO - Starting check at: 2025-06-04 11:15:43
+2025-06-04 11:15:43,282 - INFO - No frameworks needed updating
+2025-06-04 11:15:43,282 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:15:43,283 - INFO - Next check scheduled at: 2025-06-04 11:16:43
+2025-06-04 11:15:43,283 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:16:43,296 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:16:43,296 - INFO - Starting check at: 2025-06-04 11:16:43
+2025-06-04 11:16:43,296 - INFO - No frameworks needed updating
+2025-06-04 11:16:43,296 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:16:43,296 - INFO - Next check scheduled at: 2025-06-04 11:17:43
+2025-06-04 11:16:43,296 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:17:43,306 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:17:43,306 - INFO - Starting check at: 2025-06-04 11:17:43
+2025-06-04 11:17:43,306 - INFO - No frameworks needed updating
+2025-06-04 11:17:43,306 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:17:43,306 - INFO - Next check scheduled at: 2025-06-04 11:18:43
+2025-06-04 11:17:43,306 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:18:43,310 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:18:43,310 - INFO - Starting check at: 2025-06-04 11:18:43
+2025-06-04 11:18:43,313 - INFO - No frameworks needed updating
+2025-06-04 11:18:43,313 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:18:43,314 - INFO - Next check scheduled at: 2025-06-04 11:19:43
+2025-06-04 11:18:43,314 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:19:43,317 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:19:43,317 - INFO - Starting check at: 2025-06-04 11:19:43
+2025-06-04 11:19:43,317 - INFO - No frameworks needed updating
+2025-06-04 11:19:43,317 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:19:43,317 - INFO - Next check scheduled at: 2025-06-04 11:20:43
+2025-06-04 11:19:43,317 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:20:43,327 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:20:43,327 - INFO - Starting check at: 2025-06-04 11:20:43
+2025-06-04 11:20:43,327 - INFO - No frameworks needed updating
+2025-06-04 11:20:43,327 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:20:43,327 - INFO - Next check scheduled at: 2025-06-04 11:21:43
+2025-06-04 11:20:43,335 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:21:43,347 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:21:43,347 - INFO - Starting check at: 2025-06-04 11:21:43
+2025-06-04 11:21:43,347 - INFO - No frameworks needed updating
+2025-06-04 11:21:43,347 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:21:43,347 - INFO - Next check scheduled at: 2025-06-04 11:22:43
+2025-06-04 11:21:43,347 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:22:43,362 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:22:43,362 - INFO - Starting check at: 2025-06-04 11:22:43
+2025-06-04 11:22:43,362 - INFO - No frameworks needed updating
+2025-06-04 11:22:43,362 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:22:43,362 - INFO - Next check scheduled at: 2025-06-04 11:23:43
+2025-06-04 11:22:43,362 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:23:43,375 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:23:43,375 - INFO - Starting check at: 2025-06-04 11:23:43
+2025-06-04 11:23:43,375 - INFO - No frameworks needed updating
+2025-06-04 11:23:43,375 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:23:43,375 - INFO - Next check scheduled at: 2025-06-04 11:24:43
+2025-06-04 11:23:43,375 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:24:43,384 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:24:43,384 - INFO - Starting check at: 2025-06-04 11:24:43
+2025-06-04 11:24:43,384 - INFO - No frameworks needed updating
+2025-06-04 11:24:43,384 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:24:43,384 - INFO - Next check scheduled at: 2025-06-04 11:25:43
+2025-06-04 11:24:43,538 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:25:43,547 - INFO - Time since last check: 60.16 seconds
+2025-06-04 11:25:43,547 - INFO - Starting check at: 2025-06-04 11:25:43
+2025-06-04 11:25:43,547 - INFO - No frameworks needed updating
+2025-06-04 11:25:43,547 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:25:43,547 - INFO - Next check scheduled at: 2025-06-04 11:26:43
+2025-06-04 11:25:43,547 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:26:43,554 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:26:43,554 - INFO - Starting check at: 2025-06-04 11:26:43
+2025-06-04 11:26:43,554 - INFO - No frameworks needed updating
+2025-06-04 11:26:43,554 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:26:43,554 - INFO - Next check scheduled at: 2025-06-04 11:27:43
+2025-06-04 11:26:43,554 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:27:43,570 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:27:43,570 - INFO - Starting check at: 2025-06-04 11:27:43
+2025-06-04 11:27:43,570 - INFO - No frameworks needed updating
+2025-06-04 11:27:43,570 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:27:43,570 - INFO - Next check scheduled at: 2025-06-04 11:28:43
+2025-06-04 11:27:43,570 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:28:43,570 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:28:43,570 - INFO - Starting check at: 2025-06-04 11:28:43
+2025-06-04 11:28:43,570 - INFO - No frameworks needed updating
+2025-06-04 11:28:43,570 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:28:43,570 - INFO - Next check scheduled at: 2025-06-04 11:29:43
+2025-06-04 11:28:43,570 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:29:43,580 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:29:43,580 - INFO - Starting check at: 2025-06-04 11:29:43
+2025-06-04 11:29:43,580 - INFO - No frameworks needed updating
+2025-06-04 11:29:43,580 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:29:43,580 - INFO - Next check scheduled at: 2025-06-04 11:30:43
+2025-06-04 11:29:43,580 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:30:43,582 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:30:43,582 - INFO - Starting check at: 2025-06-04 11:30:43
+2025-06-04 11:30:43,582 - INFO - No frameworks needed updating
+2025-06-04 11:30:43,582 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:30:43,582 - INFO - Next check scheduled at: 2025-06-04 11:31:43
+2025-06-04 11:30:43,582 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:31:43,606 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:31:43,606 - INFO - Starting check at: 2025-06-04 11:31:43
+2025-06-04 11:31:43,606 - INFO - No frameworks needed updating
+2025-06-04 11:31:43,606 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:31:43,606 - INFO - Next check scheduled at: 2025-06-04 11:32:43
+2025-06-04 11:31:43,606 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:32:43,617 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:32:43,617 - INFO - Starting check at: 2025-06-04 11:32:43
+2025-06-04 11:32:43,617 - INFO - No frameworks needed updating
+2025-06-04 11:32:43,617 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:32:43,617 - INFO - Next check scheduled at: 2025-06-04 11:33:43
+2025-06-04 11:32:43,627 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:33:43,639 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:33:43,639 - INFO - Starting check at: 2025-06-04 11:33:43
+2025-06-04 11:33:43,639 - INFO - No frameworks needed updating
+2025-06-04 11:33:43,639 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:33:43,639 - INFO - Next check scheduled at: 2025-06-04 11:34:43
+2025-06-04 11:33:43,639 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:34:43,652 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:34:43,652 - INFO - Starting check at: 2025-06-04 11:34:43
+2025-06-04 11:34:43,652 - INFO - No frameworks needed updating
+2025-06-04 11:34:43,652 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:34:43,652 - INFO - Next check scheduled at: 2025-06-04 11:35:43
+2025-06-04 11:34:43,662 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:35:43,668 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:35:43,668 - INFO - Starting check at: 2025-06-04 11:35:43
+2025-06-04 11:35:43,668 - INFO - No frameworks needed updating
+2025-06-04 11:35:43,668 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:35:43,668 - INFO - Next check scheduled at: 2025-06-04 11:36:43
+2025-06-04 11:35:43,668 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:36:43,682 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:36:43,682 - INFO - Starting check at: 2025-06-04 11:36:43
+2025-06-04 11:36:43,682 - INFO - No frameworks needed updating
+2025-06-04 11:36:43,682 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:36:43,682 - INFO - Next check scheduled at: 2025-06-04 11:37:43
+2025-06-04 11:36:43,692 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:37:43,698 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:37:43,698 - INFO - Starting check at: 2025-06-04 11:37:43
+2025-06-04 11:37:43,698 - INFO - No frameworks needed updating
+2025-06-04 11:37:43,698 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:37:43,698 - INFO - Next check scheduled at: 2025-06-04 11:38:43
+2025-06-04 11:37:43,698 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:38:43,715 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:38:43,715 - INFO - Starting check at: 2025-06-04 11:38:43
+2025-06-04 11:38:43,715 - INFO - No frameworks needed updating
+2025-06-04 11:38:43,715 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:38:43,715 - INFO - Next check scheduled at: 2025-06-04 11:39:43
+2025-06-04 11:38:43,715 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:39:43,729 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:39:43,731 - INFO - Starting check at: 2025-06-04 11:39:43
+2025-06-04 11:39:43,731 - INFO - No frameworks needed updating
+2025-06-04 11:39:43,731 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:39:43,731 - INFO - Next check scheduled at: 2025-06-04 11:40:43
+2025-06-04 11:39:43,739 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:40:43,741 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:40:43,741 - INFO - Starting check at: 2025-06-04 11:40:43
+2025-06-04 11:40:43,741 - INFO - No frameworks needed updating
+2025-06-04 11:40:43,741 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:40:43,741 - INFO - Next check scheduled at: 2025-06-04 11:41:43
+2025-06-04 11:40:43,741 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:41:43,762 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:41:43,762 - INFO - Starting check at: 2025-06-04 11:41:43
+2025-06-04 11:41:43,762 - INFO - No frameworks needed updating
+2025-06-04 11:41:43,762 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:41:43,762 - INFO - Next check scheduled at: 2025-06-04 11:42:43
+2025-06-04 11:41:43,762 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:42:43,777 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:42:43,778 - INFO - Starting check at: 2025-06-04 11:42:43
+2025-06-04 11:42:43,778 - INFO - No frameworks needed updating
+2025-06-04 11:42:43,778 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:42:43,778 - INFO - Next check scheduled at: 2025-06-04 11:43:43
+2025-06-04 11:42:43,787 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:43:43,793 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:43:43,794 - INFO - Starting check at: 2025-06-04 11:43:43
+2025-06-04 11:43:43,795 - INFO - No frameworks needed updating
+2025-06-04 11:43:43,795 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:43:43,795 - INFO - Next check scheduled at: 2025-06-04 11:44:43
+2025-06-04 11:43:43,795 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:44:43,806 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:44:43,806 - INFO - Starting check at: 2025-06-04 11:44:43
+2025-06-04 11:44:43,806 - INFO - No frameworks needed updating
+2025-06-04 11:44:43,806 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:44:43,806 - INFO - Next check scheduled at: 2025-06-04 11:45:43
+2025-06-04 11:44:43,806 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:45:43,814 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:45:43,814 - INFO - Starting check at: 2025-06-04 11:45:43
+2025-06-04 11:45:43,814 - INFO - No frameworks needed updating
+2025-06-04 11:45:43,814 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:45:43,814 - INFO - Next check scheduled at: 2025-06-04 11:46:43
+2025-06-04 11:45:43,814 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:46:43,827 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:46:43,827 - INFO - Starting check at: 2025-06-04 11:46:43
+2025-06-04 11:46:43,829 - INFO - No frameworks needed updating
+2025-06-04 11:46:43,829 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:46:43,829 - INFO - Next check scheduled at: 2025-06-04 11:47:43
+2025-06-04 11:46:43,829 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:47:43,835 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:47:43,835 - INFO - Starting check at: 2025-06-04 11:47:43
+2025-06-04 11:47:43,835 - INFO - No frameworks needed updating
+2025-06-04 11:47:43,835 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:47:43,835 - INFO - Next check scheduled at: 2025-06-04 11:48:43
+2025-06-04 11:47:43,835 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:48:43,846 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:48:43,846 - INFO - Starting check at: 2025-06-04 11:48:43
+2025-06-04 11:48:43,846 - INFO - No frameworks needed updating
+2025-06-04 11:48:43,846 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:48:43,846 - INFO - Next check scheduled at: 2025-06-04 11:49:43
+2025-06-04 11:48:43,846 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:49:43,861 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:49:43,861 - INFO - Starting check at: 2025-06-04 11:49:43
+2025-06-04 11:49:43,868 - INFO - No frameworks needed updating
+2025-06-04 11:49:43,868 - INFO - Check completed in 0.01 seconds
+2025-06-04 11:49:43,868 - INFO - Next check scheduled at: 2025-06-04 11:50:43
+2025-06-04 11:49:43,868 - INFO - Sleeping for 59.99 seconds
+2025-06-04 11:50:43,879 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:50:43,879 - INFO - Starting check at: 2025-06-04 11:50:43
+2025-06-04 11:50:43,880 - INFO - No frameworks needed updating
+2025-06-04 11:50:43,880 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:50:43,880 - INFO - Next check scheduled at: 2025-06-04 11:51:43
+2025-06-04 11:50:43,880 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:51:37,500 - INFO - Framework monitoring service stopped by user.
+2025-06-04 11:51:42,272 - INFO - NumExpr defaulting to 8 threads.
+2025-06-04 11:51:43,127 - INFO - package: mysql.connector.plugins
+2025-06-04 11:51:43,127 - INFO - plugin_name: caching_sha2_password
+2025-06-04 11:51:43,127 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-06-04 11:51:44,801 - INFO - Starting framework and policy monitoring service...
+2025-06-04 11:51:44,801 - INFO - Starting check at: 2025-06-04 11:51:44
+2025-06-04 11:51:44,801 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:51:44,816 - INFO - No frameworks or policies needed updating
+2025-06-04 11:51:44,816 - INFO - Check completed in 0.01 seconds
+2025-06-04 11:51:44,817 - INFO - Next check scheduled at: 2025-06-04 11:52:44
+2025-06-04 11:51:44,817 - INFO - Sleeping for 59.99 seconds
+2025-06-04 11:52:44,806 - INFO - Time since last check: 60.00 seconds
+2025-06-04 11:52:44,806 - INFO - Starting check at: 2025-06-04 11:52:44
+2025-06-04 11:52:44,806 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:52:44,806 - INFO - No frameworks or policies needed updating
+2025-06-04 11:52:44,822 - INFO - Check completed in 0.02 seconds
+2025-06-04 11:52:44,822 - INFO - Next check scheduled at: 2025-06-04 11:53:44
+2025-06-04 11:52:44,822 - INFO - Sleeping for 59.98 seconds
+2025-06-04 11:53:44,817 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:53:44,817 - INFO - Starting check at: 2025-06-04 11:53:44
+2025-06-04 11:53:44,817 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:53:44,817 - INFO - No frameworks or policies needed updating
+2025-06-04 11:53:44,817 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:53:44,817 - INFO - Next check scheduled at: 2025-06-04 11:54:44
+2025-06-04 11:53:44,817 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:54:44,833 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:54:44,833 - INFO - Starting check at: 2025-06-04 11:54:44
+2025-06-04 11:54:44,833 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:54:44,833 - INFO - No frameworks or policies needed updating
+2025-06-04 11:54:44,833 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:54:44,833 - INFO - Next check scheduled at: 2025-06-04 11:55:44
+2025-06-04 11:54:44,833 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:55:44,849 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:55:44,849 - INFO - Starting check at: 2025-06-04 11:55:44
+2025-06-04 11:55:44,849 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:55:44,865 - INFO - No frameworks or policies needed updating
+2025-06-04 11:55:44,865 - INFO - Check completed in 0.02 seconds
+2025-06-04 11:55:44,865 - INFO - Next check scheduled at: 2025-06-04 11:56:44
+2025-06-04 11:55:44,865 - INFO - Sleeping for 59.98 seconds
+2025-06-04 11:56:05,785 - INFO - Framework and policy monitoring service stopped by user.
+2025-06-04 11:56:08,333 - INFO - NumExpr defaulting to 8 threads.
+2025-06-04 11:56:08,657 - INFO - package: mysql.connector.plugins
+2025-06-04 11:56:08,657 - INFO - plugin_name: caching_sha2_password
+2025-06-04 11:56:08,657 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-06-04 11:56:09,818 - INFO - Starting framework and policy monitoring service...
+2025-06-04 11:56:09,820 - INFO - Starting check at: 2025-06-04 11:56:09
+2025-06-04 11:56:09,821 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:56:09,861 - INFO - No frameworks or policies needed updating
+2025-06-04 11:56:09,861 - INFO - Check completed in 0.04 seconds
+2025-06-04 11:56:09,861 - INFO - Next check scheduled at: 2025-06-04 11:57:09
+2025-06-04 11:56:09,861 - INFO - Sleeping for 59.96 seconds
+2025-06-04 11:57:09,829 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:57:09,829 - INFO - Starting check at: 2025-06-04 11:57:09
+2025-06-04 11:57:09,829 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:57:09,829 - INFO - No frameworks or policies needed updating
+2025-06-04 11:57:09,829 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:57:09,829 - INFO - Next check scheduled at: 2025-06-04 11:58:09
+2025-06-04 11:57:09,829 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:58:09,852 - INFO - Time since last check: 60.02 seconds
+2025-06-04 11:58:09,852 - INFO - Starting check at: 2025-06-04 11:58:09
+2025-06-04 11:58:09,852 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:58:09,852 - INFO - No frameworks or policies needed updating
+2025-06-04 11:58:09,852 - INFO - Check completed in 0.00 seconds
+2025-06-04 11:58:09,852 - INFO - Next check scheduled at: 2025-06-04 11:59:09
+2025-06-04 11:58:09,852 - INFO - Sleeping for 60.00 seconds
+2025-06-04 11:59:09,857 - INFO - Time since last check: 60.01 seconds
+2025-06-04 11:59:09,857 - INFO - Starting check at: 2025-06-04 11:59:09
+2025-06-04 11:59:09,858 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 11:59:09,862 - INFO - No frameworks or policies needed updating
+2025-06-04 11:59:09,863 - INFO - Check completed in 0.01 seconds
+2025-06-04 11:59:09,863 - INFO - Next check scheduled at: 2025-06-04 12:00:09
+2025-06-04 11:59:09,863 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:00:09,861 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:00:09,861 - INFO - Starting check at: 2025-06-04 12:00:09
+2025-06-04 12:00:09,861 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:00:09,878 - INFO - No frameworks or policies needed updating
+2025-06-04 12:00:09,878 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:00:09,878 - INFO - Next check scheduled at: 2025-06-04 12:01:09
+2025-06-04 12:00:09,878 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:01:09,867 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:01:09,868 - INFO - Starting check at: 2025-06-04 12:01:09
+2025-06-04 12:01:09,868 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:01:09,872 - INFO - No frameworks or policies needed updating
+2025-06-04 12:01:09,873 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:01:09,873 - INFO - Next check scheduled at: 2025-06-04 12:02:09
+2025-06-04 12:01:09,873 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:02:09,871 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:02:09,871 - INFO - Starting check at: 2025-06-04 12:02:09
+2025-06-04 12:02:09,871 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:02:09,894 - INFO - No frameworks or policies needed updating
+2025-06-04 12:02:09,895 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:02:09,896 - INFO - Next check scheduled at: 2025-06-04 12:03:09
+2025-06-04 12:02:09,898 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:03:09,880 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:03:09,880 - INFO - Starting check at: 2025-06-04 12:03:09
+2025-06-04 12:03:09,880 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:03:09,884 - INFO - No frameworks or policies needed updating
+2025-06-04 12:03:09,884 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:03:09,884 - INFO - Next check scheduled at: 2025-06-04 12:04:09
+2025-06-04 12:03:09,884 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:04:09,883 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:04:09,883 - INFO - Starting check at: 2025-06-04 12:04:09
+2025-06-04 12:04:09,884 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:04:09,888 - INFO - No frameworks or policies needed updating
+2025-06-04 12:04:09,888 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:04:09,888 - INFO - Next check scheduled at: 2025-06-04 12:05:09
+2025-06-04 12:04:09,889 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:05:09,889 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:05:09,890 - INFO - Starting check at: 2025-06-04 12:05:09
+2025-06-04 12:05:09,890 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:05:09,893 - INFO - No frameworks or policies needed updating
+2025-06-04 12:05:09,894 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:05:09,894 - INFO - Next check scheduled at: 2025-06-04 12:06:09
+2025-06-04 12:05:09,894 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:06:09,899 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:06:09,899 - INFO - Starting check at: 2025-06-04 12:06:09
+2025-06-04 12:06:09,899 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:06:09,899 - INFO - No frameworks or policies needed updating
+2025-06-04 12:06:09,899 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:06:09,899 - INFO - Next check scheduled at: 2025-06-04 12:07:09
+2025-06-04 12:06:09,899 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:06:18,134 - INFO - Framework and policy monitoring service stopped by user.
+2025-06-04 12:06:21,001 - INFO - NumExpr defaulting to 8 threads.
+2025-06-04 12:06:21,378 - INFO - package: mysql.connector.plugins
+2025-06-04 12:06:21,378 - INFO - plugin_name: caching_sha2_password
+2025-06-04 12:06:21,378 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-06-04 12:06:22,730 - INFO - Starting framework and policy monitoring service...
+2025-06-04 12:06:22,730 - INFO - Starting check at: 2025-06-04 12:06:22
+2025-06-04 12:06:22,730 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:06:22,747 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:06:22,759 - INFO - No frameworks or policies needed updating
+2025-06-04 12:06:22,759 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:06:22,759 - INFO - Next check scheduled at: 2025-06-04 12:07:22
+2025-06-04 12:06:22,760 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:07:22,743 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:07:22,743 - INFO - Starting check at: 2025-06-04 12:07:22
+2025-06-04 12:07:22,743 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:07:22,743 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:07:22,761 - INFO - No frameworks or policies needed updating
+2025-06-04 12:07:22,762 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:07:22,763 - INFO - Next check scheduled at: 2025-06-04 12:08:22
+2025-06-04 12:07:22,764 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:08:22,756 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:08:22,757 - INFO - Starting check at: 2025-06-04 12:08:22
+2025-06-04 12:08:22,757 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:08:22,762 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:08:22,765 - INFO - No frameworks or policies needed updating
+2025-06-04 12:08:22,765 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:08:22,766 - INFO - Next check scheduled at: 2025-06-04 12:09:22
+2025-06-04 12:08:22,766 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:09:22,763 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:09:22,763 - INFO - Starting check at: 2025-06-04 12:09:22
+2025-06-04 12:09:22,763 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:09:22,763 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:09:22,763 - INFO - No frameworks or policies needed updating
+2025-06-04 12:09:22,763 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:09:22,763 - INFO - Next check scheduled at: 2025-06-04 12:10:22
+2025-06-04 12:09:22,763 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:10:22,764 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:10:22,766 - INFO - Starting check at: 2025-06-04 12:10:22
+2025-06-04 12:10:22,767 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:10:22,782 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:10:22,798 - INFO - No frameworks or policies needed updating
+2025-06-04 12:10:22,799 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:10:22,800 - INFO - Next check scheduled at: 2025-06-04 12:11:22
+2025-06-04 12:10:22,802 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:11:22,781 - INFO - Time since last check: 60.02 seconds
+2025-06-04 12:11:22,781 - INFO - Starting check at: 2025-06-04 12:11:22
+2025-06-04 12:11:22,781 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:11:22,781 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:11:22,800 - INFO - No frameworks or policies needed updating
+2025-06-04 12:11:22,801 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:11:22,802 - INFO - Next check scheduled at: 2025-06-04 12:12:22
+2025-06-04 12:11:22,803 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:12:22,796 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:12:22,796 - INFO - Starting check at: 2025-06-04 12:12:22
+2025-06-04 12:12:22,796 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:12:22,796 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:12:22,796 - INFO - No frameworks or policies needed updating
+2025-06-04 12:12:22,796 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:12:22,796 - INFO - Next check scheduled at: 2025-06-04 12:13:22
+2025-06-04 12:12:22,812 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:13:22,815 - INFO - Time since last check: 60.02 seconds
+2025-06-04 12:13:22,815 - INFO - Starting check at: 2025-06-04 12:13:22
+2025-06-04 12:13:22,815 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:13:22,815 - INFO - Found 1 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:13:22,828 - INFO - Policy 1165: policy-1, StartDate=2025-05-24, FrameworkId=36, ActiveInactive=Scheduled, Status=Approved
+2025-06-04 12:13:22,829 - INFO - Checking policy 1165 (policy-1):
+2025-06-04 12:13:22,830 - INFO -   StartDate: 2025-05-24
+2025-06-04 12:13:22,831 - INFO -   Current date: 2025-06-04
+2025-06-04 12:13:22,832 - INFO -   StartDate was 11 days ago
+2025-06-04 12:13:22,836 - INFO -   Parent Framework: ISO 27001 (Status: Approved, ActiveInactive: Active)
+2025-06-04 12:13:22,846 - INFO - Updated policy 1165 (policy-1) to Active status (from StartDate)
+2025-06-04 12:13:22,846 - INFO - Updated 0 frameworks, 0 policies from framework activation, and 1 policies from StartDate
+2025-06-04 12:13:22,847 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:13:22,847 - INFO - Next check scheduled at: 2025-06-04 12:14:22
+2025-06-04 12:13:22,847 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:14:22,830 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:14:22,830 - INFO - Starting check at: 2025-06-04 12:14:22
+2025-06-04 12:14:22,830 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:14:22,830 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:14:22,830 - INFO - No frameworks or policies needed updating
+2025-06-04 12:14:22,830 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:14:22,830 - INFO - Next check scheduled at: 2025-06-04 12:15:22
+2025-06-04 12:14:22,830 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:15:22,835 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:15:22,835 - INFO - Starting check at: 2025-06-04 12:15:22
+2025-06-04 12:15:22,835 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:15:22,835 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:15:22,848 - INFO - No frameworks or policies needed updating
+2025-06-04 12:15:22,848 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:15:22,848 - INFO - Next check scheduled at: 2025-06-04 12:16:22
+2025-06-04 12:15:22,849 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:16:22,841 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:16:22,842 - INFO - Starting check at: 2025-06-04 12:16:22
+2025-06-04 12:16:22,842 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:16:22,842 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:16:22,842 - INFO - No frameworks or policies needed updating
+2025-06-04 12:16:22,842 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:16:22,842 - INFO - Next check scheduled at: 2025-06-04 12:17:22
+2025-06-04 12:16:22,842 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:17:22,844 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:17:22,844 - INFO - Starting check at: 2025-06-04 12:17:22
+2025-06-04 12:17:22,844 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:17:22,859 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:17:22,859 - INFO - No frameworks or policies needed updating
+2025-06-04 12:17:22,859 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:17:22,859 - INFO - Next check scheduled at: 2025-06-04 12:18:22
+2025-06-04 12:17:22,859 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:18:22,848 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:18:22,848 - INFO - Starting check at: 2025-06-04 12:18:22
+2025-06-04 12:18:22,848 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:18:22,856 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:18:22,861 - INFO - No frameworks or policies needed updating
+2025-06-04 12:18:22,862 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:18:22,863 - INFO - Next check scheduled at: 2025-06-04 12:19:22
+2025-06-04 12:18:22,863 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:19:22,853 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:19:22,854 - INFO - Starting check at: 2025-06-04 12:19:22
+2025-06-04 12:19:22,854 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:19:22,866 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:19:22,868 - INFO - No frameworks or policies needed updating
+2025-06-04 12:19:22,868 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:19:22,869 - INFO - Next check scheduled at: 2025-06-04 12:20:22
+2025-06-04 12:19:22,869 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:20:22,861 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:20:22,862 - INFO - Starting check at: 2025-06-04 12:20:22
+2025-06-04 12:20:22,863 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:20:22,876 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:20:22,885 - INFO - No frameworks or policies needed updating
+2025-06-04 12:20:22,887 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:20:22,887 - INFO - Next check scheduled at: 2025-06-04 12:21:22
+2025-06-04 12:20:22,887 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:21:22,872 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:21:22,872 - INFO - Starting check at: 2025-06-04 12:21:22
+2025-06-04 12:21:22,872 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:21:22,872 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:21:22,895 - INFO - No frameworks or policies needed updating
+2025-06-04 12:21:22,895 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:21:22,895 - INFO - Next check scheduled at: 2025-06-04 12:22:22
+2025-06-04 12:21:22,895 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:22:22,883 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:22:22,885 - INFO - Starting check at: 2025-06-04 12:22:22
+2025-06-04 12:22:22,886 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:22:22,904 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:22:22,912 - INFO - No frameworks or policies needed updating
+2025-06-04 12:22:22,912 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:22:22,912 - INFO - Next check scheduled at: 2025-06-04 12:23:22
+2025-06-04 12:22:22,912 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:23:22,899 - INFO - Time since last check: 60.02 seconds
+2025-06-04 12:23:22,900 - INFO - Starting check at: 2025-06-04 12:23:22
+2025-06-04 12:23:22,900 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:23:22,900 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:23:22,907 - INFO - No frameworks or policies needed updating
+2025-06-04 12:23:22,907 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:23:22,908 - INFO - Next check scheduled at: 2025-06-04 12:24:22
+2025-06-04 12:23:22,908 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:24:22,911 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:24:22,911 - INFO - Starting check at: 2025-06-04 12:24:22
+2025-06-04 12:24:22,912 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:24:22,918 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:24:22,921 - INFO - No frameworks or policies needed updating
+2025-06-04 12:24:22,921 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:24:22,921 - INFO - Next check scheduled at: 2025-06-04 12:25:22
+2025-06-04 12:24:22,921 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:25:22,924 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:25:22,924 - INFO - Starting check at: 2025-06-04 12:25:22
+2025-06-04 12:25:22,924 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:25:22,940 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:25:22,948 - INFO - No frameworks or policies needed updating
+2025-06-04 12:25:22,951 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:25:22,952 - INFO - Next check scheduled at: 2025-06-04 12:26:22
+2025-06-04 12:25:22,952 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:26:22,932 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:26:22,932 - INFO - Starting check at: 2025-06-04 12:26:22
+2025-06-04 12:26:22,932 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:26:22,932 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:26:22,940 - INFO - No frameworks or policies needed updating
+2025-06-04 12:26:22,941 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:26:22,941 - INFO - Next check scheduled at: 2025-06-04 12:27:22
+2025-06-04 12:26:22,941 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:27:22,935 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:27:22,935 - INFO - Starting check at: 2025-06-04 12:27:22
+2025-06-04 12:27:22,935 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:27:22,935 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:27:22,935 - INFO - No frameworks or policies needed updating
+2025-06-04 12:27:22,935 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:27:22,935 - INFO - Next check scheduled at: 2025-06-04 12:28:22
+2025-06-04 12:27:22,935 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:28:22,940 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:28:22,940 - INFO - Starting check at: 2025-06-04 12:28:22
+2025-06-04 12:28:22,940 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:28:22,940 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:28:22,955 - INFO - No frameworks or policies needed updating
+2025-06-04 12:28:22,955 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:28:22,955 - INFO - Next check scheduled at: 2025-06-04 12:29:22
+2025-06-04 12:28:22,955 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:29:22,942 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:29:22,942 - INFO - Starting check at: 2025-06-04 12:29:22
+2025-06-04 12:29:22,942 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:29:22,958 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:29:22,968 - INFO - No frameworks or policies needed updating
+2025-06-04 12:29:22,968 - INFO - Check completed in 0.03 seconds
+2025-06-04 12:29:22,968 - INFO - Next check scheduled at: 2025-06-04 12:30:22
+2025-06-04 12:29:22,973 - INFO - Sleeping for 59.97 seconds
+2025-06-04 12:30:22,951 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:30:22,951 - INFO - Starting check at: 2025-06-04 12:30:22
+2025-06-04 12:30:22,951 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:30:22,951 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:30:22,951 - INFO - No frameworks or policies needed updating
+2025-06-04 12:30:22,951 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:30:22,951 - INFO - Next check scheduled at: 2025-06-04 12:31:22
+2025-06-04 12:30:22,951 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:31:22,952 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:31:22,952 - INFO - Starting check at: 2025-06-04 12:31:22
+2025-06-04 12:31:22,952 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:31:22,952 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:31:22,973 - INFO - No frameworks or policies needed updating
+2025-06-04 12:31:22,974 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:31:22,975 - INFO - Next check scheduled at: 2025-06-04 12:32:22
+2025-06-04 12:31:22,976 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:32:22,982 - INFO - Time since last check: 60.03 seconds
+2025-06-04 12:32:22,982 - INFO - Starting check at: 2025-06-04 12:32:22
+2025-06-04 12:32:22,982 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:32:22,982 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:32:22,982 - INFO - No frameworks or policies needed updating
+2025-06-04 12:32:22,982 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:32:22,982 - INFO - Next check scheduled at: 2025-06-04 12:33:22
+2025-06-04 12:32:22,982 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:33:22,997 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:33:22,998 - INFO - Starting check at: 2025-06-04 12:33:22
+2025-06-04 12:33:22,998 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:33:23,014 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:33:23,020 - INFO - No frameworks or policies needed updating
+2025-06-04 12:33:23,020 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:33:23,021 - INFO - Next check scheduled at: 2025-06-04 12:34:22
+2025-06-04 12:33:23,021 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:34:23,014 - INFO - Time since last check: 60.02 seconds
+2025-06-04 12:34:23,014 - INFO - Starting check at: 2025-06-04 12:34:23
+2025-06-04 12:34:23,014 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:34:23,014 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:34:23,026 - INFO - No frameworks or policies needed updating
+2025-06-04 12:34:23,026 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:34:23,026 - INFO - Next check scheduled at: 2025-06-04 12:35:23
+2025-06-04 12:34:23,026 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:35:23,022 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:35:23,023 - INFO - Starting check at: 2025-06-04 12:35:23
+2025-06-04 12:35:23,024 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:35:23,024 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:35:23,037 - INFO - No frameworks or policies needed updating
+2025-06-04 12:35:23,038 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:35:23,039 - INFO - Next check scheduled at: 2025-06-04 12:36:23
+2025-06-04 12:35:23,040 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:36:23,028 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:36:23,028 - INFO - Starting check at: 2025-06-04 12:36:23
+2025-06-04 12:36:23,029 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:36:23,033 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:36:23,035 - INFO - No frameworks or policies needed updating
+2025-06-04 12:36:23,036 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:36:23,036 - INFO - Next check scheduled at: 2025-06-04 12:37:23
+2025-06-04 12:36:23,037 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:37:23,040 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:37:23,040 - INFO - Starting check at: 2025-06-04 12:37:23
+2025-06-04 12:37:23,040 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:37:23,056 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:37:23,063 - INFO - No frameworks or policies needed updating
+2025-06-04 12:37:23,063 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:37:23,063 - INFO - Next check scheduled at: 2025-06-04 12:38:23
+2025-06-04 12:37:23,063 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:38:23,056 - INFO - Time since last check: 60.02 seconds
+2025-06-04 12:38:23,056 - INFO - Starting check at: 2025-06-04 12:38:23
+2025-06-04 12:38:23,056 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:38:23,056 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:38:23,056 - INFO - No frameworks or policies needed updating
+2025-06-04 12:38:23,056 - INFO - Check completed in 0.00 seconds
+2025-06-04 12:38:23,056 - INFO - Next check scheduled at: 2025-06-04 12:39:23
+2025-06-04 12:38:23,056 - INFO - Sleeping for 60.00 seconds
+2025-06-04 12:39:23,057 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:39:23,057 - INFO - Starting check at: 2025-06-04 12:39:23
+2025-06-04 12:39:23,057 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:39:23,061 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:39:23,063 - INFO - No frameworks or policies needed updating
+2025-06-04 12:39:23,063 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:39:23,063 - INFO - Next check scheduled at: 2025-06-04 12:40:23
+2025-06-04 12:39:23,063 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:40:23,070 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:40:23,070 - INFO - Starting check at: 2025-06-04 12:40:23
+2025-06-04 12:40:23,071 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:40:23,074 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:40:23,076 - INFO - No frameworks or policies needed updating
+2025-06-04 12:40:23,076 - INFO - Check completed in 0.01 seconds
+2025-06-04 12:40:23,077 - INFO - Next check scheduled at: 2025-06-04 12:41:23
+2025-06-04 12:40:23,077 - INFO - Sleeping for 59.99 seconds
+2025-06-04 12:41:23,073 - INFO - Time since last check: 60.00 seconds
+2025-06-04 12:41:23,073 - INFO - Starting check at: 2025-06-04 12:41:23
+2025-06-04 12:41:23,073 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:41:23,073 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:41:23,093 - INFO - No frameworks or policies needed updating
+2025-06-04 12:41:23,095 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:41:23,096 - INFO - Next check scheduled at: 2025-06-04 12:42:23
+2025-06-04 12:41:23,097 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:42:23,078 - INFO - Time since last check: 60.01 seconds
+2025-06-04 12:42:23,078 - INFO - Starting check at: 2025-06-04 12:42:23
+2025-06-04 12:42:23,078 - INFO - Current date for comparison: 2025-06-04
+2025-06-04 12:42:23,093 - INFO - Found 0 scheduled, approved policies with approved/active frameworks
+2025-06-04 12:42:23,101 - INFO - No frameworks or policies needed updating
+2025-06-04 12:42:23,102 - INFO - Check completed in 0.02 seconds
+2025-06-04 12:42:23,103 - INFO - Next check scheduled at: 2025-06-04 12:43:23
+2025-06-04 12:42:23,103 - INFO - Sleeping for 59.98 seconds
+2025-06-04 12:43:05,369 - INFO - Framework and policy monitoring service stopped by user.

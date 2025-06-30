@@ -1,0 +1,419 @@
+{
+  "users": [
+    {
+      "UserId": 1,
+      "UserName": "testuser1",
+      "MobileNo": "1234567890",
+      "Email": "test1@example.com",
+      "Department": "IT",
+      "Designation": "Developer",
+      "Password": "password123",
+      "Role": "User"
+    },
+    {
+      "UserId": 2,
+      "UserName": "testuser2", 
+      "MobileNo": "0987654321",
+      "Email": "test2@example.com",
+      "Department": "Security",
+      "Designation": "Analyst",
+      "Password": "password123",
+      "Role": "Reviewer"
+    },
+    {
+      "UserId": 3,
+      "UserName": "auditor1",
+      "MobileNo": "1122334455",
+      "Email": "auditor1@example.com",
+      "Department": "Audit",
+      "Designation": "Senior Auditor",
+      "Password": "password123",
+      "Role": "Auditor"
+    },
+    {
+      "UserId": 4,
+      "UserName": "manager1",
+      "MobileNo": "5566778899",
+      "Email": "manager1@example.com",
+      "Department": "Management",
+      "Designation": "Manager",
+      "Password": "password123",
+      "Role": "Manager"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "source": "category",
+      "value": "Security Risk"
+    },
+    {
+      "id": 2,
+      "source": "category", 
+      "value": "Operational Risk"
+    },
+    {
+      "id": 3,
+      "source": "business_unit",
+      "value": "IT Department"
+    },
+    {
+      "id": 4,
+      "source": "business_unit",
+      "value": "Finance Department"
+    },
+    {
+      "id": 5,
+      "source": "category",
+      "value": "Compliance Risk"
+    },
+    {
+      "id": 6,
+      "source": "category",
+      "value": "Financial Risk"
+    },
+    {
+      "id": 7,
+      "source": "business_unit",
+      "value": "HR Department"
+    },
+    {
+      "id": 8,
+      "source": "business_unit",
+      "value": "Operations Department"
+    }
+  ],
+  "incidents": [
+    {
+      "IncidentId": 1,
+      "IncidentTitle": "Test Security Incident",
+      "Description": "Test incident for security validation with comprehensive details",
+      "Date": "2024-01-15",
+      "Time": "14:30:00",
+      "Origin": "Manual",
+      "Status": "Open",
+      "RiskCategory": "Security Risk",
+      "RiskPriority": "High",
+      "Criticality": "High",
+      "CostOfIncident": "$50000",
+      "PossibleDamage": "Data breach, customer trust loss, regulatory fines",
+      "AffectedBusinessUnit": "IT Department",
+      "SystemsAssetsInvolved": "Customer database, web application",
+      "GeographicLocation": "North America",
+      "InitialImpactAssessment": "High impact on customer data confidentiality",
+      "InternalContacts": "IT Security Team, Legal Department",
+      "ExternalPartiesInvolved": "Third-party security vendor",
+      "RegulatoryBodies": "Data Protection Authority",
+      "RelevantPoliciesProceduresViolated": "Data Security Policy Section 3.2",
+      "ControlFailures": "Access control bypass, insufficient monitoring",
+      "IncidentClassification": "Data Security Incident",
+      "AssignerId": 2,
+      "ReviewerId": 3,
+      "MitigationDueDate": "2024-01-30T23:59:59",
+      "AssignedDate": "2024-01-15T15:00:00",
+      "AssignmentNotes": "High priority security incident requiring immediate attention",
+      "CreatedAt": "2024-01-15T14:30:00"
+    },
+    {
+      "IncidentId": 2,
+      "IncidentTitle": "Test Operational Incident", 
+      "Description": "Test incident for operational issues with process failure",
+      "Date": "2024-01-16",
+      "Time": "09:15:00",
+      "Origin": "System Generated",
+      "Status": "Assigned",
+      "RiskCategory": "Operational Risk",
+      "RiskPriority": "Medium",
+      "Criticality": "Medium",
+      "CostOfIncident": "$15000",
+      "PossibleDamage": "Service disruption, customer complaints",
+      "AffectedBusinessUnit": "Operations Department",
+      "SystemsAssetsInvolved": "Payment processing system",
+      "GeographicLocation": "Europe",
+      "InitialImpactAssessment": "Medium impact on service availability",
+      "InternalContacts": "Operations Team, Customer Service",
+      "ExternalPartiesInvolved": "Payment processor vendor",
+      "RegulatoryBodies": "Financial Services Authority",
+      "RelevantPoliciesProceduresViolated": "Service Level Agreement Policy",
+      "ControlFailures": "Automated monitoring failure",
+      "IncidentClassification": "Service Disruption",
+      "AssignerId": 4,
+      "ReviewerId": 2,
+      "MitigationDueDate": "2024-01-25T17:00:00",
+      "AssignedDate": "2024-01-16T10:00:00",
+      "AssignmentNotes": "Operational issue affecting payment processing",
+      "CreatedAt": "2024-01-16T09:15:00"
+    },
+    {
+      "IncidentId": 3,
+      "IncidentTitle": "Compliance Policy Violation",
+      "Description": "Employee failed to follow mandatory compliance procedures",
+      "Date": "2024-01-17",
+      "Time": "11:45:00",
+      "Origin": "Audit Finding",
+      "Status": "Under Review",
+      "RiskCategory": "Compliance Risk",
+      "RiskPriority": "High",
+      "Criticality": "High",
+      "CostOfIncident": "$25000",
+      "PossibleDamage": "Regulatory penalties, compliance audit findings",
+      "AffectedBusinessUnit": "HR Department",
+      "SystemsAssetsInvolved": "HR management system, compliance tracking",
+      "GeographicLocation": "Asia Pacific",
+      "InitialImpactAssessment": "High compliance risk exposure",
+      "InternalContacts": "Compliance Officer, HR Manager",
+      "ExternalPartiesInvolved": "External compliance consultant",
+      "RegulatoryBodies": "Labor Standards Agency",
+      "RelevantPoliciesProceduresViolated": "Employee Code of Conduct Section 2.1",
+      "ControlFailures": "Manual review process bypass",
+      "IncidentClassification": "Compliance Violation",
+      "AssignerId": 3,
+      "ReviewerId": 4,
+      "MitigationDueDate": "2024-02-01T12:00:00",
+      "AssignedDate": "2024-01-17T14:00:00",
+      "AssignmentNotes": "Urgent compliance issue requiring investigation",
+      "CreatedAt": "2024-01-17T11:45:00"
+    },
+    {
+      "IncidentId": 4,
+      "IncidentTitle": "Financial System Error",
+      "Description": "Calculation error in financial reporting system",
+      "Date": "2024-01-18",
+      "Time": "16:20:00",
+      "Origin": "Manual",
+      "Status": "Rejected",
+      "RiskCategory": "Financial Risk",
+      "RiskPriority": "Low",
+      "Criticality": "Low",
+      "CostOfIncident": "$5000",
+      "PossibleDamage": "Minor financial misstatement",
+      "AffectedBusinessUnit": "Finance Department",
+      "SystemsAssetsInvolved": "Financial reporting system",
+      "GeographicLocation": "North America",
+      "InitialImpactAssessment": "Low impact on financial accuracy",
+      "InternalContacts": "Finance Team, IT Support",
+      "ExternalPartiesInvolved": "Software vendor",
+      "RegulatoryBodies": "Securities Commission",
+      "RelevantPoliciesProceduresViolated": "Financial Reporting Policy",
+      "ControlFailures": "Automated validation failure",
+      "IncidentClassification": "System Error",
+      "AssignerId": 1,
+      "ReviewerId": 2,
+      "RejectionSource": "INCIDENT",
+      "CreatedAt": "2024-01-18T16:20:00"
+    },
+    {
+      "IncidentId": 5,
+      "IncidentTitle": "Network Security Breach",
+      "Description": "Unauthorized access attempt detected on network perimeter",
+      "Date": "2024-01-19",
+      "Time": "22:30:00",
+      "Origin": "System Generated",
+      "Status": "Approved",
+      "RiskCategory": "Security Risk",
+      "RiskPriority": "Critical",
+      "Criticality": "Critical",
+      "CostOfIncident": "$100000",
+      "PossibleDamage": "Network compromise, data exfiltration risk",
+      "AffectedBusinessUnit": "IT Department",
+      "SystemsAssetsInvolved": "Network infrastructure, firewall systems",
+      "GeographicLocation": "Global",
+      "InitialImpactAssessment": "Critical threat to network security",
+      "InternalContacts": "CISO, Network Security Team",
+      "ExternalPartiesInvolved": "Cybersecurity incident response firm",
+      "RegulatoryBodies": "Cybersecurity Agency",
+      "RelevantPoliciesProceduresViolated": "Network Security Policy",
+      "ControlFailures": "Intrusion detection system alert",
+      "IncidentClassification": "Security Breach",
+      "AssignerId": 2,
+      "ReviewerId": 4,
+      "MitigationDueDate": "2024-01-20T06:00:00",
+      "AssignedDate": "2024-01-19T23:00:00",
+      "AssignmentNotes": "Critical security incident - immediate response required",
+      "MitigationCompletedDate": "2024-01-20T05:30:00",
+      "CreatedAt": "2024-01-19T22:30:00"
+    },
+    {
+      "IncidentId": 6,
+      "IncidentTitle": "Repeated Service Outage",
+      "Description": "Third occurrence of the same service outage issue",
+      "Date": "2024-01-20",
+      "Time": "13:15:00",
+      "Origin": "Manual",
+      "Status": "Closed",
+      "RiskCategory": "Operational Risk",
+      "RiskPriority": "Medium",
+      "Criticality": "Medium",
+      "CostOfIncident": "$20000",
+      "PossibleDamage": "Customer dissatisfaction, SLA breach",
+      "AffectedBusinessUnit": "Operations Department",
+      "SystemsAssetsInvolved": "Customer service platform",
+      "GeographicLocation": "Europe",
+      "InitialImpactAssessment": "Recurring operational issue",
+      "InternalContacts": "Operations Manager, Technical Support",
+      "ExternalPartiesInvolved": "Platform vendor",
+      "RegulatoryBodies": "Consumer Protection Agency",
+      "RelevantPoliciesProceduresViolated": "Service Availability Policy",
+      "ControlFailures": "Inadequate root cause analysis",
+      "IncidentClassification": "Recurring Issue",
+      "AssignerId": 4,
+      "ReviewerId": 3,
+      "MitigationDueDate": "2024-01-28T15:00:00",
+      "AssignedDate": "2024-01-20T14:00:00",
+      "AssignmentNotes": "Pattern of recurring issues needs investigation",
+      "MitigationCompletedDate": "2024-01-27T14:30:00",
+      "RepeatedNot": true,
+      "ReopenedNot": false,
+      "CreatedAt": "2024-01-20T13:15:00"
+    },
+    {
+      "IncidentId": 7,
+      "IncidentTitle": "Scheduled Incident Test",
+      "Description": "Test incident for scheduled status validation",
+      "Date": "2024-01-21",
+      "Time": "08:00:00",
+      "Origin": "Manual",
+      "Status": "Scheduled",
+      "RiskCategory": "Security Risk",
+      "RiskPriority": "High",
+      "Criticality": "High",
+      "CostOfIncident": "$75000",
+      "PossibleDamage": "Testing scheduled incident workflow",
+      "AffectedBusinessUnit": "IT Department",
+      "SystemsAssetsInvolved": "Test systems",
+      "GeographicLocation": "North America",
+      "InitialImpactAssessment": "High impact testing scenario",
+      "AssignerId": 2,
+      "ReviewerId": 3,
+      "MitigationDueDate": "2024-01-25T18:00:00",
+      "AssignedDate": "2024-01-21T08:30:00",
+      "AssignmentNotes": "Testing scheduled incident workflow and notifications",
+      "CreatedAt": "2024-01-21T08:00:00"
+    }
+  ],
+  "audit_findings": [
+    {
+      "AuditFindingsId": 1,
+      "AuditId": 101,
+      "ComplianceId": 201,
+      "UserId": 3,
+      "Evidence": "Missing access control documentation",
+      "Check": "0",
+      "Impact": "High security risk",
+      "Recommendation": "Implement proper access controls",
+      "DetailsOfFinding": "Critical access control gap identified",
+      "Comments": "Requires immediate attention",
+      "CheckedDate": "2024-01-15T10:00:00",
+      "AssignedDate": "2024-01-15T09:00:00"
+    },
+    {
+      "AuditFindingsId": 2,
+      "AuditId": 102,
+      "ComplianceId": 202,
+      "UserId": 3,
+      "Evidence": "Process documentation incomplete",
+      "Check": "1",
+      "Impact": "Medium operational risk",
+      "Recommendation": "Complete process documentation",
+      "DetailsOfFinding": "Some process steps not documented",
+      "Comments": "Documentation needs updating",
+      "CheckedDate": "2024-01-16T11:30:00",
+      "AssignedDate": "2024-01-16T09:30:00"
+    }
+  ],
+  "incident_approvals": [
+    {
+      "IncidentId": 5,
+      "version": "1.0",
+      "ExtractedInfo": {
+        "mitigation_plan": "Immediate network isolation and forensic analysis",
+        "timeline": "6 hours",
+        "resources_required": "Security team, external consultants"
+      },
+      "AssigneeId": "2",
+      "ReviewerId": "4",
+      "ApprovedRejected": "Approved",
+      "Date": "2024-01-20T05:00:00"
+    },
+    {
+      "IncidentId": 4,
+      "version": "1.0",
+      "ExtractedInfo": {
+        "rejection_reason": "Insufficient evidence of impact",
+        "feedback": "Need more details on financial impact"
+      },
+      "AssigneeId": "1",
+      "ReviewerId": "2",
+      "ApprovedRejected": "Rejected",
+      "Date": "2024-01-19T10:00:00"
+    }
+  ],
+  "export_tasks": [
+    {
+      "id": 1,
+      "export_data": {
+        "incidents": [1, 2, 3],
+        "format": "xlsx",
+        "filters": {"status": "all", "priority": "high"}
+      },
+      "file_type": "xlsx",
+      "user_id": "1",
+      "file_name": "incidents_export_2024.xlsx",
+      "status": "completed",
+      "metadata": {
+        "total_records": 3,
+        "export_time": "2024-01-21T10:00:00"
+      }
+    }
+  ],
+  "dashboard_kpis": {
+    "total_incidents": 7,
+    "open_incidents": 1,
+    "assigned_incidents": 1,
+    "under_review_incidents": 1,
+    "approved_incidents": 1,
+    "rejected_incidents": 1,
+    "closed_incidents": 1,
+    "scheduled_incidents": 1,
+    "mttd": {
+      "value": 45.5,
+      "unit": "minutes",
+      "change_percentage": -12.3
+    },
+    "mttr": {
+      "value": 180.2,
+      "unit": "minutes", 
+      "change_percentage": 8.5
+    },
+    "mttc": {
+      "value": 120.7,
+      "unit": "minutes",
+      "change_percentage": -5.2
+    },
+    "mttrv": {
+      "value": 1440.0,
+      "unit": "minutes",
+      "change_percentage": -2.0
+    }
+  },
+  "user_tasks": [
+    {
+      "id": 1,
+      "Title": "Security Incident Investigation",
+      "Priority": "High",
+      "Status": "Assigned",
+      "Origin": "Manual",
+      "AssignerId": 2,
+      "MitigationDueDate": "2024-01-30T23:59:59"
+    },
+    {
+      "id": 2,
+      "Title": "Operational Issue Resolution",
+      "Priority": "Medium", 
+      "Status": "In Progress",
+      "Origin": "System Generated",
+      "AssignerId": 4,
+      "MitigationDueDate": "2024-01-25T17:00:00"
+    }
+  ]
+} 
