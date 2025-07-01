@@ -292,8 +292,8 @@ export default {
         
         // Fetch different types of activities in parallel
         const [approvalsResponse, frameworksResponse] = await Promise.all([
-          this.api.complianceService.getPolicyApprovals({ reviewer_id: 2 }), // Default reviewer
-          this.api.complianceService.getFrameworks()
+          this.api.complianceService.getCompliancePolicyApprovals({ reviewer_id: 2 }), // Default reviewer
+          this.api.complianceService.getComplianceFrameworks()
         ])
         
         let activities = []
@@ -400,11 +400,11 @@ export default {
           try {
             const framework = frameworksResponse.data[0]
             if (framework) {
-              const policiesResponse = await this.api.complianceService.getPolicies(framework.id)
+              const policiesResponse = await this.api.complianceService.getCompliancePolicies(framework.id)
               if (policiesResponse.data && Array.isArray(policiesResponse.data)) {
                 const policy = policiesResponse.data[0]
                 if (policy) {
-                  const subpoliciesResponse = await this.api.complianceService.getSubPolicies(policy.id)
+                  const subpoliciesResponse = await this.api.complianceService.getComplianceSubPolicies(policy.id)
                   if (subpoliciesResponse.data && Array.isArray(subpoliciesResponse.data)) {
                     const subpolicy = subpoliciesResponse.data[0]
                     if (subpolicy) {

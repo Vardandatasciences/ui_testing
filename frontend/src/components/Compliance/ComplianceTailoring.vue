@@ -2,30 +2,34 @@
   <div class="compliance-versioning-container">
     <div class="compliance-heading">
       <h1>Compliance Tailoring & Templating</h1>
-      <div class="heading-underline"></div>
+      <div class="compliance-heading-underline"></div>
     </div>
     <div class="compliance-selection-row">
       <div class="compliance-selection-group">
-        <select v-model="selectedFramework" class="compliance-select">
-          <option disabled value="">Select Framework</option>
-          <option v-for="fw in frameworks" :key="fw.id" :value="fw">{{ fw.name }}</option>
-        </select>
+        <CustomDropdown
+          :config="frameworkDropdownConfig"
+          v-model="selectedFrameworkId"
+          :disabled="loading"
+          @change="onFrameworkChange"
+        />
       </div>
       <div class="compliance-selection-group">
-        <select v-model="selectedPolicy" class="compliance-select" :disabled="!selectedFramework">
-          <option disabled value="">Select Policy</option>
-          <option v-for="p in policies" :key="p.id" :value="p">{{ p.name }}</option>
-        </select>
+        <CustomDropdown
+          :config="policyDropdownConfig"
+          v-model="selectedPolicyId"
+          :disabled="!selectedFrameworkId || loading"
+          @change="onPolicyChange"
+        />
       </div>
       <div class="compliance-selection-group">
-        <select v-model="selectedSubPolicy" class="compliance-select" :disabled="!selectedPolicy">
-          <option disabled value="">Select Sub Policy</option>
-          <option v-for="sp in subPolicies" :key="sp.id" :value="sp">{{ sp.name }}</option>
-        </select>
+        <CustomDropdown
+          :config="subPolicyDropdownConfig"
+          v-model="selectedSubPolicyId"
+          :disabled="!selectedPolicyId || loading"
+          @change="onSubPolicyChange"
+        />
       </div>
-      <button @click="refreshCurrentData" class="compliance-refresh-btn" title="Refresh Data">
-        <i class="fas fa-sync-alt" :class="{ 'fa-spin': loading }"></i>
-      </button>
+  
     </div>
 
     <div class="compliance-loading-overlay" v-if="loading">
@@ -41,404 +45,27 @@
     <div v-if="selectedSubPolicy" class="compliance-table-container">
       <h3>Compliances for Selected Subpolicy</h3>
       <div v-if="loading" class="loading">Loading compliances...</div>
-      <div v-else-if="subPolicyCompliances.length === 0" class="no-compliances">No compliances found for this subpolicy.</div>
-      <table v-else class="compliance-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Possible Damage</th>
-            <th>Mitigation</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(compliance, idx) in subPolicyCompliances" :key="compliance.ComplianceId">
-            <!-- If in edit mode, show the full form -->
-            <template v-if="editIdx === idx">
-              <td colspan="4">
-                <form @submit.prevent="confirmEdit" class="compliance-edit-form-grid">
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Description</label>
-                      <input v-model="editRow.ComplianceItemDescription" class="compliance-input" />
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Is Risk</label>
-                      <select v-model="editRow.IsRisk" class="compliance-select">
-                        <option :value="true">Yes</option>
-                        <option :value="false">No</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Possible Damage</label>
-                      <input v-model="editRow.PossibleDamage" class="compliance-input" />
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Mitigation</label>
-                      <input v-model="editRow.mitigation" class="compliance-input" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Criticality</label>
-                      <select v-model="editRow.Criticality" class="compliance-select">
-                        <option>High</option>
-                        <option>Medium</option>
-                        <option>Low</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Mandatory/Optional</label>
-                      <select v-model="editRow.MandatoryOptional" class="compliance-select">
-                        <option>Mandatory</option>
-                        <option>Optional</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Manual/Automatic</label>
-                      <select v-model="editRow.ManualAutomatic" class="compliance-select">
-                        <option>Manual</option>
-                        <option>Automatic</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Impact (1-10)</label>
-                      <input type="number" v-model.number="editRow.Impact" min="1" max="10" step="0.1" class="compliance-input" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Maturity Level</label>
-                      <select v-model="editRow.MaturityLevel">
-                        <option>Initial</option>
-                        <option>Developing</option>
-                        <option>Defined</option>
-                        <option>Managed</option>
-                        <option>Optimizing</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Version Type</label>
-                      <select v-model="editRow.versionType" class="compliance-select" required>
-                        <option value="major">Major</option>
-                        <option value="minor">Minor</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Potential Risk Scenarios</label>
-                      <textarea v-model="editRow.PotentialRiskScenarios" class="compliance-input" placeholder="Describe potential risk scenarios" rows="3"></textarea>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Risk Type</label>
-                      <div class="searchable-dropdown">
-                        <input 
-                          v-model="riskTypeSearch" 
-                          class="compliance-input" 
-                          placeholder="Search or add risk type"
-                          title="Type of risk (e.g. Operational, Financial, Strategic)"
-                          @focus="showDropdown('RiskType')"
-                          @input="filterOptions('RiskType')"
-                        />
-                        <div v-show="activeDropdown === 'RiskType'" class="dropdown-options">
-                          <div v-if="filteredOptions.RiskType.length === 0 && riskTypeSearch" class="dropdown-add-option">
-                            <span>No matches found. Add new:</span>
-                            <button @click="addNewOption('RiskType', riskTypeSearch)" class="dropdown-add-btn">
-                              + Add "{{ riskTypeSearch }}"
-                            </button>
-                          </div>
-                          <div 
-                            v-for="option in filteredOptions.RiskType" 
-                            :key="option.id" 
-                            class="dropdown-option"
-                            @click="selectOption('RiskType', option.value)"
-                          >
-                            {{ option.value }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Risk Category</label>
-                      <div class="searchable-dropdown">
-                        <input 
-                          v-model="riskCategorySearch" 
-                          class="compliance-input" 
-                          placeholder="Search or add risk category"
-                          title="Category of risk (e.g. People, Process, Technology)"
-                          @focus="showDropdown('RiskCategory')"
-                          @input="filterOptions('RiskCategory')"
-                        />
-                        <div v-show="activeDropdown === 'RiskCategory'" class="dropdown-options">
-                          <div v-if="filteredOptions.RiskCategory.length === 0 && riskCategorySearch" class="dropdown-add-option">
-                            <span>No matches found. Add new:</span>
-                            <button @click="addNewOption('RiskCategory', riskCategorySearch)" class="dropdown-add-btn">
-                              + Add "{{ riskCategorySearch }}"
-                            </button>
-                          </div>
-                          <div 
-                            v-for="option in filteredOptions.RiskCategory" 
-                            :key="option.id" 
-                            class="dropdown-option"
-                            @click="selectOption('RiskCategory', option.value)"
-                          >
-                            {{ option.value }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Risk Business Impact</label>
-                      <div class="searchable-dropdown">
-                        <input 
-                          v-model="riskBusinessImpactSearch" 
-                          class="compliance-input" 
-                          placeholder="Search or add business impact"
-                          title="How this risk impacts business operations"
-                          @focus="showDropdown('RiskBusinessImpact')"
-                          @input="filterOptions('RiskBusinessImpact')"
-                        />
-                        <div v-show="activeDropdown === 'RiskBusinessImpact'" class="dropdown-options">
-                          <div v-if="filteredOptions.RiskBusinessImpact.length === 0 && riskBusinessImpactSearch" class="dropdown-add-option">
-                            <span>No matches found. Add new:</span>
-                            <button @click="addNewOption('RiskBusinessImpact', riskBusinessImpactSearch)" class="dropdown-add-btn">
-                              + Add "{{ riskBusinessImpactSearch }}"
-                            </button>
-                          </div>
-                          <div 
-                            v-for="option in filteredOptions.RiskBusinessImpact" 
-                            :key="option.id" 
-                            class="dropdown-option"
-                            @click="selectOption('RiskBusinessImpact', option.value)"
-                          >
-                            {{ option.value }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Applicability</label>
-                      <input v-model="editRow.Applicability" class="compliance-input" placeholder="Applicability" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Approver</label>
-                      <select v-model="editRow.reviewer_id" class="compliance-select" required>
-                        <option disabled value="">Select Approver</option>
-                        <option v-for="user in users" :key="user.UserId" :value="user.UserId">{{ user.UserName }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Business Units Covered</label>
-                      <div class="searchable-dropdown">
-                        <input 
-                          v-model="businessUnitSearch" 
-                          class="compliance-input" 
-                          placeholder="Search or add business units"
-                          title="Departments or business units affected by this compliance"
-                          @focus="showDropdown('BusinessUnitsCovered')"
-                          @input="filterOptions('BusinessUnitsCovered')"
-                        />
-                        <div v-show="activeDropdown === 'BusinessUnitsCovered'" class="dropdown-options">
-                          <div v-if="filteredOptions.BusinessUnitsCovered.length === 0 && businessUnitSearch" class="dropdown-add-option">
-                            <span>No matches found. Add new:</span>
-                            <button @click="addNewOption('BusinessUnitsCovered', businessUnitSearch)" class="dropdown-add-btn">
-                              + Add "{{ businessUnitSearch }}"
-                            </button>
-                          </div>
-                          <div 
-                            v-for="option in filteredOptions.BusinessUnitsCovered" 
-                            :key="option.id" 
-                            class="dropdown-option"
-                            @click="selectOption('BusinessUnitsCovered', option.value)"
-                          >
-                            {{ option.value }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="compliance-form-actions">
-                    <button type="submit">Save as New Version</button>
-                    <button type="button" @click="cancelEdit">Cancel</button>
-                  </div>
-                </form>
-              </td>
-            </template>
-            <!-- If in copy mode, show the copy form inline -->
-            <template v-else-if="copyIdx === idx">
-              <td colspan="4">
-                <form @submit.prevent="confirmCopy" class="compliance-edit-form-grid">
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Description</label>
-                      <input v-model="copyRow.ComplianceItemDescription" class="compliance-input" />
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Is Risk</label>
-                      <select v-model="copyRow.IsRisk" class="compliance-select">
-                        <option :value="true">Yes</option>
-                        <option :value="false">No</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Possible Damage</label>
-                      <input v-model="copyRow.PossibleDamage" class="compliance-input" />
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Mitigation</label>
-                      <input v-model="copyRow.mitigation" class="compliance-input" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Criticality</label>
-                      <select v-model="copyRow.Criticality" class="compliance-select">
-                        <option>High</option>
-                        <option>Medium</option>
-                        <option>Low</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Mandatory/Optional</label>
-                      <select v-model="copyRow.MandatoryOptional" class="compliance-select">
-                        <option>Mandatory</option>
-                        <option>Optional</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Manual/Automatic</label>
-                      <select v-model="copyRow.ManualAutomatic" class="compliance-select">
-                        <option>Manual</option>
-                        <option>Automatic</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Impact (1-10)</label>
-                      <input type="number" v-model.number="copyRow.Impact" min="1" max="10" step="0.1" class="compliance-input" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Maturity Level</label>
-                      <select v-model="copyRow.MaturityLevel">
-                        <option>Initial</option>
-                        <option>Developing</option>
-                        <option>Defined</option>
-                        <option>Managed</option>
-                        <option>Optimizing</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Version Type</label>
-                      <select v-model="copyRow.versionType" class="compliance-select" required>
-                        <option value="major">Major</option>
-                        <option value="minor">Minor</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Potential Risk Scenarios</label>
-                      <textarea v-model="copyRow.PotentialRiskScenarios" class="compliance-input" placeholder="Describe potential risk scenarios" rows="3"></textarea>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Risk Type</label>
-                      <input v-model="copyRow.RiskType" class="compliance-input" placeholder="Enter risk type" />
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Risk Category</label>
-                      <input v-model="copyRow.RiskCategory" class="compliance-input" placeholder="Enter risk category" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Risk Business Impact</label>
-                      <input v-model="copyRow.RiskBusinessImpact" class="compliance-input" placeholder="Enter business impact" />
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Applicability</label>
-                      <input v-model="copyRow.Applicability" class="compliance-input" placeholder="Applicability" />
-                    </div>
-                  </div>
-                  <div class="compliance-form-row framework-policy-row">
-                    <div class="compliance-form-group">
-                      <label>Framework</label>
-                      <select v-model="copyTarget.frameworkId" disabled>
-                        <option v-for="fw in frameworks" :key="fw.id" :value="fw.id">{{ fw.name }}</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Policy</label>
-                      <select v-model="copyTarget.policyId" :disabled="!copyTarget.frameworkId">
-                        <option disabled value="">Select Policy</option>
-                        <option v-for="p in copyPolicies" :key="p.id" :value="p.id">{{ p.name }}</option>
-                      </select>
-                    </div>
-                    <div class="compliance-form-group">
-                      <label>Sub Policy</label>
-                      <select v-model="copyTarget.subPolicyId" :disabled="!copyTarget.policyId">
-                        <option disabled value="">Select Sub Policy</option>
-                        <option v-for="sp in filteredCopySubPolicies" :key="sp.id" :value="sp.id">{{ sp.name }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>Approver</label>
-                      <select v-model="copyRow.reviewer_id" class="compliance-select" required>
-                        <option disabled value="">Select Approver</option>
-                        <option v-for="user in users" :key="user.UserId" :value="user.UserId">{{ user.UserName }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="compliance-form-row">
-                    <div class="compliance-form-group">
-                      <label>&nbsp;</label>
-                      <div>
-                        <button type="submit" :disabled="!canSaveCopy">Save Copy</button>
-                        <button type="button" @click="cancelCopy">Cancel</button>
-                      </div>
-                    </div>
-                    <div v-if="copyError" class="copy-error">{{ copyError }}</div>
-                  </div>
-                </form>
-              </td>
-            </template>
-            <!-- Normal view: only 3 fields + actions -->
-            <template v-else>
-              <td>{{ compliance.ComplianceItemDescription || 'No description available' }}</td>
-              <td>{{ compliance.PossibleDamage || 'No damage information' }}</td>
-              <td>{{ compliance.mitigation || compliance.Mitigation || 'No mitigation details' }}</td>
-              <td>
-                <div class="compliance-action-btn-group">
-                  <button @click="navigateToEdit(compliance)" title="Edit" class="compliance-action-btn compliance-edit-btn"><i class="fas fa-edit"></i></button>
-                  <button @click="navigateToCopy(compliance)" title="Copy" class="compliance-action-btn compliance-copy-btn"><i class="fas fa-copy"></i></button>
-                </div>
-              </td>
-            </template>
-          </tr>
-        </tbody>
-      </table>
+      <div v-else-if="complianceList.length === 0" class="no-compliances">No compliances found for this subpolicy.</div>
+      <DynamicTable
+        v-else
+        :data="complianceList"
+        :columns="tableColumns"
+        :showActions="true"
+      >
+        <template #actions="{ row }">
+          <div class="compliance-action-btn-group">
+            <button @click="navigateToEdit(row)" title="Edit" class="compliance-action-btn compliance-edit-btn">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button @click="startCopy(row)" title="Copy" class="compliance-action-btn compliance-copy-btn">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
+        </template>
+      </DynamicTable>
     </div>
+
+    <!-- Modal removed - CopyCompliance is now a separate page -->
 
     <!-- Add PopupModal component at the end -->
     <PopupModal />
@@ -446,60 +73,58 @@
 </template>
 
 <script>
-import { PopupModal } from '../../modules/popup';
+import { PopupModal, PopupService } from '../../modules/popup';
 import PopupMixin from './mixins/PopupMixin';
 import { CompliancePopups } from './utils/popupUtils';
 import { complianceService } from '@/services/api';
-
+import CustomDropdown from '../CustomDropdown.vue';
+import DynamicTable from '../DynamicTable.vue';
 export default {
   name: 'ComplianceTailoring',
   components: {
-    PopupModal
+    PopupModal,
+    CustomDropdown,
+    DynamicTable
   },
   mixins: [PopupMixin],
   data() {
     return {
-      selectedFramework: '',
-      selectedPolicy: '',
-      selectedSubPolicy: '',
       frameworks: [],
+      selectedFramework: '',
+      selectedFrameworkId: '',
       policies: [],
-      subPolicies: [],
-      subPolicyCompliances: [],
+      selectedPolicy: '',
+      selectedPolicyId: '',
+      complianceSubPolicies: [],
+      selectedSubPolicy: '',
+      selectedSubPolicyId: '',
+      complianceList: [],
       loading: false,
       error: null,
-      editIdx: null,
-      editRow: {},
-      // Copy inline state
-      copyIdx: null,
-      copyRow: {},
-      copyTarget: { frameworkId: '', policyId: '', subPolicyId: '' },
-      copyPolicies: [],
-      copySubPolicies: [],
-      copyError: '',
-      sourceSubPolicyId: null, // Track source subpolicy
-      users: [], // Add users array for storing the list of users
-      // Category options
+      frameworkDropdownConfig: {
+        label: 'Framework',
+        values: []
+      },
+      policyDropdownConfig: {
+        label: 'Policy',
+        values: []
+      },
+      subPolicyDropdownConfig: {
+        label: 'Sub Policy',
+        values: []
+      },
       categoryOptions: {
-        BusinessUnitsCovered: [],
-        RiskType: [],
         RiskCategory: [],
+        RiskType: [],
+        BusinessUnitsCovered: [],
         RiskBusinessImpact: []
       },
-      // Filtered options for dropdowns
-      filteredOptions: {
-        BusinessUnitsCovered: [],
-        RiskType: [],
-        RiskCategory: [],
-        RiskBusinessImpact: []
-      },
-      // Search terms for dropdowns
-      businessUnitSearch: '',
-      riskTypeSearch: '',
-      riskCategorySearch: '',
-      riskBusinessImpactSearch: '',
-      // Active dropdown tracking
-      activeDropdown: null,
+      tableColumns: [
+        { key: 'ComplianceTitle', label: 'Title' },
+        { key: 'ComplianceItemDescription', label: 'Description' },
+        { key: 'Status', label: 'Status' },
+        { key: 'ComplianceVersion', label: 'Version' }
+      ]
     }
   },
   async created() {
@@ -507,92 +132,59 @@ export default {
     await this.loadUsers();
     await this.loadCategoryOptions();
     
-    // Add click event listener to close dropdowns when clicking outside
     document.addEventListener('click', this.handleClickOutside);
   },
   beforeUnmount() {
-    // Remove event listener when component is unmounted
     document.removeEventListener('click', this.handleClickOutside);
   },
   watch: {
-    selectedFramework(newValue) {
-      if (newValue && newValue.id) {
-        this.loadPolicies(newValue.id);
+    selectedFrameworkId(newId) {
+      const fw = this.frameworks.find(fw => fw.id === newId);
+      this.selectedFramework = fw || '';
+      if (fw) {
+        this.loadPolicies(fw.id);
         this.selectedPolicy = '';
+        this.selectedPolicyId = '';
         this.selectedSubPolicy = '';
+        this.selectedSubPolicyId = '';
         this.policies = [];
-        this.subPolicies = [];
-        this.subPolicyCompliances = [];
+        this.complianceSubPolicies = [];
+        this.complianceList = [];
       }
     },
-    selectedPolicy(newValue) {
-      if (newValue && newValue.id) {
-        this.loadSubPolicies(newValue.id);
+    selectedPolicyId(newId) {
+      const p = this.policies.find(p => p.id === newId);
+      this.selectedPolicy = p || '';
+      if (p) {
+        this.loadSubPolicies(p.id);
         this.selectedSubPolicy = '';
-        this.subPolicies = [];
-        this.subPolicyCompliances = [];
-        
-        // If editing or cloning, update the applicability from the selected policy
-        if (this.editIdx !== null && this.editRow) {
-          this.editRow.Applicability = newValue.applicability || '';
-        }
-        if (this.copyIdx !== null && this.copyRow) {
-          this.copyRow.Applicability = newValue.applicability || '';
-        }
+        this.selectedSubPolicyId = '';
+        this.complianceSubPolicies = [];
+        this.complianceList = [];
       }
     },
-    selectedSubPolicy: {
-      handler: async function(newValue) {
-        if (newValue && newValue.id) {
-          await this.loadCompliances();
-        } else {
-          this.subPolicyCompliances = [];
-        }
-      },
-      immediate: true
+    selectedSubPolicyId(newId) {
+      const sp = this.complianceSubPolicies.find(sp => sp.id === newId);
+      this.selectedSubPolicy = sp || '';
+      if (sp) {
+        this.loadCompliances();
+      } else {
+        this.complianceList = [];
+      }
     },
-    'copyTarget.frameworkId': 'copyTarget_frameworkId',
-    'copyTarget.policyId': 'copyTarget_policyId'
   },
   computed: {
-    canSaveCopy() {
-      // Validate all required fields are filled and subpolicy is different from source
-      return this.copyRow.ComplianceItemDescription &&
-        this.copyTarget.frameworkId &&
-        this.copyTarget.policyId &&
-        this.copyTarget.subPolicyId &&
-        this.copyTarget.subPolicyId !== this.sourceSubPolicyId && // Must be different subpolicy
-        this.copyRow.Criticality &&
-        this.copyRow.MandatoryOptional &&
-        this.copyRow.ManualAutomatic &&
-        this.copyRow.Impact && 
-        this.copyRow.Probability && 
-        this.copyRow.MaturityLevel &&
-        this.copyRow.reviewer_id; // Add reviewer validation
-      // Note: PotentialRiskScenarios, RiskType, RiskCategory, and RiskBusinessImpact are optional fields
-    },
-    filteredCopySubPolicies() {
-      // Filter out the source subpolicy from the dropdown to prevent copying to same subpolicy
-      if (!this.copySubPolicies || !this.sourceSubPolicyId) {
-        return this.copySubPolicies || [];
-      }
-      
-      return this.copySubPolicies.filter(sp => {
-        return sp.id !== this.sourceSubPolicyId;
-      });
-    }
   },
   methods: {
     async loadFrameworks() {
       try {
         this.loading = true;
-        const response = await complianceService.getFrameworks();
+        const response = await complianceService.getComplianceFrameworks();
         console.log('Frameworks response:', response.data);
         
-        // Handle both response formats: direct array or success wrapper
         let frameworksData;
-        if (response.data.success) {
-          frameworksData = response.data.data;
+        if (response.data.success && response.data.frameworks) {
+          frameworksData = response.data.frameworks;
         } else if (Array.isArray(response.data)) {
           frameworksData = response.data;
         } else {
@@ -602,11 +194,15 @@ export default {
         }
         
         this.frameworks = frameworksData.map(fw => ({
-          id: fw.FrameworkId,
-          name: fw.FrameworkName
+          id: fw.id,
+          name: fw.name
         }));
         
         console.log('Loaded frameworks:', this.frameworks);
+        this.frameworkDropdownConfig.values = this.frameworks.map(fw => ({
+          value: fw.id,
+          label: fw.name
+        }));
       } catch (error) {
         this.error = 'Failed to load frameworks';
         console.error('Error loading frameworks:', error);
@@ -617,12 +213,16 @@ export default {
     async loadPolicies(frameworkId) {
       try {
         this.loading = true;
-        const response = await complianceService.getPolicies(frameworkId);
-        if (response.data.success) {
-          this.policies = response.data.data.map(p => ({
-            id: p.PolicyId,
-            name: p.PolicyName,
-            applicability: p.Applicability || '' // Store the Applicability field
+        const response = await complianceService.getCompliancePolicies(frameworkId);
+        if (response.data.success && response.data.policies) {
+          this.policies = response.data.policies.map(p => ({
+            id: p.id,
+            name: p.name,
+            applicability: p.scope || ''
+          }));
+          this.policyDropdownConfig.values = this.policies.map(p => ({
+            value: p.id,
+            label: p.name
           }));
         } else {
           console.error('Error in response:', response.data);
@@ -638,16 +238,20 @@ export default {
     async loadSubPolicies(policyId) {
       try {
         this.loading = true;
-        const response = await complianceService.getSubPolicies(policyId);
-        console.log('SubPolicies response:', response.data);
+        const response = await complianceService.getComplianceSubPolicies(policyId);
+        console.log('SubPolicies response:', response);
         
-        if (response.data.success) {
-          console.log('SubPolicies data:', response.data.data);
-          this.subPolicies = response.data.data.map(sp => ({
-            id: sp.SubPolicyId,
-            name: sp.SubPolicyName
+        if (response.data.success && response.data.subpolicies) {
+          console.log('SubPolicies data:', response.data.subpolicies);
+          this.complianceSubPolicies = response.data.subpolicies.map(sp => ({
+            id: sp.id,
+            name: sp.name
           }));
-          console.log('Mapped subPolicies:', this.subPolicies);
+          console.log('Mapped complianceSubPolicies:', this.complianceSubPolicies);
+          this.subPolicyDropdownConfig.values = this.complianceSubPolicies.map(sp => ({
+            value: sp.id,
+            label: sp.name
+          }));
         } else {
           console.error('Error in response:', response.data);
           this.error = 'Failed to load sub-policies';
@@ -683,48 +287,40 @@ export default {
       try {
         this.loading = true;
         
-        // Load business units
-        const buResponse = await complianceService.getCategoryBusinessUnits('BusinessUnitsCovered');
-        if (buResponse.data.success) {
-          this.categoryOptions.BusinessUnitsCovered = buResponse.data.data;
-        }
-        
-        // Load risk types
-        const rtResponse = await complianceService.getCategoryBusinessUnits('RiskType');
-        if (rtResponse.data.success) {
-          this.categoryOptions.RiskType = rtResponse.data.data;
-        }
-        
-        // Load risk categories
         const rcResponse = await complianceService.getCategoryBusinessUnits('RiskCategory');
         if (rcResponse.data.success) {
           this.categoryOptions.RiskCategory = rcResponse.data.data;
         }
         
-        // Load risk business impacts
+        const rtResponse = await complianceService.getCategoryBusinessUnits('RiskType');
+        if (rtResponse.data.success) {
+          this.categoryOptions.RiskType = rtResponse.data.data;
+        }
+        
+        const buResponse = await complianceService.getCategoryBusinessUnits('BusinessUnitsCovered');
+        if (buResponse.data.success) {
+          this.categoryOptions.BusinessUnitsCovered = buResponse.data.data;
+        }
+        
         const rbiResponse = await complianceService.getCategoryBusinessUnits('RiskBusinessImpact');
         if (rbiResponse.data.success) {
           this.categoryOptions.RiskBusinessImpact = rbiResponse.data.data;
         }
       } catch (error) {
         console.error('Failed to load category options:', error);
-        CompliancePopups.error('Failed to load dropdown options. Some features may be limited.');
+        PopupService.error('Failed to load dropdown options. Some features may be limited.');
       } finally {
         this.loading = false;
       }
     },
     showDropdown(field) {
-      // Close any open dropdown
       this.activeDropdown = field;
       
-      // Set initial filtered options based on current search term
       this.filterOptions(field);
       
-      // Prevent event from bubbling up
       event.stopPropagation();
     },
     handleClickOutside(event) {
-      // Check if click is outside any dropdown
       const dropdowns = document.querySelectorAll('.searchable-dropdown');
       let clickedOutside = true;
       
@@ -756,17 +352,14 @@ export default {
           break;
       }
       
-      // Filter options based on search term (case-insensitive)
       const lowerSearchTerm = searchTerm.toLowerCase();
       this.filteredOptions[field] = this.categoryOptions[field].filter(option => 
         option.value.toLowerCase().includes(lowerSearchTerm)
       );
     },
     selectOption(field, value) {
-      // Update the edit row with the selected value
       this.editRow[field] = value;
       
-      // Update the search field to show the selected value
       switch (field) {
         case 'BusinessUnitsCovered':
           this.businessUnitSearch = value;
@@ -782,7 +375,6 @@ export default {
           break;
       }
       
-      // Close the dropdown
       this.activeDropdown = null;
     },
     async addNewOption(field, value) {
@@ -791,14 +383,12 @@ export default {
       try {
         this.loading = true;
         
-        // Add the new option to the server
         const response = await complianceService.addCategoryBusinessUnit({
           source: field,
           value: value.trim()
         });
         
         if (response.data.success) {
-          // Add the new option to the local options and filtered options
           const newOption = {
             id: response.data.data.id,
             value: response.data.data.value
@@ -807,18 +397,14 @@ export default {
           this.categoryOptions[field] = [...this.categoryOptions[field], newOption];
           this.filteredOptions[field] = [...this.filteredOptions[field], newOption];
           
-          // Select the new option
           this.selectOption(field, newOption.value);
           
-          // Update the editRow with the new value
           this.editRow[field] = newOption.value;
           
-          // Show success message using CompliancePopups
           CompliancePopups.complianceCreated({
             message: `Added new ${field} option: ${newOption.value}`
           });
           
-          // Refresh the category options to ensure sync with backend
           await this.loadCategoryOptions();
         } else {
           throw new Error(response.data.error || 'Failed to add new option');
@@ -830,376 +416,40 @@ export default {
         this.loading = false;
       }
     },
-    startEdit(compliance, idx) {
-      this.editIdx = idx;
-      this.editRow = { ...compliance };
-      
-      // Initialize search fields with current values
-      this.businessUnitSearch = compliance.BusinessUnitsCovered || '';
-      this.riskTypeSearch = compliance.RiskType || '';
-      this.riskCategorySearch = compliance.RiskCategory || '';
-      this.riskBusinessImpactSearch = compliance.RiskBusinessImpact || '';
-    },
-    cancelEdit() {
-      this.editIdx = null;
-      this.editRow = {};
-      
-      // Clear search fields
-      this.businessUnitSearch = '';
-      this.riskTypeSearch = '';
-      this.riskCategorySearch = '';
-      this.riskBusinessImpactSearch = '';
-      
-      // Close any open dropdown
-      this.activeDropdown = null;
-    },
-    async saveEdit(compliance) {
-      try {
-        this.loading = true;
-        await this.$nextTick();
-        
-        // Use the popup confirmation instead of the confirm dialog
-        this.confirmEditCompliance(compliance, async () => {
-          // Calculate new version based on version type
-          const currentVersion = parseFloat(compliance.ComplianceVersion) || 1.0;
-          let newVersion;
-          
-          if (this.editRow.versionType === 'major') {
-            // For major version, increment the base number and set decimal to 0
-            const baseVersion = Math.floor(currentVersion);
-            newVersion = (baseVersion + 1).toFixed(1);
-          } else {
-            // For minor version, add 0.1 to the current version
-            newVersion = (currentVersion + 0.1).toFixed(1);
-          }
-          
-          // Always set new versions to Under Review and Inactive
-          this.editRow = {
-            ...this.editRow,
-            ComplianceVersion: newVersion,
-            Status: 'Under Review',
-            ActiveInactive: 'Inactive',
-            PreviousComplianceVersionId: compliance.ComplianceId,
-            reviewer_id: this.editRow.reviewer_id // Include the selected reviewer ID
-          };
-          
-          console.log("Creating new compliance version:", this.editRow);
-          
-          // Use the complianceService instead of direct axios
-          const response = await complianceService.editCompliance(compliance.ComplianceId, this.editRow);
-          console.log("Edited compliance response:", response);
-          
-          if (response.data && response.data.success) {
-            // Show success popup with more details
-            CompliancePopups.complianceUpdated({
-              ComplianceId: response.data.compliance_id || compliance.ComplianceId,
-              ComplianceVersion: newVersion,
-              ComplianceItemDescription: this.editRow.ComplianceItemDescription || compliance.ComplianceItemDescription
-            });
-
-            // Show additional info popup with details about what changed
-            CompliancePopups.notify(
-              `Changes made:\n` +
-              `- Description: ${this.editRow.ComplianceItemDescription}\n` +
-              `- Is Risk: ${this.editRow.IsRisk ? 'Yes' : 'No'}\n` +
-              `- Possible Damage: ${this.editRow.PossibleDamage}\n` +
-              `- Mitigation: ${this.editRow.mitigation}\n` +
-              `\nNew version ${newVersion} has been created and sent for review.`,
-              'info',
-              'Edit Details',
-              5000 // Show for 5 seconds
-            );
-          } else {
-            // Show error popup
-            CompliancePopups.operationFailed('save compliance', response.data.message || 'Failed to save changes');
-          }
-          
-          this.editIdx = null;
-          this.editRow = {};
-          
-          // Refresh compliances
-          await this.refreshCurrentData();
-        });
-        this.loading = false;
-      } catch (error) {
-        console.error('Edit error:', error);
-        CompliancePopups.operationFailed('save changes', error.response?.data?.message || error.message);
-        this.loading = false;
-      }
-    },
-    // Copy modal logic
-    async openCopyInline(idx, compliance) {
-      this.editIdx = null; // Cancel edit mode if active
-      this.copyIdx = idx;
-      
-      // Get the policy's applicability if available
-      const policyApplicability = this.selectedPolicy ? this.selectedPolicy.applicability : '';
-      
-      this.copyRow = { 
-        ...compliance,
-        reviewer_id: compliance.reviewer_id || (this.users.length > 0 ? this.users[0].UserId : ''), // Set default reviewer
-        // Set applicability from compliance or use policy's applicability as default
-        Applicability: compliance.Applicability || policyApplicability || '',
-        // Initialize new risk fields
-        PotentialRiskScenarios: compliance.PotentialRiskScenarios || '',
-        RiskType: compliance.RiskType || '',
-        RiskCategory: compliance.RiskCategory || '',
-        RiskBusinessImpact: compliance.RiskBusinessImpact || '',
-        versionType: 'minor' // Set default version type
-      };
-      this.sourceSubPolicyId = this.selectedSubPolicy.id; // Store the source subpolicy ID
-      
-      // Initialize the target with current framework but empty policy/subpolicy
-      this.copyTarget = { 
-        frameworkId: this.selectedFramework.id, // Lock to current framework
-        policyId: '', 
-        subPolicyId: '' 
-      };
-      
-      // Pre-load policies for the current framework
-        await this.copyTarget_frameworkId(this.copyTarget.frameworkId);
-      
-      this.copyError = '';
-    },
-    cancelCopy() {
-      this.copyIdx = null;
-      this.copyRow = {};
-      this.sourceSubPolicyId = null; // Reset source subpolicy ID
-      this.copyTarget = { frameworkId: '', policyId: '', subPolicyId: '' };
-      this.copyPolicies = [];
-      this.copySubPolicies = [];
-      this.copyError = '';
-    },
-    async confirmCopy() {
-      if (!this.canSaveCopy) {
-        this.copyError = 'Please fill all required fields and select a destination.';
-        return;
-      }
-      
-      try {
-        this.loading = true;
-        this.copyError = '';
-        await this.$nextTick();
-
-        // Calculate version based on version type
-        const currentVersion = parseFloat(this.subPolicyCompliances[this.copyIdx].ComplianceVersion) || 1.0;
-        let newVersion;
-        
-        if (this.copyRow.versionType === 'major') {
-          // For major version, increment the base number and set decimal to 0
-          const baseVersion = Math.floor(currentVersion);
-          newVersion = (baseVersion + 1).toFixed(1);
-        } else {
-          // For minor version, add 0.1 to the current version
-          newVersion = (currentVersion + 0.1).toFixed(1);
-        }
-
-        const cloneData = {
-          ...this.copyRow,
-          Impact: String(this.copyRow.Impact),
-          Probability: String(this.copyRow.Probability),
-          target_subpolicy_id: this.copyTarget.subPolicyId,
-          Status: 'Under Review',
-          ActiveInactive: 'Inactive',
-          PermanentTemporary: this.copyRow.PermanentTemporary || 'Permanent',
-          ComplianceVersion: newVersion,
-          reviewer_id: this.copyRow.reviewer_id, // Include reviewer_id
-          Applicability: this.copyRow.Applicability // Include Applicability
-        };
-
-        // Use confirm popup for cloning
-        this.confirmCloneCompliance({
-          ComplianceItemDescription: this.copyRow.ComplianceItemDescription
-        }, async () => {
-        const response = await complianceService.cloneCompliance(
-          this.subPolicyCompliances[this.copyIdx].ComplianceId,
-          cloneData
-        );
-
-        if (response.data.success) {
-          this.cancelCopy();
-            // Show success popup instead of alert
-            CompliancePopups.complianceCloned({
-              ComplianceId: response.data.compliance_id,
-              ComplianceVersion: '1.0'
-            });
-          // Refresh compliances
-          await this.refreshCurrentData();
-        } else {
-          this.copyError = response.data.message || 'Failed to copy compliance';
-            this.showErrorPopup(this.copyError);
-        }
-        });
-      } catch (error) {
-        console.error('Copy error:', error);
-        this.copyError = 'Failed to copy compliance: ' + (error.response?.data?.message || error.message);
-        this.showErrorPopup(this.copyError);
-      } finally {
-        this.loading = false;
-      }
-    },
-    // Watchers for copy dropdowns
-    async copyTarget_frameworkId(newValue) {
-      if (newValue) {
-        try {
-          const response = await complianceService.getPolicies(newValue);
-          if (response.data && response.data.data) {
-            this.copyPolicies = response.data.data.map(p => ({ 
-              id: p.PolicyId, 
-              name: p.PolicyName,
-              applicability: p.Applicability || '' // Store the Applicability field
-            }));
-          } else {
-            console.error("Unexpected response format from getPolicies:", response);
-            this.copyPolicies = [];
-          }
-          this.copyTarget.policyId = '';
-          this.copyTarget.subPolicyId = '';
-          this.copySubPolicies = [];
-        } catch (error) {
-          console.error("Error fetching policies for framework:", error);
-          this.copyError = "Failed to load policies for the selected framework";
-          this.copyPolicies = [];
-        }
-      }
-    },
-    async copyTarget_policyId(newValue) {
-      if (newValue) {
-        try {
-          // Load subpolicies for the selected policy
-          const response = await complianceService.getSubPolicies(newValue);
-          if (response.data && response.data.data) {
-            this.copySubPolicies = response.data.data.map(sp => ({ id: sp.SubPolicyId, name: sp.SubPolicyName }));
-          } else {
-            console.error("Unexpected response format from getSubPolicies:", response);
-            this.copySubPolicies = [];
-          }
-          this.copyTarget.subPolicyId = '';
-          
-          // Find the selected policy to get its applicability
-          const selectedPolicy = this.copyPolicies.find(p => p.id === newValue);
-          if (selectedPolicy && selectedPolicy.applicability) {
-            // Update the applicability in the copy form
-            this.copyRow.Applicability = selectedPolicy.applicability;
-          }
-        } catch (error) {
-          console.error("Error fetching subpolicies for policy:", error);
-          this.copyError = "Failed to load subpolicies for the selected policy";
-          this.copySubPolicies = [];
-        }
-      }
-    },
-    async refreshCurrentData() {
-      try {
-        this.loading = true;
-        this.error = null;
-        
-        await this.loadFrameworks();
-        await this.loadUsers(); // Also refresh users list
-        
-        if (this.selectedFramework && this.selectedFramework.id) {
-          await this.loadPolicies(this.selectedFramework.id);
-          
-          if (this.selectedPolicy && this.selectedPolicy.id) {
-            await this.loadSubPolicies(this.selectedPolicy.id);
-            
-            if (this.selectedSubPolicy && this.selectedSubPolicy.id) {
-              await this.loadCompliances();
-            }
-          }
-        }
-      } catch (error) {
-        this.error = 'Failed to refresh data';
-        console.error('Error refreshing data:', error);
-      } finally {
-        this.loading = false;
-      }
-    },
     async loadCompliances() {
+      if (!this.selectedSubPolicy) return;
+      
       try {
         this.loading = true;
-        this.subPolicyCompliances = [];
-        if (this.selectedSubPolicy && this.selectedSubPolicy.id) {
-          console.log('Loading compliances for subpolicy ID:', this.selectedSubPolicy.id);
-          
-          // Use the compliance service to get the data
-          const response = await complianceService.getCompliancesBySubPolicy(this.selectedSubPolicy.id);
-          console.log('Compliances API response:', response);
-          
-          // Process the response data based on its structure
-          if (response.data && response.data.success && Array.isArray(response.data.data)) {
-            // Handle nested array structure
-            const flattenedCompliances = [];
-            
-            // Check if we have a nested array or a flat array
-            if (response.data.data.length > 0 && Array.isArray(response.data.data[0])) {
-              // It's a nested array structure - flatten it
-              response.data.data.forEach(group => {
-                if (Array.isArray(group) && group.length > 0) {
-                  flattenedCompliances.push(group[0]); // Take the most recent version
-                }
-              });
-              this.subPolicyCompliances = flattenedCompliances;
-            } else {
-              // It's already a flat array
-              this.subPolicyCompliances = response.data.data;
-            }
-          } else if (response.data && Array.isArray(response.data)) {
-            // Direct array in response
-            this.subPolicyCompliances = response.data;
-          } else if (response.data && typeof response.data === 'object') {
-            // Try to extract data from response object
-            if (response.data.data && Array.isArray(response.data.data)) {
-              this.subPolicyCompliances = response.data.data;
-            } else if (response.data.compliances && Array.isArray(response.data.compliances)) {
-              this.subPolicyCompliances = response.data.compliances;
-            } else {
-              // Try to extract compliances from object values
-              const extractedData = Object.values(response.data).filter(
-                item => item && typeof item === 'object' && item.ComplianceId
-              );
-              
-              if (extractedData.length > 0) {
-                this.subPolicyCompliances = extractedData;
-              } else {
-                console.warn('Could not extract compliances from response:', response.data);
-                this.subPolicyCompliances = [];
-              }
-            }
-          } else {
-            console.warn('Unexpected response format:', response);
-            this.subPolicyCompliances = [];
-          }
-          
-          console.log('Processed compliances:', this.subPolicyCompliances);
+        const response = await complianceService.getCompliancesByType('subpolicy', this.selectedSubPolicy.id);
+        console.log('Compliances response:', response);
+        
+        if (response.data.success && response.data.compliances) {
+          this.complianceList = response.data.compliances;
+          console.log('Loaded compliances:', this.complianceList);
+        } else {
+          console.error('Error in response:', response.data);
+          this.error = 'Failed to load compliances';
         }
       } catch (error) {
         this.error = 'Failed to load compliances';
-        // Show error popup
-        this.showErrorPopup('Failed to load compliances: ' + (error.response?.data?.message || error.message));
-        console.error('Error loading compliances:', error);
+        console.error('Compliances error:', error);
       } finally {
         this.loading = false;
       }
     },
-    // Format date
     formatDate(dateString) {
       if (!dateString) return '';
       
       try {
-        // Handle different date formats
         let date;
         if (typeof dateString === 'string') {
-          // Try different date formats
           if (dateString.includes('T')) {
-            // ISO format
             date = new Date(dateString);
           } else if (dateString.includes('-')) {
-            // YYYY-MM-DD format
             const parts = dateString.split(' ')[0].split('-');
             date = new Date(parts[0], parts[1] - 1, parts[2]);
           } else if (dateString.includes('/')) {
-            // MM/DD/YYYY format
             const parts = dateString.split(' ')[0].split('/');
             date = new Date(parts[2], parts[0] - 1, parts[1]);
           } else {
@@ -1209,30 +459,92 @@ export default {
           date = new Date(dateString);
         }
         
-        // Format the date
         return date.toLocaleString();
       } catch (e) {
         console.error('Error formatting date:', e);
-        return dateString; // Return the original string if parsing fails
+        return dateString;
       }
     },
-    // Add a new method to view compliance details in a popup
     viewComplianceDetails(compliance) {
       CompliancePopups.showComplianceInfo(compliance);
     },
-    // Helper method to generate a default due date (7 days from now)
     getDefaultDueDate() {
       const date = new Date();
       date.setDate(date.getDate() + 7);
-      return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      return date.toISOString().split('T')[0];
     },
     navigateToEdit(compliance) {
-      // Navigate to the edit page with the compliance ID
       this.$router.push(`/compliance/edit/${compliance.ComplianceId}`);
     },
-    navigateToCopy(compliance) {
-      // Navigate to the copy page with the compliance ID
-      this.$router.push(`/compliance/copy/${compliance.ComplianceId}`);
+    parseMitigationSteps(mitigation) {
+      if (!mitigation) return [{ description: '' }];
+      
+      try {
+        if (typeof mitigation === 'string') {
+          return [{ description: mitigation }];
+        } else if (Array.isArray(mitigation)) {
+          return mitigation.map(step => ({
+            description: typeof step === 'string' ? step : step.description || ''
+          }));
+        } else if (typeof mitigation === 'object') {
+          return Object.values(mitigation).map(step => ({
+            description: typeof step === 'string' ? step : step.description || ''
+          }));
+        }
+      } catch (error) {
+        console.error('Error parsing mitigation steps:', error);
+      }
+      
+      return [{ description: '' }];
+    },
+    addStep(row) {
+      if (!row.mitigationSteps) {
+        row.mitigationSteps = [];
+      }
+      row.mitigationSteps.push({ description: '' });
+    },
+    removeStep(row, index) {
+      row.mitigationSteps.splice(index, 1);
+      if (row.mitigationSteps.length === 0) {
+        row.mitigationSteps.push({ description: '' });
+      }
+      this.onMitigationStepChange(row);
+    },
+    onMitigationStepChange(row) {
+      row.mitigation = row.mitigationSteps.reduce((obj, step, index) => {
+        obj[`step${index + 1}`] = step.description;
+        return obj;
+      }, {});
+    },
+    startCopy(compliance) {
+      // Navigate to the copy compliance page with the compliance ID and current context
+      this.$router.push({
+        name: 'CopyCompliance',
+        params: { id: compliance.ComplianceId },
+        query: {
+          frameworkId: this.selectedFramework?.id || '',
+          frameworkName: this.selectedFramework?.name || '',
+          policyId: this.selectedPolicy?.id || '',
+          policyName: this.selectedPolicy?.name || '',
+          subPolicyId: this.selectedSubPolicy?.id || '',
+          subPolicyName: this.selectedSubPolicy?.name || ''
+        }
+      });
+    },
+    async handleCopySuccess() {
+      await this.loadCompliances();
+      CompliancePopups.complianceCreated({
+        message: 'Compliance copied successfully'
+      });
+    },
+    onFrameworkChange(option) {
+      this.selectedFrameworkId = option.value;
+    },
+    onPolicyChange(option) {
+      this.selectedPolicyId = option.value;
+    },
+    onSubPolicyChange(option) {
+      this.selectedSubPolicyId = option.value;
     },
   }
 }
@@ -1445,5 +757,242 @@ export default {
   font-size: 1.5rem;
   cursor: pointer;
   color: #666;
+}
+
+.mitigation-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mitigation-step {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.step-number {
+  font-weight: 500;
+  color: #666;
+}
+
+.remove-step-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.remove-step-btn:hover {
+  background: #fee;
+}
+
+.add-step-btn {
+  background: #f8f9fa;
+  border: 1px dashed #ddd;
+  color: #666;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-step-btn:hover {
+  background: #fff;
+  border-color: #999;
+  color: #333;
+}
+
+.compliance-copy-form-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.compliance-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.compliance-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compliance-form-group label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.compliance-input,
+.compliance-select {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.compliance-input:focus,
+.compliance-select:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.compliance-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.compliance-save-btn,
+.compliance-cancel-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.compliance-save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.compliance-save-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.compliance-cancel-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.compliance-action-btn-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.compliance-action-btn {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compliance-edit-btn {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.compliance-copy-btn {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.compliance-action-btn:hover {
+  opacity: 0.8;
+}
+
+.compliance-action-btn i {
+  font-size: 1rem;
+}
+
+.searchable-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dropdown-option:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-add-option {
+  padding: 8px 12px;
+  border-bottom: 1px solid #ced4da;
+}
+
+.dropdown-add-btn {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  margin-top: 4px;
+  border: none;
+  background: #e9ecef;
+  color: #495057;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dropdown-add-btn:hover {
+  background: #dee2e6;
+}
+
+.compliance-input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.compliance-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 </style> 

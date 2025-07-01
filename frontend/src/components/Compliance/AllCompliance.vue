@@ -1,12 +1,10 @@
 <template>
   <div class="compliance-container">
-    <h1>Control Management</h1>
-
-    <!-- Error Message -->
-    <div v-if="error" class="compliance-error-message">
-      <i class="fas fa-exclamation-circle"></i>
-      <span>{{ error }}</span>
+    <div class="custom-header">
+      <span>Control Management</span>
+      <div class="custom-header-underline"></div>
     </div>
+
 
     <!-- Loading State -->
     <div v-if="loading" class="compliance-loading-spinner">
@@ -38,9 +36,6 @@
               <div class="compliance-card-desc">{{ fw.description }}</div>
               <div class="compliance-version-info">
                 <span>Versions: {{ fw.versions.length }}</span>
-                <button class="compliance-version-btn" @click.stop="showVersions('framework', fw)">
-                  <i class="fas fa-history"></i>
-                </button>
               </div>
               <div class="compliance-card-actions">
                 <button class="compliance-action-btn primary" @click.stop="viewAllCompliances('framework', fw.id, fw.name)">
@@ -67,9 +62,6 @@
               <div class="compliance-card-desc">{{ policy.description }}</div>
               <div class="compliance-version-info">
                 <span>Versions: {{ policy.versions.length }}</span>
-                <button class="compliance-version-btn" @click.stop="showVersions('policy', policy)">
-                  <i class="fas fa-history"></i>
-                </button>
               </div>
               <div class="compliance-card-actions">
                 <button class="compliance-action-btn primary" @click.stop="viewAllCompliances('policy', policy.id, policy.name)">
@@ -126,12 +118,9 @@
                 <i class="fas fa-download"></i> Export
               </button>
             </div>
-            <button class="compliance-view-toggle-btn" @click="toggleViewMode">
+            <button class="compliance-view-toggle-btn small-view-toggle" @click="toggleViewMode">
               <i :class="viewMode === 'card' ? 'fas fa-list' : 'fas fa-th-large'"></i>
               {{ viewMode === 'card' ? 'List View' : 'Card View' }}
-            </button>
-            <button class="compliance-action-btn" @click="goToStep(2)">
-              <i class="fas fa-arrow-left"></i> Back to Subpolicies
             </button>
           </div>
         </div>
@@ -408,105 +397,20 @@
         
         <!-- List View -->
         <div v-else class="compliance-list-view">
-          <table class="compliance-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Control</th>
-                <th>Status</th>
-                <th>Criticality</th>
-                <th>Maturity Level</th>
-                <th>Type</th>
-                <th>Version</th>
-                <th>Created By</th>
-                <th>Created Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="compliance in filteredCompliances" :key="compliance.id">
-                <tr @click="handleComplianceExpand(compliance)" :class="{ 'compliance-expanded-row': expandedCompliance === compliance.id }">
-                  <td class="compliance-id" data-label="ID">{{ compliance.identifier }}</td>
-                  <td class="compliance-name" data-label="Control">{{ compliance.name }}</td>
-                  <td data-label="Status">
-                    <span :class="['compliance-status-badge', compliance.status?.toLowerCase()]">
-                      {{ compliance.status }}
-                    </span>
-                  </td>
-                  <td data-label="Criticality">
-                    <span :class="['compliance-criticality-badge', 'compliance-criticality-' + compliance.category?.toLowerCase()]">
-                      {{ compliance.category }}
-                    </span>
-                  </td>
-                  <td data-label="Maturity Level">{{ compliance.maturityLevel }}</td>
-                  <td data-label="Type">{{ compliance.mandatoryOptional }} | {{ compliance.manualAutomatic }}</td>
-                  <td data-label="Version">{{ compliance.version }}</td>
-                  <td data-label="Created By">{{ compliance.createdBy }}</td>
-                  <td data-label="Created Date">{{ formatDate(compliance.createdDate) }}</td>
-                  <td data-label="Actions">
-                    <button class="compliance-expand-btn" @click.stop="toggleExpand(compliance)">
-                      <i :class="expandedCompliance === compliance.id ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
-                    </button>
-                  </td>
-                </tr>
-                <!-- Expanded row with details in contained responsive grid -->
-                <tr v-if="expandedCompliance === compliance.id" class="expanded-details-row">
-                  <td colspan="10" class="detail-cell">
-                    <div class="table-expanded-container">
-                      <div class="table-detail-item">
-                        <div class="detail-header">Description</div>
-                        <div class="detail-content-inline">{{ compliance.description || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Possible Damage</div>
-                        <div class="detail-content-inline">{{ compliance.PossibleDamage || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Mitigation</div>
-                        <div class="detail-content-inline">{{ compliance.mitigation || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Severity Rating</div>
-                        <div class="detail-content-inline">{{ compliance.Impact || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Probability</div>
-                        <div class="detail-content-inline">{{ compliance.Probability || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Duration</div>
-                        <div class="detail-content-inline">{{ compliance.PermanentTemporary || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Risk Status</div>
-                        <div class="detail-content-inline">{{ compliance.isRisk !== undefined ? (compliance.isRisk ? 'Risk Identified' : 'No Risk') : 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Scope</div>
-                        <div class="detail-content-inline">{{ compliance.Scope || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Objective</div>
-                        <div class="detail-content-inline">{{ compliance.Objective || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Business Units</div>
-                        <div class="detail-content-inline">{{ compliance.BusinessUnitsCovered || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Compliance Type</div>
-                        <div class="detail-content-inline">{{ compliance.complianceType || 'Not specified' }}</div>
-                      </div>
-                      <div class="table-detail-item">
-                        <div class="detail-header">Applicability</div>
-                        <div class="detail-content-inline">{{ compliance.applicability || 'Not specified' }}</div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+          <div class="compliance-dynamic-table-wrapper">
+            <DynamicTable
+              :data="filteredCompliances"
+              :columns="tableColumns"
+              uniqueKey="id"
+              :showPagination="true"
+              :showActions="true"
+            >
+              <template #actions="{ row }">
+                <button class="compliance-action-btn" @click="handleViewCompliance(row)"><i class="fas fa-eye"></i></button>
+                <button class="compliance-action-btn" @click="handleEditCompliance(row)"><i class="fas fa-edit"></i></button>
               </template>
-            </tbody>
-          </table>
+            </DynamicTable>
+          </div>
         </div>
       </template>
     </div>
@@ -577,6 +481,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { PopupService } from '@/modules/popup'
+import DynamicTable from '../DynamicTable.vue'
 
 // State
 const frameworks = ref([])
@@ -594,6 +499,19 @@ const selectedFormat = ref('xlsx')
 const viewMode = ref('list') // Changed to list as default view
 const expandedCompliance = ref(null)
 const router = useRouter()
+
+// Define columns for DynamicTable
+const tableColumns = [
+  { key: 'identifier', label: 'ID', sortable: true },
+  { key: 'name', label: 'Control', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'category', label: 'Criticality', sortable: true },
+  { key: 'maturityLevel', label: 'Maturity Level', sortable: true },
+  { key: 'mandatoryOptional', label: 'Type', sortable: true },
+  { key: 'version', label: 'Version', sortable: true },
+  { key: 'createdBy', label: 'Created By', sortable: true },
+  { key: 'createdDate', label: 'Created Date', sortable: true },
+]
 
 // Computed
 const breadcrumbs = computed(() => {
@@ -627,7 +545,7 @@ onMounted(async () => {
     console.log('Fetching frameworks...')
     
     // Get all frameworks with their versions
-    const response = await axios.get('/api/all-policies/frameworks/')
+    const response = await axios.get('/api/compliance/all-policies/frameworks/')
     console.log('Frameworks response:', response.data)
     
     if (response.data && Array.isArray(response.data)) {
@@ -664,7 +582,7 @@ async function selectFramework(fw) {
     selectedSubpolicy.value = null
     
     // Get active policies for the selected framework using the correct endpoint
-    const response = await axios.get('/api/all-policies/policies/', {
+    const response = await axios.get('/api/compliance/all-policies/policies/', {
       params: { 
         framework_id: fw.id
       }
@@ -695,7 +613,7 @@ async function selectPolicy(policy) {
     selectedSubpolicy.value = null
     
     // Get active subpolicies for the selected policy using the correct endpoint
-    const response = await axios.get('/api/all-policies/subpolicies/', {
+    const response = await axios.get('/api/compliance/all-policies/subpolicies/', {
       params: { 
         policy_id: policy.id
       }
@@ -721,7 +639,7 @@ async function selectSubpolicy(subpolicy) {
     loading.value = true;
     selectedSubpolicy.value = subpolicy;
     
-    const response = await axios.get(`/api/all-policies/subpolicies/${subpolicy.id}/compliances/`);
+    const response = await axios.get(`/api/compliance/all-policies/subpolicies/${subpolicy.id}/compliances/`);
     console.log('Subpolicy compliances response:', response.data);
     
     if (response.data && response.data.success) {
@@ -782,54 +700,6 @@ async function selectSubpolicy(subpolicy) {
   }
 }
 
-async function showVersions(type, item) {
-  try {
-    loading.value = true
-    let endpoint = ''
-    
-    switch (type) {
-      case 'policy':
-        versionModalTitle.value = `Versions of ${item.name}`
-        endpoint = `/api/all-policies/policies/${item.id}/versions/`
-        break
-      case 'compliance':
-        versionModalTitle.value = `Versions of Compliance ${item.name}`
-        endpoint = `/api/all-policies/compliances/${item.id}/versions/`
-        break
-    }
-    
-    const response = await axios.get(endpoint)
-    if (response.data && Array.isArray(response.data)) {
-      versions.value = response.data.map(version => ({
-        id: version.ComplianceId,
-        version: version.ComplianceVersion,
-        name: version.ComplianceItemDescription,
-        status: version.Status,
-        description: version.ComplianceItemDescription,
-        criticality: version.Criticality,
-        maturityLevel: version.MaturityLevel,
-        mandatoryOptional: version.MandatoryOptional,
-        manualAutomatic: version.ManualAutomatic,
-        createdBy: version.CreatedByName,
-        createdDate: version.CreatedByDate,
-        isRisk: version.IsRisk,
-        activeInactive: version.ActiveInactive,
-        identifier: version.Identifier
-      }))
-    } else {
-      versions.value = []
-    }
-    showVersionsModal.value = true
-  } catch (err) {
-    error.value = `Failed to load ${type} versions`
-    console.error(`Error fetching ${type} versions:`, err)
-    versions.value = []
-    PopupService.error(`Failed to load ${type} versions. Please try again.`, 'Version Loading Error')
-  } finally {
-    loading.value = false
-  }
-}
-
 function closeVersionsModal() {
   showVersionsModal.value = false
   versions.value = []
@@ -881,69 +751,15 @@ function statusClass(status) {
   return ''
 }
 
-const viewAllCompliances = async (type, id, name) => {
-  try {
-    loading.value = true;
-    let response;
-    
-    // Fetch compliances based on type
-    switch (type) {
-      case 'framework':
-        response = await axios.get(`/compliances/framework/${id}/`);
-        break;
-      case 'policy':
-        response = await axios.get(`/compliances/policy/${id}/`);
-        break;
-      case 'subpolicy':
-        response = await axios.get(`/api/all-policies/subpolicies/${id}/compliances/`);
-        break;
-      default:
-        throw new Error('Invalid type specified');
+const viewAllCompliances = (type, id, name) => {
+  router.push({
+    name: 'ComplianceView',
+    params: {
+      type: type,
+      id: id,
+      name: encodeURIComponent(name)
     }
-
-    if (response.data.success) {
-      // Update the selected item with compliances
-      switch (type) {
-        case 'framework':
-          selectedFramework.value = {
-            ...selectedFramework.value,
-            compliances: response.data.compliances
-          };
-          break;
-        case 'policy':
-          selectedPolicy.value = {
-            ...selectedPolicy.value,
-            compliances: response.data.compliances
-          };
-          break;
-        case 'subpolicy':
-          selectedSubpolicy.value = {
-            ...selectedSubpolicy.value,
-            compliances: response.data.compliances
-          };
-          break;
-      }
-      
-      // Navigate to ComplianceView component
-      router.push({
-        name: 'ComplianceView',
-        params: {
-          type: type,
-          id: id,
-          name: encodeURIComponent(name)
-        }
-      });
-    } else {
-      error.value = 'Failed to load compliances';
-      PopupService.error('Failed to load compliances. Please try again.', 'Loading Error');
-    }
-  } catch (err) {
-    console.error('Error fetching compliances:', err);
-    error.value = 'Failed to load compliances';
-    PopupService.error('Failed to load compliances. Please try again.', 'Loading Error');
-  } finally {
-    loading.value = false;
-  }
+  });
 };
 
 async function handleExport(format) {
@@ -969,7 +785,7 @@ async function handleExport(format) {
         try {
           // Update the API endpoint URL with path parameters
           const response = await axios({
-            url: `/api/export/all-compliances/${format}/${itemType}/${itemId}/`,
+            url: `/api/compliance/export/all-compliances/${format}/${itemType}/${itemId}/`,
             method: 'GET',
             responseType: 'blob',
             timeout: 30000,
@@ -1068,6 +884,16 @@ const formatMitigation = (mitigation) => {
   // Return as plain text
   return mitigation;
 };
+
+// Add methods for actions
+function handleViewCompliance(row) {
+  // Implement view logic, e.g., open a modal or navigate
+  PopupService.info(`View compliance: ${row.name}`, 'View Compliance');
+}
+function handleEditCompliance(row) {
+  // Implement edit logic, e.g., open an edit modal
+  PopupService.info(`Edit compliance: ${row.name}`, 'Edit Compliance');
+}
 </script>
 
 <style src="./AllCompliance.css"></style>

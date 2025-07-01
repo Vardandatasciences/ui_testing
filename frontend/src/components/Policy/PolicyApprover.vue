@@ -11,36 +11,50 @@
 
     <!-- Performance Summary Cards for Policy Approver -->
     <div class="performance-summary">
-      <div class="summary-card growth">
-        <div class="summary-icon"><i class="fas fa-user-check"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Pending Approvals</div>
-          <div class="summary-value">{{ pendingApprovalsCount }}</div>
-          
-        </div>
+      <!-- Loading state -->
+      <div v-if="isLoading" class="loading-message">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Loading approval data...</span>
       </div>
       
-      <div class="summary-card">
-        <div class="summary-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Approved</div>
-
-          
-          <div class="summary-value">{{ approvedApprovalsCount }}</div>
-          
-        </div>
+      <!-- Error state -->
+      <div v-else-if="error" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ error }}</span>
+        <button @click="refreshData" class="retry-btn">Retry</button>
       </div>
       
-      <div class="summary-card">
-        <div class="summary-icon"><i class="fas fa-times-circle"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Rejected</div>
-          <div class="summary-value">{{ rejectedApprovalsCount }}</div>
-          
+      <!-- Normal state -->
+      <template v-else>
+        <div class="summary-card growth">
+          <div class="summary-icon"><i class="fas fa-user-check"></i></div>
+          <div class="summary-content">
+            <div class="summary-label">Pending Approvals</div>
+            <div class="summary-value">{{ pendingApprovalsCount }}</div>
+            
+          </div>
         </div>
-      </div>
-      
-      
+        
+        <div class="summary-card">
+          <div class="summary-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="summary-content">
+            <div class="summary-label">Approved</div>
+  
+            
+            <div class="summary-value">{{ approvedApprovalsCount }}</div>
+            
+          </div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="summary-icon"><i class="fas fa-times-circle"></i></div>
+          <div class="summary-content">
+            <div class="summary-label">Rejected</div>
+            <div class="summary-value">{{ rejectedApprovalsCount }}</div>
+            
+          </div>
+        </div>
+      </template>
     </div>
 
     <!-- Add this after the performance-summary div -->
@@ -50,41 +64,113 @@
       <!-- Collapsible Tables for different statuses -->
       <div class="approval-tables-container">
         <!-- Pending Approvals Table -->
-        <CollapsibleTable
-          v-if="pendingApprovals.length > 0"
-          :section-config="pendingSectionConfig"
-          :table-headers="tableHeaders"
-          :is-expanded="pendingExpanded"
-          @task-click="handleTaskClick"
-          @toggle="togglePendingSection"
-        />
+        <div v-if="actualPolicyCounts.pending > 0" class="approval-section">
+          <CollapsibleTable
+            :section-config="pendingSectionConfig"
+            :table-headers="tableHeaders"
+            :is-expanded="pendingExpanded"
+            @task-click="handleTaskClick"
+            @toggle="togglePendingSection"
+          />
+          <!-- Pagination for Pending -->
+          <div class="pagination-controls" v-if="pagination.pending.totalPages > 1">
+            <button 
+              @click="prevPage('pending')" 
+              :disabled="pagination.pending.currentPage === 1"
+              class="pagination-btn"
+            >
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            
+            <span class="pagination-info">
+              Page {{ pagination.pending.currentPage }} of {{ pagination.pending.totalPages }}
+              (Showing {{ pendingApprovals.length }} of {{ actualPolicyCounts.pending }} total)
+            </span>
+            
+            <button 
+              @click="nextPage('pending')" 
+              :disabled="pagination.pending.currentPage === pagination.pending.totalPages"
+              class="pagination-btn"
+            >
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
         
         <!-- Approved Approvals Table -->
-        <CollapsibleTable
-          v-if="approvedApprovals.length > 0"
-          :section-config="approvedSectionConfig"
-          :table-headers="tableHeaders"
-          :is-expanded="approvedExpanded"
-          @task-click="handleTaskClick"
-          @toggle="toggleApprovedSection"
-        />
+        <div v-if="actualPolicyCounts.approved > 0" class="approval-section">
+          <CollapsibleTable
+            :section-config="approvedSectionConfig"
+            :table-headers="tableHeaders"
+            :is-expanded="approvedExpanded"
+            @task-click="handleTaskClick"
+            @toggle="toggleApprovedSection"
+          />
+          <!-- Pagination for Approved -->
+          <div class="pagination-controls" v-if="pagination.approved.totalPages > 1">
+            <button 
+              @click="prevPage('approved')" 
+              :disabled="pagination.approved.currentPage === 1"
+              class="pagination-btn"
+            >
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            
+            <span class="pagination-info">
+              Page {{ pagination.approved.currentPage }} of {{ pagination.approved.totalPages }}
+              (Showing {{ approvedApprovals.length }} of {{ actualPolicyCounts.approved }} total)
+            </span>
+            
+            <button 
+              @click="nextPage('approved')" 
+              :disabled="pagination.approved.currentPage === pagination.approved.totalPages"
+              class="pagination-btn"
+            >
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
         
         <!-- Rejected Approvals Table -->
-        <CollapsibleTable
-          v-if="rejectedApprovals.length > 0"
-          :section-config="rejectedSectionConfig"
-          :table-headers="tableHeaders"
-          :is-expanded="rejectedExpanded"
-          @task-click="handleTaskClick"
-          @toggle="toggleRejectedSection"
-        />
+        <div v-if="actualPolicyCounts.rejected > 0" class="approval-section">
+          <CollapsibleTable
+            :section-config="rejectedSectionConfig"
+            :table-headers="tableHeaders"
+            :is-expanded="rejectedExpanded"
+            @task-click="handleTaskClick"
+            @toggle="toggleRejectedSection"
+          />
+          <!-- Pagination for Rejected -->
+          <div class="pagination-controls" v-if="pagination.rejected.totalPages > 1">
+            <button 
+              @click="prevPage('rejected')" 
+              :disabled="pagination.rejected.currentPage === 1"
+              class="pagination-btn"
+            >
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            
+            <span class="pagination-info">
+              Page {{ pagination.rejected.currentPage }} of {{ pagination.rejected.totalPages }}
+              (Showing {{ rejectedApprovals.length }} of {{ actualPolicyCounts.rejected }} total)
+            </span>
+            
+            <button 
+              @click="nextPage('rejected')" 
+              :disabled="pagination.rejected.currentPage === pagination.rejected.totalPages"
+              class="pagination-btn"
+            >
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
         
         <!-- No approvals message -->
-        <div v-if="sortedPolicies.length === 0" class="no-approvals-message">
+        <div v-if="actualPolicyCounts.pending === 0 && actualPolicyCounts.approved === 0 && actualPolicyCounts.rejected === 0" class="no-approvals-message">
           <div class="no-approvals-content">
             <i class="fas fa-inbox"></i>
-            <h4>No Approval Tasks</h4>
-            <p>You don't have any approval tasks at the moment.</p>
+            <h4>No Policies Found</h4>
+            <p>There are no policies in the system at the moment.</p>
           </div>
         </div>
       </div>
@@ -664,23 +750,18 @@ export default {
   },
   data() {
     return {
-      approvals: [],
-      selectedApproval: null,
+      approvals: [], // This will hold all policy approvals
+      rejectedPolicies: [], // This will hold rejected policies
+      rejectedSubpolicies: [], // This will hold rejected subpolicies specifically
       showDetails: false,
-      showRejectModal: false,
-      rejectingSubpolicy: null,
-      rejectingType: '', // 'policy' or 'subpolicy'
-      rejectionComment: '',
-      rejectedPolicies: [],
-      rejectedSubpolicies: [],
-      showEditModal: false,
-      editingPolicy: null,
-      showEditSubpolicyModal: false,
+      selectedApproval: null,
+      selectedPolicyForSubpolicies: null,
+      rejectedPolicyToEdit: null,
       editingSubpolicy: null,
+      editingPolicy: null,
       editingSubpolicyParent: null,
       userId: 2, // Default user id
       showSubpoliciesModal: false,
-      selectedPolicyForSubpolicies: null,
       showEditComplianceModal: false,
       editingCompliance: null,
       isReviewer: true, // Set based on user role, for testing
@@ -691,12 +772,52 @@ export default {
       pendingExpanded: true,
       approvedExpanded: false,
       rejectedExpanded: false,
+      // Add loading state
+      isLoading: false,
+      // Add error state
+      error: null,
+      // Add actual policy counts from database
+      actualPolicyCounts: {
+        pending: 0,
+        approved: 0,
+        rejected: 0
+      },
+      // Add actual policies by status with pagination
+      actualPolicies: {
+        pending: [],
+        approved: [],
+        rejected: []
+      },
+      // Add pagination state
+      pagination: {
+        pending: { currentPage: 1, pageSize: 10, totalPages: 0 },
+        approved: { currentPage: 1, pageSize: 10, totalPages: 0 },
+        rejected: { currentPage: 1, pageSize: 10, totalPages: 0 }
+      }
     }
   },
   mounted() {
-    this.fetchPolicies();
-    this.fetchRejectedPolicies();
-    this.fetchPolicyTypes(); // Add this line to fetch policy categories
+    console.log('PolicyApprover component mounted');
+    this.isLoading = true;
+    
+    Promise.all([
+      this.fetchPolicyTypes(), // Fetch policy categories
+      this.fetchPolicyCounts() // Fetch actual policy counts first
+    ]).then(() => {
+      // After getting counts, fetch the actual policies by status
+      return this.fetchAllPoliciesByStatus();
+    }).then(() => {
+      console.log('All initial data loaded');
+      this.isLoading = false;
+      // Debug the data state after loading
+      setTimeout(() => {
+        this.debugDataState();
+      }, 1000);
+    }).catch(error => {
+      console.error('Error loading initial data:', error);
+      this.error = 'Failed to load data';
+      this.isLoading = false;
+    });
     
     // Also fetch rejected subpolicies if in user mode
     if (!this.isReviewer) {
@@ -720,7 +841,8 @@ export default {
     // Update the method to fetch policies and policy approvals
     fetchPolicies() {
       console.log('Fetching policy approvals for reviewer...');
-      axios.get('http://localhost:8000/api/policy-approvals/reviewer/')
+      // Fix the API endpoint URL - it was missing 'policy-approvals'
+      return axios.get('http://localhost:8000/api/policy-approvals/reviewer/')
         .then(response => {
           console.log('Policy approvals response:', response.data);
           
@@ -732,34 +854,50 @@ export default {
             approvalsData = response.data;
           } else {
             console.error('Unexpected response format:', response.data);
+            this.approvals = []; // Set empty array as fallback
+            return;
+          }
+          
+          console.log('Processing approvals data:', approvalsData.length, 'items');
+          
+          if (!Array.isArray(approvalsData) || approvalsData.length === 0) {
+            console.log('No policy approvals found');
+            this.approvals = [];
             return;
           }
           
           // Create initial approvals array from policy approvals data
           const approvals = approvalsData.map(approval => {
+            console.log('Processing approval:', approval.ApprovalId, 'PolicyId:', approval.PolicyId, 'ApprovedNot:', approval.ApprovedNot);
             return {
               ApprovalId: approval.ApprovalId,
               PolicyId: approval.PolicyId,
-              ExtractedData: approval.ExtractedData,
+              ExtractedData: approval.ExtractedData || {},
               ApprovedNot: approval.ApprovedNot,
               ApprovedDate: approval.ApprovedDate,
-              version: approval.Version,
+              version: approval.Version || 'u1',
               UserId: approval.UserId,
               ReviewerId: approval.ReviewerId,
-              dbStatus: null // Will be populated from database table
+              dbStatus: null, // Will be populated from database table
+              Identifier: approval.Identifier
             };
           });
           
+          console.log('Created approvals array:', approvals.length, 'items');
+          
           // Get policy IDs to fetch their direct status from database
           const policyIds = approvals
-            .filter(approval => approval.PolicyId)
-            .map(approval => typeof approval.PolicyId === 'object' ? approval.PolicyId.PolicyId : approval.PolicyId);
+            .filter(approval => approval.PolicyId && approval.PolicyId !== null)
+            .map(approval => approval.PolicyId);
+          
+          console.log('Policy IDs to fetch status for:', policyIds);
           
           if (policyIds.length > 0) {
             // Fetch the actual policy status from the database table for all policies
             const fetchPromises = policyIds.map(policyId => 
               axios.get(`http://localhost:8000/api/policies/${policyId}/`)
                 .then(policyResponse => {
+                  console.log(`Policy ${policyId} status:`, policyResponse.data.Status);
                   return {
                     policyId: policyId,
                     status: policyResponse.data.Status
@@ -767,42 +905,52 @@ export default {
                 })
                 .catch(error => {
                   console.error(`Error fetching policy ${policyId}:`, error);
-                  return { policyId: policyId, status: null };
+                  return { policyId: policyId, status: 'Under Review' }; // Default status
                 })
             );
             
-            Promise.all(fetchPromises)
+            return Promise.all(fetchPromises)
               .then(policyStatuses => {
+                console.log('Fetched policy statuses:', policyStatuses);
+                
                 // Update the approvals with database status
                 policyStatuses.forEach(policyStatus => {
-                  const approval = approvals.find(a => {
-                    const approvalPolicyId = typeof a.PolicyId === 'object' ? a.PolicyId.PolicyId : a.PolicyId;
-                    return approvalPolicyId === policyStatus.policyId;
-                  });
+                  const approval = approvals.find(a => a.PolicyId === policyStatus.policyId);
                   
                   if (approval) {
                     approval.dbStatus = policyStatus.status;
                     
                     // Update ExtractedData Status as well to ensure consistency
-                    if (approval.ExtractedData && policyStatus.status) {
+                    if (approval.ExtractedData) {
                       approval.ExtractedData.Status = policyStatus.status;
                     }
+                    
+                    console.log(`Updated approval ${approval.ApprovalId} with status: ${policyStatus.status}`);
                   }
                 });
                 
                 this.approvals = approvals;
-                console.log('Updated approvals with database status:', this.approvals);
+                console.log('Final approvals with database status:', this.approvals);
+                
+                // Log counts for debugging
+                console.log('Pending:', this.pendingApprovalsCount);
+                console.log('Approved:', this.approvedApprovalsCount);
+                console.log('Rejected:', this.rejectedApprovalsCount);
               })
               .catch(error => {
                 console.error('Error updating policy statuses:', error);
+                // Even if status fetch fails, still show the approvals
                 this.approvals = approvals;
               });
           } else {
+            console.log('No valid policy IDs found');
             this.approvals = approvals;
           }
         })
         .catch(error => {
           console.error('Error fetching policy approvals:', error);
+          this.approvals = []; // Set empty array on error
+          throw error; // Re-throw for Promise.all to catch
         });
     },
     // Remove the fetchLatestApprovalForPolicy method as it's causing errors
@@ -1012,85 +1160,39 @@ export default {
     },
     // Update the refresh method
     refreshData() {
-      // Refresh all data sources to ensure UI is up-to-date
-      this.fetchPolicies();
+      console.log('Refreshing Policy Approver data...');
       
-      // If there's a selected approval, refresh it with latest data
-      if (this.selectedApproval && this.selectedApproval.PolicyId) {
-        this.openApprovalDetails(this.selectedApproval);
-      }
+      // Reset data first
+      this.actualPolicies = {
+        pending: [],
+        approved: [],
+        rejected: []
+      };
       
-      // If there's a selected policy for subpolicies, refresh it
-      if (this.selectedPolicyForSubpolicies && this.selectedPolicyForSubpolicies.PolicyId) {
-        const policyId = this.selectedPolicyForSubpolicies.PolicyId;
-        
-        // Fetch latest data for this policy
-        axios.get(`http://localhost:8000/api/policies/${policyId}`)
-          .then(response => {
-            if (response.data) {
-              // Get the version for policy and subpolicies
-              axios.get(`http://localhost:8000/api/policies/${policyId}/version/`)
-                .then(versionResponse => {
-                  const policyVersion = versionResponse.data.version || 'u1';
-                  
-                  // Create a new object with the policy data
-                  const policyData = {
-                    ...response.data,
-                    version: policyVersion
-                  };
-                  
-                  // If this policy has subpolicies, fetch their version information
-                  if (response.data.ExtractedData && response.data.ExtractedData.subpolicies) {
-                    const subpolicyPromises = response.data.ExtractedData.subpolicies.map(subpolicy => {
-                      return axios.get(`http://localhost:8000/api/subpolicies/${subpolicy.SubPolicyId}/version/`)
-                        .then(subVersionResponse => {
-                          return {
-                            subpolicyId: subpolicy.SubPolicyId,
-                            version: subVersionResponse.data.version || 'u1'
-                          };
-                        })
-                        .catch(() => {
-                          return {
-                            subpolicyId: subpolicy.SubPolicyId,
-                            version: 'u1'
-                          };
-                        });
-                    });
-                    
-                    Promise.all(subpolicyPromises)
-                      .then(subpolicyVersions => {
-                        // Update subpolicy versions
-                        if (policyData.ExtractedData && policyData.ExtractedData.subpolicies) {
-                          policyData.ExtractedData.subpolicies.forEach(subpolicy => {
-                            const versionInfo = subpolicyVersions.find(v => v.subpolicyId === subpolicy.SubPolicyId);
-                            if (versionInfo) {
-                              subpolicy.version = versionInfo.version;
-                            }
-                          });
-                        }
-                        
-                        // Update the selected policy
-                        this.selectedPolicyForSubpolicies = policyData;
-                      });
-      } else {
-                    // No subpolicies, just update the policy
-                    this.selectedPolicyForSubpolicies = policyData;
-                  }
-                })
-                .catch(error => {
-                  console.error("Error fetching policy version:", error);
-                });
-            }
-          })
-          .catch(error => {
-            console.error("Error refreshing policy data:", error);
-          });
-      }
+      // Reset pagination to first page
+      this.pagination.pending.currentPage = 1;
+      this.pagination.approved.currentPage = 1;
+      this.pagination.rejected.currentPage = 1;
       
-      // Refresh rejected subpolicies list if it's being displayed
-      if (this.showRejectedSubpolicies) {
-        this.fetchRejectedSubpolicies();
-      }
+      // Show loading state
+      this.isLoading = true;
+      this.error = null;
+      
+      // Fetch all data
+      Promise.all([
+        this.fetchPolicyTypes(),
+        this.fetchPolicyCounts()
+      ]).then(() => {
+        // After getting counts, fetch the actual policies by status
+        return this.fetchAllPoliciesByStatus();
+      }).then(() => {
+        console.log('All data refreshed successfully');
+        this.isLoading = false;
+      }).catch(error => {
+        console.error('Error refreshing data:', error);
+        this.error = 'Failed to refresh data';
+        this.isLoading = false;
+      });
     },
     // Update the refresh approvals method
     refreshApprovals() {
@@ -1099,7 +1201,7 @@ export default {
     // Update fetchRejectedPolicies to use policy table
     fetchRejectedPolicies() {
       console.log('Fetching rejected policies...');
-      axios.get('http://localhost:8000/api/policies/?status=Rejected')
+      return axios.get('http://localhost:8000/api/policies/?status=Rejected')
         .then(response => {
           console.log('Rejected policies response:', response.data);
           
@@ -1134,11 +1236,12 @@ export default {
           } else {
             console.log('No rejected policies found from API');
             // We'll check for policies with rejected subpolicies instead
-            this.fetchPoliciesWithRejectedSubpolicies();
+            return this.fetchPoliciesWithRejectedSubpolicies();
           }
         })
         .catch(error => {
           console.error('Error fetching rejected policies:', error);
+          throw error; // Re-throw for Promise.all to catch
         });
     },
     // Add a method to fetch policies that have rejected subpolicies
@@ -2298,7 +2401,7 @@ export default {
     },
     fetchPolicyTypes() {
       console.log('Fetching policy categories...');
-      axios.get('http://localhost:8000/api/policy-categories/')
+      return axios.get('http://localhost:8000/api/policy-categories/')
         .then(response => {
           console.log('Policy categories response:', response.data);
           
@@ -2343,6 +2446,7 @@ export default {
         })
         .catch(error => {
           console.error('Error fetching policy categories:', error);
+          throw error; // Re-throw for Promise.all to catch
         });
     },
     // Helper method to initialize or update policy category fields
@@ -2389,40 +2493,51 @@ export default {
     
     // CollapsibleTable related methods
     handleTaskClick(task) {
-      // Find the original policy object from the task data using approvalId
-      const policy = this.approvals.find(p => 
-        p.ApprovalId === task.approvalId
+      // Find the original policy object from the task data using policyId
+      let policy = null;
+      
+      // Search in all status categories for the policy
+      const allPolicies = [
+        ...this.actualPolicies.pending,
+        ...this.actualPolicies.approved,
+        ...this.actualPolicies.rejected
+      ];
+      
+      policy = allPolicies.find(p => 
+        p.PolicyId === task.policyId || p.PolicyId === task.approvalId
       );
       
       if (policy) {
         this.openApprovalDetails(policy);
+      } else {
+        console.error('Policy not found for task:', task);
       }
     },
     
     formatPolicyForTable(policy) {
-      const approvalId = policy.ApprovalId || 'N/A';
-      const policyId = this.getPolicyId(policy);
+      const policyId = policy.PolicyId || 'N/A';
       const policyName = policy.ExtractedData?.PolicyName || 'No Name';
       const scope = policy.ExtractedData?.Scope || 'No Scope';
       const createdBy = policy.ExtractedData?.CreatedByName || 'System';
       const createdDate = this.formatDate(policy.ExtractedData?.CreatedByDate || policy.created_at);
-      const version = policy.version || 'u1';
+      const version = policy.version || 'v1.0';
       
-      // Determine status based on real data
-      let status = 'Pending';
+      // Determine status based on database status
+      let status = policy.dbStatus || policy.ExtractedData?.Status || 'Unknown';
       let statusClass = 'pending';
       
-      if (policy.ApprovedNot === true || policy.dbStatus === 'Approved' || policy.ExtractedData?.Status === 'Approved') {
-        status = 'Approved';
+      if (status === 'Approved') {
         statusClass = 'approved';
-      } else if (policy.ApprovedNot === false || policy.dbStatus === 'Rejected' || policy.ExtractedData?.Status === 'Rejected') {
-        status = 'Rejected';
+      } else if (status === 'Rejected') {
         statusClass = 'rejected';
+      } else if (status === 'Under Review') {
+        status = 'Pending';
+        statusClass = 'pending';
       }
       
       return {
-        incidentId: approvalId, // Using approvalId as the key for CollapsibleTable
-        approvalId: approvalId,
+        incidentId: policyId, // Using policyId as the key for CollapsibleTable
+        approvalId: policy.ApprovalId || policyId, // Keep approvalId for compatibility
         policyId: policyId,
         policyName: policyName,
         scope: scope,
@@ -2450,6 +2565,171 @@ export default {
       if (action === 'view') {
         this.openRejectedItem(row.originalPolicy);
       }
+    },
+    // Debug method to help troubleshoot
+    debugDataState() {
+      console.log('=== Policy Approver Debug Info ===');
+      console.log('Total approvals:', this.approvals.length);
+      console.log('Pending count:', this.pendingApprovalsCount);
+      console.log('Approved count:', this.approvedApprovalsCount);
+      console.log('Rejected count:', this.rejectedApprovalsCount);
+      console.log('Pending approvals:', this.pendingApprovals);
+      console.log('Approved approvals:', this.approvedApprovals);
+      console.log('Rejected approvals:', this.rejectedApprovals);
+      console.log('Raw approvals data:', this.approvals);
+      console.log('=== End Debug Info ===');
+    },
+    // Add method to fetch actual policy counts from database
+    fetchPolicyCounts() {
+      console.log('Fetching actual policy counts from database...');
+      return axios.get('http://localhost:8000/api/policy-counts/')
+        .then(response => {
+          console.log('Policy counts response:', response.data);
+          
+          // Store the actual counts from the new endpoint
+          this.actualPolicyCounts = {
+            pending: response.data.pending || 0,
+            approved: response.data.approved || 0,
+            rejected: response.data.rejected || 0
+          };
+          
+          // Calculate total pages for pagination
+          this.pagination.pending.totalPages = Math.ceil(this.actualPolicyCounts.pending / this.pagination.pending.pageSize);
+          this.pagination.approved.totalPages = Math.ceil(this.actualPolicyCounts.approved / this.pagination.approved.pageSize);
+          this.pagination.rejected.totalPages = Math.ceil(this.actualPolicyCounts.rejected / this.pagination.rejected.pageSize);
+          
+          console.log('Actual policy counts from database:', this.actualPolicyCounts);
+          console.log('Pagination info:', this.pagination);
+        }).catch(error => {
+          console.error('Error fetching policy counts:', error);
+          // Fallback to the old method if the new endpoint fails
+          console.log('Falling back to individual API calls...');
+          return Promise.all([
+            axios.get('http://localhost:8000/api/policies/?status=Under Review'),
+            axios.get('http://localhost:8000/api/policies/?status=Approved'), 
+            axios.get('http://localhost:8000/api/policies/?status=Rejected')
+          ]).then(([pendingResponse, approvedResponse, rejectedResponse]) => {
+            const pendingData = Array.isArray(pendingResponse.data) ? pendingResponse.data : (pendingResponse.data.data || []);
+            const approvedData = Array.isArray(approvedResponse.data) ? approvedResponse.data : (approvedResponse.data.data || []);
+            const rejectedData = Array.isArray(rejectedResponse.data) ? rejectedResponse.data : (rejectedResponse.data.data || []);
+            
+            this.actualPolicyCounts = {
+              pending: pendingData.length,
+              approved: approvedData.length,
+              rejected: rejectedData.length
+            };
+            
+            // Calculate total pages for pagination
+            this.pagination.pending.totalPages = Math.ceil(this.actualPolicyCounts.pending / this.pagination.pending.pageSize);
+            this.pagination.approved.totalPages = Math.ceil(this.actualPolicyCounts.approved / this.pagination.approved.pageSize);
+            this.pagination.rejected.totalPages = Math.ceil(this.actualPolicyCounts.rejected / this.pagination.rejected.pageSize);
+            
+            console.log('Actual policy counts from fallback method:', this.actualPolicyCounts);
+          }).catch(fallbackError => {
+            console.error('Fallback method also failed:', fallbackError);
+            this.actualPolicyCounts = {
+              pending: 0,
+              approved: 0,
+              rejected: 0
+            };
+          });
+        });
+    },
+    
+    // Add method to fetch actual policies by status with pagination
+    fetchPoliciesByStatus(status, page = 1) {
+      console.log(`Fetching ${status} policies for page ${page}...`);
+      
+      const statusMap = {
+        'pending': 'Under Review',
+        'approved': 'Approved',
+        'rejected': 'Rejected'
+      };
+      
+      const actualStatus = statusMap[status] || status;
+      const pageSize = this.pagination[status].pageSize;
+      const offset = (page - 1) * pageSize;
+      
+      return axios.get(`http://localhost:8000/api/policies-paginated/`, {
+        params: {
+          status: actualStatus,
+          limit: pageSize,
+          offset: offset
+        }
+      })
+      .then(response => {
+        console.log(`${status} policies response:`, response.data);
+        
+        // Handle the response from the new paginated endpoint
+        if (response.data.success && response.data.data) {
+          const policiesData = response.data.data;
+          const paginationInfo = response.data.pagination;
+          
+          // Update pagination info from backend response
+          this.pagination[status].totalPages = paginationInfo.total_pages;
+          this.pagination[status].currentPage = paginationInfo.current_page;
+          
+          // Store the policies for this status and page
+          this.actualPolicies[status] = policiesData.map(policy => ({
+            PolicyId: policy.PolicyId,
+            ExtractedData: {
+              PolicyName: policy.PolicyName || 'No Name',
+              CreatedByName: policy.CreatedByName || 'System',
+              CreatedByDate: policy.CreatedByDate || policy.created_at,
+              Scope: policy.Scope || 'No Scope',
+              Status: policy.Status,
+              Objective: policy.Objective || 'No Objective',
+              Department: policy.Department || 'No Department',
+              subpolicies: policy.subpolicies || []
+            },
+            ApprovedNot: policy.Status === 'Approved' ? true : (policy.Status === 'Rejected' ? false : null),
+            ApprovedDate: policy.ApprovedDate,
+            version: policy.Version || 'v1.0',
+            dbStatus: policy.Status
+          }));
+          
+          console.log(`Stored ${this.actualPolicies[status].length} ${status} policies for page ${page}`);
+          console.log(`Updated pagination: ${this.pagination[status].currentPage}/${this.pagination[status].totalPages}`);
+        } else {
+          console.error('Unexpected response format from paginated endpoint:', response.data);
+          this.actualPolicies[status] = [];
+        }
+      })
+      .catch(error => {
+        console.error(`Error fetching ${status} policies:`, error);
+        this.actualPolicies[status] = [];
+        throw error;
+      });
+    },
+    
+    // Add method to fetch all policy statuses with pagination
+    fetchAllPoliciesByStatus() {
+      console.log('Fetching all policies by status with pagination...');
+      
+      return Promise.all([
+        this.fetchPoliciesByStatus('pending', this.pagination.pending.currentPage),
+        this.fetchPoliciesByStatus('approved', this.pagination.approved.currentPage),
+        this.fetchPoliciesByStatus('rejected', this.pagination.rejected.currentPage)
+      ]);
+    },
+    
+    // Add pagination methods
+    changePage(status, page) {
+      console.log(`Changing to page ${page} for ${status} policies`);
+      this.pagination[status].currentPage = page;
+      this.fetchPoliciesByStatus(status, page);
+    },
+    
+    nextPage(status) {
+      if (this.pagination[status].currentPage < this.pagination[status].totalPages) {
+        this.changePage(status, this.pagination[status].currentPage + 1);
+      }
+    },
+    
+    prevPage(status) {
+      if (this.pagination[status].currentPage > 1) {
+        this.changePage(status, this.pagination[status].currentPage - 1);
+      }
     }
   },
   computed: {
@@ -2458,13 +2738,13 @@ export default {
       return this.approvals;
     },
     pendingApprovalsCount() {
-      return this.approvals.filter(a => a.ApprovedNot === null).length;
+      return this.actualPolicyCounts.pending;
     },
     approvedApprovalsCount() {
-      return this.approvals.filter(a => a.ApprovedNot === true).length;
+      return this.actualPolicyCounts.approved;
     },
     rejectedApprovalsCount() {
-      return this.approvals.filter(a => a.ApprovedNot === false).length;
+      return this.actualPolicyCounts.rejected;
     },
     sortedPolicies() {
       return [...this.approvals].sort((a, b) => {
@@ -2569,29 +2849,32 @@ export default {
       );
     },
     
-    // CollapsibleTable related computed properties
+    // CollapsibleTable related computed properties - now using actual policies
     pendingApprovals() {
-      return this.sortedPolicies.filter(policy => 
-        policy.ApprovedNot === null && 
-        !(['Approved', 'Rejected'].includes(policy.dbStatus)) && 
-        !(['Approved', 'Rejected'].includes(policy.ExtractedData?.Status))
-      );
+      return this.actualPolicies.pending.map(policy => ({
+        ...policy,
+        // Ensure consistent data structure
+        version: policy.version || 'v1.0',
+        created_at: policy.ExtractedData?.CreatedByDate
+      }));
     },
     
     approvedApprovals() {
-      return this.sortedPolicies.filter(policy => 
-        policy.ApprovedNot === true || 
-        policy.dbStatus === 'Approved' || 
-        policy.ExtractedData?.Status === 'Approved'
-      );
+      return this.actualPolicies.approved.map(policy => ({
+        ...policy,
+        // Ensure consistent data structure
+        version: policy.version || 'v1.0',
+        created_at: policy.ExtractedData?.CreatedByDate
+      }));
     },
     
     rejectedApprovals() {
-      return this.sortedPolicies.filter(policy => 
-        policy.ApprovedNot === false || 
-        policy.dbStatus === 'Rejected' || 
-        policy.ExtractedData?.Status === 'Rejected'
-      );
+      return this.actualPolicies.rejected.map(policy => ({
+        ...policy,
+        // Ensure consistent data structure
+        version: policy.version || 'v1.0',
+        created_at: policy.ExtractedData?.CreatedByDate
+      }));
     },
     
     // Table headers configuration
@@ -2614,7 +2897,9 @@ export default {
       return {
         name: 'Pending',
         statusClass: 'pending',
-        tasks: this.pendingApprovals.map(policy => this.formatPolicyForTable(policy))
+        tasks: this.pendingApprovals.map(policy => this.formatPolicyForTable(policy)),
+        pagination: this.pagination.pending,
+        totalCount: this.actualPolicyCounts.pending
       };
     },
     
@@ -2622,7 +2907,9 @@ export default {
       return {
         name: 'Approved',
         statusClass: 'completed',
-        tasks: this.approvedApprovals.map(policy => this.formatPolicyForTable(policy))
+        tasks: this.approvedApprovals.map(policy => this.formatPolicyForTable(policy)),
+        pagination: this.pagination.approved,
+        totalCount: this.actualPolicyCounts.approved
       };
     },
     
@@ -2630,7 +2917,9 @@ export default {
       return {
         name: 'Rejected',
         statusClass: 'rejected',
-        tasks: this.rejectedApprovals.map(policy => this.formatPolicyForTable(policy))
+        tasks: this.rejectedApprovals.map(policy => this.formatPolicyForTable(policy)),
+        pagination: this.pagination.rejected,
+        totalCount: this.actualPolicyCounts.rejected
       };
     },
     

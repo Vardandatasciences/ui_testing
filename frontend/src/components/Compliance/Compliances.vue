@@ -1,6 +1,10 @@
 <template>
   <div class="compliance-all-compliances-container">
-    <h1>Compliance Audit Status</h1>
+    <div class="compliance-custom-header">
+      <span>Compliance Audit Status</span>
+      <div class="compliance-custom-header-underline"></div>
+    </div>
+
 
     <!-- Error Message -->
     <div v-if="error" class="compliance-error-message">
@@ -38,9 +42,6 @@
               <div class="compliance-card-desc">{{ fw.description }}</div>
               <div class="compliance-version-info">
                 <span>Versions: {{ fw.versions.length }}</span>
-                <button class="compliance-version-btn" @click.stop="showVersions('framework', fw)">
-                  <i class="fas fa-history"></i>
-                </button>
               </div>
               <div class="compliance-card-actions">
                 <button class="compliance-action-btn primary" @click.stop="viewAllCompliances('framework', fw.id, fw.name)">
@@ -67,9 +68,6 @@
               <div class="compliance-card-desc">{{ policy.description }}</div>
               <div class="compliance-version-info">
                 <span>Versions: {{ policy.versions.length }}</span>
-                <button class="compliance-version-btn" @click.stop="showVersions('policy', policy)">
-                  <i class="fas fa-history"></i>
-                </button>
               </div>
               <div class="compliance-card-actions">
                 <button class="compliance-action-btn primary" @click.stop="viewAllCompliances('policy', policy.id, policy.name)">
@@ -112,7 +110,7 @@
       <template v-else-if="selectedSubpolicy">
         <div class="compliance-section-header">
           <span>Compliances in {{ selectedSubpolicy.name }}</span>
-          <div class="compliance-section-actions">
+          <div class="compliance-section-actions compliance-section-actions-right">
             <!-- Export Controls -->
             <div class="compliance-inline-export-controls">
               <select v-model="selectedFormat" class="compliance-format-select">
@@ -130,27 +128,20 @@
               <i :class="viewMode === 'card' ? 'fas fa-list' : 'fas fa-th-large'"></i>
               {{ viewMode === 'card' ? 'List View' : 'Card View' }}
             </button>
-            <button class="compliance-action-btn" @click="goToStep(2)">
-              <i class="fas fa-arrow-left"></i> Back to Subpolicies
-            </button>
           </div>
         </div>
-        
         <div v-if="loading" class="compliance-loading-spinner">
           <i class="fas fa-circle-notch fa-spin"></i>
           <span>Loading compliances...</span>
         </div>
-        
         <div v-else-if="!hasCompliances" class="compliance-no-data">
           <i class="fas fa-inbox"></i>
           <p>No compliances found for this subpolicy</p>
         </div>
-        
         <div v-else-if="filteredCompliances.length === 0" class="compliance-no-data">
           <i class="fas fa-filter"></i>
           <p>No approved compliances found for this subpolicy</p>
         </div>
-        
         <!-- Card View -->
         <div v-else-if="viewMode === 'card'" class="compliance-card-grid">
           <div v-for="compliance in filteredCompliances" 
@@ -202,58 +193,15 @@
             </div>
           </div>
         </div>
-        
-        <!-- List View -->
-        <div v-else class="compliance-list-view">
-          <table class="compliance-table">
-            <thead>
-              <tr>
-                <th>Audit Findings ID</th>
-                <th>Compliance</th>
-                <th>Criticality</th>
-                <th>Completion Status</th>
-                <th>Compliance Performed By</th>
-                <th>Compliance Approved By</th>
-                <th>Completion Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="compliance in filteredCompliances" :key="compliance.id">
-                <td class="compliance-audit-id">
-                  <a 
-                    v-if="complianceAudits[compliance.id]?.audit_findings_id" 
-                    href="#" 
-                    class="compliance-audit-id-link"
-                    @click.prevent="handleAuditLinkClick(complianceAudits[compliance.id]?.audit_findings_id)">
-                    {{ complianceAudits[compliance.id]?.audit_findings_id }}
-                  </a>
-                  <span v-else>N/A</span>
-                </td>
-                <td class="compliance-name">{{ compliance.name }}</td>
-                <td>
-                  <span :class="['compliance-criticality-badge', 'compliance-criticality-' + compliance.category.toLowerCase()]">
-                    {{ compliance.category }}
-                  </span>
-                </td>
-                <td>
-                  <span :class="getAuditStatusClass(complianceAudits[compliance.id]?.audit_findings_status)">
-                    <i :class="getAuditStatusIcon(complianceAudits[compliance.id]?.audit_findings_status)"></i>
-                    {{ formatAuditStatus(complianceAudits[compliance.id]?.audit_findings_status) }}
-                  </span>
-                </td>
-                <td>
-                  <span v-if="!complianceAudits[compliance.id]">
-                    <button class="compliance-mini-fetch-btn" @click="fetchAuditInfo(compliance.id)">
-                      <i class="fas fa-sync"></i> Load
-                    </button>
-                  </span>
-                  <span v-else>{{ complianceAudits[compliance.id]?.audit_performer_name || 'N/A' }}</span>
-                </td>
-                <td>{{ complianceAudits[compliance.id]?.audit_approver_name || 'N/A' }}</td>
-                <td>{{ complianceAudits[compliance.id]?.audit_date || 'N/A' }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- List View using DynamicTable -->
+        <div v-else>
+          <DynamicTable
+            :data="complianceTableData"
+            :columns="complianceTableColumns"
+            :show-pagination="true"
+            :show-actions="false"
+            :unique-key="'id'"
+          />
         </div>
       </template>
     </div>
@@ -324,9 +272,11 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import DynamicTable from '../DynamicTable.vue'
 
 export default {
   name: 'ComplianceManagement',
+  components: { DynamicTable },
   setup() {
 // State
 const frameworks = ref([])
@@ -346,6 +296,34 @@ const exportError = ref(null)
 const complianceAudits = ref({})
 const viewMode = ref('list') // Changed default to 'list' view
 const router = useRouter() // Add router for navigation
+
+// Add columns for DynamicTable
+const complianceTableColumns = [
+  { key: 'audit_findings_id', label: 'Audit Findings ID', sortable: true },
+  { key: 'name', label: 'Compliance', sortable: true },
+  { key: 'category', label: 'Criticality', sortable: true },
+  { key: 'audit_findings_status', label: 'Completion Status', sortable: true },
+  { key: 'audit_performer_name', label: 'Compliance Performed By', sortable: true },
+  { key: 'audit_approver_name', label: 'Compliance Approved By', sortable: true },
+  { key: 'audit_date', label: 'Completion Date', sortable: true }
+]
+
+const complianceTableData = computed(() => {
+  if (!selectedSubpolicy.value || !selectedSubpolicy.value.compliances) return [];
+  return filteredCompliances.value.map(compliance => {
+    const audit = complianceAudits.value[compliance.id] || {};
+    return {
+      audit_findings_id: audit.audit_findings_id || 'N/A',
+      name: compliance.name,
+      category: compliance.category,
+      audit_findings_status: audit.audit_findings_status || 'Not Audited',
+      audit_performer_name: audit.audit_performer_name || 'N/A',
+      audit_approver_name: audit.audit_approver_name || 'N/A',
+      audit_date: audit.audit_date || 'N/A',
+      id: compliance.id
+    }
+  })
+})
 
 // Computed
 const breadcrumbs = computed(() => {
@@ -371,7 +349,7 @@ onMounted(async () => {
   try {
     loading.value = true
     // Get all frameworks with their versions
-    const response = await axios.get('/api/all-policies/frameworks/')
+    const response = await axios.get('/api/compliance/all-policies/frameworks/')
     if (response.data && Array.isArray(response.data)) {
       frameworks.value = response.data.map(framework => ({
         ...framework,
@@ -398,7 +376,7 @@ async function selectFramework(fw) {
     selectedSubpolicy.value = null
     
     // Get active policies for the selected framework using the correct endpoint
-    const response = await axios.get('/api/all-policies/policies/', {
+    const response = await axios.get('/api/compliance/all-policies/policies/', {
       params: { 
         framework_id: fw.id
       }
@@ -428,7 +406,7 @@ async function selectPolicy(policy) {
     selectedSubpolicy.value = null
     
     // Get active subpolicies for the selected policy using the correct endpoint
-    const response = await axios.get('/api/all-policies/subpolicies/', {
+    const response = await axios.get('/api/compliance/all-policies/subpolicies/', {
       params: { 
         policy_id: policy.id
       }
@@ -456,7 +434,7 @@ async function selectSubpolicy(subpolicy) {
         
         console.log(`Selecting subpolicy: ${subpolicy.id} - ${subpolicy.name}`);
     
-    const response = await axios.get(`/api/all-policies/subpolicies/${subpolicy.id}/compliances/`);
+    const response = await axios.get(`/api/compliance/all-policies/subpolicies/${subpolicy.id}/compliances/`);
     console.log('Subpolicy compliances response:', response.data);
     
     if (response.data && response.data.success) {
@@ -525,11 +503,11 @@ async function showVersions(type, item) {
     switch (type) {
       case 'policy':
         versionModalTitle.value = `Versions of ${item.name}`
-        endpoint = `/api/all-policies/policies/${item.id}/versions/`
+        endpoint = `/api/compliance/all-policies/policies/${item.id}/versions/`
         break
       case 'compliance':
         versionModalTitle.value = `Versions of Compliance ${item.name}`
-        endpoint = `/api/all-policies/compliances/${item.id}/versions/`
+        endpoint = `/api/compliance/all-policies/compliances/${item.id}/versions/`
         break
     }
     
@@ -658,7 +636,7 @@ async function handleExport(format) {
     
     // Update the API endpoint URL with path parameters
     const response = await axios({
-      url: `/api/export/all-compliances/${format}/${itemType}/${itemId}/`,
+      url: `/api/compliance/export/all-compliances/${format}/${itemType}/${itemId}/`,
       method: 'GET',
       responseType: 'blob',
       timeout: 30000,
@@ -735,7 +713,7 @@ async function fetchAuditInfo(complianceId) {
       }
     };
     
-    const response = await axios.get(`/api/compliance/${complianceId}/audit-info/`);
+    const response = await axios.get(`/api/compliance/compliance/${complianceId}/audit-info/`);
     console.log(`Audit info response for compliance ID ${complianceId}:`, response.data);
     
     if (response.data && response.data.success) {
@@ -847,7 +825,10 @@ return {
   formatAuditStatus,
   handleAuditLinkClick,
   toggleViewMode,
-  filteredCompliances
+  filteredCompliances,
+  complianceTableColumns,
+  complianceTableData,
+  DynamicTable
 }
 }
 }
@@ -1181,5 +1162,14 @@ return {
 .compliance-audit-id-link:hover {
   color: #1d4ed8;
   text-decoration: underline;
+}
+
+/* Right-aligned and compact section actions for compliance */
+.compliance-section-actions-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
 }
 </style> 

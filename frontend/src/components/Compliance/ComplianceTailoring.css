@@ -461,7 +461,7 @@
 .compliance-heading-underline {
   width: 60px;
   height: 4px;
-  background: linear-gradient(90deg, #1ec6ff 60%, #1976d2 100%);
+  background: #1976d2;
   border-radius: 2px;
   margin-top: 8px;
   margin-bottom: 0;

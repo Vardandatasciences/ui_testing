@@ -56,74 +56,35 @@
     </div>
  
     <!-- Compliance Approvals List -->
-    <div v-else class="approvals-list">
-      <h3>My Approval Tasks</h3>
-      <ul>
-        <li v-for="approval in complianceApprovals" :key="approval.ApprovalId">
-          <strong class="clickable" @click="openApprovalDetails(approval)">
-            {{ approval.Identifier }}
-          </strong>
-          <span class="item-type-badge compliance-badge">Compliance</span>
-          <!-- Add a badge for deactivation requests -->
-          <span v-if="approval.ExtractedData?.RequestType === 'Change Status to Inactive' || approval.ExtractedData?.type === 'compliance_deactivation'" class="deactivation-badge">
-            Deactivation Request
-          </span>
-          <div class="approval-details">
-            <p class="description">
-              <!-- Show different description for deactivation requests -->
-              <span v-if="approval.ExtractedData?.RequestType === 'Change Status to Inactive' || approval.ExtractedData?.type === 'compliance_deactivation'">
-                Deactivation reason: {{ approval.ExtractedData.reason || 'No reason provided' }}
-              </span>
-              <span v-else>
-                {{ approval.ExtractedData.ComplianceItemDescription || 'No Description' }}
-              </span>
-            </p>
-            <div class="meta-info">
-              <span v-if="approval.ExtractedData?.RequestType !== 'Change Status to Inactive' && approval.ExtractedData?.type !== 'compliance_deactivation'" class="criticality" :class="approval.ExtractedData.Criticality?.toLowerCase()">
-                {{ approval.ExtractedData.Criticality || 'N/A' }}
-              </span>
-              <span class="created-by">
-                <i class="fas fa-user"></i>
-                {{ approval.ExtractedData.CreatedByName || 'System' }}
-              </span>
-              <span class="version">v{{ approval.ExtractedData.ComplianceVersion || approval.ExtractedData.version || '1.0' }}</span>
-
-            </div>
-          </div>
-          <span class="approval-status pending">(Pending Review)</span>
-        </li>
-      </ul>
+    <div>
+      <CollapsibleTable
+        v-for="(tasks, status) in groupedApprovals"
+        :key="status"
+        :sectionConfig="{
+          name: status,
+          statusClass: status.toLowerCase().replace(' ', '-'),
+          tasks: tasks.map(mapApprovalToRow)
+        }"
+        :tableHeaders="approvalTableHeaders"
+        :isExpanded="collapsibleStates[status]"
+        @toggle="toggleSection(status)"
+        @taskClick="handleApprovalAction"
+      />
     </div>
  
     <!-- Recently Approved Compliances -->
-    <div v-if="approvedComplianceItems.length > 0" class="approved-list">
-      <h3>Recently Approved Compliances ({{ approvedComplianceItems.length }})</h3>
-      <ul>
-        <li v-for="approval in approvedComplianceItems" :key="approval.ApprovalId">
-          <strong class="clickable" @click="openApprovalDetails(approval)">
-            {{ approval.Identifier }}
-          </strong>
-          <span class="item-type-badge compliance-badge">Compliance</span>
-          <span class="status-badge approved">Approved</span>
-          <div class="approval-details">
-            <p class="description">{{ approval.ExtractedData.ComplianceItemDescription || 'No Description' }}</p>
-            <div class="meta-info">
-              <span class="criticality" :class="approval.ExtractedData.Criticality?.toLowerCase()">
-                {{ approval.ExtractedData.Criticality || 'N/A' }}
-              </span>
-              <span class="created-by">
-                <i class="fas fa-user"></i>
-                {{ approval.ExtractedData.CreatedByName || 'System' }}
-              </span>
-              <span class="version">v{{ approval.ExtractedData.ComplianceVersion || '1.0' }}</span>
-              <span class="approval-date" v-if="approval.ApprovedDate">
-                <i class="fas fa-check-circle"></i>
-                Approved on: {{ formatDate(approval.ApprovedDate) }}
-              </span>
-            </div>
-          </div>
-        </li>
-      </ul>
+    <div v-if="approvedComplianceItems.length > 0">
+      <CollapsibleTable
+        :sectionConfig="{
+          name: 'Recently Approved',
+          statusClass: 'approved',
+          tasks: approvedComplianceItems.map(mapApprovalToRow)
+        }"
+        :tableHeaders="approvalTableHeaders"
+        :isExpanded="collapsibleStates['Recently Approved']"
+        @toggle="toggleSection('Recently Approved')"
+        @taskClick="handleApprovalAction"
+      />
     </div>
  
     <!-- Compliance Details Modal -->
@@ -259,50 +220,18 @@
     </div>
  
     <!-- Rejected Compliances List -->
-    <div class="rejected-approvals-list" v-if="rejectedCompliances.length">
-      <div class="rejected-header">
-        <h3>Rejected Compliances (Edit & Resubmit)</h3>
-        <button @click="loadRejectedCompliances" class="refresh-rejected-btn" title="Refresh Rejected Items">
-          <i class="fas fa-sync-alt" :class="{ 'fa-spin': isLoadingRejected }"></i> Refresh
-        </button>
-      </div>
-      <ul>
-        <li v-for="compliance in rejectedCompliances" :key="compliance.ApprovalId">
-          <div class="rejected-item-header">
-            <strong class="clickable" @click="openRejectedItem(compliance)">
-              {{ compliance.Identifier }}
-            </strong>
-            <span class="badge rejected">Rejected</span>
-            <span class="version">v{{ compliance.ExtractedData.ComplianceVersion || '1.0' }}</span>
-          </div>
-           
-          <!-- Show item description and metadata -->
-          <div class="rejected-item-details">
-            <p class="description">{{ compliance.ExtractedData.ComplianceItemDescription || 'No Description' }}</p>
-            
-            <div class="meta-info">
-              <span class="criticality" :class="compliance.ExtractedData.Criticality?.toLowerCase()">
-                {{ compliance.ExtractedData.Criticality || 'N/A' }}
-              </span>
-              <span class="rejected-date" v-if="compliance.ApprovedDate">
-                <i class="fas fa-times-circle"></i>
-                Rejected on: {{ formatDate(compliance.ApprovedDate) }}
-              </span>
-            </div>
-            
-            <div v-if="compliance.ExtractedData.compliance_approval && compliance.ExtractedData.compliance_approval.remarks" class="rejection-reason">
-              <strong>Reason for Rejection:</strong> {{ compliance.ExtractedData.compliance_approval.remarks }}
-            </div>
-            <div v-else-if="compliance.rejection_reason" class="rejection-reason">
-              <strong>Reason for Rejection:</strong> {{ compliance.rejection_reason }}
-            </div>
-            
-            <button @click="openRejectedItem(compliance)" class="edit-rejected-btn">
-              <i class="fas fa-edit"></i> Edit & Resubmit
-            </button>
-          </div>
-        </li>
-      </ul>
+    <div v-if="rejectedCompliances.length">
+      <CollapsibleTable
+        :sectionConfig="{
+          name: 'Rejected',
+          statusClass: 'rejected',
+          tasks: rejectedCompliances.map(mapRejectedToRow)
+        }"
+        :tableHeaders="rejectedTableHeaders"
+        :isExpanded="collapsibleStates['Rejected']"
+        @toggle="toggleSection('Rejected')"
+        @taskClick="handleRejectedAction"
+      />
     </div>
  
     <!-- Edit Modal for Rejected Compliance -->
@@ -356,11 +285,13 @@ import { complianceService } from '@/services/api';
 import { PopupModal } from '../../modules/popup';
 import PopupMixin from './mixins/PopupMixin';
 import { CompliancePopups } from './utils/popupUtils';
+import CollapsibleTable from '../CollapsibleTable.vue';
  
 export default {
   name: 'ComplianceApprover',
   components: {
-    PopupModal
+    PopupModal,
+    CollapsibleTable
   },
   mixins: [PopupMixin],
   data() {
@@ -383,7 +314,13 @@ export default {
       },
       refreshInterval: null,
       isLoadingRejected: false,
-      isDeactivationRequest: false
+      isDeactivationRequest: false,
+      collapsibleStates: {
+        Pending: true,
+        Approved: false,
+        Rejected: false,
+        'Recently Approved': false
+      }
     }
   },
   async mounted() {
@@ -411,7 +348,7 @@ export default {
       
       try {
         // Fetch approvals with reviewer_id
-        const approvalsResponse = await complianceService.getPolicyApprovals({
+        const approvalsResponse = await complianceService.getCompliancePolicyApprovals({
           reviewer_id: this.userId
         });
         console.log('Approvals response:', approvalsResponse);
@@ -946,19 +883,15 @@ export default {
       try {
         this.isLoadingRejected = true;
         console.log(`Loading rejected compliances for reviewer_id: ${this.userId}`);
-        const response = await complianceService.getRejectedApprovals(this.userId);
+        const response = await complianceService.getComplianceRejectedApprovals(this.userId);
         console.log('Rejected compliances response:', response);
 
         if (response.data) {
           // Process the rejected items, excluding any that have been approved
           let filteredRejected = response.data
             .filter(item => 
-              // Filter compliance items that are explicitly rejected
-              item.ExtractedData?.type === 'compliance' && 
               item.ApprovedNot === false && 
-              // Add this check to avoid entries with nullish values 
               item.Identifier &&
-              // Don't show items that are in the process of being resubmitted
               !item.ExtractedData?.compliance_approval?.inResubmission
             )
             .sort((a, b) => {
@@ -995,7 +928,40 @@ export default {
         this.isLoadingRejected = false;
       }
     },
-
+    mapApprovalToRow(approval) {
+      return {
+        ...approval,
+        Identifier: approval.Identifier,
+        Description: approval.ExtractedData?.ComplianceItemDescription || approval.ExtractedData?.reason || 'No Description',
+        Criticality: approval.ExtractedData?.Criticality || 'N/A',
+        CreatedBy: approval.ExtractedData?.CreatedByName || 'System',
+        Version: approval.ExtractedData?.ComplianceVersion || approval.ExtractedData?.version || '1.0',
+        actions: approval // Pass the whole object for the action button
+      };
+    },
+    mapRejectedToRow(compliance) {
+      return {
+        ...compliance,
+        Identifier: compliance.Identifier,
+        Description: compliance.ExtractedData?.ComplianceItemDescription || 'No Description',
+        Criticality: compliance.ExtractedData?.Criticality || 'N/A',
+        CreatedBy: compliance.ExtractedData?.CreatedByName || 'System',
+        Version: compliance.ExtractedData?.ComplianceVersion || compliance.ExtractedData?.version || '1.0',
+        actions: compliance // Pass the whole object for the action button
+      };
+    },
+    handleApprovalAction(approval) {
+      this.openApprovalDetails(approval);
+    },
+    handleRejectedAction(compliance) {
+      this.openRejectedItem(compliance);
+    },
+    toggleSection(section) {
+      this.collapsibleStates = {
+        ...this.collapsibleStates,
+        [section]: !this.collapsibleStates[section]
+      };
+    },
   },
   computed: {
     pendingApprovalsCount() {
@@ -1142,7 +1108,45 @@ export default {
      
       console.log(`Found ${approved.length} approved compliance items`);
       return approved;
-    }
+    },
+    groupedApprovals() {
+      // Group approvals by status
+      const groups = {
+        Pending: [],
+        Approved: [],
+        Rejected: []
+      };
+      this.approvals.forEach(approval => {
+        if (approval.ApprovedNot === null) {
+          groups.Pending.push(approval);
+        } else if (approval.ApprovedNot === true) {
+          groups.Approved.push(approval);
+        } else if (approval.ApprovedNot === false) {
+          groups.Rejected.push(approval);
+        }
+      });
+      return groups;
+    },
+    approvalTableHeaders() {
+      return [
+        { key: 'Identifier', label: 'Identifier' },
+        { key: 'Description', label: 'Description' },
+        { key: 'Criticality', label: 'Criticality' },
+        { key: 'CreatedBy', label: 'Created By' },
+        { key: 'Version', label: 'Version' },
+        { key: 'actions', label: 'Actions' }
+      ];
+    },
+    rejectedTableHeaders() {
+      return [
+        { key: 'Identifier', label: 'Identifier' },
+        { key: 'Description', label: 'Description' },
+        { key: 'Criticality', label: 'Criticality' },
+        { key: 'CreatedBy', label: 'Created By' },
+        { key: 'Version', label: 'Version' },
+        { key: 'actions', label: 'Actions' }
+      ];
+    },
   }
 }
 </script>

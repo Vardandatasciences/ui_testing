@@ -1,0 +1,35 @@
+INFO 2025-07-01 18:13:44,531 utils 23472 19972 [RBAC] Successfully retrieved user_id from session: 2
+INFO 2025-07-01 18:13:44,546 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:13:44,548 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+INFO 2025-07-01 18:13:44,554 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:13:44,554 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+INFO 2025-07-01 18:13:44,564 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:13:44,564 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+INFO 2025-07-01 18:13:44,572 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+ERROR 2025-07-01 18:13:44,574 utils 23472 19972 [RBAC] Invalid incident permission type: approve
+INFO 2025-07-01 18:13:44,583 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:13:44,585 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+INFO 2025-07-01 18:49:20,633 utils 23472 22908 [RBAC] Successfully retrieved user_id from session: 2
+INFO 2025-07-01 18:49:20,661 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:49:20,661 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+INFO 2025-07-01 18:49:20,674 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:49:20,674 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+INFO 2025-07-01 18:49:20,685 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:49:20,685 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+INFO 2025-07-01 18:49:20,699 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+ERROR 2025-07-01 18:49:20,702 utils 23472 22908 [RBAC] Invalid incident permission type: approve
+INFO 2025-07-01 18:49:20,710 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 18:49:20,710 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+WARNING 2025-07-01 18:50:15,844 utils 23472 27076 [RBAC] No user_id found in session
+WARNING 2025-07-01 18:50:15,897 utils 23472 7064 [RBAC] No user_id found in session
+INFO 2025-07-01 19:00:27,191 utils 23472 4280 [RBAC] Successfully retrieved user_id from session: 2
+INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+INFO 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+INFO 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+ERROR 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] Invalid incident permission type: approve
+INFO 2025-07-01 19:00:27,235 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 19:00:27,235 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED

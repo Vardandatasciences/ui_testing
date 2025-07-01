@@ -16,7 +16,6 @@
 
     <div class="content-wrapper">
       <div class="section-header">
-        <span>{{ title }}</span>
         <div class="section-actions">
           <!-- Export Controls -->
           <div class="inline-export-controls">
@@ -99,48 +98,18 @@
       
       <!-- List View -->
       <div v-else class="compliances-list-view">
-        <table class="compliances-table">
-          <thead>
-            <tr>
-              <th>Audit Findings ID</th>
-              <th>Compliance</th>
-              <th>Criticality</th>
-              <th>Completion Status</th>
-              <th>Compliance Performed By</th>
-              <th>Compliance Approved By</th>
-              <th>Completion Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="compliance in compliances" :key="compliance.ComplianceId">
-              <td class="audit-id">
-                <a 
-                  v-if="compliance.audit_findings_id" 
-                  href="#" 
-                  class="audit-id-link"
-                  @click.prevent="handleAuditLinkClick(compliance.audit_findings_id)">
-                  {{ compliance.audit_findings_id }}
-                </a>
-                <span v-else>N/A</span>
-              </td>
-              <td class="compliance-name">{{ compliance.ComplianceItemDescription }}</td>
-              <td>
-                <span :class="['criticality-badge', 'criticality-' + compliance.Criticality.toLowerCase()]">
-                  {{ compliance.Criticality }}
-                </span>
-              </td>
-              <td>
-                <span :class="getAuditStatusClass(compliance.audit_findings_status)">
-                  <i :class="getAuditStatusIcon(compliance.audit_findings_status)"></i>
-                  {{ formatAuditStatus(compliance.audit_findings_status) }}
-                </span>
-              </td>
-              <td>{{ compliance.audit_performer_name || 'N/A' }}</td>
-              <td>{{ compliance.audit_approver_name || 'N/A' }}</td>
-              <td>{{ formatDate(compliance.audit_date) }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <DynamicTable
+          :data="tableData"
+          :columns="tableColumns"
+          :show-pagination="true"
+          :show-actions="false"
+          :unique-key="'ComplianceId'"
+        >
+          <template #cell-audit_findings_id="{ value }">
+            <a v-if="value && value !== 'N/A'" href="#" class="audit-id-link" @click.prevent="handleAuditLinkClick(value)">{{ value }}</a>
+            <span v-else>N/A</span>
+          </template>
+        </DynamicTable>
       </div>
     </div>
   </div>
@@ -151,6 +120,8 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { auditService } from '@/services/api'
+import DynamicTable from '../DynamicTable.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -172,6 +143,30 @@ const title = computed(() => {
   return `Compliance Audit Status - ${name.value}`
 })
 
+// DynamicTable columns for list view
+const tableColumns = [
+  { key: 'audit_findings_id', label: 'Audit Findings ID', sortable: true },
+  { key: 'ComplianceItemDescription', label: 'Compliance', sortable: true },
+  { key: 'Criticality', label: 'Criticality', sortable: true },
+  { key: 'audit_findings_status', label: 'Completion Status', sortable: true },
+  { key: 'audit_performer_name', label: 'Compliance Performed By', sortable: true },
+  { key: 'audit_approver_name', label: 'Compliance Approved By', sortable: true },
+  { key: 'audit_date', label: 'Completion Date', sortable: true }
+]
+
+const tableData = computed(() => {
+  return compliances.value.map(c => ({
+    audit_findings_id: c.audit_findings_id || 'N/A',
+    ComplianceItemDescription: c.ComplianceItemDescription,
+    Criticality: c.Criticality,
+    audit_findings_status: c.audit_findings_status || 'Not Audited',
+    audit_performer_name: c.audit_performer_name || 'N/A',
+    audit_approver_name: c.audit_approver_name || 'N/A',
+    audit_date: formatDate(c.audit_date),
+    ComplianceId: c.ComplianceId
+  }))
+})
+
 // Fetch compliances on component mount
 onMounted(async () => {
   await fetchCompliances()
@@ -186,13 +181,13 @@ async function fetchCompliances() {
     let endpoint = ''
     switch(type.value) {
       case 'framework':
-        endpoint = `/compliances/framework/${id.value}/`
+        endpoint = `/api/compliance/view/framework/${id.value}/`
         break
       case 'policy':
-        endpoint = `/compliances/policy/${id.value}/`
+        endpoint = `/api/compliance/view/policy/${id.value}/`
         break
       case 'subpolicy':
-        endpoint = `/api/all-policies/subpolicies/${id.value}/compliances/`
+        endpoint = `/api/compliance/view/subpolicy/${id.value}/`
         break
       default:
         throw new Error('Invalid type specified')
@@ -209,7 +204,7 @@ async function fetchCompliances() {
       const compliancesWithAudit = await Promise.all(
         fetchedCompliances.map(async (compliance) => {
           try {
-            const auditResponse = await axios.get(`/api/compliance/${compliance.ComplianceId}/audit-info/`)
+            const auditResponse = await auditService.getComplianceAuditInfo(compliance.ComplianceId)
             if (auditResponse.data && auditResponse.data.success) {
               return {
                 ...compliance,
@@ -348,17 +343,18 @@ async function handleExport(format) {
 .compliance-view-container {
   padding: 20px;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
-  margin-left: 180px;
+  margin-left: 280px;
 }
 
-h1 {
+.compliance-view-container h1 {
   color: #2c3e50;
   margin-bottom: 30px;
   font-weight: 600;
 }
 
-.error-message {
+.compliance-view-container .error-message {
   background-color: #fee2e2;
   border: 1px solid #ef4444;
   color: #b91c1c;
@@ -370,7 +366,7 @@ h1 {
   gap: 8px;
 }
 
-.loading-spinner {
+.compliance-view-container .loading-spinner {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -379,14 +375,14 @@ h1 {
   margin: 20px 0;
 }
 
-.content-wrapper {
+.compliance-view-container .content-wrapper {
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
 
-.section-header {
+.compliance-view-container .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -397,13 +393,18 @@ h1 {
   border-bottom: 2px solid #e5e7eb;
 }
 
-.section-actions {
+.compliance-view-container .section-actions {
   display: flex;
-  gap: 12px;
+  justify-content: flex-end;
   align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 
-.action-btn {
+.compliance-view-container .action-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -417,12 +418,12 @@ h1 {
   transition: all 0.2s ease;
 }
 
-.action-btn:hover {
+.compliance-view-container .action-btn:hover {
   background: #e5e7eb;
   color: #1f2937;
 }
 
-.view-toggle-btn {
+.compliance-view-container .view-toggle-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -436,16 +437,16 @@ h1 {
   cursor: pointer;
 }
 
-.view-toggle-btn:hover {
+.compliance-view-container .view-toggle-btn:hover {
   background-color: #e5e7eb;
   transform: translateY(-1px);
 }
 
-.view-toggle-btn i {
+.compliance-view-container .view-toggle-btn i {
   color: #6b7280;
 }
 
-.compliances-list-view {
+.compliance-view-container .compliances-list-view {
   background-color: #ffffff;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
@@ -454,13 +455,13 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.compliances-table {
+.compliance-view-container .compliances-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
 }
 
-.compliances-table th {
+.compliance-view-container .compliances-table th {
   background-color: #f9fafb;
   padding: 12px 15px;
   text-align: left;
@@ -468,56 +469,56 @@ h1 {
   color: #4b5563;
   border-bottom: 1px solid #e5e7eb;
   white-space: nowrap;
-  min-width: 140px; /* Ensure minimum width for columns */
+  min-width: 140px;
   overflow: visible;
 }
 
-/* Specific sizing for different columns */
-.compliances-table th:nth-child(1) { /* Audit Findings ID */
+.compliance-view-container .compliances-table th:nth-child(1) {
   min-width: 120px;
 }
 
-.compliances-table th:nth-child(2) { /* Compliance */
+.compliance-view-container .compliances-table th:nth-child(2) {
   min-width: 250px;
 }
 
-.compliances-table th:nth-child(3) { /* Criticality */
+.compliance-view-container .compliances-table th:nth-child(3) {
   min-width: 100px;
 }
 
-.compliances-table td {
+.compliance-view-container .compliances-table td {
   padding: 12px 15px;
   border-bottom: 1px solid #e5e7eb;
   color: #1f2937;
 }
 
-.compliances-table tr:last-child td {
+.compliance-view-container .compliances-table tr:last-child td {
   border-bottom: none;
 }
 
-.compliances-table tr:hover {
+.compliance-view-container .compliances-table tr:hover {
   background-color: #f9fafb;
 }
 
-.compliance-name {
+.compliance-view-container .compliance-name {
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.audit-id {
+.compliance-view-container .audit-id {
   font-family: monospace;
   color: #6b7280;
 }
 
-.compliances-grid {
+.compliance-view-container .compliances-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  gap: 40px !important;
+  justify-content: end !important;
 }
 
-.compliance-card {
+.compliance-view-container .compliance-card {
   transition: all 0.25s ease;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -525,13 +526,13 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.compliance-card:hover {
+.compliance-view-container .compliance-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-color: #d1d5db;
 }
 
-.compliance-header {
+.compliance-view-container .compliance-header {
   background-color: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
   padding: 10px 12px;
@@ -539,11 +540,11 @@ h1 {
   justify-content: space-between;
 }
 
-.compliance-body {
+.compliance-view-container .compliance-body {
   padding: 16px;
 }
 
-.compliance-body h3 {
+.compliance-view-container .compliance-body h3 {
   margin-top: 0;
   margin-bottom: 12px;
   color: #1f2937;
@@ -551,7 +552,7 @@ h1 {
   line-height: 1.4;
 }
 
-.compliance-footer {
+.compliance-view-container .compliance-footer {
   padding-top: 12px;
   margin-top: 12px;
   border-top: 1px solid #e5e7eb;
@@ -559,13 +560,13 @@ h1 {
   color: #6b7280;
 }
 
-.inline-export-controls {
+.compliance-view-container .inline-export-controls {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.format-select {
+.compliance-view-container .format-select {
   padding: 7px 10px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
@@ -576,7 +577,7 @@ h1 {
   min-width: 140px;
 }
 
-.export-btn {
+.compliance-view-container .export-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -591,16 +592,16 @@ h1 {
   transition: all 0.2s ease;
 }
 
-.export-btn:hover {
+.compliance-view-container .export-btn:hover {
   background-color: #2563eb;
   transform: translateY(-1px);
 }
 
-.export-btn i {
+.compliance-view-container .export-btn i {
   font-size: 0.9rem;
 }
 
-.no-data {
+.compliance-view-container .no-data {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -610,24 +611,23 @@ h1 {
   text-align: center;
 }
 
-.no-data i {
+.compliance-view-container .no-data i {
   font-size: 2rem;
   margin-bottom: 12px;
 }
 
-.criticality-badge {
+.compliance-view-container .criticality-badge {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.85em;
   font-weight: 500;
 }
 
-.criticality-high { background-color: #ffebee; color: #d32f2f; }
-.criticality-medium { background-color: #fff3e0; color: #f57c00; }
-.criticality-low { background-color: #e8f5e9; color: #388e3c; }
+.compliance-view-container .criticality-high { background-color: #ffebee; color: #d32f2f; }
+.compliance-view-container .criticality-medium { background-color: #fff3e0; color: #f57c00; }
+.compliance-view-container .criticality-low { background-color: #e8f5e9; color: #388e3c; }
 
-/* Add these styles to enhance the audit information presentation */
-.clean-details-grid {
+.compliance-view-container .clean-details-grid {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -637,7 +637,7 @@ h1 {
   margin: 15px 0;
 }
 
-.detail-row {
+.compliance-view-container .detail-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -646,81 +646,90 @@ h1 {
   font-size: 0.95rem;
 }
 
-.detail-row:last-child {
+.compliance-view-container .detail-row:last-child {
   border-bottom: none;
   padding-bottom: 0;
 }
 
-.detail-label, .label {
+.compliance-view-container .detail-label,
+.compliance-view-container .label {
   color: #4b5563;
   font-weight: 500;
   min-width: 150px;
 }
 
-.detail-value, .value {
+.compliance-view-container .detail-value,
+.compliance-view-container .value {
   color: #111827;
   font-weight: 500;
 }
 
-/* Audit status classes */
-.fully-compliant {
+.compliance-view-container .fully-compliant {
   color: #10b981;
   font-weight: 500;
 }
 
-/* "Partially Compliant" displayed as "Control Gaps" in UI */
-.partially-compliant {
+.compliance-view-container .partially-compliant {
   color: #f59e0b;
   font-weight: 500;
 }
 
-/* "Non Compliant" displayed as "Non Conformity" in UI */
-.non-compliant {
+.compliance-view-container .non-compliant {
   color: #ef4444;
   font-weight: 500;
 }
 
-.not-applicable {
+.compliance-view-container .not-applicable {
   color: #6b7280;
   font-weight: 500;
 }
 
-.not-audited {
+.compliance-view-container .not-audited {
   color: #9ca3af;
   font-style: italic;
 }
 
-/* Styling for audit status icons */
-.fully-compliant i {
+.compliance-view-container .fully-compliant i {
   color: #10b981;
   margin-right: 5px;
 }
 
-/* "Partially Compliant" displayed as "Control Gaps" in UI */
-.partially-compliant i {
+.compliance-view-container .partially-compliant i {
   color: #f59e0b;
   margin-right: 5px;
 }
 
-/* "Non Compliant" displayed as "Non Conformity" in UI */
-.non-compliant i {
+.compliance-view-container .non-compliant i {
   color: #ef4444;
   margin-right: 5px;
 }
 
-.not-applicable i {
+.compliance-view-container .not-applicable i {
   color: #6b7280;
   margin-right: 5px;
 }
 
-.not-audited i {
+.compliance-view-container .not-audited i {
   color: #9ca3af;
   margin-right: 5px;
 }
 
-/* Add animation for loading state */
-.fa-sync {
-  animation: spin 1s linear infinite;
+.compliance-view-container .audit-id-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.compliance-view-container .audit-id-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+@media (max-width: 1200px) {
+  .compliance-view-container .compliances-table {
+    min-width: 1000px;
+  }
 }
 
 @keyframes spin {
@@ -728,28 +737,8 @@ h1 {
   100% { transform: rotate(360deg); }
 }
 
-/* Add audit ID link styling */
-.audit-id-link {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.audit-id-link:hover {
-  color: #1d4ed8;
-  text-decoration: underline;
-}
-
-/* Responsive styles */
-@media (max-width: 1200px) {
-  .compliances-table {
-    min-width: 1000px; /* Ensure horizontal scroll on small screens */
-  }
-  
-  .compliances-list-view {
-    overflow-x: auto;
-  }
+.compliance-view-container .fa-sync {
+  animation: spin 1s linear infinite;
 }
 
 /* Responsive adjustments */
@@ -765,5 +754,47 @@ h1 {
     margin-bottom: 8px;
     justify-content: flex-end;
   }
+}
+
+/* Ensure the audit view container fits the page and is aligned */
+.compliance-view-container {
+  margin-left: 280px !important;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+/* Modern, right-aligned, and compact section actions */
+.section-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.section-actions .export-btn,
+.section-actions .view-toggle-btn,
+.section-actions .action-btn {
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 5px;
+  min-width: 28px;
+  min-height: 28px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.section-actions .export-btn:hover,
+.section-actions .view-toggle-btn:hover,
+.section-actions .action-btn:hover {
+  background: #e5e7eb;
+  color: #1f2937;
 }
 </style> 
