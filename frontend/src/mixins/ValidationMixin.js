@@ -102,13 +102,6 @@ export default {
       if (reviewerError) errors.reviewer = reviewerError;
 
       // Audit details validation
-      const titleError = this.validateString(member.auditTitle, {
-        fieldName: 'Audit Title',
-        minLength: 3,
-        maxLength: 200
-      });
-      if (titleError) errors.auditTitle = titleError;
-
       const scopeError = this.validateString(member.scope, {
         fieldName: 'Scope',
         minLength: 10,
@@ -122,13 +115,6 @@ export default {
         maxLength: 1000
       });
       if (objectiveError) errors.objective = objectiveError;
-
-      const businessUnitError = this.validateString(member.businessUnit, {
-        fieldName: 'Business Unit',
-        minLength: 2,
-        maxLength: 100
-      });
-      if (businessUnitError) errors.businessUnit = businessUnitError;
 
       const typeError = this.validateAuditType(member.type);
       if (typeError) errors.type = typeError;

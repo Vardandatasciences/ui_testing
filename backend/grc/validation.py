@@ -299,10 +299,10 @@ def validate_audit_version_data(data):
     )
     
     # Validate audit metadata
-    validated_data['audit_title'] = validate_string(
-        data.get('audit_title', ''), 
-        min_length=0, max_length=200, field_name="Audit Title", allow_none=True
-    )
+    # validated_data['audit_title'] = validate_string(
+    #     data.get('audit_title', ''), 
+    #     min_length=0, max_length=200, field_name="Audit Title", allow_none=True
+    # )
     
     validated_data['audit_scope'] = validate_string(
         data.get('audit_scope', ''), 
@@ -314,10 +314,10 @@ def validate_audit_version_data(data):
         min_length=0, max_length=1000, field_name="Audit Objective", allow_none=True
     )
     
-    validated_data['business_unit'] = validate_string(
-        data.get('business_unit', ''), 
-        min_length=0, max_length=100, field_name="Business Unit", allow_none=True
-    )
+    # validated_data['business_unit'] = validate_string(
+    #     data.get('business_unit', ''), 
+    #     min_length=0, max_length=100, field_name="Business Unit", allow_none=True
+    # )
     
     validated_data['overall_comments'] = validate_string(
         data.get('overall_comments', ''), 

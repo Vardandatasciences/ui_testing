@@ -33,14 +33,13 @@
 
 /* Global Styles for Incident Table */
 .incident-view-container {
-  padding: 20px 20px 20px 20px;
-  margin-left: 280px !important;
+  padding: 20px 20px 20px 240px;
   min-height: 100vh;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: var(--incident-gray-800);
   display: flex;
   flex-direction: column;
-  width: calc(100% - 270px);
+  width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
   background-color: #f5f6fa;
@@ -112,8 +111,10 @@
 .incident-filter-controls {
   display: flex;
   padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 10px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .incident-filter-group {
@@ -121,82 +122,6 @@
   gap: 30px;
   align-items: flex-start;
   width: 100%;
-}
-
-/* New filter controls layout */
-.incident-filter-group > div {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-}
-
-.incident-filter-group .incident-search-input {
-  flex: 2;
-  width: 500px !important;
-  max-width: 100% !important;
-  padding: 12px 45px 12px 40px !important;
-  border: 2px solid #1976d2 !important;
-  border-radius: 8px !important;
-  font-size: 16px !important;
-  outline: none !important;
-  transition: all 0.3s ease !important;
-  background: #ffffff !important;
-  display: block !important;
-  visibility: visible !important;
-  height: 48px !important;
-  box-sizing: border-box !important;
-}
-
-/* Custom components styling in filter row */
-.incident-filter-group .dropdown-container {
-  flex: 0 0 auto;
-  min-width: 120px;
-}
-
-.incident-filter-group .filter-btn {
-  height: 48px;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Responsive design for filter controls */
-@media (max-width: 1200px) {
-  .incident-filter-group > div {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  
-  .incident-filter-group .incident-search-input {
-    flex: 1 1 100%;
-    order: 1;
-  }
-  
-  .incident-filter-group .dropdown-container {
-    flex: 1 1 auto;
-    min-width: 140px;
-  }
-}
-
-@media (max-width: 768px) {
-  .incident-filter-group > div {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .incident-filter-group .incident-search-input,
-  .incident-filter-group .dropdown-container {
-    flex: 1 1 100%;
-    width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .incident-search-input {
-    width: 100% !important;
-    min-width: 0 !important;
-  }
 }
 
 /* Search Section */
@@ -221,6 +146,21 @@
   display: block !important;
   visibility: visible !important;
   margin-top: 5px !important;
+}
+
+.incident-search-input {
+  width: 100% !important;
+  padding: 12px 45px 12px 40px !important;
+  border: 3px solid #7B6FDD !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+  background: #ffffff !important;
+  display: block !important;
+  visibility: visible !important;
+  height: 48px !important;
+  box-sizing: border-box !important;
 }
 
 .incident-search-input:focus {
@@ -532,6 +472,9 @@
 /* Action Dropdown Styles */
 .incident-action-dropdown-container {
   position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 160px;
 }
 
 /* Hand Pointer Indicator */
@@ -1320,9 +1263,7 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
   .incident-view-container {
-    padding: 20px 20px 20px 20px;
-    margin-left: 220px;
-    width: calc(100% - 220px);
+    padding: 20px 20px 20px 220px;
   }
   
   .incident-table-header,
@@ -1332,12 +1273,6 @@
 }
 
 @media (max-width: 992px) {
-  .incident-view-container {
-    padding: 20px 20px 20px 20px;
-    margin-left: 200px;
-    width: calc(100% - 200px);
-  }
-  
   .incident-table-header,
   .incident-table-row {
     grid-template-columns: 40px 1fr 80px 70px 90px 140px;
@@ -1372,7 +1307,7 @@
 .incident-assignment-workflow-section {
   position: fixed;
   top: 0;
-  left: 270px; /* Updated to match the new margin-left */
+  left: 240px; /* Account for sidebar width */
   right: 0;
   bottom: 0;
   z-index: 1000;
@@ -1762,8 +1697,6 @@ input[type="date"].incident-due-date-input {
 @media (max-width: 768px) {
   .incident-view-container {
     padding: 16px;
-    margin-left: 0;
-    width: 100%;
   }
   
   .incident-filter-controls {
@@ -1907,237 +1840,4 @@ input[type="date"].incident-due-date-input {
 
 .dropdown-item.no-permission i {
   color: #dc3545;
-}
-
-/* DynamicTable Integration Styles */
-.dynamic-table-container {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-/* Ensure action dropdown appears above table */
-.dynamic-table .incident-action-dropdown-container {
-  position: relative;
-  z-index: 10000;
-}
-
-.dynamic-table .incident-action-dropdown-menu {
-  z-index: 99999 !important;
-  position: absolute !important;
-  left: 0 !important;
-  right: auto !important;
-  min-width: 180px;
-}
-
-/* Status badges in table cells */
-.dynamic-table .incident-status-badge {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* Table cell styling for incident data */
-.dynamic-table td {
-  padding: 16px 12px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-.dynamic-table th {
-  background: linear-gradient(135deg, #7B6FDD 0%, #9C88FF 100%);
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 16px 12px;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dynamic-table th:last-child {
-  border-right: none;
-}
-
-/* Priority and origin badges in table */
-.dynamic-table .incident-priority-badge,
-.dynamic-table .incident-origin-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-align: center;
-  min-width: 80px;
-  display: inline-block;
-  background-color: transparent !important;
-  border: 1px solid #ddd;
-  color: #333 !important;
-}
-
-/* Override any DynamicTable status styling for incident badges */
-.dynamic-table .status-cell .incident-priority-badge,
-.dynamic-table .status-cell .incident-origin-badge,
-.dynamic-table .incident-priority-badge,
-.dynamic-table .incident-origin-badge {
-  background-color: transparent !important;
-  color: #333 !important;
-}
-
-/* Ensure no background colors are applied to incident badges */
-.dynamic-table .incident-priority-badge *,
-.dynamic-table .incident-origin-badge * {
-  background-color: transparent !important;
-  color: #333 !important;
-}
-
-/* Title link styling in table */
-.dynamic-table .incident-title-link {
-  color: #7B6FDD;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.dynamic-table .incident-title-link:hover {
-  color: #6A5ED4;
-  text-decoration: underline;
-}
-
-/* ID cell styling */
-.dynamic-table td:first-child {
-  font-weight: 600;
-  color: #7B6FDD;
-  font-size: 16px;
-}
-
-/* Date cell styling */
-.dynamic-table td:nth-child(5) {
-  font-weight: 500;
-  color: #666;
-}
-
-/* Actions column styling */
-.dynamic-table .actions-column,
-.dynamic-table td:last-child {
-  width: 120px;
-  text-align: center;
-}
-
-/* Incident data display in DynamicTable */
-.dynamic-table .incident-priority-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-align: center;
-  min-width: 60px;
-  display: inline-block;
-  background-color: transparent;
-  border: 1px solid #ddd;
-  color: #333;
-}
-
-.dynamic-table .incident-priority-high {
-  border-color: #f44336;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-.dynamic-table .incident-priority-medium {
-  border-color: #ff9800;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-.dynamic-table .incident-priority-low {
-  border-color: #4caf50;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-.dynamic-table .incident-origin-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-align: center;
-  min-width: 80px;
-  display: inline-block;
-  background-color: transparent !important;
-  border: 1px solid #ddd;
-  color: #333 !important;
-}
-
-.dynamic-table .incident-origin-manual {
-  border-color: #7B6FDD;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-.dynamic-table .incident-origin-audit {
-  border-color: #3498db;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-.dynamic-table .incident-origin-siem {
-  border-color: #e91e63;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-.dynamic-table .incident-origin-other {
-  border-color: #95a5a6;
-  color: #333 !important;
-  background-color: transparent !important;
-}
-
-/* Title cell styling */
-.dynamic-table td:nth-child(2) {
-  text-align: left;
-  padding-left: 16px;
-}
-
-/* Origin cell styling */
-.dynamic-table td:nth-child(3) {
-  text-align: center;
-}
-
-/* Priority cell styling */
-.dynamic-table td:nth-child(4) {
-  text-align: center;
-}
-
-/* Date cell styling */
-.dynamic-table td:nth-child(5) {
-  text-align: center;
-  font-weight: 500;
-  color: #666;
-}
-
-/* Ensure the dropdown menu is always on top and not clipped */
-.dynamic-table .incident-action-dropdown-menu,
-.incident-action-dropdown-menu,
-.dropdown-menu {
-  z-index: 99999 !important;
-  position: absolute !important;
-}
-
-.dynamic-table-container,
-.table-wrapper {
-  overflow: visible !important;
 } 

@@ -1,10 +1,18 @@
 <template>
   <div class="audit-findings-container">
     <div class="audit-findings-header">
-      <h1 class="audit-findings-title">Audit Finding Incidents</h1>
+      <h1>Audit Finding Incidents</h1>
       <div class="incident-actions">
         <!-- Search input -->
-       
+        <div class="incident-search-controls">
+          <input 
+            v-model="searchQuery" 
+            @input="applyFilters"
+            type="text" 
+            placeholder="Search by title, ID, or description..." 
+            class="incident-search-input"
+          />
+        </div>
         
         <!-- Export controls -->
         <div class="incident-export-controls">
@@ -21,8 +29,25 @@
             <span v-else>Export</span>
           </button>
         </div>
-        
-      
+        <div class="incident-filters">
+          <select v-model="filterStatus" @change="applyFilters">
+            <option value="all">All Status</option>
+            <option value="open">Open</option>
+            <option value="assigned">Assigned</option>
+            <option value="closed">Closed</option>
+            <option value="rejected">Rejected</option>
+            <option value="scheduled">Escalated to Risk</option>
+          </select>
+          <select v-model="sortBy" @change="applyFilters">
+            <option value="Date">Date (Newest First)</option>
+            <option value="IncidentTitle">Title</option>
+            <option value="RiskPriority">Priority</option>
+            <option value="Status">Status</option>
+          </select>
+        </div>
+        <button class="incident-refresh-btn" @click="fetchData">
+          <i class="fas fa-sync"></i> Refresh
+        </button>
       </div>
     </div>
 
@@ -100,18 +125,90 @@
         </div>
       </div>
 
-      <!-- Collapsible Tables for each status -->
-      <div class="collapsible-tables-container">
-        <CollapsibleTable
-          v-for="(sectionConfig, status) in statusSections"
-          :key="status"
-          :section-config="sectionConfig"
-          :table-headers="tableHeaders"
-          :is-expanded="expandedSections[status]"
-          @toggle="toggleSection(status)"
-          @add-task="handleAddTask(status)"
-          @task-click="handleTaskClick"
-        />
+      <div class="incident-findings-table" :class="{ 'dropdown-open': dropdownOpenFor !== null }">
+        <table>
+          <thead>
+            <tr>
+              <th>Incident ID</th>
+              <th>Title</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Origin</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in findings" :key="index" :class="getRowClass(item.Status)">
+              <td>{{ item.IncidentId }}</td>
+              <td>{{ item.IncidentTitle }}</td>
+              <td>{{ item.RiskPriority || 'N/A' }}</td>
+              <td>
+                <span 
+                  class="status-badge" 
+                  :class="getStatusClass(item.Status)"
+                  style="display: inline-block !important; visibility: visible !important;"
+                >
+                  {{ item.Status || 'Open' }}
+                </span>
+              </td>
+              <td>{{ item.Origin }}</td>
+              <td>{{ formatDate(item.Date) }}</td>
+              <td>{{ item.Time || 'N/A' }}</td>
+              <td>{{ truncateText(item.Description, 50) }}</td>
+              <td>
+                <div class="action-buttons">
+                  <!-- Show Actions dropdown only for Open status -->
+                  <div v-if="!item.Status || item.Status === 'Open'" class="actions-dropdown">
+                    <button 
+                      class="actions-button" 
+                      @click="toggleActionDropdown(index)"
+                      :class="{ active: dropdownOpenFor === index }"
+                    >
+                      <i class="fas fa-cog gear-icon"></i>
+                      Actions
+                      <i class="fas fa-chevron-down dropdown-arrow" :class="{ rotate: dropdownOpenFor === index }"></i>
+                    </button>
+                    <div 
+                      class="actions-dropdown-menu" 
+                      :class="{ show: dropdownOpenFor === index }"
+                    >
+                      <button class="dropdown-item" @click="handleDropdownAction('view', item)">
+                        <i class="fas fa-eye"></i>
+                        View Details
+                      </button>
+                      <button class="dropdown-item" @click="handleDropdownAction('assign', item)">
+                        <i class="fas fa-user-plus"></i>
+                        Assign as Incident
+                      </button>
+                      <button class="dropdown-item" @click="handleDropdownAction('escalate', item)">
+                        <i class="fas fa-arrow-up"></i>
+                        Escalate to Risk
+                      </button>
+                      <button class="dropdown-item" @click="handleDropdownAction('reject', item)">
+                        <i class="fas fa-times"></i>
+                        Reject Incident
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Show only View Details button for processed items -->
+                  <button 
+                    v-else
+                    class="view-details-btn" 
+                    @click="viewIncidentDetails(item.IncidentId)" 
+                    title="View Details"
+                  >
+                    <i class="fas fa-eye"></i>
+                    View Details
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div v-if="findings.length === 0" class="empty-state">
@@ -269,18 +366,16 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { PopupModal, PopupService } from '@/modules/popup';
-import CollapsibleTable from '@/components/CollapsibleTable.vue';
 
 export default {
   name: 'AuditFindings',
   components: {
-    PopupModal,
-    CollapsibleTable
+    PopupModal
   },
   setup() {
     const router = useRouter();
@@ -314,97 +409,11 @@ export default {
     const exportFormat = ref('xlsx');
     const isExporting = ref(false);
     
+    // Dropdown state
+    const dropdownOpenFor = ref(null);
+    
     // Search query
     const searchQuery = ref('');
-    
-    // Collapsible sections state
-    const expandedSections = ref({});
-
-    // Table headers for CollapsibleTable
-    const tableHeaders = [
-      { key: 'incidentId', label: 'Incident ID', className: 'task-name' },
-      { key: 'title', label: 'Title', className: 'task-assignee' },
-      { key: 'priority', label: 'Priority', className: 'task-due-date' },
-      { key: 'origin', label: 'Origin', className: 'task-origin' },
-      { key: 'date', label: 'Date', className: 'task-date' },
-      { key: 'time', label: 'Time', className: 'task-time' },
-      { key: 'description', label: 'Description', className: 'task-description' },
-      { key: 'actions', label: 'Actions', className: 'task-actions' }
-    ];
-
-    // Group findings by status and convert to CollapsibleTable format
-    const statusSections = computed(() => {
-      const sections = {};
-      
-      // Group findings by status
-      const groupedFindings = {};
-      findings.value.forEach(finding => {
-        const status = finding.Status || 'Open';
-        if (!groupedFindings[status]) {
-          groupedFindings[status] = [];
-        }
-        groupedFindings[status].push(finding);
-      });
-
-      // Convert each status group to CollapsibleTable format
-      Object.keys(groupedFindings).forEach(status => {
-        const statusConfig = getStatusConfig(status);
-        sections[status] = {
-          name: status,
-          statusClass: statusConfig.statusClass,
-          tasks: groupedFindings[status].map(finding => {
-            return {
-              incidentId: finding.IncidentId,
-              title: finding.IncidentTitle,
-              priority: `<span class="priority-${(finding.RiskPriority || 'low').toLowerCase()}">${finding.RiskPriority || 'N/A'}</span>`,
-              status: `<span class="status-badge ${getStatusClass(finding.Status && finding.Status.trim() ? finding.Status : 'Open')}">${finding.Status && finding.Status.trim() ? finding.Status : 'Open'}</span>`,
-              origin: finding.Origin,
-              date: finding.Date,
-              time: finding.Time,
-              description: finding.Description,
-              actions: finding.IncidentId // Pass the ID for the View Details button
-            };
-          })
-        };
-      });
-
-      return sections;
-    });
-
-    // Get status configuration for styling
-    const getStatusConfig = (status) => {
-      switch (status) {
-        case 'Open':
-          return { statusClass: 'pending' };
-        case 'Assigned':
-          return { statusClass: 'in-progress' };
-        case 'Closed':
-        case 'Approved':
-          return { statusClass: 'completed' };
-        case 'Rejected':
-          return { statusClass: 'rejected' };
-        case 'Scheduled':
-        case 'Pending Review':
-          return { statusClass: 'in-progress' };
-        default:
-          return { statusClass: 'pending' };
-      }
-    };
-
-    // Toggle section expansion
-    const toggleSection = (status) => {
-      expandedSections.value[status] = !expandedSections.value[status];
-    };
-
-    // Handle add task (not used in this context but required by CollapsibleTable)
-    const handleAddTask = (status) => {
-      console.log('Add task for status:', status);
-    };
-
-    // Handle task click (view details)
-    const handleTaskClick = (taskId) => {
-      viewIncidentDetails(taskId);
-    };
     
     // Fetch data from the API
     const fetchData = async () => {
@@ -501,6 +510,9 @@ export default {
       assignmentNotes.value = '';
       newMitigationStep.value = '';
       mitigationDueDate.value = '';
+      
+      // Fetch users for assignment
+      fetchUsers();
       
       // Load existing mitigation steps from the incident's Mitigation field
       console.log('Selected incident:', incident);
@@ -654,7 +666,7 @@ export default {
 
       // Update incident with assignment details and mitigations
       axios.put(`http://localhost:8000/api/incidents/${selectedIncident.value.IncidentId}/assign/`, {
-        status: 'Assigned',
+        status: 'In Progress',
         assigner_id: selectedAssigner.value,
         assigner_name: assigner.name,
         reviewer_id: selectedReviewer.value,
@@ -745,7 +757,7 @@ export default {
     // Fetch users for assignment
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/incidents-users/');
+        const response = await axios.get('http://localhost:8000/api/users/');
         // Map the API response to match the expected frontend structure
         availableUsers.value = response.data.map(user => ({
           id: user.UserId,
@@ -813,6 +825,9 @@ export default {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          
+          // Show success popup
+          PopupService.success('Export completed successfully');
         }
         
       } catch (err) {
@@ -823,16 +838,59 @@ export default {
       }
     };
     
+    // Dropdown methods
+    const toggleActionDropdown = (index) => {
+      if (dropdownOpenFor.value === index) {
+        dropdownOpenFor.value = null;
+        return;
+      }
+      
+      dropdownOpenFor.value = index;
+    };
+    
+    const closeAllDropdowns = () => {
+      dropdownOpenFor.value = null;
+    };
+
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.actions-dropdown')) {
+        closeAllDropdowns();
+      }
+    };
+    
+    const handleDropdownAction = (action, item) => {
+      closeAllDropdowns();
+      
+      switch (action) {
+        case 'view':
+          viewIncidentDetails(item.IncidentId);
+          break;
+        case 'assign':
+          openAssignModal(item);
+          break;
+        case 'escalate':
+          openSolveModal(item);
+          break;
+        case 'reject':
+          openRejectModal(item);
+          break;
+      }
+    };
+    
     onMounted(() => {
       fetchData();
       fetchUsers();
+      
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', handleClickOutside);
     });
 
     // Cleanup on unmount
     onUnmounted(() => {
-      // Cleanup if needed
+      document.removeEventListener('click', handleClickOutside);
     });
-
+    
     return {
       findings,
       loading,
@@ -861,16 +919,11 @@ export default {
       exportFormat,
       isExporting,
       
+      // Dropdown state
+      dropdownOpenFor,
+      
       // Search query
       searchQuery,
-      
-      // Collapsible sections
-      expandedSections,
-      statusSections,
-      tableHeaders,
-      toggleSection,
-      handleAddTask,
-      handleTaskClick,
       
       fetchData,
       fetchUsers,
@@ -879,6 +932,11 @@ export default {
       getRowClass,
       getStatusClass,
       viewIncidentDetails,
+      
+      // Dropdown methods
+      toggleActionDropdown,
+      closeAllDropdowns,
+      handleDropdownAction,
       
       // Modal and workflow methods
       openSolveModal,

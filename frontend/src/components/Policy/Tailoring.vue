@@ -7,12 +7,11 @@
       <div v-if="!showPolicyDropdown" class="filter-group">
         <label for="frameworkSelect">SELECT FRAMEWORK</label>
         <div class="select-wrapper">
-          <select id="frameworkSelect" v-model="selectedFramework" @change="onFrameworkDropdown" title="Select a framework to tailor and customize">
-            <option value="" disabled selected>Select a framework</option>
-            <option v-for="framework in frameworks" :key="framework.id" :value="framework.id">
-              {{ framework.name }}
-            </option>
-          </select>
+          <CustomDropdown
+            :config="frameworkDropdownConfig"
+            v-model="selectedFramework"
+            @change="(option) => { selectedFramework = option.value; onFrameworkDropdown(); }"
+          />
         </div>
         <p class="helper-text framework-note">
           <i class="fas fa-info-circle"></i>
@@ -25,12 +24,11 @@
     <div v-if="showPolicyDropdown" class="filter-group">
       <label for="policySelect">Select Policy</label>
       <div class="select-wrapper">
-        <select id="policySelect" v-model="selectedPolicy" @change="onPolicyDropdown" title="Select a policy to copy to a target framework">
-          <option value="" disabled selected>Select a policy</option>
-          <option v-for="(policy, idx) in policyOptions" :key="idx" :value="idx">
-            {{ policy.title }}
-          </option>
-        </select>
+        <CustomDropdown
+          :config="policyDropdownConfig"
+          v-model="selectedPolicy"
+          @change="(option) => { selectedPolicy = option.value; onPolicyDropdown(); }"
+        />
       </div>
       <button v-if="selectedPolicy === ''" class="switch-btn" @click="switchToFramework" title="Switch back to copying entire frameworks">Switch to Framework Dropdown</button>
     </div>
@@ -118,21 +116,19 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Created By</label>
-                <select v-model="frameworkData.createdByName" required title="Select the person responsible for creating this framework">
-                  <option value="">Select Creator</option>
-                  <option v-for="user in users" :key="user.UserId" :value="user.UserName">
-                    {{ user.UserName }}
-                  </option>
-                </select>
+                <CustomDropdown
+                  :config="createdByDropdownConfig"
+                  v-model="frameworkData.createdByName"
+                  @change="(option) => { frameworkData.createdByName = option.value; }"
+                />
               </div>
               <div class="form-group">
                 <label>Reviewer</label>
-                <select v-model="frameworkData.reviewer" required title="Select the person who will review and approve this framework">
-                  <option value="">Select Reviewer</option>
-                  <option v-for="user in users" :key="user.UserId" :value="user.UserName">
-                    {{ user.UserName }}
-                  </option>
-                </select>
+                <CustomDropdown
+                  :config="reviewerDropdownConfig"
+                  v-model="frameworkData.reviewer"
+                  @change="(option) => { frameworkData.reviewer = option.value; }"
+                />
               </div>
             </div>
           </form>
@@ -144,12 +140,11 @@
             <!-- Add Framework Selection Dropdown -->
             <div v-if="showPolicyDropdown" class="form-group span-full">
               <label>Select Target Framework</label>
-              <select v-model="selectedFramework" class="framework-select" required title="Choose the framework where you want to copy this policy">
-                <option value="">Select a framework</option>
-                <option v-for="framework in frameworks" :key="framework.id" :value="framework.id">
-                  {{ framework.name }}
-                </option>
-              </select>
+              <CustomDropdown
+                :config="targetFrameworkDropdownConfig"
+                v-model="selectedFramework"
+                @change="(option) => { selectedFramework = option.value; }"
+              />
               <p class="helper-text">Select the framework where you want to copy this policy</p>
             </div>
             <!-- Policy Forms Container -->
@@ -616,21 +611,19 @@
                 <div v-if="showPolicyDropdown" class="form-row">
                   <div class="form-group">
                     <label>Created By</label>
-                    <select v-model="policiesData[stepIndex].createdByName" :required="!policiesData[stepIndex].exclude" title="Select the person responsible for creating this policy">
-                      <option value="">Select Creator</option>
-                      <option v-for="user in users" :key="user.UserId" :value="user.UserName">
-                        {{ user.UserName }}
-                      </option>
-                    </select>
+                    <CustomDropdown
+                      :config="createdByDropdownConfig"
+                      v-model="policiesData[stepIndex].createdByName"
+                      @change="(option) => { policiesData[stepIndex].createdByName = option.value; }"
+                    />
                   </div>
                   <div class="form-group">
                     <label>Reviewer</label>
-                    <select v-model="policiesData[stepIndex].reviewer" :required="!policiesData[stepIndex].exclude" title="Select the person who will review and approve this policy">
-                      <option value="">Select Reviewer</option>
-                      <option v-for="user in users" :key="user.UserId" :value="user.UserName">
-                        {{ user.UserName }}
-                      </option>
-                    </select>
+                    <CustomDropdown
+                      :config="reviewerDropdownConfig"
+                      v-model="policiesData[stepIndex].reviewer"
+                      @change="(option) => { policiesData[stepIndex].reviewer = option.value; }"
+                    />
                   </div>
                 </div>
                 <div class="subpolicies-section">
@@ -702,13 +695,15 @@
 import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
 import axios from 'axios'
 import { PopupService, PopupModal } from '@/modules/popus'
+import CustomDropdown from '@/components/CustomDropdown.vue'
 
 const API_BASE_URL = 'http://localhost:8000/api'
 
 export default {
   name: 'PolicyTailoring',
   components: {
-    PopupModal
+    PopupModal,
+    CustomDropdown
   },
   setup() {
     const selectedFramework = ref('')
@@ -1549,6 +1544,66 @@ export default {
       ]
     })
 
+    // Computed property for framework dropdown configuration
+    const frameworkDropdownConfig = computed(() => ({
+      label: 'SELECT FRAMEWORK',
+      name: 'framework',
+      defaultValue: 'Select a framework',
+      defaultLabel: 'Select a framework',
+      values: frameworks.value.map(framework => ({
+        value: framework.id,
+        label: framework.name
+      }))
+    }))
+
+    // Computed property for policy dropdown configuration
+    const policyDropdownConfig = computed(() => ({
+      label: 'Select Policy',
+      name: 'policy',
+      defaultValue: 'Select a policy',
+      defaultLabel: 'Select a policy',
+      values: policyOptions.value.map((policy, idx) => ({
+        value: idx.toString(),
+        label: policy.title
+      }))
+    }))
+
+    // Computed property for target framework dropdown configuration (used in policy form)
+    const targetFrameworkDropdownConfig = computed(() => ({
+      label: 'Select Target Framework',
+      name: 'targetFramework',
+      defaultValue: 'Select a framework',
+      defaultLabel: 'Select a framework',
+      values: frameworks.value.map(framework => ({
+        value: framework.id,
+        label: framework.name
+      }))
+    }))
+
+    // Computed property for user dropdown configuration (Created By)
+    const createdByDropdownConfig = computed(() => ({
+      label: 'Created By',
+      name: 'createdBy',
+      defaultValue: 'Select Creator',
+      defaultLabel: 'Select Creator',
+      values: users.value.map(user => ({
+        value: user.UserName,
+        label: user.UserName
+      }))
+    }))
+
+    // Computed property for user dropdown configuration (Reviewer)
+    const reviewerDropdownConfig = computed(() => ({
+      label: 'Reviewer',
+      name: 'reviewer',
+      defaultValue: 'Select Reviewer',
+      defaultLabel: 'Select Reviewer',
+      values: users.value.map(user => ({
+        value: user.UserName,
+        label: user.UserName
+      }))
+    }))
+
     // Add function to fetch users
     const fetchUsers = async () => {
       try {
@@ -1801,6 +1856,11 @@ export default {
       showPolicyDropdown,
       stepIndex,
       stepTabs,
+      frameworkDropdownConfig,
+      policyDropdownConfig,
+      targetFrameworkDropdownConfig,
+      createdByDropdownConfig,
+      reviewerDropdownConfig,
       frameworkData,
       policiesData,
       policyOptions,

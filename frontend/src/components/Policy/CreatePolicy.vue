@@ -15,7 +15,7 @@
     <!-- Policy Form Section -->
     <div v-if="!showApprovalForm">
       <h2>Create New Policy</h2>
-     
+    
       <!-- Framework Selection - Show only when no framework is selected -->
       <div class="framework-policy-row" v-if="!selectedFramework || showFrameworkForm">
         <div class="framework-policy-selects">
@@ -36,31 +36,25 @@
           <div class="form-row">
                           <div class="form-group policy-name">
                 <label>Framework Name</label>
-                <div class="input-with-icon">
-                  <i class="fas fa-file-alt"></i>
-                  <input
-                    type="text"
-                    placeholder="Enter Framework name"
-                    v-model="newFramework.FrameworkName"
-                    style="text-align: left !important;"
-                    title="Enter a descriptive name for your framework"
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Enter Framework name"
+                  v-model="newFramework.FrameworkName"
+                  style="text-align: left !important;"
+                  title="Enter a descriptive name for your framework"
+                />
               </div>
           </div>
 
           <div class="form-row single-column">
             <div class="form-group description">
               <label>Description</label>
-              <div class="input-with-icon">
-                <i class="fas fa-align-left"></i>
-                <textarea
-                  placeholder="Enter framework description"
-                  v-model="newFramework.FrameworkDescription"
-                  rows="3"
-                  title="Describe the purpose, scope, and objectives of this framework"
-                ></textarea>
-              </div>
+              <textarea
+                placeholder="Enter framework description"
+                v-model="newFramework.FrameworkDescription"
+                rows="3"
+                title="Describe the purpose, scope, and objectives of this framework"
+              ></textarea>
             </div>
           </div>
 
@@ -71,79 +65,61 @@
                   (Auto-generated)
                 </span>
               </label>
-              <div class="input-with-icon">
-                <i class="fas fa-code-branch"></i>
-                <input
-                  type="text"
-                  placeholder="Enter Identifier"
-                  v-model="newFramework.Identifier"
-                  :readonly="newFramework.InternalExternal === 'Internal'"
-                  title="Use a unique code like 'FW-001' or 'ISO-27001'"
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Enter Identifier"
+                v-model="newFramework.Identifier"
+                :readonly="newFramework.InternalExternal === 'Internal'"
+                title="Use a unique code like 'FW-001' or 'ISO-27001'"
+              />
             </div>
             <div class="form-group category">
               <label>Category</label>
-              <div class="input-with-icon">
-                <i class="fas fa-tag"></i>
-                <input
-                  type="text"
-                  placeholder="Enter category"
-                  v-model="newFramework.Category"
-                  title="e.g., Security, Compliance, Risk Management, etc."
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Enter category"
+                v-model="newFramework.Category"
+                title="e.g., Security, Compliance, Risk Management, etc."
+              />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group internal-external">
               <label>Internal/External</label>
-              <div class="input-with-icon">
-                <i class="fas fa-building"></i>
-                <select
-                  v-model="newFramework.InternalExternal"
-                  title="Select whether this framework is for internal or external use"
-                >
-                  <option value="">Select Type</option>
-                  <option value="Internal">Internal</option>
-                  <option value="External">External</option>
-                </select>
-              </div>
+              <select
+                v-model="newFramework.InternalExternal"
+                title="Select whether this framework is for internal or external use"
+              >
+                <option value="">Select Type</option>
+                <option value="Internal">Internal</option>
+                <option value="External">External</option>
+              </select>
+            </div>
+            <div class="form-group upload">
+              <label>Upload Document</label>
+              <span>{{ newFramework.DocURL ? newFramework.DocURL.name : 'Choose File' }}</span>
+              <button class="browse-btn" type="button" @click="() => $refs.frameworkFileInput.click()" title="Browse and select a document file">Browse</button>
+              <input type="file" ref="frameworkFileInput" style="display:none" @change="onFrameworkFileChange" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group date">
               <label>Effective Start Date</label>
-              <div class="input-with-icon">
-                <i class="fas fa-calendar"></i>
-                <input
-                  type="date"
-                  v-model="newFramework.StartDate"
-                  title="Date when the framework implementation begins"
-                />
-              </div>
+              <input
+                type="date"
+                v-model="newFramework.StartDate"
+                title="Date when the framework implementation begins"
+              />
             </div>
             <div class="form-group date">
               <label>Effective End Date</label>
-              <div class="input-with-icon">
-                <i class="fas fa-calendar"></i>
-                <input
-                  type="date"
-                  v-model="newFramework.EndDate"
-                  title="Date when the framework expires or requires review"
-                />
-              </div>
-            </div>
-            <div class="form-group upload">
-              <label>Upload Document</label>
-              <div class="input-with-icon">
-                <i class="fas fa-file-upload"></i>
-                <span>{{ newFramework.DocURL ? newFramework.DocURL.name : 'Choose File' }}</span>
-                <button class="browse-btn" type="button" @click="() => $refs.frameworkFileInput.click()" title="Browse and select a document file">Browse</button>
-                <input type="file" ref="frameworkFileInput" style="display:none" @change="onFrameworkFileChange" />
-              </div>
+              <input
+                type="date"
+                v-model="newFramework.EndDate"
+                title="Date when the framework expires or requires review"
+              />
             </div>
           </div>
 
@@ -537,6 +513,13 @@
                   ></textarea>
                 </div>
               </div>
+            </div>
+            
+            <!-- Add Sub Policy Button - Always visible at the end -->
+            <div class="subpolicy-add-container">
+              <button class="add-sub-policy-btn" @click="handleAddSubPolicy(idx)" title="Add a new sub-policy under this policy">
+                <i class="fas fa-plus"></i> Add Sub Policy
+              </button>
             </div>
           </div>
         </div>

@@ -1,5 +1,10 @@
 <template>
     <div :class="['tree-policies-container', { 'sidebar-collapsed': isSidebarCollapsed }]">
+      <!-- Heading -->
+      <div class="tree-heading">
+        <h2>Tree Policy Structure</h2>
+        <div class="tree-heading-underline"></div>
+      </div>
       <!-- Loading Overlay -->
       <transition name="fade">
         <div v-if="loading" class="tree-loading-overlay">
@@ -18,10 +23,11 @@
   
       <!-- Header with controls -->
       <div class="tree-header">
-        <select v-model="treeSelectedFramework" class="tree-framework-select" :disabled="loading">
-          <option value="" disabled>Select Framework</option>
-          <option v-for="fw in treeFrameworks" :key="fw.id" :value="fw.title">{{ fw.title }}</option>
-        </select>
+        <CustomDropdown 
+          :config="frameworkDropdownConfig" 
+          v-model="treeSelectedFramework"
+          :disabled="loading"
+        />
         <button v-if="treeSelectedFramework" class="tree-expand-btn" @click="expandAllTree" :disabled="loading">
           <i class="fas fa-expand-alt" style="margin-right: 8px;"></i>Expand All
         </button>
@@ -72,11 +78,15 @@
   <script>
   import { ref, computed, onMounted, inject, watch } from 'vue'
   import axios from 'axios'
+  import CustomDropdown from '../CustomDropdown.vue'
   
   const API_BASE_URL = 'http://localhost:8000/api'
   
   export default {
     name: 'TreePolicies',
+    components: {
+      CustomDropdown
+    },
     setup() {
       // Define SVG constants as refs
       const svgWidth = ref(700)
@@ -167,6 +177,17 @@
         }))
       })
       
+      // Framework dropdown configuration for CustomDropdown
+      const frameworkDropdownConfig = computed(() => ({
+        label: 'Framework',
+        name: 'framework',
+        defaultValue: 'Select Framework',
+        values: frameworks.value.map(fw => ({
+          value: fw.title,
+          label: fw.title
+        }))
+      }))
+      
       // Set default framework on mount
       onMounted(async () => {
         await fetchFrameworks()
@@ -255,7 +276,8 @@
         svgWidth,
         svgPolicyLineHeight,
         svgSubWidth,
-        svgSubLineHeight
+        svgSubLineHeight,
+        frameworkDropdownConfig
       }
     }
   }

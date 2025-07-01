@@ -1,5 +1,5 @@
 .create-policy-container {
-    margin-left: 230px;
+    margin-left: 280px;
     padding: 20px;
 }
 
@@ -635,8 +635,9 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  overflow-x: auto;
+  overflow-x: visible;
   padding-bottom: 16px;
+  width: 100%;
 }
 .policy-row {
   display: flex;
@@ -646,6 +647,7 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   min-width: 100%;
+  width: 100%;
 }
 .policy-card, .subpolicy-card {
   background: #fff;
@@ -662,21 +664,34 @@
   flex: 0 0 auto;
 }
 .policy-card {
-  min-width: 260px;
-  max-width: 300px;
-  border-left: 3px solid #007bff;
+  width: 320px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 .subpolicies-row {
+  width: max-content;
+  min-width: 100%;
   display: flex;
-  gap: 12px;
-  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 16px;
   overflow-x: auto;
-  min-width: 0;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  padding: 16px;
+  min-height: 0;
+  align-items: flex-start;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 .subpolicy-card {
-  border-left: 3px solid #28a745;
-  min-width: 220px;
-  max-width: 260px;
+  width: 300px;
+  padding: 16px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 .policy-card-header {
   display: flex;
@@ -909,21 +924,22 @@ textarea {
 
 /* Submit Button Styling */
 .create-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  margin-top: 12px;
-  width: 100%;
-  transition: background-color 0.2s;
+  background-color: #007bff !important;
+  color: #fff !important;
+  padding: 6px 12px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  min-width: 90px !important;
+  width: auto !important;
+  transition: background 0.2s !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07) !important;
 }
 
 .create-btn:hover {
-  background-color: #0056b3;
+  background-color: #0056b3 !important;
 }
 
 /* Date Input Styling */
@@ -1930,7 +1946,7 @@ input[readonly]:focus {
 }
 
 .entities-options::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+  background: #a8a8a8;
 }
 
 /* Responsive adjustments */
@@ -1977,4 +1993,429 @@ input[readonly]:focus {
   border-color: #e2e8f0;
   box-shadow: none;
   transform: none;
+}
+
+/* Update these specific styles */
+
+.policy-card {
+  width: 320px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Base styles for all inputs in policy card */
+.policy-card input,
+.policy-card textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 8px;
+  height: 32px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+/* Form row styling */
+.policy-form-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/* Description field specific styling */
+.policy-card .form-group.description {
+  width: 70%;
+  margin: 0 auto;
+  max-width: 280px;
+}
+
+.policy-card .form-group.description textarea {
+  width: 100%;
+  min-height: 80px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Date fields row styling */
+.policy-card .date-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.policy-card .date-row .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.policy-card .date-row input {
+  width: 100%;
+}
+
+/* Objective and Applicability row */
+.policy-card .objective-applicability-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.policy-card .objective-applicability-row .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.policy-card .objective-applicability-row textarea,
+.policy-card .objective-applicability-row input {
+  width: 100%;
+  height: 32px;
+}
+
+/* Form groups in a row */
+.policy-form-row .form-group {
+  flex: 1;
+  min-width: 0;
+  width: calc(50% - 4px);
+}
+
+/* Date input specific styling */
+.policy-form-row input[type="date"] {
+  width: 100%;
+  min-width: 0;
+  padding-right: 20px;
+}
+
+/* Single form groups (not in a row) */
+.policy-card .form-group:not(.policy-form-row .form-group) {
+  width: 100%;
+}
+
+/* Textarea specific styling */
+.policy-card textarea {
+  height: auto;
+  min-height: 50px;
+  width: 100%;
+  resize: vertical;
+}
+
+/* Remove any fixed max-width constraints */
+.policy-form-row input,
+.policy-form-row .form-group input {
+  max-width: none;
+}
+
+/* Add these new styles for subpolicy card */
+.subpolicy-card {
+  width: 300px;
+  padding: 16px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.subpolicy-card .form-group {
+  margin-bottom: 10px;
+}
+
+.subpolicy-card input,
+.subpolicy-card textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 8px;
+  height: 32px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.subpolicy-card textarea {
+  height: auto;
+  min-height: 50px;
+  resize: vertical;
+}
+
+.subpolicy-card label {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+/* Form row styling for subpolicy */
+.subpolicy-card .policy-form-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.subpolicy-card .policy-form-row .form-group {
+  flex: 1;
+  min-width: 0;
+  width: calc(50% - 4px);
+}
+
+/* Ensure all inputs stay within boundaries */
+.subpolicy-card .form-group input,
+.subpolicy-card .form-group textarea {
+  width: 100%;
+  max-width: none;
+}
+
+/* Enhanced subpolicies row styling for horizontal layout */
+.subpolicies-row {
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  width: max-content !important;
+  min-width: 100% !important;
+}
+
+/* Force horizontal layout */
+.subpolicies-row .subpolicy-card {
+  flex: 0 0 280px !important;
+  min-width: 280px !important;
+  max-width: 280px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.subpolicies-row .subpolicy-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar for subpolicies row */
+.subpolicies-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.subpolicies-row::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.subpolicies-row::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.subpolicies-row::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Subpolicy add container styling */
+.subpolicy-add-container {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 16px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.subpolicy-add-container .add-sub-policy-btn {
+  background: #e6f7ea;
+  border: 2px dashed #28a745;
+  color: #28a745;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 80px;
+  justify-content: center;
+  width: 100%;
+  min-width: 100px;
+}
+
+.subpolicy-add-container .add-sub-policy-btn:hover {
+  background: #d4f5e3;
+  border-color: #20c997;
+  color: #20c997;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.subpolicy-add-container .add-sub-policy-btn i {
+  font-size: 16px;
+}
+
+/* Policy row container to ensure proper layout */
+.policy-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  min-width: 100%;
+  width: 100%;
+}
+
+/* Ensure policy card maintains its width */
+.policy-row .policy-card {
+  flex: 0 0 320px; /* Fixed width for policy card */
+  min-width: 320px;
+  max-width: 320px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Remove any flex-wrap constraints */
+.policy-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-x: visible; /* Allow horizontal overflow */
+  padding-bottom: 16px;
+  width: 100%;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .subpolicies-row {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .subpolicies-row .subpolicy-card {
+    flex: 0 0 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+  }
+  
+  .subpolicy-add-container {
+    min-width: 100px;
+  }
+  
+  .subpolicy-add-container .add-sub-policy-btn {
+    min-width: 80px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+
+.framework-form-container {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.framework-form {
+  max-width: 100%;
+}
+
+/* Two-column layout for framework form rows */
+.framework-form .form-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.framework-form .form-row.single-column {
+  display: block;
+}
+
+.framework-form .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.framework-form .form-group input,
+.framework-form .form-group select,
+.framework-form .form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 16px 8px 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #2d3748;
+  background: white;
+}
+
+.framework-form .input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.framework-form .input-with-icon i {
+  position: absolute;
+  left: 14px;
+  color: #718096;
+  font-size: 16px;
+  z-index: 2;
+}
+
+.framework-form .form-group textarea {
+  min-height: 60px;
+  padding-top: 12px;
+}
+
+.framework-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.framework-form .submit-btn {
+  background: #007bff !important;
+  color: #fff !important;
+  padding: 6px 12px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  min-width: 90px !important;
+  width: auto !important;
+  transition: background 0.2s !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07) !important;
+}
+.framework-form .submit-btn:hover {
+  background: #0056b3 !important;
+}
+
+.framework-form .cancel-btn {
+  background: #f7fafc;
+  color: #222;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 15px;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.framework-form .cancel-btn:hover {
+  background: #e2e8f0;
+}
+
+@media (max-width: 700px) {
+  .framework-form-container {
+    padding: 10px;
+    max-width: 100%;
+  }
+  .framework-form .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .framework-form .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

@@ -10,24 +10,11 @@
     <!-- Reviewer Filter Section -->
     <div class="filter-section">
       <div class="filter-group">
-        <label for="reviewer-filter">Filter by Reviewer:</label>
-        <select id="reviewer-filter" v-model="selectedReviewerId" @change="filterByReviewer" class="filter-dropdown">
-          <option value="">All Reviewers</option>
-          <option v-for="reviewer in reviewers" :key="reviewer.UserId" :value="reviewer.UserId">
-            {{ reviewer.UserName }} ({{ reviewer.Email }})
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Summary Cards -->
-    <div class="performance-summary">
-      <div class="summary-card growth">
-        <div class="summary-icon"><i class="fas fa-exchange-alt"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Pending Status Changes</div>
-          <div class="summary-value">{{ pendingRequests.length }}</div>
-        </div>
+        <CustomDropdown
+          :config="reviewerDropdownConfig"
+          v-model="selectedReviewerId"
+          @change="filterByReviewer"
+        />
       </div>
     </div>
 
@@ -41,31 +28,18 @@
     </div>
     
     <div v-else>
-      <!-- Status Change Approval Tasks Section -->
-      <div v-if="pendingRequests.length > 0" class="approvals-list">
-        <ul>
-          <li v-for="request in pendingRequests" 
-              :key="request.ApprovalId" 
-              class="approval-item"
-              @click="openRequestDetails(request)">
-            <strong class="clickable">
-              {{ request.FrameworkName || request.PolicyName }}
-            </strong>
-            <span class="item-type-badge request-badge">
-              {{ request.ItemType === 'policy' ? 'POLICY STATUS CHANGE' : 'FRAMEWORK STATUS CHANGE' }}
-            </span>
-            <span class="date-info">
-              {{ formatDate(request.RequestDate) }}
-            </span>
-            <span class="framework-category">{{ request.Category || request.Department }}</span>
-            <span class="approval-status pending">(Pending Approval)</span>
-          </li>
-        </ul>
-      </div>
+      <!-- Collapsible Table for Pending Approval Tasks -->
+      <CollapsibleTable
+        v-if="pendingRequests.length > 0"
+        :sectionConfig="{ name: 'Pending', statusClass: 'pending', tasks: pendingTableRows }"
+        :tableHeaders="pendingTableHeaders"
+        :isExpanded="true"
+        @taskClick="openRequestDetails"
+      />
       
-      <!-- Framework Grid -->
+      <!-- Framework Grid for non-pending requests -->
       <div class="framework-grid">
-        <div v-for="request in requests" :key="request.ApprovalId" class="framework-card">
+        <div v-for="request in requests.filter(r => r.Status !== 'Pending Approval')" :key="request.ApprovalId" class="framework-card">
           <div class="framework-header">
             <i :class="request.ItemType === 'policy' ? 'fas fa-file-alt' : 'fas fa-book'"></i>
             <span>{{ request.FrameworkName || request.PolicyName }}</span>
@@ -320,6 +294,8 @@ import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { PopupService } from '@/modules/popus/popupService'
 import PopupModal from '@/modules/popus/PopupModal.vue'
+import CollapsibleTable from '@/components/CollapsibleTable.vue'
+import CustomDropdown from '@/components/CustomDropdown.vue'
 
 const requests = ref([])
 const isLoading = ref(false)
@@ -328,10 +304,46 @@ const selectedRequest = ref(null)
 const selectedReviewerId = ref('')
 const reviewers = ref([])
 
+// Dropdown configuration for reviewer filter
+const reviewerDropdownConfig = computed(() => ({
+  label: 'Filter by Reviewer',
+  name: 'reviewer',
+  values: [
+    { value: '', label: 'All Reviewers' },
+    ...reviewers.value.map(reviewer => ({
+      value: reviewer.UserId,
+      label: `${reviewer.UserName} (${reviewer.Email})`
+    }))
+  ],
+  defaultValue: 'All Reviewers'
+}))
+
 // Computed property for pending requests
 const pendingRequests = computed(() => {
   return requests.value.filter(req => req.Status === 'Pending Approval')
 })
+
+// Table headers for pending requests
+const pendingTableHeaders = [
+  { key: 'name', label: 'Name' },
+  { key: 'type', label: 'Type' },
+  { key: 'category', label: 'Category/Department' },
+  { key: 'date', label: 'Request Date' },
+  { key: 'reason', label: 'Reason' },
+  { key: 'actions', label: 'Actions' }
+]
+
+// Table rows for pending requests
+const pendingTableRows = computed(() =>
+  pendingRequests.value.map(req => ({
+    ...req,
+    name: req.FrameworkName || req.PolicyName,
+    type: req.ItemType === 'policy' ? 'POLICY STATUS CHANGE' : 'FRAMEWORK STATUS CHANGE',
+    category: req.Category || req.Department,
+    date: formatDate(req.RequestDate),
+    reason: req.Reason
+  }))
+)
 
 // Format date for display
 const formatDate = (dateString) => {
@@ -543,7 +555,8 @@ const fetchReviewers = async () => {
 }
 
 // Filter requests by reviewer
-const filterByReviewer = async () => {
+const filterByReviewer = async (selectedOption) => {
+  selectedReviewerId.value = selectedOption.value
   isLoading.value = true
   try {
     let frameworkResponse, policyResponse
@@ -1339,43 +1352,35 @@ const filterByReviewer = async () => {
 
 /* Filter Section Styles */
 .filter-section {
-  background: white;
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
 }
 
 .filter-group {
   display: flex;
   align-items: center;
   gap: 12px;
+ 
 }
 
+/* Custom width for the dropdown filter */
+.filter-group :deep(.filter-btn) {
+  min-width: 250px !important;
+  max-width: 300px !important;
+}
+
+.filter-group :deep(.dropdown-menu) {
+  min-width: 250px !important;
+  max-width: 300px !important;
+}
+
+/* Remove the old filter styles since CustomDropdown handles its own styling */
 .filter-group label {
-  font-weight: 600;
-  color: #2c3e50;
-  font-size: 0.95rem;
+  display: none; /* Hide the old label since CustomDropdown has its own */
 }
 
 .filter-dropdown {
-  padding: 8px 12px;
-  border: 2px solid #e0e6ed;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  color: #2c3e50;
-  background-color: white;
-  min-width: 250px;
-  transition: border-color 0.2s ease;
-}
-
-.filter-dropdown:focus {
-  outline: none;
-  border-color: #4f6cff;
-  box-shadow: 0 0 0 3px rgba(79, 108, 255, 0.1);
-}
-
-.filter-dropdown option {
-  padding: 8px;
+  display: none; /* Hide the old dropdown since we're using CustomDropdown */
 }
 </style> 

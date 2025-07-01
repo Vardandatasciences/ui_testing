@@ -20107,3 +20107,144 @@ INFO 2025-06-30 06:28:11,739 permissions 27592 21404 [RBAC POLICY] User Details 
 INFO 2025-06-30 06:28:11,739 permissions 27592 24336 [RBAC POLICY] PolicyViewPermission check result: True
 INFO 2025-06-30 06:28:11,741 permissions 27592 8280 [RBAC POLICY] PolicyViewPermission check result: True
 INFO 2025-06-30 06:28:11,741 permissions 27592 21404 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: True
+WARNING 2025-07-01 01:24:45,817 utils 4800 25944 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:24:45,817 utils 4800 27844 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:24:45,821 permissions 4800 25944 [RBAC PERM] No user_id found for analytics permission check
+WARNING 2025-07-01 01:24:45,821 permissions 4800 27844 [RBAC PERM] No user_id found for view permission check
+WARNING 2025-07-01 01:25:32,354 utils 4800 23436 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:25:32,356 permissions 4800 23436 [RBAC PERM] No user_id found for view permission check
+WARNING 2025-07-01 01:25:43,428 utils 4800 10456 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:26:42,894 utils 4800 23436 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:26:42,895 permissions 4800 23436 [RBAC PERM] No user_id found for view permission check
+WARNING 2025-07-01 01:50:42,564 utils 26136 29396 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:52:27,435 utils 26136 29396 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:55:18,085 utils 26136 29396 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:55:20,148 utils 26136 29396 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:57:53,148 utils 26136 14796 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:57:53,162 utils 26136 14796 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:58:22,568 utils 26136 10344 [RBAC] No user_id found in session
+WARNING 2025-07-01 01:58:25,285 utils 26136 10344 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:00:08,939 utils 26136 10344 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:01:19,857 utils 26136 10344 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:02:28,732 utils 26136 10344 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:03:11,158 utils 26136 10344 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:50:34,872 utils 28024 25084 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:50:40,883 utils 28024 15804 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:50:41,047 utils 28024 1908 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:58:39,343 utils 28024 14932 [RBAC] No user_id found in session
+WARNING 2025-07-01 02:58:39,345 permissions 28024 14932 [RBAC POLICY] No user_id found for view permission check
+INFO 2025-07-01 02:58:39,346 permissions 28024 14932 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: False
+WARNING 2025-07-01 03:04:30,567 utils 28024 28700 [RBAC] No user_id found in session
+WARNING 2025-07-01 03:04:30,569 permissions 28024 28700 [RBAC POLICY] No user_id found for view permission check
+INFO 2025-07-01 03:04:30,595 permissions 28024 28700 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: False
+WARNING 2025-07-01 03:07:55,806 utils 28364 7020 [RBAC] No user_id found in session
+WARNING 2025-07-01 03:07:55,823 permissions 28364 7020 [RBAC POLICY] No user_id found for view permission check
+INFO 2025-07-01 03:07:55,823 permissions 28364 7020 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: False
+WARNING 2025-07-01 11:13:59,769 utils 18008 16008 [RBAC] No user_id found in session
+WARNING 2025-07-01 11:13:59,771 utils 18008 17768 [RBAC] No user_id found in session
+WARNING 2025-07-01 11:13:59,773 utils 18008 29912 [RBAC] No user_id found in session
+WARNING 2025-07-01 11:13:59,778 permissions 18008 16008 [RBAC POLICY] No user_id found for view permission check
+WARNING 2025-07-01 11:13:59,778 utils 18008 18488 [RBAC] No user_id found in session
+INFO 2025-07-01 11:13:59,778 permissions 18008 16008 [RBAC POLICY] PolicyViewPermission check result: False
+WARNING 2025-07-01 11:13:59,778 permissions 18008 17768 [RBAC POLICY] No user_id found for view permission check
+WARNING 2025-07-01 11:13:59,778 permissions 18008 29912 [RBAC POLICY] No user_id found for view permission check
+WARNING 2025-07-01 11:13:59,778 permissions 18008 18488 [RBAC POLICY] No user_id found for view permission check
+INFO 2025-07-01 11:13:59,778 permissions 18008 17768 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: False
+INFO 2025-07-01 11:13:59,778 permissions 18008 29912 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: False
+INFO 2025-07-01 11:13:59,793 permissions 18008 18488 [RBAC POLICY] PolicyViewPermission check result: False
+WARNING 2025-07-01 11:33:10,779 utils 6732 30160 [RBAC] No user_id found in session
+WARNING 2025-07-01 11:44:56,355 utils 6732 30280 [RBAC] No user_id found in session
+WARNING 2025-07-01 11:47:04,538 utils 6732 3064 [RBAC] No user_id found in session
+WARNING 2025-07-01 13:57:12,219 utils 22388 10328 [RBAC] No user_id found in session
+WARNING 2025-07-01 14:02:38,523 utils 22388 10328 [RBAC] No user_id found in session
+WARNING 2025-07-01 14:16:35,575 utils 22636 22860 [RBAC] No user_id found in session
+INFO 2025-07-01 14:17:38,240 utils 22636 19220 [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+INFO 2025-07-01 14:17:38,247 utils 22636 19220 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 14:17:38,247 utils 22636 19220 [RBAC] User ID: 2
+INFO 2025-07-01 14:17:38,247 utils 22636 19220 [RBAC] Username: vikram.patel
+INFO 2025-07-01 14:17:38,247 utils 22636 19220 [RBAC] Role: GRC Administrator
+INFO 2025-07-01 14:17:38,249 utils 22636 19220 [RBAC] Account Status: ACTIVE
+INFO 2025-07-01 14:17:38,249 utils 22636 19220 [RBAC] Login Time: 2025-07-01 14:17:38.249939
+INFO 2025-07-01 14:17:38,250 utils 22636 19220 [RBAC] 
+INFO 2025-07-01 14:17:38,251 utils 22636 19220 [RBAC] === INCIDENT MODULE PERMISSIONS ===
+INFO 2025-07-01 14:17:38,251 utils 22636 19220 [RBAC] Create Incidents: YES
+INFO 2025-07-01 14:17:38,251 utils 22636 19220 [RBAC] View All Incidents: YES
+INFO 2025-07-01 14:17:38,251 utils 22636 19220 [RBAC] Edit Incidents: YES
+INFO 2025-07-01 14:17:38,252 utils 22636 19220 [RBAC] Assign Incidents: YES
+INFO 2025-07-01 14:17:38,254 utils 22636 19220 [RBAC] Evaluate Assigned Incidents: YES
+INFO 2025-07-01 14:17:38,254 utils 22636 19220 [RBAC] Escalate to Risk: YES
+INFO 2025-07-01 14:17:38,254 utils 22636 19220 [RBAC] Incident Analytics: YES
+INFO 2025-07-01 14:17:38,254 utils 22636 19220 [RBAC] === POLICY MODULE PERMISSIONS ===
+INFO 2025-07-01 14:17:38,254 utils 22636 19220 [RBAC] Create Policy: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] View All Policy: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Edit Policy: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Approve Policy: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Create Framework: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Approve Framework: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Policy Analytics: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] === AUDIT MODULE PERMISSIONS ===
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Assign Audit: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Conduct Audit: YES
+INFO 2025-07-01 14:17:38,259 utils 22636 19220 [RBAC] Review Audit: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] View Audit Reports: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] Audit Analytics: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] === RISK MODULE PERMISSIONS ===
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] Create Risk: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] View All Risk: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] Edit Risk: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] Approve Risk: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] Assign Risk: YES
+INFO 2025-07-01 14:17:38,263 utils 22636 19220 [RBAC] Evaluate Assigned Risk: YES
+INFO 2025-07-01 14:17:38,267 utils 22636 19220 [RBAC] Risk Analytics: YES
+INFO 2025-07-01 14:17:38,267 utils 22636 19220 [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+INFO 2025-07-01 14:17:38,268 utils 22636 19220 [RBAC] Create Compliance: YES
+INFO 2025-07-01 14:17:38,269 utils 22636 19220 [RBAC] View All Compliance: YES
+INFO 2025-07-01 14:17:38,271 utils 22636 19220 [RBAC] Edit Compliance: YES
+INFO 2025-07-01 14:17:38,271 utils 22636 19220 [RBAC] Approve Compliance: YES
+INFO 2025-07-01 14:17:38,271 utils 22636 19220 [RBAC] Compliance Analytics: YES
+INFO 2025-07-01 14:17:38,271 utils 22636 19220 [RBAC] ===============================================
+INFO 2025-07-01 16:32:03,179 utils 3808 18932 [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+INFO 2025-07-01 16:32:03,190 utils 3808 18932 [RBAC] Found active RBAC record for user 3: role=GRC Administrator
+INFO 2025-07-01 16:32:03,190 utils 3808 18932 [RBAC] User ID: 3
+INFO 2025-07-01 16:32:03,190 utils 3808 18932 [RBAC] Username: priya.gupta
+INFO 2025-07-01 16:32:03,194 utils 3808 18932 [RBAC] Role: GRC Administrator
+INFO 2025-07-01 16:32:03,194 utils 3808 18932 [RBAC] Account Status: ACTIVE
+INFO 2025-07-01 16:32:03,194 utils 3808 18932 [RBAC] Login Time: 2025-07-01 16:32:03.194977
+INFO 2025-07-01 16:32:03,194 utils 3808 18932 [RBAC] 
+INFO 2025-07-01 16:32:03,195 utils 3808 18932 [RBAC] === INCIDENT MODULE PERMISSIONS ===
+INFO 2025-07-01 16:32:03,196 utils 3808 18932 [RBAC] Create Incidents: YES
+INFO 2025-07-01 16:32:03,196 utils 3808 18932 [RBAC] View All Incidents: YES
+INFO 2025-07-01 16:32:03,196 utils 3808 18932 [RBAC] Edit Incidents: YES
+INFO 2025-07-01 16:32:03,196 utils 3808 18932 [RBAC] Assign Incidents: YES
+INFO 2025-07-01 16:32:03,196 utils 3808 18932 [RBAC] Evaluate Assigned Incidents: YES
+INFO 2025-07-01 16:32:03,196 utils 3808 18932 [RBAC] Escalate to Risk: YES
+INFO 2025-07-01 16:32:03,201 utils 3808 18932 [RBAC] Incident Analytics: YES
+INFO 2025-07-01 16:32:03,201 utils 3808 18932 [RBAC] === POLICY MODULE PERMISSIONS ===
+INFO 2025-07-01 16:32:03,201 utils 3808 18932 [RBAC] Create Policy: YES
+INFO 2025-07-01 16:32:03,201 utils 3808 18932 [RBAC] View All Policy: YES
+INFO 2025-07-01 16:32:03,201 utils 3808 18932 [RBAC] Edit Policy: YES
+INFO 2025-07-01 16:32:03,201 utils 3808 18932 [RBAC] Approve Policy: YES
+INFO 2025-07-01 16:32:03,204 utils 3808 18932 [RBAC] Create Framework: YES
+INFO 2025-07-01 16:32:03,204 utils 3808 18932 [RBAC] Approve Framework: YES
+INFO 2025-07-01 16:32:03,204 utils 3808 18932 [RBAC] Policy Analytics: YES
+INFO 2025-07-01 16:32:03,204 utils 3808 18932 [RBAC] === AUDIT MODULE PERMISSIONS ===
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Assign Audit: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Conduct Audit: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Review Audit: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] View Audit Reports: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Audit Analytics: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] === RISK MODULE PERMISSIONS ===
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Create Risk: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] View All Risk: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Edit Risk: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Approve Risk: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Assign Risk: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Evaluate Assigned Risk: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Risk Analytics: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Create Compliance: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] View All Compliance: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Edit Compliance: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Approve Compliance: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] Compliance Analytics: YES
+INFO 2025-07-01 16:32:03,207 utils 3808 18932 [RBAC] ===============================================

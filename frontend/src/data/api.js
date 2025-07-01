@@ -86,6 +86,7 @@ export const api = {
   getAuditDetails: (id) => axiosInstance.get(`/audits/${id}/`),
   updateAuditStatus: (id, data) => axiosInstance.post(`/audits/${id}/status/`, data),
   updateAuditReviewStatus: (id, data) => axiosInstance.post(`/api/audits/${id}/update-audit-review-status/`, data),
+  updateReviewStatus: (id, data) => axiosInstance.post(`/api/audits/${id}/update-audit-review-status/`, data),
   saveReviewProgress: (id, data) => axiosInstance.post(`/api/audits/${id}/save-review-progress/`, data),
   getAuditStatus: (id) => axiosInstance.get(`/audits/${id}/get-status/`),
   getAuditCompliances: (id) => axiosInstance.get(`/audits/${id}/compliances/`),

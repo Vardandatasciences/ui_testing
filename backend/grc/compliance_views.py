@@ -45,12 +45,15 @@ from celery import shared_task
 import re
 from typing import Dict, Any, List, Optional, Union, TYPE_CHECKING
 from django.core.exceptions import ValidationError
+import math
 
 # Django model type hints compatibility
 if TYPE_CHECKING:
     from django.db.models import Manager
 from django.contrib.auth.hashers import make_password, check_password
 from .notification_service import NotificationService
+from django.contrib.auth.models import User
+from .models import Users
 
 
 LOGGING_SERVICE_URL = None
@@ -79,6 +82,7 @@ class ComplianceInputValidator:
     ALLOWED_ACTIVE_INACTIVE = ['Active', 'Inactive']
     ALLOWED_PERMANENT_TEMPORARY = ['Permanent', 'Temporary']
     ALLOWED_VERSIONING_TYPE = ['Minor', 'Major']
+    ALLOWED_RISK_TYPES = ['Current', 'Residual', 'Inherent', 'Emerging', 'Accepted']
     
     @staticmethod
     def sanitize_string(value: str) -> str:
@@ -777,26 +781,159 @@ def send_log(module, actionType, description=None, userId=None, userName=None,
 @api_view(['GET'])
 def test_connection(request):
     return Response({"message": "Connection successful!"})
+
+
  
 @api_view(['GET'])
 def get_frameworks(request):
-    frameworks = Framework.objects.filter(ActiveInactive='Active')  # type: ignore
-    serializer = FrameworkSerializer(frameworks, many=True)
-    return Response({'success': True, 'data': serializer.data})
+    print(f"\n=== GET_FRAMEWORKS DEBUG ===")
+    
+    try:
+        # Get all frameworks (remove ActiveInactive filter for now to see all data)
+        frameworks = Framework.objects.all()  # type: ignore
+        print(f"Found {frameworks.count()} frameworks in total")
+        
+        # Debug: Print each framework
+        for fw in frameworks:
+            print(f"Framework: ID={fw.FrameworkId}, Name={fw.FrameworkName}, Status={fw.ActiveInactive}")
+        
+        serializer = FrameworkSerializer(frameworks, many=True)
+        serialized_data = serializer.data
+        
+        print(f"Serialized data: {serialized_data}")
+        
+        # Format the response to match frontend expectations
+        formatted_frameworks = []
+        for fw_data in serialized_data:
+            formatted_fw = {
+                'id': fw_data.get('FrameworkId'),
+                'name': fw_data.get('FrameworkName'),
+                'category': fw_data.get('Category', ''),
+                'status': fw_data.get('ActiveInactive', ''),
+                'description': fw_data.get('FrameworkDescription', ''),
+            }
+            formatted_frameworks.append(formatted_fw)
+            print(f"Formatted framework: {formatted_fw}")
+        
+        response_data = {
+            'success': True, 
+            'frameworks': formatted_frameworks,  # Change 'data' to 'frameworks'
+            'count': len(formatted_frameworks)
+        }
+        
+        print(f"Final response: {response_data}")
+        print("=== END GET_FRAMEWORKS DEBUG ===\n")
+        
+        return Response(response_data)
+        
+    except Exception as e:
+        print(f"Error in get_frameworks: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return Response({
+            'success': False,
+            'message': f'Error fetching frameworks: {str(e)}'
+        }, status=500)
  
 @api_view(['GET'])
 def get_policies(request, framework_id):
-    policies = Policy.objects.filter(FrameworkId=framework_id, ActiveInactive='Active')  # type: ignore
-    return Response({
-        'success': True, 
-        'data': [{'PolicyId': p.PolicyId, 'PolicyName': p.PolicyName, 'Applicability': p.Applicability} for p in policies]
-    })
+    print(f"\n=== GET_POLICIES DEBUG ===")
+    print(f"Received framework_id: {framework_id} (type: {type(framework_id)})")
+    
+    try:
+        # Get all policies for this framework (remove ActiveInactive filter for now to see all data)
+        policies = Policy.objects.filter(FrameworkId=framework_id)  # type: ignore
+        print(f"Found {policies.count()} policies for framework {framework_id}")
+        
+        # Debug: Print each policy
+        for p in policies:
+            print(f"Policy: ID={p.PolicyId}, Name={p.PolicyName}, Status={p.ActiveInactive}")
+        
+        # Format the response to match frontend expectations
+        formatted_policies = []
+        for p in policies:
+            formatted_policy = {
+                'id': p.PolicyId,
+                'name': p.PolicyName,
+                'applicability': p.Applicability or '',
+                'status': p.ActiveInactive or '',
+                'scope': p.Applicability or '',  # Add scope field for compatibility
+            }
+            formatted_policies.append(formatted_policy)
+            print(f"Formatted policy: {formatted_policy}")
+        
+        response_data = {
+            'success': True, 
+            'policies': formatted_policies,  # Change 'data' to 'policies'
+            'count': len(formatted_policies)
+        }
+        
+        print(f"Final response: {response_data}")
+        print("=== END GET_POLICIES DEBUG ===\n")
+        
+        return Response(response_data)
+        
+    except Exception as e:
+        print(f"Error in get_policies: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return Response({
+            'success': False,
+            'message': f'Error fetching policies: {str(e)}'
+        }, status=500)
  
 @api_view(['GET'])
 def get_subpolicies(request, policy_id):
-    subpolicies = SubPolicy.objects.filter(PolicyId=policy_id, Status='Approved')  # type: ignore
-    serializer = SubPolicySerializer(subpolicies, many=True)
-    return Response({'success': True, 'data': serializer.data})
+    print(f"\n=== GET_SUBPOLICIES DEBUG ===")
+    print(f"Received policy_id: {policy_id} (type: {type(policy_id)})")
+    
+    try:
+        # Get all subpolicies for this policy (remove Status filter for now to see all data)
+        subpolicies = SubPolicy.objects.filter(PolicyId=policy_id)  # type: ignore
+        print(f"Found {subpolicies.count()} subpolicies for policy {policy_id}")
+        
+        # Debug: Print each subpolicy
+        for sp in subpolicies:
+            print(f"SubPolicy: ID={sp.SubPolicyId}, Name={sp.SubPolicyName}, Status={sp.Status}")
+        
+        serializer = SubPolicySerializer(subpolicies, many=True)
+        serialized_data = serializer.data
+        
+        print(f"Serialized data: {serialized_data}")
+        
+        # Format the response to match frontend expectations
+        formatted_subpolicies = []
+        for sp_data in serialized_data:
+            formatted_sp = {
+                'id': sp_data.get('SubPolicyId'),
+                'name': sp_data.get('SubPolicyName'),
+                'status': sp_data.get('Status'),
+                'description': sp_data.get('Description', ''),
+                'control': sp_data.get('Control', ''),
+                'identifier': sp_data.get('Identifier', ''),
+            }
+            formatted_subpolicies.append(formatted_sp)
+            print(f"Formatted subpolicy: {formatted_sp}")
+        
+        response_data = {
+            'success': True, 
+            'subpolicies': formatted_subpolicies,  # Change 'data' to 'subpolicies'
+            'count': len(formatted_subpolicies)
+        }
+        
+        print(f"Final response: {response_data}")
+        print("=== END GET_SUBPOLICIES DEBUG ===\n")
+        
+        return Response(response_data)
+        
+    except Exception as e:
+        print(f"Error in get_subpolicies: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return Response({
+            'success': False,
+            'message': f'Error fetching subpolicies: {str(e)}'
+        }, status=500)
  
 def ensure_user_has_email(user_id, default_email=None):
     """
@@ -805,11 +942,11 @@ def ensure_user_has_email(user_id, default_email=None):
     """
     try:
         from .models import User
-        if not User.objects.filter(UserId=user_id).exists():  # type: ignore
+        if not Users.objects.filter(UserName=user_id).exists():  # type: ignore
             print(f"User with ID {user_id} not found - creating")
             username = f"User{user_id}"
             email = default_email or f"user{user_id}@example.com"
-            User.objects.create(  # type: ignore
+            Users.objects.create(  # type: ignore
                 UserId=user_id,
                 UserName=username,
                 Password="",
@@ -818,7 +955,7 @@ def ensure_user_has_email(user_id, default_email=None):
             print(f"Created user {username} with email {email}")
             return True
             
-        user = User.objects.get(UserId=user_id)  # type: ignore
+        user = Users.objects.get(UserName=user_id)  # type: ignore
         if not user.email:
             email = default_email or f"user{user_id}@example.com"
             user.email = email
@@ -832,6 +969,8 @@ def ensure_user_has_email(user_id, default_email=None):
 
 @api_view(['POST'])
 def create_compliance(request):
+
+    print(f"Received request data: {request.data}")
     try:
         # Validate input data using centralized validator
         validated_data = ComplianceInputValidator.validate_compliance_data(request.data)
@@ -857,10 +996,23 @@ def create_compliance(request):
     if request.user.is_authenticated:
         created_by_name = request.user.username
 
+    # Create new compliance
     try:
-        # Create compliance with validated data
-        compliance = Compliance.objects.create(  # type: ignore
-            SubPolicy_id=validated_data['SubPolicy'],
+        # Get the SubPolicy object
+        from .models import SubPolicy
+        try:
+            subpolicy = SubPolicy.objects.get(SubPolicyId=validated_data['SubPolicy'])
+        except SubPolicy.DoesNotExist:
+            print(f"WARNING: SubPolicy {validated_data['SubPolicy']} not found")
+            return Response({
+                'success': False,
+                'message': 'Failed to create compliance',
+                'errors': {'general': ['SubPolicy not found']}
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+        # Create the compliance with the SubPolicy object
+        new_compliance = Compliance.objects.create(
+            SubPolicy=subpolicy,
             ComplianceTitle=validated_data['ComplianceTitle'],
             ComplianceItemDescription=validated_data['ComplianceItemDescription'],
             ComplianceType=validated_data['ComplianceType'],
@@ -870,29 +1022,46 @@ def create_compliance(request):
             IsRisk=validated_data['IsRisk'],
             PossibleDamage=validated_data['PossibleDamage'],
             mitigation=validated_data['mitigation'],
+            PotentialRiskScenarios=validated_data.get('PotentialRiskScenarios', ''),
+            RiskType=validated_data.get('RiskType', ''),
+            RiskCategory=validated_data.get('RiskCategory', ''),
+            RiskBusinessImpact=validated_data.get('RiskBusinessImpact', ''),
             Criticality=validated_data['Criticality'],
             MandatoryOptional=validated_data['MandatoryOptional'],
             ManualAutomatic=validated_data['ManualAutomatic'],
             Impact=validated_data['Impact'],
             Probability=validated_data['Probability'],
-            MaturityLevel=validated_data['MaturityLevel'],
-            ActiveInactive=validated_data['ActiveInactive'],
-            PermanentTemporary=validated_data['PermanentTemporary'],
-            Status=validated_data['Status'],
-            ComplianceVersion=validated_data['ComplianceVersion'],
-            CreatedByName=created_by_name,
+            MaturityLevel=validated_data.get('MaturityLevel', 'Initial'),
+            ActiveInactive=validated_data.get('ActiveInactive', 'Inactive'),
+            PermanentTemporary=validated_data.get('PermanentTemporary', 'Permanent'),
+            CreatedByName=validated_data.get('CreatedByName', created_by_name),
             CreatedByDate=datetime.date.today(),
-            Identifier=validated_data['Identifier'],
-            Applicability=validated_data['Applicability'],
-            PotentialRiskScenarios=validated_data['PotentialRiskScenarios'],
-            RiskType=validated_data['RiskType'],
-            RiskCategory=validated_data['RiskCategory'],
-            RiskBusinessImpact=validated_data['RiskBusinessImpact']
+            ComplianceVersion='1.0',
+            Status='Under Review',
+            Identifier=identifier,
+            Applicability=validated_data['Applicability']
         )
-       
-        # Structure the ExtractedData to include approval fields
-        extracted_data = validated_data.copy()
-        extracted_data['type'] = 'compliance'
+        
+        # Prepare extracted data for policy approval
+        extracted_data = {
+            'type': 'compliance',
+            'ComplianceItemDescription': validated_data['ComplianceItemDescription'],
+            'Criticality': validated_data['Criticality'],
+            'Impact': validated_data['Impact'],
+            'Probability': validated_data['Probability'],
+            'mitigation': validated_data['mitigation'],
+            'PossibleDamage': validated_data['PossibleDamage'],
+            'IsRisk': validated_data['IsRisk'],
+            'MandatoryOptional': validated_data['MandatoryOptional'],
+            'ManualAutomatic': validated_data['ManualAutomatic'],
+            'CreatedByName': validated_data.get('CreatedByName', created_by_name),
+            'CreatedByDate': datetime.date.today().isoformat(),
+            'Status': 'Under Review',
+            'ComplianceId': new_compliance.ComplianceId,
+            'ComplianceVersion': '1.0',
+            'SubPolicy': validated_data['SubPolicy']
+        }
+        
         extracted_data['compliance_approval'] = {
             'approved': None,
             'remarks': '',
@@ -900,7 +1069,7 @@ def create_compliance(request):
         }
        
         # Create policy approval
-        user_id = 1  # Default system user
+        user_id = int(validated_data.get('CreatedByName', 1))  # Use CreatedByName as UserId if available
         
         # Ensure users have emails for notifications
         ensure_user_has_email(user_id, "system@example.com")
@@ -909,450 +1078,18 @@ def create_compliance(request):
             print(f"WARNING: Reviewer {reviewer_id} has no email, notifications may fail")
        
         # Get the policy ID from the subpolicy
-        try:
-            subpolicy = SubPolicy.objects.get(SubPolicyId=validated_data['SubPolicy'])  # type: ignore
-            policy_id = subpolicy.PolicyId_id
-        except SubPolicy.DoesNotExist:  # type: ignore
-            policy_id = None
-            print(f"WARNING: SubPolicy {validated_data['SubPolicy']} not found, using None for PolicyId")
+        policy = subpolicy.PolicyId  # Get the actual Policy instance through the foreign key
             
         # Create the policy approval
-        policy_approval = PolicyApproval.objects.create(  # type: ignore
+        policy_approval = PolicyApproval.objects.create(
             Identifier=validated_data['Identifier'],
             ExtractedData=extracted_data,
             UserId=user_id,
             ReviewerId=reviewer_id,
             ApprovedNot=None,
             Version="u1",
-            PolicyId=policy_id,
+            PolicyId=policy,  # Use the actual Policy instance from the foreign key
             ApprovalDueDate=approval_due_date
-        )
-        print(f"Created PolicyApproval with ID {policy_approval.ApprovalId} and PolicyId {policy_id}")
-
-        # Send notification to reviewer
-        try:
-            from .notification_service import NotificationService
-            notification_service = NotificationService()
-            
-            # Ensure reviewer has a valid email
-            from .models import User
-            try:
-                reviewer = User.objects.get(UserId=reviewer_id)  # type: ignore
-                if not reviewer.email or '@' not in reviewer.email:
-                    reviewer.email = f"reviewer{reviewer_id}@example.com"
-                    reviewer.save()
-            except User.DoesNotExist:  # type: ignore
-                print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
-            
-            # Send the notification
-            notification_result = notification_service.send_compliance_creation_notification(
-                compliance=compliance,
-                reviewer_id=reviewer_id,
-                approval_due_date=approval_due_date
-            )
-            
-            if notification_result.get('success'):
-                print(f"Successfully sent compliance creation notification to reviewer {reviewer_id}")
-            else:
-                print(f"Failed to send notification: {notification_result.get('error', 'Unknown error')}")
-            
-            # Log the notification
-            from .models import Notification
-            try:
-                reviewer_email, reviewer_name = notification_service.get_user_email_by_id(reviewer_id)
-                if reviewer_email:
-                    Notification.objects.create(  # type: ignore
-                        recipient=reviewer_email,
-                        type='compliance_creation',
-                        channel='email',
-                        success=notification_result.get('success', False)
-                    )
-            except Exception as db_error:
-                print(f"ERROR creating notification record: {str(db_error)}")
-                    
-        except Exception as e:
-            print(f"ERROR sending compliance creation notification: {str(e)}")
-            # Continue even if notification fails
-
-        return Response({
-            'success': True,
-            'message': 'Compliance created successfully',
-            'compliance_id': compliance.ComplianceId,
-            'Identifier': validated_data['Identifier'],
-            'version': compliance.ComplianceVersion
-        }, status=201)
-        
-    except Exception as e:
-        print(f"Error creating compliance: {str(e)}")
-        return Response({
-            'success': False,
-            'message': 'Failed to create compliance',
-            'errors': {'general': [str(e)]}
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['PUT'])
-@permission_classes([AllowAny])
-def edit_compliance(request, compliance_id):
-    try:
-        # Get the original compliance
-        original_compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
-       
-        # Make a copy of request data
-        data = request.data.copy()
-       
-        # Get reviewer ID from request data or use default
-        reviewer_id = data.get('reviewer_id', 2)  # Default to reviewer ID 2 if not provided
-       
-        # Validate reviewer exists
-        try:
-            # Use the User model from .models which has UserId field
-            from .models import User
-            reviewer = User.objects.get(UserId=reviewer_id)
-        except User.DoesNotExist:
-            return Response({
-                'success': False,
-                'message': f'Reviewer with ID {reviewer_id} not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-       
-        # Get the SubPolicy instance
-        subpolicy_id = data.get('SubPolicy', original_compliance.SubPolicy_id)
-        try:
-            subpolicy = SubPolicy.objects.get(SubPolicyId=subpolicy_id)  # type: ignore
-        except SubPolicy.DoesNotExist:  # type: ignore
-            return Response({
-                'success': False,
-                'message': f'SubPolicy with id {subpolicy_id} not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-       
-        # Create new compliance data
-        new_compliance_data = {
-            'SubPolicy': subpolicy,
-            'ComplianceTitle': data.get('ComplianceTitle', original_compliance.ComplianceTitle),
-            'ComplianceItemDescription': data.get('ComplianceItemDescription', original_compliance.ComplianceItemDescription),
-            'ComplianceType': data.get('ComplianceType', original_compliance.ComplianceType),
-            'Scope': data.get('Scope', original_compliance.Scope),
-            'Objective': data.get('Objective', original_compliance.Objective),
-            'BusinessUnitsCovered': data.get('BusinessUnitsCovered', original_compliance.BusinessUnitsCovered),
-            'IsRisk': data.get('IsRisk', original_compliance.IsRisk),
-            'PossibleDamage': data.get('PossibleDamage', original_compliance.PossibleDamage),
-            'mitigation': data.get('mitigation', original_compliance.mitigation),
-            'Criticality': data.get('Criticality', original_compliance.Criticality),
-            'MandatoryOptional': data.get('MandatoryOptional', original_compliance.MandatoryOptional),
-            'ManualAutomatic': data.get('ManualAutomatic', original_compliance.ManualAutomatic),
-            'Impact': data.get('Impact', original_compliance.Impact),
-            'Probability': data.get('Probability', original_compliance.Probability),
-            'MaturityLevel': data.get('MaturityLevel', original_compliance.MaturityLevel or 'Initial'),
-            'ActiveInactive': 'Inactive',  # Always Inactive for new version
-            'PermanentTemporary': data.get('PermanentTemporary', original_compliance.PermanentTemporary),
-            'Status': 'Under Review',  # Always Under Review for new version
-            'Identifier': data.get('Identifier', original_compliance.Identifier),
-            'Applicability': data.get('Applicability', original_compliance.Applicability),
-            'PreviousComplianceVersionId': original_compliance,
-            'CreatedByName': request.data.get('CreatedByName', 'System'),
-            'CreatedByDate': timezone.now().date(),
-            'PotentialRiskScenarios': data.get('PotentialRiskScenarios', original_compliance.PotentialRiskScenarios),
-            'RiskType': data.get('RiskType', original_compliance.RiskType),
-            'RiskCategory': data.get('RiskCategory', original_compliance.RiskCategory),
-            'RiskBusinessImpact': data.get('RiskBusinessImpact', original_compliance.RiskBusinessImpact)
-        }
-       
-        # Handle version increment using versioning type
-        versioning_type = data.get('VersioningType', 'Major')  # Default to Major if not provided
-        print(f"=== VERSION CALCULATION DEBUG ===")
-        print(f"Received VersioningType: {versioning_type}")
-        print(f"Original compliance version: {original_compliance.ComplianceVersion}")
-        
-        # Validate versioning type
-        if versioning_type not in ComplianceInputValidator.ALLOWED_VERSIONING_TYPE:
-            print(f"Invalid versioning type '{versioning_type}', defaulting to Major")
-            versioning_type = 'Major'  # Default to Major if invalid
-        
-        # Always calculate version based on versioning type, ignore any provided version
-        current_version = original_compliance.ComplianceVersion if original_compliance.ComplianceVersion else '1.0'
-        print(f"Current version for calculation: {current_version}")
-        calculated_version = ComplianceInputValidator.calculate_new_version(
-            current_version, versioning_type
-        )
-        print(f"Calculated new version: {calculated_version}")
-        new_compliance_data['ComplianceVersion'] = calculated_version
-        
-        print(f"Final new version: {new_compliance_data['ComplianceVersion']}")
-        print(f"=== END VERSION DEBUG ===")
-       
-        # Create new compliance using Django ORM
-        new_compliance = Compliance.objects.create(**new_compliance_data)  # type: ignore
- 
-        # Create policy approval record for the edited compliance
-        extracted_data = {
-            'type': 'compliance',
-            'Identifier': new_compliance.Identifier,
-            'SubPolicy': subpolicy_id,
-            'ComplianceTitle': new_compliance.ComplianceTitle,
-            'ComplianceItemDescription': new_compliance.ComplianceItemDescription,
-            'ComplianceType': new_compliance.ComplianceType,
-            'Scope': new_compliance.Scope,
-            'Objective': new_compliance.Objective,
-            'BusinessUnitsCovered': new_compliance.BusinessUnitsCovered,
-            'IsRisk': new_compliance.IsRisk,
-            'PossibleDamage': new_compliance.PossibleDamage,
-            'mitigation': new_compliance.mitigation,
-            'Criticality': new_compliance.Criticality,
-            'MandatoryOptional': new_compliance.MandatoryOptional,
-            'ManualAutomatic': new_compliance.ManualAutomatic,
-            'Impact': new_compliance.Impact,
-            'Probability': new_compliance.Probability,
-            'MaturityLevel': new_compliance.MaturityLevel,
-            'ActiveInactive': new_compliance.ActiveInactive,
-            'PermanentTemporary': new_compliance.PermanentTemporary,
-            'Status': new_compliance.Status,
-            'ComplianceVersion': new_compliance.ComplianceVersion,
-            'CreatedByName': new_compliance.CreatedByName,
-            'CreatedByDate': new_compliance.CreatedByDate.isoformat() if new_compliance.CreatedByDate else None,
-            'Applicability': new_compliance.Applicability,
-            'PotentialRiskScenarios': new_compliance.PotentialRiskScenarios,
-            'RiskType': new_compliance.RiskType,
-            'RiskCategory': new_compliance.RiskCategory,
-            'RiskBusinessImpact': new_compliance.RiskBusinessImpact,
-            'compliance_approval': {
-                'approved': None,
-                'remarks': '',
-                'ApprovalDueDate': data.get('ApprovalDueDate')
-            }
-        }
- 
-        # Create policy approval record with initial version "u1"
-        try:
-            PolicyApproval.objects.create(  # type: ignore
-                Identifier=new_compliance.Identifier,
-                ExtractedData=extracted_data,
-                UserId=1,  # System user
-                ReviewerId=reviewer_id,
-                ApprovedNot=None,
-                Version="u1",  # Initial user version
-                ApprovalDueDate=data.get('ApprovalDueDate')
-            )
-        except Exception as e:
-            print(f"Error creating policy approval: {str(e)}")
-            # Continue even if policy approval creation fails
-        
-        # Send notification to reviewer
-        try:
-            print("=== NOTIFICATION DEBUGGING - COMPLIANCE EDIT ===")
-            from .notification_service import NotificationService
-            notification_service = NotificationService()
-            
-            # Make sure reviewer has a valid email
-            from .models import User
-            try:
-                reviewer = User.objects.get(UserId=reviewer_id)
-                if not reviewer.email or '@' not in reviewer.email:
-                    reviewer.email = f"reviewer{reviewer_id}@example.com"
-                    reviewer.save()
-                    print(f"Updated reviewer {reviewer_id} with email {reviewer.email}")
-                
-                print(f"Found reviewer: {reviewer.UserName} with email: {reviewer.email}")
-            except User.DoesNotExist:
-                print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
-            
-            # Send notification
-            print(f"Sending edit notification for compliance {new_compliance.ComplianceId} to reviewer {reviewer_id}")
-            notification_result = notification_service.send_compliance_edit_notification(
-                compliance=new_compliance,
-                previous_compliance=original_compliance,
-                reviewer_id=reviewer_id
-            )
-            
-            if notification_result.get('success'):
-                print(f"Successfully sent compliance edit notification to reviewer {reviewer_id}")
-            else:
-                print(f"Failed to send notification: {notification_result.get('error', 'Unknown error')}")
-                print(f"Error details: {notification_result.get('errors', [])}") 
-            
-            # Log the notification directly in the database
-            from .models import Notification
-            try:
-                reviewer_email, reviewer_name = notification_service.get_user_email_by_id(reviewer_id)
-                if reviewer_email:
-                    Notification.objects.create(  # type: ignore
-                        recipient=reviewer_email,
-                        type='compliance_edit',
-                        channel='email',
-                        success=notification_result.get('success', False)
-                    )
-                    print(f"Created notification record for {reviewer_email}")
-            except Exception as db_error:
-                print(f"ERROR creating notification record: {str(db_error)}")
-                
-            print("=== END NOTIFICATION DEBUGGING ===")
-        except Exception as e:
-            print(f"Error sending compliance edit notification: {str(e)}")
-            import traceback
-            print(f"Traceback: {traceback.format_exc()}")
-            # Continue even if notification fails
-           
-        return Response({
-            'success': True,
-            'message': 'New compliance version created successfully and sent for review',
-            'compliance_id': new_compliance.ComplianceId,
-            'previous_compliance_id': original_compliance.ComplianceId,
-            'version': new_compliance.ComplianceVersion,
-            'reviewer_id': reviewer_id
-        })
-       
-    except Exception as e:
-        print(f"Error in edit_compliance: {str(e)}")
-        return Response({
-            'success': False,
-            'message': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['POST'])
-def clone_compliance(request, compliance_id):
-    try:
-        # Get the source compliance
-        source_compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
-       
-        # Get the target subpolicy from request data
-        target_subpolicy_id = request.data.get('target_subpolicy_id')
-       
-        if not target_subpolicy_id:
-            return Response({
-                'success': False,
-                'message': 'Target subpolicy ID is required'
-            }, status=status.HTTP_400_BAD_REQUEST)
- 
-        # Validate that target subpolicy is different from source
-        if target_subpolicy_id == source_compliance.SubPolicy_id:
-            return Response({
-                'success': False,
-                'message': 'Cannot copy compliance to the same subpolicy'
-            }, status=status.HTTP_400_BAD_REQUEST)
-           
-        try:
-            target_subpolicy = SubPolicy.objects.get(SubPolicyId=target_subpolicy_id)
-        except SubPolicy.DoesNotExist:
-            return Response({
-                'success': False,
-                'message': 'Target subpolicy not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        # NEW: Validate that target subpolicy is within the same framework as source compliance
-        try:
-            source_subpolicy = SubPolicy.objects.get(SubPolicyId=source_compliance.SubPolicy_id)
-            source_framework_id = source_subpolicy.PolicyId.FrameworkId_id
-            target_framework_id = target_subpolicy.PolicyId.FrameworkId_id
-            
-            if source_framework_id != target_framework_id:
-                return Response({
-                    'success': False,
-                    'message': 'Target subpolicy must be within the same framework as the source compliance'
-                }, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print(f"Error validating framework compatibility: {str(e)}")
-            return Response({
-                'success': False,
-                'message': 'Error validating framework compatibility'
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        # Get reviewer ID from request data or use default
-        reviewer_id = request.data.get('reviewer_id', 2)  # Default to reviewer ID 2 if not provided
-        
-        # Validate reviewer exists
-        try:
-            # Use the User model from .models which has UserId field
-            from .models import User
-            reviewer = User.objects.get(UserId=reviewer_id)
-        except User.DoesNotExist:
-            return Response({
-                'success': False,
-                'message': f'Reviewer with ID {reviewer_id} not found'
-            }, status=status.HTTP_404_NOT_FOUND)
- 
-        # Generate a new identifier for the cloned compliance
-        identifier = f"COMP-{target_subpolicy_id}-{datetime.date.today().strftime('%y%m%d')}-{uuid.uuid4().hex[:6]}"
- 
-        # Create new compliance data with edited values from request
-        compliance_data = {
-            'SubPolicy': target_subpolicy,
-            'ComplianceTitle': request.data.get('ComplianceTitle', source_compliance.ComplianceTitle),
-            'ComplianceItemDescription': request.data.get('ComplianceItemDescription', source_compliance.ComplianceItemDescription),
-            'ComplianceType': request.data.get('ComplianceType', source_compliance.ComplianceType),
-            'Scope': request.data.get('Scope', source_compliance.Scope),
-            'Objective': request.data.get('Objective', source_compliance.Objective),
-            'BusinessUnitsCovered': request.data.get('BusinessUnitsCovered', source_compliance.BusinessUnitsCovered),
-            'IsRisk': request.data.get('IsRisk', source_compliance.IsRisk),
-            'PossibleDamage': request.data.get('PossibleDamage', source_compliance.PossibleDamage),
-            'mitigation': request.data.get('mitigation', source_compliance.mitigation),
-            'Criticality': request.data.get('Criticality', source_compliance.Criticality),
-            'MandatoryOptional': request.data.get('MandatoryOptional', source_compliance.MandatoryOptional),
-            'ManualAutomatic': request.data.get('ManualAutomatic', source_compliance.ManualAutomatic),
-            'Impact': request.data.get('Impact', source_compliance.Impact),
-            'Probability': request.data.get('Probability', source_compliance.Probability),
-            'MaturityLevel': request.data.get('MaturityLevel', source_compliance.MaturityLevel or 'Initial'),
-            'ActiveInactive': 'Inactive',  # Always Inactive for new version
-            'PermanentTemporary': request.data.get('PermanentTemporary', source_compliance.PermanentTemporary),
-            'Status': 'Under Review',  # Always Under Review for new version
-            'ComplianceVersion': "1.0",  # Start with version 1.0 for new subpolicy
-            'CreatedByName': request.data.get('CreatedByName', 'System'),
-            'CreatedByDate': timezone.now().date(),
-            'Identifier': identifier,  # Set the identifier
-            'Applicability': request.data.get('Applicability', source_compliance.Applicability),
-            'PotentialRiskScenarios': request.data.get('PotentialRiskScenarios', source_compliance.PotentialRiskScenarios),
-            'RiskType': request.data.get('RiskType', source_compliance.RiskType),
-            'RiskCategory': request.data.get('RiskCategory', source_compliance.RiskCategory),
-            'RiskBusinessImpact': request.data.get('RiskBusinessImpact', source_compliance.RiskBusinessImpact)
-        }
- 
-        # Create new compliance
-        new_compliance = Compliance.objects.create(**compliance_data)  # type: ignore
- 
-        # Create a policy approval record for the new compliance with the identifier
-        extracted_data = {
-            'type': 'compliance',
-            'Identifier': identifier,
-            'SubPolicy': target_subpolicy_id,
-            'ComplianceTitle': new_compliance.ComplianceTitle,
-            'ComplianceItemDescription': new_compliance.ComplianceItemDescription,
-            'ComplianceType': new_compliance.ComplianceType,
-            'Scope': new_compliance.Scope,
-            'Objective': new_compliance.Objective,
-            'BusinessUnitsCovered': new_compliance.BusinessUnitsCovered,
-            'IsRisk': new_compliance.IsRisk,
-            'PossibleDamage': new_compliance.PossibleDamage,
-            'mitigation': new_compliance.mitigation,
-            'Criticality': new_compliance.Criticality,
-            'MandatoryOptional': new_compliance.MandatoryOptional,
-            'ManualAutomatic': new_compliance.ManualAutomatic,
-            'Impact': new_compliance.Impact,
-            'Probability': new_compliance.Probability,
-            'MaturityLevel': new_compliance.MaturityLevel,
-            'ActiveInactive': new_compliance.ActiveInactive,
-            'PermanentTemporary': new_compliance.PermanentTemporary,
-            'Status': new_compliance.Status,
-            'ComplianceVersion': new_compliance.ComplianceVersion,
-            'CreatedByName': new_compliance.CreatedByName,
-            'CreatedByDate': new_compliance.CreatedByDate.isoformat() if new_compliance.CreatedByDate else None,
-            'Applicability': new_compliance.Applicability,
-            'PotentialRiskScenarios': new_compliance.PotentialRiskScenarios,
-            'RiskType': new_compliance.RiskType,
-            'RiskCategory': new_compliance.RiskCategory,
-            'RiskBusinessImpact': new_compliance.RiskBusinessImpact,
-            'compliance_approval': {
-                'approved': None,
-                'remarks': '',
-                'ApprovalDueDate': request.data.get('ApprovalDueDate')
-            }
-        }
-       
-        # Create policy approval with initial version "u1"
-        PolicyApproval.objects.create(
-            Identifier=identifier,
-            ExtractedData=extracted_data,
-            UserId=1,  # System user
-            ReviewerId=reviewer_id,
-            ApprovedNot=None,
-            Version="u1",  # Initial user version
-            ApprovalDueDate=request.data.get('ApprovalDueDate')
         )
         
         # Send notification to reviewer
@@ -1362,16 +1099,15 @@ def clone_compliance(request, compliance_id):
             notification_service = NotificationService()
             
             # Make sure reviewer has a valid email
-            from .models import User
             try:
-                reviewer = User.objects.get(UserId=reviewer_id)
-                if not reviewer.email or '@' not in reviewer.email:
-                    reviewer.email = f"reviewer{reviewer_id}@example.com"
+                reviewer = Users.objects.get(UserId=reviewer_id)
+                if not reviewer.Email or '@' not in reviewer.Email:
+                    reviewer.Email = f"reviewer{reviewer_id}@example.com"
                     reviewer.save()
-                    print(f"Updated reviewer {reviewer_id} with email {reviewer.email}")
+                    print(f"Updated reviewer {reviewer_id} with email {reviewer.Email}")
                 
-                print(f"Found reviewer: {reviewer.UserName} with email: {reviewer.email}")
-            except User.DoesNotExist:
+                print(f"Found reviewer: {reviewer.UserName} with email: {reviewer.Email}")
+            except Users.DoesNotExist:
                 print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
             
             # Send notification
@@ -1411,24 +1147,22 @@ def clone_compliance(request, compliance_id):
  
         return Response({
             'success': True,
-            'message': 'Compliance cloned successfully and sent for review',
+            'message': 'Compliance created successfully and sent for review',
             'compliance_id': new_compliance.ComplianceId,
             'Identifier': identifier,
             'version': new_compliance.ComplianceVersion,
             'reviewer_id': reviewer_id
         }, status=status.HTTP_201_CREATED)
  
-    except Compliance.DoesNotExist:
-        return Response({
-            'success': False,
-            'message': 'Source compliance not found'
-        }, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
+        print(f"Error creating compliance: {str(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
         return Response({
             'success': False,
             'message': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
+
 @api_view(['GET'])
 def get_compliance_dashboard(request):
     try:
@@ -1472,7 +1206,7 @@ def get_compliance_dashboard(request):
         if end_date:
             queryset = queryset.filter(CreatedByDate__lte=end_date)
         if subpolicy_id:
-            queryset = queryset.filter(SubPolicy_id=subpolicy_id)
+            queryset = queryset.filter(SubPolicy=subpolicy_id)
         elif policy_id:
             queryset = queryset.filter(SubPolicy__PolicyId=policy_id)
         elif framework_id:
@@ -1527,7 +1261,7 @@ def get_compliances_by_subpolicy(request, subpolicy_id):
         subpolicy = get_object_or_404(SubPolicy, SubPolicyId=subpolicy_id)
        
         # Get all compliances for this subpolicy
-        compliances = Compliance.objects.filter(SubPolicy_id=subpolicy_id)
+        compliances = Compliance.objects.filter(SubPolicy=subpolicy_id)
        
         # Create a dictionary to store compliance groups
         compliance_groups = {}
@@ -1541,14 +1275,14 @@ def get_compliances_by_subpolicy(request, subpolicy_id):
         # Second pass: Sort each group by version number
         for identifier in compliance_groups:
             compliance_groups[identifier].sort(
-                key=lambda x: float(x.ComplianceVersion),
+                key=lambda x: float(x.ComplianceVersion) if x.ComplianceVersion and x.ComplianceVersion.strip() else 0.0,
                 reverse=True
             )
        
         # Convert to list and sort groups by latest version's creation date
         sorted_groups = sorted(
             compliance_groups.values(),
-            key=lambda group: group[0].CreatedByDate,
+            key=lambda group: group[0].CreatedByDate if group[0].CreatedByDate else datetime.now(),
             reverse=True
         )
        
@@ -1650,7 +1384,7 @@ def submit_compliance_review(request, approval_id):
             try:
                 # Find the compliance being reviewed
                 current_compliance = Compliance.objects.filter(
-                    SubPolicy_id=extracted_data.get('SubPolicy'),
+                    SubPolicy=extracted_data.get('SubPolicy'),
                     Identifier=approval.Identifier,
                     Status='Under Review'
                 ).first()
@@ -1794,1847 +1528,7 @@ def resubmit_compliance_approval(request, approval_id):
             # Find the compliance being resubmitted
             if 'SubPolicy' in extracted_data:
                 compliance = Compliance.objects.filter(
-                    SubPolicy_id=extracted_data.get('SubPolicy'),
-                    Identifier=approval.Identifier,
-                    Status='Rejected'  # Find the rejected compliance
-                ).first()
-                
-                if compliance:
-                    # Update the compliance with the edited data
-                    compliance.ComplianceItemDescription = extracted_data.get('ComplianceItemDescription', compliance.ComplianceItemDescription)
-                    compliance.IsRisk = extracted_data.get('IsRisk', compliance.IsRisk)
-                    compliance.PossibleDamage = extracted_data.get('PossibleDamage', compliance.PossibleDamage)
-                    compliance.mitigation = extracted_data.get('mitigation', compliance.mitigation)
-                    compliance.Criticality = extracted_data.get('Criticality', compliance.Criticality)
-                    compliance.MandatoryOptional = extracted_data.get('MandatoryOptional', compliance.MandatoryOptional)
-                    compliance.ManualAutomatic = extracted_data.get('ManualAutomatic', compliance.ManualAutomatic)
-                    compliance.Impact = extracted_data.get('Impact', compliance.Impact)
-                    compliance.Probability = extracted_data.get('Probability', compliance.Probability)
-                    compliance.MaturityLevel = extracted_data.get('MaturityLevel', compliance.MaturityLevel)
-                    
-                    # Update the status back to 'Under Review'
-                    compliance.Status = 'Under Review'
-                    compliance.save()
-                    print(f"Updated compliance {compliance.ComplianceId} status to 'Under Review' and updated fields")
-                else:
-                    print(f"No rejected compliance found with SubPolicy={extracted_data.get('SubPolicy')}, Identifier={approval.Identifier}")
-        except Exception as e:
-            print(f"Error updating compliance status: {str(e)}")
-            import traceback
-            traceback.print_exc()
-            # Continue even if compliance update fails
-       
-        return Response({
-            'success': True,
-            'message': 'Compliance review resubmitted successfully',
-            'ApprovalId': new_approval.ApprovalId,
-            'Version': new_version
-        })
-       
-    except PolicyApproval.DoesNotExist:
-        return Response({'error': 'Policy approval not found'}, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        print("Error in resubmit_compliance_approval:", str(e))
-        import traceback
-        traceback.print_exc()
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-# Django ORM type checking suppression for this entire file
-# mypy: disable-error-code="attr-defined"
-# pylint: disable=no-member
-# type: ignore
-import logging
-from django.shortcuts import render, get_object_or_404
-from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer
-from .models import (
-    User, Framework, Policy, SubPolicy, Compliance, PolicyApproval, 
-    Notification, FrameworkVersion, PolicyVersion, LastChecklistItemVerified,
-    AuditVersion, AuditFinding, RiskInstance, ExportTask, GRCLog
-    # CategoryBusinessUnit will be imported locally in functions
-)
-from .serializers import *
-from django.utils import timezone   
-import datetime
-import uuid
-from django.db import models
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from .export_service import (
-    export_to_excel,
-    export_to_csv,
-    export_to_pdf,
-    export_to_json,
-    export_to_xml
-)
-from django.http import HttpResponse
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4, landscape
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib.units import inch
-from django.db import connection
-import json, requests
-from datetime import timedelta
-from celery import shared_task
-import re
-from typing import Dict, Any, List, Optional, Union, TYPE_CHECKING
-from django.core.exceptions import ValidationError
-
-# Django model type hints compatibility
-if TYPE_CHECKING:
-    from django.db.models import Manager
-from django.contrib.auth.hashers import make_password, check_password
-from .notification_service import NotificationService
-
-
-LOGGING_SERVICE_URL = None
-
-# Django ORM type checking suppression for all model operations in this file
-# mypy: disable-error-code="attr-defined"
-
-# Centralized validation module for allow-list input validation
-class ComplianceInputValidator:
-    """Centralized validation for all compliance input fields following allow-list pattern"""
-    
-    # Character sets for validation
-    ALPHANUMERIC_PATTERN = re.compile(r'^[a-zA-Z0-9\s\.\-_]+$')
-    TEXT_PATTERN = re.compile(r'^[a-zA-Z0-9\s\.\,\!\?\-_\(\)\[\]\:\;\'\"\&\%\$\#\@\+\=\n\r\t]+$')
-    EMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-    IDENTIFIER_PATTERN = re.compile(r'^[a-zA-Z0-9\-_]+$')
-    VERSION_PATTERN = re.compile(r'^[0-9]+\.[0-9]+$')
-    DATE_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}$')
-    
-    # Allowed values for choice fields
-    ALLOWED_CRITICALITY = ['High', 'Medium', 'Low']
-    ALLOWED_MANDATORY_OPTIONAL = ['Mandatory', 'Optional']
-    ALLOWED_MANUAL_AUTOMATIC = ['Manual', 'Automatic']
-    ALLOWED_MATURITY_LEVELS = ['Initial', 'Developing', 'Defined', 'Managed', 'Optimizing']
-    ALLOWED_STATUS = ['Under Review', 'Approved', 'Rejected', 'Active', 'Inactive']
-    ALLOWED_ACTIVE_INACTIVE = ['Active', 'Inactive']
-    ALLOWED_PERMANENT_TEMPORARY = ['Permanent', 'Temporary']
-    ALLOWED_VERSIONING_TYPE = ['Minor', 'Major']
-    
-    @staticmethod
-    def sanitize_string(value: str) -> str:
-        """Sanitize string input by removing potentially dangerous characters"""
-        if not isinstance(value, str):
-            return str(value) if value is not None else ''
-        # Remove null bytes and control characters except newline, tab, carriage return
-        return re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]', '', value).strip()
-    
-    @staticmethod
-    def validate_required_string(value: Any, field_name: str, max_length: Optional[int] = None, 
-                                min_length: int = 1, pattern = None) -> str:
-        """Validate required string fields with allow-list pattern"""
-        if value is None or value == '':
-            raise ValidationError(f"{field_name} is required and cannot be empty")
-        
-        # Convert to string and sanitize
-        str_value = ComplianceInputValidator.sanitize_string(value)
-        
-        if len(str_value) < min_length:
-            raise ValidationError(f"{field_name} must be at least {min_length} characters long")
-        
-        if max_length and len(str_value) > max_length:
-            raise ValidationError(f"{field_name} must not exceed {max_length} characters")
-        
-        # Check against allowed pattern
-        if pattern and not pattern.match(str_value):
-            raise ValidationError(f"{field_name} contains invalid characters")
-        
-        return str_value
-    
-    @staticmethod
-    def validate_optional_string(value: Any, field_name: str, max_length: Optional[int] = None, 
-                                pattern = None) -> str:
-        """Validate optional string fields with allow-list pattern"""
-        if value is None or value == '':
-            return ''
-        
-        str_value = ComplianceInputValidator.sanitize_string(value)
-        
-        if max_length and len(str_value) > max_length:
-            raise ValidationError(f"{field_name} must not exceed {max_length} characters")
-        
-        if pattern and str_value and not pattern.match(str_value):
-            raise ValidationError(f"{field_name} contains invalid characters")
-        
-        return str_value
-    
-    @staticmethod
-    def validate_choice_field(value: Any, field_name: str, allowed_choices: List[str]) -> str:
-        """Validate choice fields against allowed values"""
-        if value is None or value == '':
-            raise ValidationError(f"{field_name} is required")
-        
-        str_value = str(value).strip()
-        if str_value not in allowed_choices:
-            raise ValidationError(f"{field_name} must be one of: {', '.join(allowed_choices)}")
-        
-        return str_value
-    
-    @staticmethod
-    def validate_boolean_field(value: Any, field_name: str) -> bool:
-        """Validate boolean fields"""
-        if isinstance(value, bool):
-            return value
-        if isinstance(value, str):
-            if value.lower() in ['true', '1', 'yes']:
-                return True
-            elif value.lower() in ['false', '0', 'no', '']:
-                return False
-        if isinstance(value, int):
-            return bool(value)
-        
-        raise ValidationError(f"{field_name} must be a valid boolean value")
-    
-    @staticmethod
-    def validate_numeric_field(value: Any, field_name: str, min_val: Optional[float] = None, 
-                              max_val: Optional[float] = None) -> float:
-        """Validate numeric fields with range checking"""
-        if value is None or value == '':
-            raise ValidationError(f"{field_name} is required")
-        
-        try:
-            num_value = float(value)
-        except (ValueError, TypeError):
-            raise ValidationError(f"{field_name} must be a valid number")
-        
-        if min_val is not None and num_value < min_val:
-            raise ValidationError(f"{field_name} must be at least {min_val}")
-        
-        if max_val is not None and num_value > max_val:
-            raise ValidationError(f"{field_name} must not exceed {max_val}")
-        
-        return num_value
-    
-    @staticmethod
-    def validate_integer_field(value: Any, field_name: str, min_val: Optional[int] = None, 
-                              max_val: Optional[int] = None) -> int:
-        """Validate integer fields with range checking"""
-        if value is None or value == '':
-            raise ValidationError(f"{field_name} is required")
-        
-        try:
-            int_value = int(value)
-        except (ValueError, TypeError):
-            raise ValidationError(f"{field_name} must be a valid integer")
-        
-        if min_val is not None and int_value < min_val:
-            raise ValidationError(f"{field_name} must be at least {min_val}")
-        
-        if max_val is not None and int_value > max_val:
-            raise ValidationError(f"{field_name} must not exceed {max_val}")
-        
-        return int_value
-    
-    @staticmethod
-    def validate_date_field(value: Any, field_name: str) -> str:
-        """Validate date fields"""
-        if value is None or value == '':
-            raise ValidationError(f"{field_name} is required")
-        
-        str_value = str(value).strip()
-        
-        if not ComplianceInputValidator.DATE_PATTERN.match(str_value):
-            raise ValidationError(f"{field_name} must be in YYYY-MM-DD format")
-        
-        try:
-            datetime.datetime.strptime(str_value, '%Y-%m-%d')
-        except ValueError:
-            raise ValidationError(f"{field_name} must be a valid date")
-        
-        return str_value
-    
-    @staticmethod
-    def calculate_new_version(current_version: str, versioning_type: str) -> str:
-        """Calculate new version based on versioning type"""
-        print(f"  calculate_new_version called with: current_version='{current_version}', versioning_type='{versioning_type}'")
-        try:
-            # Parse current version (e.g., "2.3" becomes 2.3)
-            current_float = float(current_version) if current_version else 1.0
-            print(f"  Parsed current_float: {current_float}")
-            
-            if versioning_type == 'Minor':
-                # For minor: add 0.1 to current version (e.g., 2.3 -> 2.4)
-                new_version = round(current_float + 0.1, 1)
-                print(f"  Minor version calculation: {current_float} + 0.1 = {new_version}")
-            elif versioning_type == 'Major':
-                # For major: increment major version and reset minor to 0 (e.g., 2.3 -> 3.0)
-                major = int(current_float)
-                new_version = float(major + 1)
-                print(f"  Major version calculation: int({current_float}) + 1 = {new_version}")
-            else:
-                # Default behavior (Major)
-                major = int(current_float)
-                new_version = float(major + 1)
-                print(f"  Default (Major) version calculation: int({current_float}) + 1 = {new_version}")
-            
-            result = str(new_version)
-            print(f"  Returning: '{result}'")
-            return result
-        except (ValueError, TypeError) as e:
-            # If parsing fails, default to incrementing major version
-            print(f"  Error in version calculation: {e}, returning '2.0'")
-            return "2.0"
-    
-    @staticmethod
-    def clean_mitigation_data(mitigation_data: str) -> str:
-        """
-        Clean and format mitigation data for consistent storage and display.
-        Now handles JSON format with step-by-step structure.
-        """
-        if not mitigation_data:
-            return ""
-        
-        # If it's already a JSON string, try to parse and validate
-        if isinstance(mitigation_data, str) and (mitigation_data.strip().startswith('{') or mitigation_data.strip().startswith('[')):
-            try:
-                import json
-                parsed = json.loads(mitigation_data)
-                
-                # Handle the new step-by-step format
-                if isinstance(parsed, dict) and 'steps' in parsed:
-                    # Validate the structure
-                    if isinstance(parsed['steps'], list):
-                        # Clean and validate each step
-                        cleaned_steps = []
-                        for step in parsed['steps']:
-                            if isinstance(step, dict) and 'description' in step:
-                                cleaned_step = {
-                                    'stepNumber': step.get('stepNumber', len(cleaned_steps) + 1),
-                                    'description': str(step['description']).strip()
-                                }
-                                # Only include steps with valid descriptions
-                                if cleaned_step['description']:
-                                    cleaned_steps.append(cleaned_step)
-                        
-                        # Reconstruct the JSON structure
-                        cleaned_mitigation = {
-                            'steps': cleaned_steps,
-                            'totalSteps': len(cleaned_steps),
-                            'lastUpdated': parsed.get('lastUpdated', ''),
-                            'version': '2.0'  # Version to identify new format
-                        }
-                        
-                        return json.dumps(cleaned_mitigation, separators=(',', ':'))
-                
-                # Handle legacy array format
-                if isinstance(parsed, list):
-                    # Convert to new format
-                    cleaned_steps = []
-                    for i, step in enumerate(parsed):
-                        if isinstance(step, str) and step.strip():
-                            cleaned_steps.append({
-                                'stepNumber': i + 1,
-                                'description': step.strip()
-                            })
-                    
-                    if cleaned_steps:
-                        cleaned_mitigation = {
-                            'steps': cleaned_steps,
-                            'totalSteps': len(cleaned_steps),
-                            'lastUpdated': '',
-                            'version': '2.0'
-                        }
-                        return json.dumps(cleaned_mitigation, separators=(',', ':'))
-                
-                # Handle legacy object format
-                if isinstance(parsed, dict):
-                    if 'description' in parsed:
-                        # Convert single description to step format
-                        cleaned_mitigation = {
-                            'steps': [{
-                                'stepNumber': 1,
-                                'description': str(parsed['description']).strip()
-                            }],
-                            'totalSteps': 1,
-                            'lastUpdated': '',
-                            'version': '2.0'
-                        }
-                        return json.dumps(cleaned_mitigation, separators=(',', ':'))
-                
-                # Return as formatted JSON if it's a valid structure
-                return json.dumps(parsed, separators=(',', ':'))
-                
-            except json.JSONDecodeError:
-                # If JSON parsing fails, treat as plain text
-                pass
-        
-        # Handle plain text - convert to new JSON format
-        if isinstance(mitigation_data, str) and mitigation_data.strip():
-            import json
-            
-            # Try to split by common delimiters to create steps
-            text = mitigation_data.strip()
-            
-            # Split by numbered patterns (1., 2., etc.) or newlines
-            import re
-            steps_text = re.split(r'(?:^|\n)\s*\d+\.\s*', text)
-            if len(steps_text) > 1:
-                # Remove empty first element if it exists
-                if not steps_text[0].strip():
-                    steps_text = steps_text[1:]
-            else:
-                # Split by newlines or semicolons
-                steps_text = [s.strip() for s in re.split(r'[;\n]', text) if s.strip()]
-            
-            # If no clear steps found, treat as single step
-            if not steps_text or (len(steps_text) == 1 and not steps_text[0].strip()):
-                steps_text = [text]
-            
-            # Create step objects
-            cleaned_steps = []
-            for i, step_text in enumerate(steps_text):
-                if step_text.strip():
-                    cleaned_steps.append({
-                        'stepNumber': i + 1,
-                        'description': step_text.strip()
-                    })
-            
-            if cleaned_steps:
-                cleaned_mitigation = {
-                    'steps': cleaned_steps,
-                    'totalSteps': len(cleaned_steps),
-                    'lastUpdated': '',
-                    'version': '2.0'
-                }
-                return json.dumps(cleaned_mitigation, separators=(',', ':'))
-        
-        return ""
-    
-    @staticmethod
-    def validate_mitigation_json(mitigation_data: str) -> bool:
-        """
-        Validate that mitigation data is properly formatted JSON with valid structure
-        """
-        if not mitigation_data:
-            return True  # Empty is valid
-        
-        try:
-            import json
-            parsed = json.loads(mitigation_data)
-            
-            # Must be a dictionary with 'steps' key
-            if not isinstance(parsed, dict) or 'steps' not in parsed:
-                return False
-            
-            # Steps must be a list
-            if not isinstance(parsed['steps'], list):
-                return False
-            
-            # Each step must have required structure
-            for step in parsed['steps']:
-                if not isinstance(step, dict):
-                    return False
-                if 'description' not in step or not isinstance(step['description'], str):
-                    return False
-                if not step['description'].strip():
-                    return False
-            
-            return True
-            
-        except json.JSONDecodeError:
-            return False
-    
-    @classmethod
-    def validate_compliance_data(cls, request_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Main validation method for compliance data using allow-list approach"""
-        validated_data = {}
-        errors = {}
-        
-        try:
-            # Validate SubPolicy (required foreign key)
-            validated_data['SubPolicy'] = cls.validate_integer_field(
-                request_data.get('SubPolicy'), 'SubPolicy', min_val=1
-            )
-        except ValidationError as e:
-            errors['SubPolicy'] = [str(e)]
-        
-        try:
-            # Validate ComplianceTitle (required, max 145 chars)
-            validated_data['ComplianceTitle'] = cls.validate_required_string(
-                request_data.get('ComplianceTitle'), 'ComplianceTitle', 
-                max_length=145, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['ComplianceTitle'] = [str(e)]
-        
-        try:
-            # Validate ComplianceItemDescription (required text field)
-            validated_data['ComplianceItemDescription'] = cls.validate_required_string(
-                request_data.get('ComplianceItemDescription'), 'ComplianceItemDescription',
-                max_length=5000, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['ComplianceItemDescription'] = [str(e)]
-        
-        try:
-            # Validate ComplianceType (required, max 100 chars)
-            validated_data['ComplianceType'] = cls.validate_required_string(
-                request_data.get('ComplianceType'), 'ComplianceType',
-                max_length=100, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['ComplianceType'] = [str(e)]
-        
-        try:
-            # Validate Scope (required text field)
-            validated_data['Scope'] = cls.validate_required_string(
-                request_data.get('Scope'), 'Scope',
-                max_length=5000, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['Scope'] = [str(e)]
-        
-        try:
-            # Validate Objective (required text field)
-            validated_data['Objective'] = cls.validate_required_string(
-                request_data.get('Objective'), 'Objective',
-                max_length=5000, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['Objective'] = [str(e)]
-        
-        try:
-            # Validate BusinessUnitsCovered (required, max 225 chars)
-            validated_data['BusinessUnitsCovered'] = cls.validate_required_string(
-                request_data.get('BusinessUnitsCovered'), 'BusinessUnitsCovered',
-                max_length=225, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['BusinessUnitsCovered'] = [str(e)]
-        
-        try:
-            # Validate IsRisk (boolean)
-            validated_data['IsRisk'] = cls.validate_boolean_field(
-                request_data.get('IsRisk', False), 'IsRisk'
-            )
-        except ValidationError as e:
-            errors['IsRisk'] = [str(e)]
-        
-        # If IsRisk is True, validate risk-related fields
-        if validated_data.get('IsRisk', False):
-            try:
-                validated_data['PossibleDamage'] = cls.validate_required_string(
-                    request_data.get('PossibleDamage'), 'PossibleDamage',
-                    max_length=5000, pattern=cls.TEXT_PATTERN
-                )
-            except ValidationError as e:
-                errors['PossibleDamage'] = [str(e)]
-            
-            try:
-                validated_data['PotentialRiskScenarios'] = cls.validate_required_string(
-                    request_data.get('PotentialRiskScenarios'), 'PotentialRiskScenarios',
-                    max_length=5000, pattern=cls.TEXT_PATTERN
-                )
-            except ValidationError as e:
-                errors['PotentialRiskScenarios'] = [str(e)]
-            
-            try:
-                validated_data['RiskType'] = cls.validate_required_string(
-                    request_data.get('RiskType'), 'RiskType',
-                    max_length=45, pattern=cls.TEXT_PATTERN
-                )
-            except ValidationError as e:
-                errors['RiskType'] = [str(e)]
-            
-            try:
-                validated_data['RiskCategory'] = cls.validate_required_string(
-                    request_data.get('RiskCategory'), 'RiskCategory',
-                    max_length=45, pattern=cls.TEXT_PATTERN
-                )
-            except ValidationError as e:
-                errors['RiskCategory'] = [str(e)]
-            
-            try:
-                validated_data['RiskBusinessImpact'] = cls.validate_required_string(
-                    request_data.get('RiskBusinessImpact'), 'RiskBusinessImpact',
-                    max_length=45, pattern=cls.TEXT_PATTERN
-                )
-            except ValidationError as e:
-                errors['RiskBusinessImpact'] = [str(e)]
-        else:
-            # Optional fields when IsRisk is False
-            validated_data['PossibleDamage'] = cls.validate_optional_string(
-                request_data.get('PossibleDamage'), 'PossibleDamage',
-                max_length=5000, pattern=cls.TEXT_PATTERN
-            )
-            validated_data['PotentialRiskScenarios'] = cls.validate_optional_string(
-                request_data.get('PotentialRiskScenarios'), 'PotentialRiskScenarios',
-                max_length=5000, pattern=cls.TEXT_PATTERN
-            )
-            validated_data['RiskType'] = cls.validate_optional_string(
-                request_data.get('RiskType'), 'RiskType',
-                max_length=45, pattern=cls.TEXT_PATTERN
-            )
-            validated_data['RiskCategory'] = cls.validate_optional_string(
-                request_data.get('RiskCategory'), 'RiskCategory',
-                max_length=45, pattern=cls.TEXT_PATTERN
-            )
-            validated_data['RiskBusinessImpact'] = cls.validate_optional_string(
-                request_data.get('RiskBusinessImpact'), 'RiskBusinessImpact',
-                max_length=45, pattern=cls.TEXT_PATTERN
-            )
-        
-        try:
-            # Validate and clean mitigation (JSON step-by-step format)
-            raw_mitigation = request_data.get('mitigation')
-            if raw_mitigation:
-                # Clean the mitigation data first
-                cleaned_mitigation = cls.clean_mitigation_data(raw_mitigation)
-                
-                # Validate JSON structure
-                if not cls.validate_mitigation_json(cleaned_mitigation):
-                    raise ValidationError("Invalid mitigation data format")
-                
-                # Final validation for length (JSON format can be longer)
-                if len(cleaned_mitigation) > 10000:  # Increased limit for JSON
-                    raise ValidationError("Mitigation data exceeds maximum length")
-                
-                validated_data['mitigation'] = cleaned_mitigation
-            else:
-                validated_data['mitigation'] = ''
-        except ValidationError as e:
-            errors['mitigation'] = [str(e)]
-        
-        try:
-            # Validate Criticality (required choice field)
-            validated_data['Criticality'] = cls.validate_choice_field(
-                request_data.get('Criticality'), 'Criticality', cls.ALLOWED_CRITICALITY
-            )
-        except ValidationError as e:
-            errors['Criticality'] = [str(e)]
-        
-        try:
-            # Validate MandatoryOptional (required choice field)
-            validated_data['MandatoryOptional'] = cls.validate_choice_field(
-                request_data.get('MandatoryOptional'), 'MandatoryOptional', cls.ALLOWED_MANDATORY_OPTIONAL
-            )
-        except ValidationError as e:
-            errors['MandatoryOptional'] = [str(e)]
-        
-        try:
-            # Validate ManualAutomatic (required choice field)
-            validated_data['ManualAutomatic'] = cls.validate_choice_field(
-                request_data.get('ManualAutomatic'), 'ManualAutomatic', cls.ALLOWED_MANUAL_AUTOMATIC
-            )
-        except ValidationError as e:
-            errors['ManualAutomatic'] = [str(e)]
-        
-        try:
-            # Validate Impact (required numeric field, 1-10)
-            validated_data['Impact'] = cls.validate_numeric_field(
-                request_data.get('Impact'), 'Impact', min_val=1.0, max_val=10.0
-            )
-        except ValidationError as e:
-            errors['Impact'] = [str(e)]
-        
-        try:
-            # Validate Probability (required numeric field, 1-10)
-            validated_data['Probability'] = cls.validate_numeric_field(
-                request_data.get('Probability'), 'Probability', min_val=1.0, max_val=10.0
-            )
-        except ValidationError as e:
-            errors['Probability'] = [str(e)]
-        
-        try:
-            # Validate ComplianceVersion (required, max 50 chars, version pattern)
-            validated_data['ComplianceVersion'] = cls.validate_required_string(
-                request_data.get('ComplianceVersion', '1.0'), 'ComplianceVersion',
-                max_length=50, pattern=cls.VERSION_PATTERN
-            )
-        except ValidationError as e:
-            errors['ComplianceVersion'] = [str(e)]
-        
-        try:
-            # Validate Applicability (optional, max 45 chars)
-            validated_data['Applicability'] = cls.validate_optional_string(
-                request_data.get('Applicability'), 'Applicability',
-                max_length=45, pattern=cls.TEXT_PATTERN
-            )
-        except ValidationError as e:
-            errors['Applicability'] = [str(e)]
-        
-        try:
-            # Validate Identifier (optional, max 45 chars, identifier pattern)
-            identifier = request_data.get('Identifier', '').strip()
-            if identifier:
-                validated_data['Identifier'] = cls.validate_optional_string(
-                    identifier, 'Identifier', max_length=45, pattern=cls.IDENTIFIER_PATTERN
-                )
-            else:
-                validated_data['Identifier'] = ''
-        except ValidationError as e:
-            errors['Identifier'] = [str(e)]
-        
-        try:
-            # Validate reviewer (required integer)
-            validated_data['reviewer'] = cls.validate_integer_field(
-                request_data.get('reviewer'), 'reviewer', min_val=1
-            )
-        except ValidationError as e:
-            errors['reviewer'] = [str(e)]
-        
-        try:
-            # Validate ApprovalDueDate (required date)
-            validated_data['ApprovalDueDate'] = cls.validate_date_field(
-                request_data.get('ApprovalDueDate'), 'ApprovalDueDate'
-            )
-        except ValidationError as e:
-            errors['ApprovalDueDate'] = [str(e)]
-        
-        # Set default values for system fields
-        validated_data['Status'] = 'Under Review'
-        validated_data['ActiveInactive'] = 'Inactive'
-        validated_data['PermanentTemporary'] = 'Permanent'
-        validated_data['MaturityLevel'] = 'Initial'
-        
-        if errors:
-            raise ValidationError(errors)
-        
-        return validated_data
-
- 
-# Create your views here.
- 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def login(request):
-    email = request.data.get('email')
-    password = request.data.get('password')
-   
-    # Hardcoded credentials
-    if email == "admin@example.com" and password == "password123":
-        return Response({
-            'success': True,
-            'message': 'Login successful',
-            'user': {
-                'email': email,
-                'name': 'Admin User'
-            }
-        })
-    else:
-        return Response({
-            'success': False,
-            'message': 'Invalid credentials'
-        }, status=status.HTTP_401_UNAUTHORIZED)
- 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def register(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        
-        # Instead of using JWT tokens which expect Django's User model,
-        # create a simple token-like response with user data
-        return Response({
-            'success': True,
-            'message': 'Registration successful',
-            'user': {
-                'UserId': user.UserId,
-                'UserName': user.UserName
-            }
-        })
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def send_log(module, actionType, description=None, userId=None, userName=None,
-             userRole=None, entityType=None, logLevel='INFO', ipAddress=None,
-             additionalInfo=None, entityId=None):
-   
-    # Create log entry in database
-    try:
-        # Prepare data for GRCLog model
-        log_data = {
-            'Module': module,
-            'ActionType': actionType,
-            'Description': description,
-            'UserId': userId,
-            'UserName': userName,
-            'EntityType': entityType,
-            'EntityId': entityId,
-            'LogLevel': logLevel,
-            'IPAddress': ipAddress,
-            'AdditionalInfo': additionalInfo
-        }
-       
-        # Remove None values
-        log_data = {k: v for k, v in log_data.items() if v is not None}
-       
-        # Create and save the log entry
-        log_entry = GRCLog(**log_data)
-        log_entry.save()
-       
-        # Optionally still send to logging service if needed
-        try:
-            if LOGGING_SERVICE_URL:
-                # Format for external service (matches expected format in loggingservice.js)
-                api_log_data = {
-                    "module": module,
-                    "actionType": actionType,  # This is exactly what the service expects
-                    "description": description,
-                    "userId": userId,
-                    "userName": userName,
-                    "userRole": userRole,
-                    "entityType": entityType,
-                    "logLevel": logLevel,
-                    "ipAddress": ipAddress,
-                    "additionalInfo": additionalInfo
-                }
-                # Clean out None values
-                api_log_data = {k: v for k, v in api_log_data.items() if v is not None}
-               
-                response = requests.post(LOGGING_SERVICE_URL, json=api_log_data)
-                if response.status_code != 200:
-                    print(f"Failed to send log to service: {response.text}")
-        except Exception as e:
-            print(f"Error sending log to service: {str(e)}")
-           
-        return log_entry.LogId  # Return the ID of the created log
-    except Exception as e:
-        print(f"Error saving log to database: {str(e)}")
-        # Try to capture the error itself
-        try:
-            error_log = GRCLog(
-                Module=module,
-                ActionType='LOG_ERROR',
-                Description=f"Error logging {actionType} on {module}: {str(e)}",
-                LogLevel='ERROR'
-            )
-            error_log.save()
-        except:
-            pass  # If we can't even log the error, just continue
-        return None
- 
-@api_view(['GET'])
-def test_connection(request):
-    return Response({"message": "Connection successful!"})
- 
-@api_view(['GET'])
-def get_frameworks(request):
-    frameworks = Framework.objects.filter(ActiveInactive='Active')  # type: ignore
-    serializer = FrameworkSerializer(frameworks, many=True)
-    return Response({'success': True, 'data': serializer.data})
- 
-@api_view(['GET'])
-def get_policies(request, framework_id):
-    policies = Policy.objects.filter(FrameworkId=framework_id, ActiveInactive='Active')  # type: ignore
-    return Response({
-        'success': True, 
-        'data': [{'PolicyId': p.PolicyId, 'PolicyName': p.PolicyName, 'Applicability': p.Applicability} for p in policies]
-    })
- 
-@api_view(['GET'])
-def get_subpolicies(request, policy_id):
-    subpolicies = SubPolicy.objects.filter(PolicyId=policy_id, Status='Approved')  # type: ignore
-    serializer = SubPolicySerializer(subpolicies, many=True)
-    return Response({'success': True, 'data': serializer.data})
- 
-def ensure_user_has_email(user_id, default_email=None):
-    """
-    Utility function to ensure a user has an email address.
-    Returns True if the user has an email (existing or newly added), False otherwise.
-    """
-    try:
-        from .models import User
-        if not User.objects.filter(UserId=user_id).exists():  # type: ignore
-            print(f"User with ID {user_id} not found - creating")
-            username = f"User{user_id}"
-            email = default_email or f"user{user_id}@example.com"
-            User.objects.create(  # type: ignore
-                UserId=user_id,
-                UserName=username,
-                Password="",
-                email=email
-            )
-            print(f"Created user {username} with email {email}")
-            return True
-            
-        user = User.objects.get(UserId=user_id)  # type: ignore
-        if not user.email:
-            email = default_email or f"user{user_id}@example.com"
-            user.email = email
-            user.save()
-            print(f"Updated user {user.UserName} with email {email}")
-            
-        return bool(user.email)
-    except Exception as e:
-        print(f"Error ensuring user has email: {str(e)}")
-        return False
-
-@api_view(['POST'])
-def create_compliance(request):
-    try:
-        # Validate input data using centralized validator
-        validated_data = ComplianceInputValidator.validate_compliance_data(request.data)
-    except ValidationError as e:
-        return Response({
-            'success': False,
-            'message': 'Input validation failed',
-            'errors': e.message_dict if hasattr(e, 'message_dict') else {'general': [str(e)]}
-        }, status=status.HTTP_400_BAD_REQUEST)
-    
-    # Generate identifier if not provided
-    if not validated_data['Identifier']:
-        subpolicy_id = validated_data['SubPolicy']
-        identifier = f"COMP-{subpolicy_id}-{datetime.date.today().strftime('%y%m%d')}-{uuid.uuid4().hex[:6]}"
-        validated_data['Identifier'] = identifier
-    
-    # Get reviewer ID and approval due date
-    reviewer_id = validated_data['reviewer']
-    approval_due_date = validated_data['ApprovalDueDate']
-    
-    # Get creator name
-    created_by_name = 'System'
-    if request.user.is_authenticated:
-        created_by_name = request.user.username
-
-    try:
-        # Create compliance with validated data
-        compliance = Compliance.objects.create(  # type: ignore
-            SubPolicy_id=validated_data['SubPolicy'],
-            ComplianceTitle=validated_data['ComplianceTitle'],
-            ComplianceItemDescription=validated_data['ComplianceItemDescription'],
-            ComplianceType=validated_data['ComplianceType'],
-            Scope=validated_data['Scope'],
-            Objective=validated_data['Objective'],
-            BusinessUnitsCovered=validated_data['BusinessUnitsCovered'],
-            IsRisk=validated_data['IsRisk'],
-            PossibleDamage=validated_data['PossibleDamage'],
-            mitigation=validated_data['mitigation'],
-            Criticality=validated_data['Criticality'],
-            MandatoryOptional=validated_data['MandatoryOptional'],
-            ManualAutomatic=validated_data['ManualAutomatic'],
-            Impact=validated_data['Impact'],
-            Probability=validated_data['Probability'],
-            MaturityLevel=validated_data['MaturityLevel'],
-            ActiveInactive=validated_data['ActiveInactive'],
-            PermanentTemporary=validated_data['PermanentTemporary'],
-            Status=validated_data['Status'],
-            ComplianceVersion=validated_data['ComplianceVersion'],
-            CreatedByName=created_by_name,
-            CreatedByDate=datetime.date.today(),
-            Identifier=validated_data['Identifier'],
-            Applicability=validated_data['Applicability'],
-            PotentialRiskScenarios=validated_data['PotentialRiskScenarios'],
-            RiskType=validated_data['RiskType'],
-            RiskCategory=validated_data['RiskCategory'],
-            RiskBusinessImpact=validated_data['RiskBusinessImpact']
-        )
-       
-        # Structure the ExtractedData to include approval fields
-        extracted_data = validated_data.copy()
-        extracted_data['type'] = 'compliance'
-        extracted_data['compliance_approval'] = {
-            'approved': None,
-            'remarks': '',
-            'ApprovalDueDate': approval_due_date
-        }
-       
-        # Create policy approval
-        user_id = 1  # Default system user
-        
-        # Ensure users have emails for notifications
-        ensure_user_has_email(user_id, "system@example.com")
-        reviewer_has_email = ensure_user_has_email(reviewer_id, f"reviewer{reviewer_id}@example.com")
-        if not reviewer_has_email:
-            print(f"WARNING: Reviewer {reviewer_id} has no email, notifications may fail")
-       
-        # Get the policy ID from the subpolicy
-        try:
-            subpolicy = SubPolicy.objects.get(SubPolicyId=validated_data['SubPolicy'])  # type: ignore
-            policy_id = subpolicy.PolicyId_id
-        except SubPolicy.DoesNotExist:  # type: ignore
-            policy_id = None
-            print(f"WARNING: SubPolicy {validated_data['SubPolicy']} not found, using None for PolicyId")
-            
-        # Create the policy approval
-        policy_approval = PolicyApproval.objects.create(  # type: ignore
-            Identifier=validated_data['Identifier'],
-            ExtractedData=extracted_data,
-            UserId=user_id,
-            ReviewerId=reviewer_id,
-            ApprovedNot=None,
-            Version="u1",
-            PolicyId=policy_id,
-            ApprovalDueDate=approval_due_date
-        )
-        print(f"Created PolicyApproval with ID {policy_approval.ApprovalId} and PolicyId {policy_id}")
-
-        # Send notification to reviewer
-        try:
-            from .notification_service import NotificationService
-            notification_service = NotificationService()
-            
-            # Ensure reviewer has a valid email
-            from .models import User
-            try:
-                reviewer = User.objects.get(UserId=reviewer_id)  # type: ignore
-                if not reviewer.email or '@' not in reviewer.email:
-                    reviewer.email = f"reviewer{reviewer_id}@example.com"
-                    reviewer.save()
-            except User.DoesNotExist:  # type: ignore
-                print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
-            
-            # Send the notification
-            notification_result = notification_service.send_compliance_creation_notification(
-                compliance=compliance,
-                reviewer_id=reviewer_id,
-                approval_due_date=approval_due_date
-            )
-            
-            if notification_result.get('success'):
-                print(f"Successfully sent compliance creation notification to reviewer {reviewer_id}")
-            else:
-                print(f"Failed to send notification: {notification_result.get('error', 'Unknown error')}")
-            
-            # Log the notification
-            from .models import Notification
-            try:
-                reviewer_email, reviewer_name = notification_service.get_user_email_by_id(reviewer_id)
-                if reviewer_email:
-                    Notification.objects.create(  # type: ignore
-                        recipient=reviewer_email,
-                        type='compliance_creation',
-                        channel='email',
-                        success=notification_result.get('success', False)
-                    )
-            except Exception as db_error:
-                print(f"ERROR creating notification record: {str(db_error)}")
-                    
-        except Exception as e:
-            print(f"ERROR sending compliance creation notification: {str(e)}")
-            # Continue even if notification fails
-
-        return Response({
-            'success': True,
-            'message': 'Compliance created successfully',
-            'compliance_id': compliance.ComplianceId,
-            'Identifier': validated_data['Identifier'],
-            'version': compliance.ComplianceVersion
-        }, status=201)
-        
-    except Exception as e:
-        print(f"Error creating compliance: {str(e)}")
-        return Response({
-            'success': False,
-            'message': 'Failed to create compliance',
-            'errors': {'general': [str(e)]}
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['PUT'])
-@permission_classes([AllowAny])
-def edit_compliance(request, compliance_id):
-    try:
-        # Get the original compliance
-        original_compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
-       
-        # Make a copy of request data
-        data = request.data.copy()
-       
-        # Get reviewer ID from request data or use default
-        reviewer_id = data.get('reviewer_id', 2)  # Default to reviewer ID 2 if not provided
-       
-        # Validate reviewer exists
-        try:
-            # Use the User model from .models which has UserId field
-            from .models import User
-            reviewer = User.objects.get(UserId=reviewer_id)
-        except User.DoesNotExist:
-            return Response({
-                'success': False,
-                'message': f'Reviewer with ID {reviewer_id} not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-       
-        # Get the SubPolicy instance
-        subpolicy_id = data.get('SubPolicy', original_compliance.SubPolicy_id)
-        try:
-            subpolicy = SubPolicy.objects.get(SubPolicyId=subpolicy_id)  # type: ignore
-        except SubPolicy.DoesNotExist:  # type: ignore
-            return Response({
-                'success': False,
-                'message': f'SubPolicy with id {subpolicy_id} not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-       
-        # Create new compliance data
-        new_compliance_data = {
-            'SubPolicy': subpolicy,
-            'ComplianceTitle': data.get('ComplianceTitle', original_compliance.ComplianceTitle),
-            'ComplianceItemDescription': data.get('ComplianceItemDescription', original_compliance.ComplianceItemDescription),
-            'ComplianceType': data.get('ComplianceType', original_compliance.ComplianceType),
-            'Scope': data.get('Scope', original_compliance.Scope),
-            'Objective': data.get('Objective', original_compliance.Objective),
-            'BusinessUnitsCovered': data.get('BusinessUnitsCovered', original_compliance.BusinessUnitsCovered),
-            'IsRisk': data.get('IsRisk', original_compliance.IsRisk),
-            'PossibleDamage': data.get('PossibleDamage', original_compliance.PossibleDamage),
-            'mitigation': data.get('mitigation', original_compliance.mitigation),
-            'Criticality': data.get('Criticality', original_compliance.Criticality),
-            'MandatoryOptional': data.get('MandatoryOptional', original_compliance.MandatoryOptional),
-            'ManualAutomatic': data.get('ManualAutomatic', original_compliance.ManualAutomatic),
-            'Impact': data.get('Impact', original_compliance.Impact),
-            'Probability': data.get('Probability', original_compliance.Probability),
-            'MaturityLevel': data.get('MaturityLevel', original_compliance.MaturityLevel or 'Initial'),
-            'ActiveInactive': 'Inactive',  # Always Inactive for new version
-            'PermanentTemporary': data.get('PermanentTemporary', original_compliance.PermanentTemporary),
-            'Status': 'Under Review',  # Always Under Review for new version
-            'Identifier': data.get('Identifier', original_compliance.Identifier),
-            'Applicability': data.get('Applicability', original_compliance.Applicability),
-            'PreviousComplianceVersionId': original_compliance,
-            'CreatedByName': request.data.get('CreatedByName', 'System'),
-            'CreatedByDate': timezone.now().date(),
-            'PotentialRiskScenarios': data.get('PotentialRiskScenarios', original_compliance.PotentialRiskScenarios),
-            'RiskType': data.get('RiskType', original_compliance.RiskType),
-            'RiskCategory': data.get('RiskCategory', original_compliance.RiskCategory),
-            'RiskBusinessImpact': data.get('RiskBusinessImpact', original_compliance.RiskBusinessImpact)
-        }
-       
-        # Handle version increment using versioning type
-        versioning_type = data.get('VersioningType', 'Major')  # Default to Major if not provided
-        print(f"=== VERSION CALCULATION DEBUG ===")
-        print(f"Received VersioningType: {versioning_type}")
-        print(f"Original compliance version: {original_compliance.ComplianceVersion}")
-        
-        # Validate versioning type
-        if versioning_type not in ComplianceInputValidator.ALLOWED_VERSIONING_TYPE:
-            print(f"Invalid versioning type '{versioning_type}', defaulting to Major")
-            versioning_type = 'Major'  # Default to Major if invalid
-        
-        # Always calculate version based on versioning type, ignore any provided version
-        current_version = original_compliance.ComplianceVersion if original_compliance.ComplianceVersion else '1.0'
-        print(f"Current version for calculation: {current_version}")
-        calculated_version = ComplianceInputValidator.calculate_new_version(
-            current_version, versioning_type
-        )
-        print(f"Calculated new version: {calculated_version}")
-        new_compliance_data['ComplianceVersion'] = calculated_version
-        
-        print(f"Final new version: {new_compliance_data['ComplianceVersion']}")
-        print(f"=== END VERSION DEBUG ===")
-       
-        # Create new compliance using Django ORM
-        new_compliance = Compliance.objects.create(**new_compliance_data)  # type: ignore
- 
-        # Create policy approval record for the edited compliance
-        extracted_data = {
-            'type': 'compliance',
-            'Identifier': new_compliance.Identifier,
-            'SubPolicy': subpolicy_id,
-            'ComplianceTitle': new_compliance.ComplianceTitle,
-            'ComplianceItemDescription': new_compliance.ComplianceItemDescription,
-            'ComplianceType': new_compliance.ComplianceType,
-            'Scope': new_compliance.Scope,
-            'Objective': new_compliance.Objective,
-            'BusinessUnitsCovered': new_compliance.BusinessUnitsCovered,
-            'IsRisk': new_compliance.IsRisk,
-            'PossibleDamage': new_compliance.PossibleDamage,
-            'mitigation': new_compliance.mitigation,
-            'Criticality': new_compliance.Criticality,
-            'MandatoryOptional': new_compliance.MandatoryOptional,
-            'ManualAutomatic': new_compliance.ManualAutomatic,
-            'Impact': new_compliance.Impact,
-            'Probability': new_compliance.Probability,
-            'MaturityLevel': new_compliance.MaturityLevel,
-            'ActiveInactive': new_compliance.ActiveInactive,
-            'PermanentTemporary': new_compliance.PermanentTemporary,
-            'Status': new_compliance.Status,
-            'ComplianceVersion': new_compliance.ComplianceVersion,
-            'CreatedByName': new_compliance.CreatedByName,
-            'CreatedByDate': new_compliance.CreatedByDate.isoformat() if new_compliance.CreatedByDate else None,
-            'Applicability': new_compliance.Applicability,
-            'PotentialRiskScenarios': new_compliance.PotentialRiskScenarios,
-            'RiskType': new_compliance.RiskType,
-            'RiskCategory': new_compliance.RiskCategory,
-            'RiskBusinessImpact': new_compliance.RiskBusinessImpact,
-            'compliance_approval': {
-                'approved': None,
-                'remarks': '',
-                'ApprovalDueDate': data.get('ApprovalDueDate')
-            }
-        }
- 
-        # Create policy approval record with initial version "u1"
-        try:
-            PolicyApproval.objects.create(  # type: ignore
-                Identifier=new_compliance.Identifier,
-                ExtractedData=extracted_data,
-                UserId=1,  # System user
-                ReviewerId=reviewer_id,
-                ApprovedNot=None,
-                Version="u1",  # Initial user version
-                ApprovalDueDate=data.get('ApprovalDueDate')
-            )
-        except Exception as e:
-            print(f"Error creating policy approval: {str(e)}")
-            # Continue even if policy approval creation fails
-        
-        # Send notification to reviewer
-        try:
-            print("=== NOTIFICATION DEBUGGING - COMPLIANCE EDIT ===")
-            from .notification_service import NotificationService
-            notification_service = NotificationService()
-            
-            # Make sure reviewer has a valid email
-            from .models import User
-            try:
-                reviewer = User.objects.get(UserId=reviewer_id)
-                if not reviewer.email or '@' not in reviewer.email:
-                    reviewer.email = f"reviewer{reviewer_id}@example.com"
-                    reviewer.save()
-                    print(f"Updated reviewer {reviewer_id} with email {reviewer.email}")
-                
-                print(f"Found reviewer: {reviewer.UserName} with email: {reviewer.email}")
-            except User.DoesNotExist:
-                print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
-            
-            # Send notification
-            print(f"Sending edit notification for compliance {new_compliance.ComplianceId} to reviewer {reviewer_id}")
-            notification_result = notification_service.send_compliance_edit_notification(
-                compliance=new_compliance,
-                previous_compliance=original_compliance,
-                reviewer_id=reviewer_id
-            )
-            
-            if notification_result.get('success'):
-                print(f"Successfully sent compliance edit notification to reviewer {reviewer_id}")
-            else:
-                print(f"Failed to send notification: {notification_result.get('error', 'Unknown error')}")
-                print(f"Error details: {notification_result.get('errors', [])}") 
-            
-            # Log the notification directly in the database
-            from .models import Notification
-            try:
-                reviewer_email, reviewer_name = notification_service.get_user_email_by_id(reviewer_id)
-                if reviewer_email:
-                    Notification.objects.create(  # type: ignore
-                        recipient=reviewer_email,
-                        type='compliance_edit',
-                        channel='email',
-                        success=notification_result.get('success', False)
-                    )
-                    print(f"Created notification record for {reviewer_email}")
-            except Exception as db_error:
-                print(f"ERROR creating notification record: {str(db_error)}")
-                
-            print("=== END NOTIFICATION DEBUGGING ===")
-        except Exception as e:
-            print(f"Error sending compliance edit notification: {str(e)}")
-            import traceback
-            print(f"Traceback: {traceback.format_exc()}")
-            # Continue even if notification fails
-           
-        return Response({
-            'success': True,
-            'message': 'New compliance version created successfully and sent for review',
-            'compliance_id': new_compliance.ComplianceId,
-            'previous_compliance_id': original_compliance.ComplianceId,
-            'version': new_compliance.ComplianceVersion,
-            'reviewer_id': reviewer_id
-        })
-       
-    except Exception as e:
-        print(f"Error in edit_compliance: {str(e)}")
-        return Response({
-            'success': False,
-            'message': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['POST'])
-def clone_compliance(request, compliance_id):
-    try:
-        # Get the source compliance
-        source_compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
-       
-        # Get the target subpolicy from request data
-        target_subpolicy_id = request.data.get('target_subpolicy_id')
-       
-        if not target_subpolicy_id:
-            return Response({
-                'success': False,
-                'message': 'Target subpolicy ID is required'
-            }, status=status.HTTP_400_BAD_REQUEST)
- 
-        # Validate that target subpolicy is different from source
-        if target_subpolicy_id == source_compliance.SubPolicy_id:
-            return Response({
-                'success': False,
-                'message': 'Cannot copy compliance to the same subpolicy'
-            }, status=status.HTTP_400_BAD_REQUEST)
-           
-        try:
-            target_subpolicy = SubPolicy.objects.get(SubPolicyId=target_subpolicy_id)
-        except SubPolicy.DoesNotExist:
-            return Response({
-                'success': False,
-                'message': 'Target subpolicy not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        # NEW: Validate that target subpolicy is within the same framework as source compliance
-        try:
-            source_subpolicy = SubPolicy.objects.get(SubPolicyId=source_compliance.SubPolicy_id)
-            source_framework_id = source_subpolicy.PolicyId.FrameworkId_id
-            target_framework_id = target_subpolicy.PolicyId.FrameworkId_id
-            
-            if source_framework_id != target_framework_id:
-                return Response({
-                    'success': False,
-                    'message': 'Target subpolicy must be within the same framework as the source compliance'
-                }, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print(f"Error validating framework compatibility: {str(e)}")
-            return Response({
-                'success': False,
-                'message': 'Error validating framework compatibility'
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        # Get reviewer ID from request data or use default
-        reviewer_id = request.data.get('reviewer_id', 2)  # Default to reviewer ID 2 if not provided
-        
-        # Validate reviewer exists
-        try:
-            # Use the User model from .models which has UserId field
-            from .models import User
-            reviewer = User.objects.get(UserId=reviewer_id)
-        except User.DoesNotExist:
-            return Response({
-                'success': False,
-                'message': f'Reviewer with ID {reviewer_id} not found'
-            }, status=status.HTTP_404_NOT_FOUND)
- 
-        # Generate a new identifier for the cloned compliance
-        identifier = f"COMP-{target_subpolicy_id}-{datetime.date.today().strftime('%y%m%d')}-{uuid.uuid4().hex[:6]}"
- 
-        # Create new compliance data with edited values from request
-        compliance_data = {
-            'SubPolicy': target_subpolicy,
-            'ComplianceTitle': request.data.get('ComplianceTitle', source_compliance.ComplianceTitle),
-            'ComplianceItemDescription': request.data.get('ComplianceItemDescription', source_compliance.ComplianceItemDescription),
-            'ComplianceType': request.data.get('ComplianceType', source_compliance.ComplianceType),
-            'Scope': request.data.get('Scope', source_compliance.Scope),
-            'Objective': request.data.get('Objective', source_compliance.Objective),
-            'BusinessUnitsCovered': request.data.get('BusinessUnitsCovered', source_compliance.BusinessUnitsCovered),
-            'IsRisk': request.data.get('IsRisk', source_compliance.IsRisk),
-            'PossibleDamage': request.data.get('PossibleDamage', source_compliance.PossibleDamage),
-            'mitigation': request.data.get('mitigation', source_compliance.mitigation),
-            'Criticality': request.data.get('Criticality', source_compliance.Criticality),
-            'MandatoryOptional': request.data.get('MandatoryOptional', source_compliance.MandatoryOptional),
-            'ManualAutomatic': request.data.get('ManualAutomatic', source_compliance.ManualAutomatic),
-            'Impact': request.data.get('Impact', source_compliance.Impact),
-            'Probability': request.data.get('Probability', source_compliance.Probability),
-            'MaturityLevel': request.data.get('MaturityLevel', source_compliance.MaturityLevel or 'Initial'),
-            'ActiveInactive': 'Inactive',  # Always Inactive for new version
-            'PermanentTemporary': request.data.get('PermanentTemporary', source_compliance.PermanentTemporary),
-            'Status': 'Under Review',  # Always Under Review for new version
-            'ComplianceVersion': "1.0",  # Start with version 1.0 for new subpolicy
-            'CreatedByName': request.data.get('CreatedByName', 'System'),
-            'CreatedByDate': timezone.now().date(),
-            'Identifier': identifier,  # Set the identifier
-            'Applicability': request.data.get('Applicability', source_compliance.Applicability),
-            'PotentialRiskScenarios': request.data.get('PotentialRiskScenarios', source_compliance.PotentialRiskScenarios),
-            'RiskType': request.data.get('RiskType', source_compliance.RiskType),
-            'RiskCategory': request.data.get('RiskCategory', source_compliance.RiskCategory),
-            'RiskBusinessImpact': request.data.get('RiskBusinessImpact', source_compliance.RiskBusinessImpact)
-        }
- 
-        # Create new compliance
-        new_compliance = Compliance.objects.create(**compliance_data)
- 
-        # Create a policy approval record for the new compliance with the identifier
-        extracted_data = {
-            'type': 'compliance',
-            'Identifier': identifier,
-            'SubPolicy': target_subpolicy_id,
-            'ComplianceTitle': new_compliance.ComplianceTitle,
-            'ComplianceItemDescription': new_compliance.ComplianceItemDescription,
-            'ComplianceType': new_compliance.ComplianceType,
-            'Scope': new_compliance.Scope,
-            'Objective': new_compliance.Objective,
-            'BusinessUnitsCovered': new_compliance.BusinessUnitsCovered,
-            'IsRisk': new_compliance.IsRisk,
-            'PossibleDamage': new_compliance.PossibleDamage,
-            'mitigation': new_compliance.mitigation,
-            'Criticality': new_compliance.Criticality,
-            'MandatoryOptional': new_compliance.MandatoryOptional,
-            'ManualAutomatic': new_compliance.ManualAutomatic,
-            'Impact': new_compliance.Impact,
-            'Probability': new_compliance.Probability,
-            'MaturityLevel': new_compliance.MaturityLevel,
-            'ActiveInactive': new_compliance.ActiveInactive,
-            'PermanentTemporary': new_compliance.PermanentTemporary,
-            'Status': new_compliance.Status,
-            'ComplianceVersion': new_compliance.ComplianceVersion,
-            'CreatedByName': new_compliance.CreatedByName,
-            'CreatedByDate': new_compliance.CreatedByDate.isoformat() if new_compliance.CreatedByDate else None,
-            'Applicability': new_compliance.Applicability,
-            'PotentialRiskScenarios': new_compliance.PotentialRiskScenarios,
-            'RiskType': new_compliance.RiskType,
-            'RiskCategory': new_compliance.RiskCategory,
-            'RiskBusinessImpact': new_compliance.RiskBusinessImpact,
-            'compliance_approval': {
-                'approved': None,
-                'remarks': '',
-                'ApprovalDueDate': request.data.get('ApprovalDueDate')
-            }
-        }
-       
-        # Create policy approval with initial version "u1"
-        PolicyApproval.objects.create(
-            Identifier=identifier,
-            ExtractedData=extracted_data,
-            UserId=1,  # System user
-            ReviewerId=reviewer_id,
-            ApprovedNot=None,
-            Version="u1",  # Initial user version
-            ApprovalDueDate=request.data.get('ApprovalDueDate')
-        )
-        
-        # Send notification to reviewer
-        try:
-            print("=== NOTIFICATION DEBUGGING - COMPLIANCE CLONE ===")
-            from .notification_service import NotificationService
-            notification_service = NotificationService()
-            
-            # Make sure reviewer has a valid email
-            from .models import User
-            try:
-                reviewer = User.objects.get(UserId=reviewer_id)
-                if not reviewer.email or '@' not in reviewer.email:
-                    reviewer.email = f"reviewer{reviewer_id}@example.com"
-                    reviewer.save()
-                    print(f"Updated reviewer {reviewer_id} with email {reviewer.email}")
-                
-                print(f"Found reviewer: {reviewer.UserName} with email: {reviewer.email}")
-            except User.DoesNotExist:
-                print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
-            
-            # Send notification
-            print(f"Sending clone notification for compliance {new_compliance.ComplianceId} to reviewer {reviewer_id}")
-            notification_result = notification_service.send_compliance_clone_notification(
-                compliance=new_compliance,
-                reviewer_id=reviewer_id
-            )
-            
-            if notification_result.get('success'):
-                print(f"Successfully sent compliance clone notification to reviewer {reviewer_id}")
-            else:
-                print(f"Failed to send notification: {notification_result.get('error', 'Unknown error')}")
-                print(f"Error details: {notification_result.get('errors', [])}") 
-            
-            # Log the notification directly in the database
-            from .models import Notification
-            try:
-                reviewer_email, reviewer_name = notification_service.get_user_email_by_id(reviewer_id)
-                if reviewer_email:
-                    Notification.objects.create(
-                        recipient=reviewer_email,
-                        type='compliance_clone',
-                        channel='email',
-                        success=notification_result.get('success', False)
-                    )
-                    print(f"Created clone notification record for {reviewer_email}")
-            except Exception as db_error:
-                print(f"ERROR creating notification record: {str(db_error)}")
-                
-            print("=== END NOTIFICATION DEBUGGING ===")
-        except Exception as e:
-            print(f"Error sending compliance clone notification: {str(e)}")
-            import traceback
-            print(f"Traceback: {traceback.format_exc()}")
-            # Continue even if notification fails
- 
-        return Response({
-            'success': True,
-            'message': 'Compliance cloned successfully and sent for review',
-            'compliance_id': new_compliance.ComplianceId,
-            'Identifier': identifier,
-            'version': new_compliance.ComplianceVersion,
-            'reviewer_id': reviewer_id
-        }, status=status.HTTP_201_CREATED)
- 
-    except Compliance.DoesNotExist:
-        return Response({
-            'success': False,
-            'message': 'Source compliance not found'
-        }, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        return Response({
-            'success': False,
-            'message': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['GET'])
-def get_compliance_dashboard(request):
-    try:
-        # Get all filter parameters from request
-        status = request.query_params.get('status')
-        active_inactive = request.query_params.get('active_inactive')
-        criticality = request.query_params.get('criticality')
-        mandatory_optional = request.query_params.get('mandatory_optional')
-        manual_automatic = request.query_params.get('manual_automatic')
-        impact = request.query_params.get('impact')
-        probability = request.query_params.get('probability')
-        permanent_temporary = request.query_params.get('permanent_temporary')
-        start_date = request.query_params.get('start_date')
-        end_date = request.query_params.get('end_date')
-        framework_id = request.query_params.get('framework_id')
-        policy_id = request.query_params.get('policy_id')
-        subpolicy_id = request.query_params.get('subpolicy_id')
-
-        # Start with base queryset
-        queryset = Compliance.objects.all()
-
-        # Apply filters if they exist
-        if status:
-            queryset = queryset.filter(Status=status)
-        if active_inactive:
-            queryset = queryset.filter(ActiveInactive=active_inactive)
-        if criticality:
-            queryset = queryset.filter(Criticality=criticality)
-        if mandatory_optional:
-            queryset = queryset.filter(MandatoryOptional=mandatory_optional)
-        if manual_automatic:
-            queryset = queryset.filter(ManualAutomatic=manual_automatic)
-        if impact:
-            queryset = queryset.filter(Impact=impact)
-        if probability:
-            queryset = queryset.filter(Probability=probability)
-        if permanent_temporary:
-            queryset = queryset.filter(PermanentTemporary=permanent_temporary)
-        if start_date:
-            queryset = queryset.filter(CreatedByDate__gte=start_date)
-        if end_date:
-            queryset = queryset.filter(CreatedByDate__lte=end_date)
-        if subpolicy_id:
-            queryset = queryset.filter(SubPolicy_id=subpolicy_id)
-        elif policy_id:
-            queryset = queryset.filter(SubPolicy__PolicyId=policy_id)
-        elif framework_id:
-            queryset = queryset.filter(SubPolicy__Policy__Framework_id=framework_id)
-
-        print("Executing Query:", queryset.query) 
-        # Get counts for different statuses
-        status_counts = {
-            'approved': queryset.filter(Status='Approved').count(),
-            'active': queryset.filter(Status='Active').count(),
-            'scheduled': queryset.filter(Status='Schedule').count(),
-            'rejected': queryset.filter(Status='Rejected').count(),
-            'under_review': queryset.filter(Status='Under Review').count(),
-            'active_compliance': queryset.filter(ActiveInactive='Active').count()
-        }
-
-        # Get counts for criticality levels
-        criticality_counts = {
-            'high': queryset.filter(Criticality='High').count(),
-            'medium': queryset.filter(Criticality='Medium').count(),
-            'low': queryset.filter(Criticality='Low').count()
-        }
-
-        # Calculate total findings
-        total_findings = queryset.filter(IsRisk=True).count()
-
-        return Response({
-            'success': True,
-            'data': {
-                'summary': {
-                    'status_counts': status_counts,
-                    'criticality_counts': criticality_counts,
-                    'total_count': queryset.count(),
-                    'total_findings': total_findings
-                }
-            }
-        })
-
-    except Exception as e:
-        print(f"Error in get_compliance_dashboard: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return Response({
-            'success': False,
-            'message': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-@api_view(['GET'])
-def get_compliances_by_subpolicy(request, subpolicy_id):
-    try:
-        # Verify subpolicy exists first
-        subpolicy = get_object_or_404(SubPolicy, SubPolicyId=subpolicy_id)
-       
-        # Get all compliances for this subpolicy
-        compliances = Compliance.objects.filter(SubPolicy_id=subpolicy_id)
-       
-        # Create a dictionary to store compliance groups
-        compliance_groups = {}
-       
-        # First pass: Create groups based on Identifier
-        for compliance in compliances:
-            if compliance.Identifier not in compliance_groups:
-                compliance_groups[compliance.Identifier] = []
-            compliance_groups[compliance.Identifier].append(compliance)
-       
-        # Second pass: Sort each group by version number
-        for identifier in compliance_groups:
-            compliance_groups[identifier].sort(
-                key=lambda x: float(x.ComplianceVersion),
-                reverse=True
-            )
-       
-        # Convert to list and sort groups by latest version's creation date
-        sorted_groups = sorted(
-            compliance_groups.values(),
-            key=lambda group: group[0].CreatedByDate,
-            reverse=True
-        )
-       
-        # Create grouped structure for the frontend
-        serialized_groups = []
-        for group in sorted_groups:
-            group_data = []
-            for compliance in group:
-                serializer = ComplianceListSerializer(compliance)
-                compliance_data = serializer.data
-                
-                # Add previous version ID reference if it exists
-                if compliance.PreviousComplianceVersionId:
-                    compliance_data['PreviousComplianceVersionId'] = compliance.PreviousComplianceVersionId.ComplianceId
-                else:
-                    compliance_data['PreviousComplianceVersionId'] = None
-                
-                group_data.append(compliance_data)
-            serialized_groups.append(group_data)
-       
-        return Response({
-            'success': True,
-            'data': serialized_groups
-        })
-    except SubPolicy.DoesNotExist:
-        return Response({
-            'success': False,
-            'message': f'SubPolicy with id {subpolicy_id} not found'
-        }, status=status.HTTP_404_NOT_FOUND)
-    except Exception as e:
-        print(f"Error in get_compliances_by_subpolicy: {str(e)}")
-        return Response({
-            'success': False,
-            'message': 'An error occurred while fetching compliances'
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['PUT'])
-@permission_classes([AllowAny])
-def submit_compliance_review(request, approval_id):
-    try:
-        # Get the approval record
-        approval = get_object_or_404(PolicyApproval, ApprovalId=approval_id)
-        
-        # Get the data from request
-        # The frontend sends ApprovedNot directly, or as part of ExtractedData
-        if 'ApprovedNot' in request.data:
-            approved_not = request.data.get('ApprovedNot')
-        elif 'ExtractedData' in request.data and 'compliance_approval' in request.data['ExtractedData']:
-            approved_not = request.data['ExtractedData']['compliance_approval'].get('approved')
-        else:
-            approved_not = request.data.get('approved', False)
-        
-        # Convert to boolean if it's a string
-        if isinstance(approved_not, str):
-            approved_not = approved_not.lower() == 'true'
-        
-        # Add debug logging
-        print(f"Received approval request with approved_not value: {approved_not} (type: {type(approved_not)})")
-        print(f"Request data: {request.data}")
-        
-        remarks = request.data.get('remarks', '')
-        
-        # Get extracted data from approval
-        extracted_data = approval.ExtractedData
-        
-        # Update approval status
-        approval.ApprovedNot = approved_not
-        approval.save()
-        
-        # Create new approval record with incremented version
-        current_version = approval.Version
-        if current_version.startswith('u'):
-            # User version, increment number
-            version_num = int(current_version[1:])
-            new_version = f"u{version_num + 1}"
-        else:
-            # Start with u1
-            new_version = "u1"
-            
-        # Update extracted data with approval info
-        if 'compliance_approval' in extracted_data:
-            extracted_data['compliance_approval']['approved'] = approved_not
-            extracted_data['compliance_approval']['remarks'] = remarks
-            
-        # Create new approval record - preserve ApprovalDueDate from original approval
-        new_approval = PolicyApproval.objects.create(
-            Identifier=approval.Identifier,
-            ExtractedData=extracted_data,
-            UserId=approval.UserId,
-            ReviewerId=approval.ReviewerId,
-            ApprovedNot=approved_not,
-            Version=new_version,
-            ApprovalDueDate=approval.ApprovalDueDate
-        )
-        
-        print(f"Created new approval record with ID {new_approval.ApprovalId}, Approved: {new_approval.ApprovedNot}")
-        
-        if 'SubPolicy' in extracted_data:
-            try:
-                # Find the compliance being reviewed
-                current_compliance = Compliance.objects.filter(
-                    SubPolicy_id=extracted_data.get('SubPolicy'),
-                    Identifier=approval.Identifier,
-                    Status='Under Review'
-                ).first()
-                
-                if current_compliance:
-                    print(f"Processing compliance: {current_compliance.ComplianceId}")
-                    
-                    if approved_not is True:
-                        # If approved, set current to Active and previous to Inactive
-                        current_compliance.Status = 'Approved'
-                        current_compliance.ActiveInactive = 'Active'
-                        
-                        # Get and deactivate the previous version if it exists
-                        if current_compliance.PreviousComplianceVersionId:
-                            try:
-                                prev_compliance = current_compliance.PreviousComplianceVersionId
-                                if prev_compliance.ActiveInactive == 'Active':
-                                    prev_compliance.ActiveInactive = 'Inactive'
-                                    prev_compliance.save()
-                                    print(f"Deactivated previous version: {prev_compliance.ComplianceId}")
-                            except Exception as e:
-                                print(f"Error deactivating previous version: {e}")
-                    else:
-                        # If rejected, mark as rejected
-                        current_compliance.Status = 'Rejected'
-                        
-                    current_compliance.save()
-                    print(f"Updated compliance status to: {current_compliance.Status}")
-
-                    # Send notification to compliance creator
-                    try:
-                        from .notification_service import NotificationService
-                        notification_service = NotificationService()
-                        
-                        # Get creator's email
-                        creator_id = approval.UserId
-                        creator_email, creator_name = notification_service.get_user_email_by_id(creator_id)
-                        
-                        if creator_email:
-                            # Send notification
-                            notification_result = notification_service.send_compliance_review_notification(
-                                compliance=current_compliance,
-                                reviewer_decision=approved_not,
-                                creator_id=creator_id,
-                                remarks=remarks
-                            )
-                            print(f"Review notification sent to {creator_name} ({creator_email}): {notification_result}")
-                        else:
-                            print(f"No email found for creator ID {creator_id}")
-                    except Exception as e:
-                        print(f"Error sending compliance review notification: {str(e)}")
-                        # Continue even if notification fails
-                    
-                else:
-                    print(f"No compliance found for SubPolicy {extracted_data.get('SubPolicy')} and Identifier {approval.Identifier}")
-            except Exception as e:
-                print(f"Error processing compliance update: {str(e)}")
-                
-        return Response({
-            'success': True,
-            'message': 'Review submitted successfully',
-            'approval_id': new_approval.ApprovalId,
-            'approved': approved_not,
-            'version': new_version
-        })
-        
-    except Exception as e:
-        print(f"Error in submit_compliance_review: {str(e)}")
-        return Response({
-            'success': False,
-            'message': str(e)
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
-@api_view(['PUT'])
-@permission_classes([AllowAny])
-def resubmit_compliance_approval(request, approval_id):
-    try:
-        # Get the original approval
-        approval = PolicyApproval.objects.get(ApprovalId=approval_id)
-   
-        # Validate data
-        extracted_data = request.data.get('ExtractedData')
-        if not extracted_data:
-            return Response({'error': 'ExtractedData is required'}, status=status.HTTP_400_BAD_REQUEST)
-   
-        print(f"Resubmitting compliance with ID: {approval_id}, Identifier: {approval.Identifier}")
-   
-        # Get all versions for this identifier with 'u' prefix
-        all_versions = PolicyApproval.objects.filter(Identifier=approval.Identifier)
-   
-        # Find the highest 'u' version number
-        highest_u_version = 0
-        for pa in all_versions:
-            if pa.Version and pa.Version.startswith('u') and len(pa.Version) > 1:
-                try:
-                    version_num = int(pa.Version[1:])
-                    if version_num > highest_u_version:
-                        highest_u_version = version_num
-                except ValueError:
-                    continue
-   
-        # Set the new version
-        new_version = f"u{highest_u_version + 1}"
-        print(f"Setting new version: {new_version}")
-   
-        # Reset approval status in the ExtractedData
-        if 'compliance_approval' in extracted_data:
-            extracted_data['compliance_approval']['approved'] = None
-            extracted_data['compliance_approval']['remarks'] = ''
-            # Add flag to indicate this is a resubmission
-            extracted_data['compliance_approval']['inResubmission'] = True
-        else:
-            extracted_data['compliance_approval'] = {
-                'approved': None,
-                'remarks': '',
-                'inResubmission': True
-            }
-            
-        # Update the status in the extracted data to 'Under Review'
-        extracted_data['Status'] = 'Under Review'
-        extracted_data['ActiveInactive'] = 'Inactive'
-   
-        # Create a new approval object
-        new_approval = PolicyApproval(
-            Identifier=approval.Identifier,
-            ExtractedData=extracted_data,
-            UserId=approval.UserId,
-            ReviewerId=approval.ReviewerId,
-            ApprovedNot=None,  # Reset approval status
-            Version=new_version,
-            PolicyId=approval.PolicyId,  # Preserve the PolicyId
-            ApprovalDueDate=approval.ApprovalDueDate  # Preserve the ApprovalDueDate
-        )
-       
-        # Save the new record
-        new_approval.save()
-        print(f"Saved new approval with ID: {new_approval.ApprovalId}, Version: {new_approval.Version}")
-        
-        # Update the corresponding compliance status back to 'Under Review'
-        try:
-            # Find the compliance being resubmitted
-            if 'SubPolicy' in extracted_data:
-                compliance = Compliance.objects.filter(
-                    SubPolicy_id=extracted_data.get('SubPolicy'),
+                    SubPolicy=extracted_data.get('SubPolicy'),
                     Identifier=approval.Identifier,
                     Status='Rejected'  # Find the rejected compliance
                 ).first()
@@ -3763,7 +1657,7 @@ def get_policy_approvals_by_reviewer(request):
                         'ComplianceVersion': compliance.ComplianceVersion,
                         'CreatedByName': compliance.CreatedByName,
                         'CreatedByDate': compliance.CreatedByDate.isoformat() if compliance.CreatedByDate else None,
-                        'SubPolicy': compliance.SubPolicy_id,
+                        'SubPolicy': compliance.SubPolicy.SubPolicyId if compliance.SubPolicy else None,
                         'compliance_approval': {
                             'approved': None,
                             'remarks': '',
@@ -4080,53 +1974,101 @@ def get_all_users(request):
 @api_view(['POST'])
 def toggle_compliance_version(request, compliance_id):
     try:
+        print(f"\n=== TOGGLE_COMPLIANCE_VERSION DEBUG ===")
+        print(f"Toggling compliance with ID: {compliance_id}")
+        
         # Get the target compliance
         compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
+        print(f"Found compliance: {compliance.Identifier}, Status: {compliance.Status}, ActiveInactive: {compliance.ActiveInactive}")
        
         # Only allow toggling if compliance is approved
         if compliance.Status != 'Approved':
+            print(f"Cannot toggle - compliance status is {compliance.Status}, not Approved")
             return Response({
                 'success': False,
                 'message': 'Only approved compliances can be toggled'
             }, status=status.HTTP_400_BAD_REQUEST)
  
-        # Function to get all related versions (both previous and next)
-        def get_all_versions(comp):
-            versions = []
-           
-            # Get all previous versions
-            current = comp
-            while current.PreviousComplianceVersionId:
-                versions.append(current.PreviousComplianceVersionId)
-                current = current.PreviousComplianceVersionId
-           
-            # Get all next versions
-            current = comp
-            next_versions = Compliance.objects.filter(PreviousComplianceVersionId=current.ComplianceId)
-            while next_versions.exists():
-                next_version = next_versions.first()
-                versions.append(next_version)
-                next_versions = Compliance.objects.filter(PreviousComplianceVersionId=next_version.ComplianceId)
-           
-            # Add the current compliance
-            versions.append(comp)
-            return versions
+        # Function to get all related versions by identifier
+        def get_all_versions_by_identifier(identifier):
+            try:
+                # Get all compliances with the same identifier
+                versions = Compliance.objects.filter(Identifier=identifier, Status='Approved')
+                print(f"Found {versions.count()} related versions with identifier {identifier}")
+                return versions
+            except Exception as e:
+                print(f"Error getting versions by identifier: {str(e)}")
+                return []
  
-        # Get all versions
-        all_versions = get_all_versions(compliance)
+        # Get all versions with the same identifier
+        all_versions = get_all_versions_by_identifier(compliance.Identifier)
+        
+        if not all_versions:
+            print(f"No related versions found for identifier {compliance.Identifier}")
+            all_versions = [compliance]  # Fallback to just the current compliance
        
-        # Determine new status
-        new_status = 'Active' if compliance.ActiveInactive == 'Inactive' else 'Inactive'
+        # Determine action based on current status
+        is_deactivating = compliance.ActiveInactive == 'Active'
+        print(f"Action: {'Deactivating' if is_deactivating else 'Activating'} compliance {compliance_id}")
        
-        # Update all versions
-        for version in all_versions:
-            if version.ComplianceId == compliance_id:
-                # Set the target compliance to the new status
-                version.ActiveInactive = new_status
+        # Sort versions by version number (descending)
+        sorted_versions = sorted(
+            all_versions,
+            key=lambda v: float(v.ComplianceVersion) if v.ComplianceVersion else 0,
+            reverse=True
+        )
+        
+        # Print the sorted versions for debugging
+        print("Sorted versions (descending):")
+        for v in sorted_versions:
+            print(f"  ID: {v.ComplianceId}, Version: {v.ComplianceVersion}, Status: {v.ActiveInactive}")
+        
+        # If deactivating the current active version, find the next highest version to activate
+        if is_deactivating:
+            # Find the next highest version after the current one
+            next_highest_version = None
+            for v in sorted_versions:
+                if v.ComplianceId != compliance_id and v.Status == 'Approved':
+                    next_highest_version = v
+                    break
+            
+            if next_highest_version:
+                print(f"Will activate next highest version: {next_highest_version.ComplianceId} (v{next_highest_version.ComplianceVersion})")
             else:
-                # Set all other versions to inactive
-                version.ActiveInactive = 'Inactive'
-            version.save()
+                print("No other approved version found to activate")
+        
+        # Update all versions
+        updated_count = 0
+        for version in all_versions:
+            try:
+                if is_deactivating:
+                    if version.ComplianceId == compliance_id:
+                        # Deactivate the target compliance
+                        version.ActiveInactive = 'Inactive'
+                        print(f"Setting compliance {version.ComplianceId} to Inactive")
+                    elif next_highest_version and version.ComplianceId == next_highest_version.ComplianceId:
+                        # Activate the next highest version
+                        version.ActiveInactive = 'Active'
+                        print(f"Setting next highest compliance {version.ComplianceId} to Active")
+                    else:
+                        # Keep other versions as they are
+                        print(f"Keeping compliance {version.ComplianceId} as {version.ActiveInactive}")
+                else:
+                    # When activating a specific version, deactivate all others
+                    if version.ComplianceId == compliance_id:
+                        version.ActiveInactive = 'Active'
+                        print(f"Setting target compliance {version.ComplianceId} to Active")
+                    else:
+                        version.ActiveInactive = 'Inactive'
+                        print(f"Setting other compliance {version.ComplianceId} to Inactive")
+                
+                version.save()
+                updated_count += 1
+            except Exception as version_error:
+                print(f"Error updating version {version.ComplianceId}: {str(version_error)}")
+                # Continue with other versions
+
+        print(f"Successfully updated {updated_count} out of {len(all_versions)} versions")
 
         # Send notification to affected users
         try:
@@ -4170,6 +2112,8 @@ def toggle_compliance_version(request, compliance_id):
             print(f"Error sending version toggle notification: {str(e)}")
             # Continue even if notification fails
        
+        new_status = 'Inactive' if is_deactivating else 'Active'
+        print("=== END TOGGLE_COMPLIANCE_VERSION DEBUG ===\n")
         return Response({
             'success': True,
             'message': f'Compliance version {compliance.ComplianceVersion} {new_status.lower()}d successfully',
@@ -4177,8 +2121,16 @@ def toggle_compliance_version(request, compliance_id):
             'new_status': new_status
         })
         
+    except Compliance.DoesNotExist:
+        print(f"Compliance with ID {compliance_id} not found")
+        return Response({
+            'success': False,
+            'message': f'Compliance with ID {compliance_id} not found'
+        }, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         print(f"Error in toggle_compliance_version: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return Response({
             'success': False,
             'message': str(e)
@@ -5381,7 +3333,7 @@ def all_policies_get_subpolicy_compliances(request, subpolicy_id):
     try:
         subpolicy = get_object_or_404(SubPolicy, SubPolicyId=subpolicy_id)
         compliances = Compliance.objects.filter(
-            SubPolicy_id=subpolicy_id
+            SubPolicy=subpolicy_id
         ).select_related('SubPolicy', 'SubPolicy__PolicyId', 'SubPolicy__PolicyId__FrameworkId')
         
         compliances_data = []
@@ -6896,3 +4848,430 @@ def add_category_business_unit(request):
         })
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def edit_compliance(request, compliance_id):
+    """
+    Edit an existing compliance item
+    """
+    try:
+        # Get the compliance item
+        compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
+        
+        # Get version type from request data
+        version_type = request.data.get('versionType')
+        if version_type not in ['Major', 'Minor']:
+            return Response({
+                'success': False,
+                'message': 'Invalid version type. Must be either Major or Minor'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Parse current version
+        try:
+            major, minor = compliance.ComplianceVersion.split('.')
+            current_major = int(major)
+            current_minor = int(minor)
+        except (ValueError, AttributeError):
+            # If version is not in correct format, start with 1.0
+            current_major = 1
+            current_minor = 0
+
+        # Calculate new version based on version type
+        if version_type == 'Major':
+            new_version = f"{current_major + 1}.0"
+        else:  # Minor version
+            new_version = f"{current_major}.{current_minor + 1}"
+
+        # Get the policy through the subpolicy relationship
+        policy = compliance.SubPolicy.PolicyId
+
+        # Create a new compliance instance with updated data
+        new_compliance = Compliance.objects.create(
+            SubPolicy=compliance.SubPolicy,  # Use the ForeignKey field directly
+            ComplianceTitle=request.data.get('ComplianceTitle', ''),
+            ComplianceItemDescription=request.data.get('ComplianceItemDescription', ''),
+            ComplianceType=request.data.get('ComplianceType', ''),
+            Scope=request.data.get('Scope', ''),
+            Objective=request.data.get('Objective', ''),
+            BusinessUnitsCovered=request.data.get('BusinessUnitsCovered', ''),
+            IsRisk=request.data.get('IsRisk', False),
+            PossibleDamage=request.data.get('PossibleDamage', ''),
+            mitigation=request.data.get('mitigation', {}),
+            PotentialRiskScenarios=request.data.get('PotentialRiskScenarios', ''),
+            RiskType=request.data.get('RiskType', ''),
+            RiskCategory=request.data.get('RiskCategory', ''),
+            RiskBusinessImpact=request.data.get('RiskBusinessImpact', ''),
+            Criticality=request.data.get('Criticality', 'Medium'),
+            MandatoryOptional=request.data.get('MandatoryOptional', 'Mandatory'),
+            ManualAutomatic=request.data.get('ManualAutomatic', 'Manual'),
+            Impact=request.data.get('Impact', '5.0'),
+            Probability=request.data.get('Probability', '5.0'),
+            Status='Under Review',
+            ComplianceVersion=new_version,
+            Applicability=request.data.get('Applicability', ''),
+            MaturityLevel=request.data.get('MaturityLevel', 'Initial'),
+            ActiveInactive='Active',
+            PermanentTemporary=request.data.get('PermanentTemporary', 'Permanent'),
+            CreatedByName=request.data.get('CreatedByName', ''),
+            CreatedByDate=datetime.date.today(),
+            Identifier=compliance.Identifier  # Preserve the original identifier
+        )
+
+        # Create extracted data for PolicyApproval
+        extracted_data = {
+            'type': 'compliance',
+            'compliance_id': new_compliance.ComplianceId,  # Use compliance_id instead of ComplianceId
+            'ComplianceTitle': new_compliance.ComplianceTitle,
+            'ComplianceItemDescription': new_compliance.ComplianceItemDescription,
+            'ComplianceType': new_compliance.ComplianceType,
+            'Scope': new_compliance.Scope,
+            'Objective': new_compliance.Objective,
+            'BusinessUnitsCovered': new_compliance.BusinessUnitsCovered,
+            'IsRisk': new_compliance.IsRisk,
+            'PossibleDamage': new_compliance.PossibleDamage,
+            'mitigation': new_compliance.mitigation,
+            'Criticality': new_compliance.Criticality,
+            'Status': new_compliance.Status,
+            'version_type': version_type,
+            'Identifier': new_compliance.Identifier
+        }
+
+        # Create PolicyApproval for the new version
+        policy_approval = PolicyApproval.objects.create(
+            Identifier=new_compliance.Identifier,
+            ExtractedData=extracted_data,
+            UserId=request.data.get('UserId', 1),  # Default to 1 if not provided
+            ReviewerId=request.data.get('ReviewerId', 2),  # Default to 2 if not provided
+            Version=f"u{new_version}",  # Use u prefix for user version
+            ApprovedNot=None,  # Set to None for pending approval
+            ApprovalDueDate=datetime.date.today() + datetime.timedelta(days=7),  # Due in 7 days
+            PolicyId=policy  # Set the policy relationship correctly
+        )
+
+        return Response({
+            'success': True,
+            'message': 'Compliance updated successfully',
+            'data': {
+                'ComplianceId': new_compliance.ComplianceId,
+                'Version': new_version,
+                'Status': new_compliance.Status,
+                'ApprovalId': policy_approval.ApprovalId
+            }
+        })
+
+    except Exception as e:
+        return Response({
+            'success': False,
+            'message': f'Failed to update compliance: {str(e)}'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def clone_compliance(request, compliance_id):
+    """
+    Clone an existing compliance item
+    """
+    try:
+        print(f"\n=== CLONE_COMPLIANCE DEBUG ===")
+        print(f"Cloning compliance ID: {compliance_id}")
+        print(f"Request data: {request.data}")
+        
+        # Get the source compliance
+        source_compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
+        print(f"Found source compliance: {source_compliance.ComplianceId}, {source_compliance.ComplianceTitle}")
+        
+        # Get data from request
+        data = request.data.copy()
+        
+        # Get target subpolicy ID from request data
+        target_subpolicy_id = data.get('target_subpolicy_id') or data.get('SubPolicy')
+        if not target_subpolicy_id:
+            print(f"ERROR: No target subpolicy ID provided in request")
+            return Response({
+                'success': False,
+                'message': 'Target SubPolicy ID is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+        print(f"Target SubPolicy ID: {target_subpolicy_id}")
+        
+        # Verify target subpolicy exists
+        try:
+            target_subpolicy = SubPolicy.objects.get(SubPolicyId=target_subpolicy_id)
+            print(f"Found target subpolicy: {target_subpolicy.SubPolicyId}, {target_subpolicy.SubPolicyName}")
+        except SubPolicy.DoesNotExist:
+            print(f"ERROR: Target SubPolicy {target_subpolicy_id} not found")
+            return Response({
+                'success': False,
+                'message': f'Target SubPolicy with ID {target_subpolicy_id} not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        # Set default values if not provided
+        data.setdefault('Status', 'Under Review')
+        data.setdefault('ActiveInactive', 'Active')
+        data.setdefault('CreatedByDate', datetime.date.today())
+        data.setdefault('ComplianceVersion', '1.0')
+        
+        # Get ComplianceTitle from request or use source compliance title
+        compliance_title = data.get('ComplianceTitle', source_compliance.ComplianceTitle)
+        print(f"Using compliance title: {compliance_title}")
+        
+        # Process mitigation data to ensure it's in JSON format
+        mitigation_data = data.get('mitigation', source_compliance.mitigation)
+        formatted_mitigation = {}
+        
+        # If mitigation is already a dict, use it
+        if isinstance(mitigation_data, dict):
+            formatted_mitigation = mitigation_data
+            print(f"Mitigation is already a dict: {formatted_mitigation}")
+        # If it's a string, try to parse as JSON
+        elif isinstance(mitigation_data, str) and mitigation_data.strip():
+            try:
+                # Try to parse as JSON
+                if mitigation_data.strip().startswith('{'):
+                    formatted_mitigation = json.loads(mitigation_data)
+                    print(f"Parsed mitigation from JSON string: {formatted_mitigation}")
+                else:
+                    # Not JSON, use as single entry
+                    formatted_mitigation = {"1": mitigation_data}
+                    print(f"Created numbered mitigation from string: {formatted_mitigation}")
+            except json.JSONDecodeError:
+                # Not valid JSON, use as single entry
+                formatted_mitigation = {"1": mitigation_data}
+                print(f"Created numbered mitigation from invalid JSON: {formatted_mitigation}")
+        else:
+            # Default empty object
+            formatted_mitigation = {}
+            print("Using empty mitigation object")
+        
+        # Ensure mitigation is serialized as JSON string for storage
+        mitigation_json = json.dumps(formatted_mitigation)
+        print(f"Final mitigation JSON: {mitigation_json}")
+        
+        # Create new compliance instance
+        new_compliance = Compliance.objects.create(
+            SubPolicy_id=target_subpolicy_id,  # Use target subpolicy ID from request
+            ComplianceTitle=compliance_title,
+            ComplianceItemDescription=data.get('ComplianceItemDescription', source_compliance.ComplianceItemDescription),
+            ComplianceType=data.get('ComplianceType', source_compliance.ComplianceType),
+            Scope=data.get('Scope', source_compliance.Scope),
+            Objective=data.get('Objective', source_compliance.Objective),
+            BusinessUnitsCovered=data.get('BusinessUnitsCovered', source_compliance.BusinessUnitsCovered),
+            IsRisk=data.get('IsRisk', source_compliance.IsRisk),
+            PossibleDamage=data.get('PossibleDamage', source_compliance.PossibleDamage),
+            mitigation=mitigation_json,  # Use the JSON string
+            PotentialRiskScenarios=data.get('PotentialRiskScenarios', source_compliance.PotentialRiskScenarios),
+            RiskType=data.get('RiskType', source_compliance.RiskType),
+            RiskCategory=data.get('RiskCategory', source_compliance.RiskCategory),
+            RiskBusinessImpact=data.get('RiskBusinessImpact', source_compliance.RiskBusinessImpact),
+            Criticality=data.get('Criticality', source_compliance.Criticality),
+            MandatoryOptional=data.get('MandatoryOptional', source_compliance.MandatoryOptional),
+            ManualAutomatic=data.get('ManualAutomatic', source_compliance.ManualAutomatic),
+            Impact=data.get('Impact', source_compliance.Impact),
+            Probability=data.get('Probability', source_compliance.Probability),
+            Status='Under Review',
+            ActiveInactive='Active',
+            PermanentTemporary=data.get('PermanentTemporary', source_compliance.PermanentTemporary),
+            CreatedByDate=datetime.date.today(),
+            ComplianceVersion='1.0',
+            MaturityLevel=data.get('MaturityLevel', source_compliance.MaturityLevel),
+            CreatedByName=data.get('CreatedByName', source_compliance.CreatedByName),
+            Applicability=data.get('Applicability', source_compliance.Applicability)
+        )
+        
+        print(f"Created new compliance with ID: {new_compliance.ComplianceId}")
+        
+        # Generate a new identifier
+        identifier = f"COMP-{target_subpolicy_id}-{datetime.date.today().strftime('%y%m%d')}-{uuid.uuid4().hex[:6]}"
+        new_compliance.Identifier = identifier
+        new_compliance.save()
+        print(f"Generated identifier: {identifier}")
+        
+        # Get reviewer ID from request
+        reviewer_id = data.get('reviewer_id') or data.get('reviewer', 1)  # Default to 1 if not provided
+        print(f"Using reviewer ID: {reviewer_id}")
+        
+        # Get the policy through the subpolicy relationship
+        policy = target_subpolicy.PolicyId
+        print(f"Using policy ID: {policy.PolicyId}")
+        
+        # Set approval due date
+        approval_due_date = data.get('ApprovalDueDate', (datetime.date.today() + datetime.timedelta(days=7)).isoformat())
+        print(f"Using approval due date: {approval_due_date}")
+        
+        # Create extracted data for PolicyApproval
+        extracted_data = {
+            'type': 'compliance',
+            'ComplianceTitle': new_compliance.ComplianceTitle,
+            'ComplianceItemDescription': new_compliance.ComplianceItemDescription,
+            'Criticality': new_compliance.Criticality,
+            'Impact': new_compliance.Impact,
+            'Probability': new_compliance.Probability,
+            'mitigation': formatted_mitigation,  # Use the formatted mitigation object (not the JSON string)
+            'PossibleDamage': new_compliance.PossibleDamage,
+            'IsRisk': new_compliance.IsRisk,
+            'MandatoryOptional': new_compliance.MandatoryOptional,
+            'ManualAutomatic': new_compliance.ManualAutomatic,
+            'CreatedByName': new_compliance.CreatedByName,
+            'CreatedByDate': new_compliance.CreatedByDate.isoformat(),
+            'Status': new_compliance.Status,
+            'ComplianceId': new_compliance.ComplianceId,
+            'ComplianceVersion': new_compliance.ComplianceVersion,
+            'SubPolicy': target_subpolicy_id,
+            'compliance_approval': {
+                'approved': None,
+                'remarks': '',
+                'ApprovalDueDate': approval_due_date
+            }
+        }
+        
+        # Create PolicyApproval entry
+        policy_approval = PolicyApproval.objects.create(
+            PolicyId=policy,
+            Identifier=identifier,
+            ExtractedData=extracted_data,
+            UserId=data.get('UserId', 1),  # Default to 1 if not provided
+            ReviewerId=reviewer_id,
+            Version='u1',
+            ApprovedNot=None,  # Not yet approved
+            ApprovalDueDate=approval_due_date
+        )
+        
+        print(f"Created policy approval with ID: {policy_approval.ApprovalId}")
+        
+        # Send notification to reviewer
+        try:
+            print("=== NOTIFICATION DEBUGGING - COMPLIANCE CLONE ===")
+            from .notification_service import NotificationService
+            notification_service = NotificationService()
+            
+            # Make sure reviewer has a valid email
+            try:
+                reviewer = Users.objects.get(UserId=reviewer_id)
+                if not reviewer.Email or '@' not in reviewer.Email:
+                    reviewer.Email = f"reviewer{reviewer_id}@example.com"
+                    reviewer.save()
+                    print(f"Updated reviewer {reviewer_id} with email {reviewer.Email}")
+                
+                print(f"Found reviewer: {reviewer.UserName} with email: {reviewer.Email}")
+            except Users.DoesNotExist:
+                print(f"ERROR: Reviewer with ID {reviewer_id} does not exist")
+            
+            # Send notification
+            print(f"Sending clone notification for compliance {new_compliance.ComplianceId} to reviewer {reviewer_id}")
+            notification_result = notification_service.send_compliance_clone_notification(
+                compliance=new_compliance,
+                reviewer_id=reviewer_id
+            )
+            
+            if notification_result.get('success'):
+                print(f"Successfully sent compliance clone notification to reviewer {reviewer_id}")
+            else:
+                print(f"Failed to send notification: {notification_result.get('error', 'Unknown error')}")
+                print(f"Error details: {notification_result.get('errors', [])}") 
+            
+            # Log the notification directly in the database
+            from .models import Notification
+            try:
+                reviewer_email, reviewer_name = notification_service.get_user_email_by_id(reviewer_id)
+                if reviewer_email:
+                    Notification.objects.create(
+                        recipient=reviewer_email,
+                        type='compliance_clone',
+                        channel='email',
+                        success=notification_result.get('success', False)
+                    )
+                    print(f"Created clone notification record for {reviewer_email}")
+            except Exception as db_error:
+                print(f"ERROR creating notification record: {str(db_error)}")
+                
+            print("=== END NOTIFICATION DEBUGGING ===")
+        except Exception as e:
+            print(f"Error sending compliance clone notification: {str(e)}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
+            # Continue even if notification fails
+        
+        print("=== END CLONE_COMPLIANCE DEBUG ===\n")
+        return Response({
+            'success': True,
+            'message': 'Compliance cloned successfully and sent for review',
+            'compliance_id': new_compliance.ComplianceId,
+            'Identifier': identifier,
+            'version': new_compliance.ComplianceVersion,
+            'reviewer_id': reviewer_id
+        }, status=status.HTTP_201_CREATED)
+        
+    except Compliance.DoesNotExist:
+        return Response({
+            'success': False,
+            'message': 'Source compliance not found'
+        }, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        print(f"Error in clone_compliance: {str(e)}")
+        import traceback
+        print(f"Traceback: {traceback.format_exc()}")
+        return Response({
+            'success': False,
+            'message': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# for temporary use
+
+@api_view(['GET'])
+def get_compliances_by_type(request, type, id):
+    print(f"\n=== GET_COMPLIANCES_BY_TYPE DEBUG ===")
+    print(f"Received type: '{type}', id: {id} (type: {type(id)})")
+    
+    try:
+        compliances = None
+        
+        if type == 'framework':
+            print(f"Getting compliances for framework {id}")
+            compliances = Compliance.objects.filter(SubPolicy__PolicyId__FrameworkId=id)
+        elif type == 'policy':
+            print(f"Getting compliances for policy {id}")
+            compliances = Compliance.objects.filter(SubPolicy__PolicyId=id)
+        elif type == 'subpolicy':
+            print(f"Getting compliances for subpolicy {id}")
+            compliances = Compliance.objects.filter(SubPolicy=id)
+        else:
+            print(f"Invalid type: {type}")
+            return Response({
+                'success': False,
+                'message': f'Invalid type: {type}. Valid types are: framework, policy, subpolicy'
+            }, status=400)
+        
+        print(f"Found {compliances.count()} compliances for {type} {id}")
+        
+        # Debug: Print each compliance
+        for comp in compliances:
+            print(f"Compliance: ID={comp.ComplianceId}, Title={comp.ComplianceTitle}, Status={comp.Status}")
+        
+        # Serialize the data
+        serializer = ComplianceListSerializer(compliances, many=True)
+        serialized_data = serializer.data
+        
+        print(f"Serialized {len(serialized_data)} compliances")
+        
+        # Format the response
+        response_data = {
+            'success': True, 
+            'compliances': serialized_data,
+            'count': len(serialized_data)
+        }
+        
+        print(f"Final response: {response_data}")
+        print("=== END GET_COMPLIANCES_BY_TYPE DEBUG ===\n")
+        
+        return Response(response_data)
+        
+    except Exception as e:
+        print(f"Error in get_compliances_by_type: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return Response({
+            'success': False,
+            'message': f'Error fetching compliances: {str(e)}'
+        }, status=500)

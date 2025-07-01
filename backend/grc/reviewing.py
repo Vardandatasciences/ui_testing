@@ -298,7 +298,7 @@ def create_incidents_for_findings(audit_id: int) -> None:
         traceback.print_exc()
 
 @api_view(['POST'])
-def update_review_status(request, audit_id):
+def update_audit_review_status(request, audit_id):
     """
     Update the review status of an audit and handle rejection/acceptance flows.
     """

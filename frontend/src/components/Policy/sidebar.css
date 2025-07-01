@@ -14,6 +14,7 @@
     overflow-x: hidden;
     scrollbar-width: thin;
     transition: width 0.3s ease;
+    z-index: 1000;
 }
 
 /* Optional: Style the scrollbar for webkit browsers */

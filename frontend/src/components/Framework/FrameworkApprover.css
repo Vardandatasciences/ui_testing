@@ -108,6 +108,235 @@
   line-height: 1.2;
 }
 
+/* Approvals Container for CollapsibleTable */
+.approvals-container {
+  margin-bottom: 32px;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.approvals-container h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  color: #2d3748;
+  font-weight: 600;
+  position: relative;
+}
+
+.approvals-container h3::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #4299e1 60%, #90cdf4 100%);
+  border-radius: 2px;
+  margin-top: 6px;
+}
+
+/* Empty State */
+.empty-state {
+  background: white;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 24px;
+}
+
+.empty-state-content i {
+  font-size: 3rem;
+  color: #cbd5e0;
+  margin-bottom: 16px;
+}
+
+.empty-state-content h4 {
+  margin: 0 0 8px 0;
+  color: #4a5568;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.empty-state-content p {
+  margin: 0;
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+/* Status Badges for Table */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.status-approved {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #16a34a;
+}
+
+.status-badge.status-rejected {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #dc2626;
+}
+
+.status-badge.status-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+/* Criticality Badges */
+.criticality-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.criticality-badge.critical {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.criticality-badge.medium {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fed7aa;
+}
+
+.criticality-badge.low {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+/* Priority Badges */
+.priority-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.priority-badge.high {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.priority-badge.medium {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fed7aa;
+}
+
+.priority-badge.low {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+/* Action Buttons for Table */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Style for action text in table */
+.actions-column {
+  text-align: center;
+}
+
+.actions-column button,
+.actions-column .action-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.actions-column button:hover,
+.actions-column .action-text:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Different colors for different action types */
+.actions-column .action-text.review-approve {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.actions-column .action-text.review-approve:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.actions-column .action-text.edit-resubmit {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.actions-column .action-text.edit-resubmit:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+/* New Badge */
+.new-badge {
+  background-color: #fc8181;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Responsive adjustments for table */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .action-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
 /* Approvals List */
 .approvals-list {
   background: white;
@@ -554,7 +783,7 @@
   background: #e53e3e;
 }
 
-/* Rejected Frameworks List */
+/* Rejected Frameworks Table Container */
 .rejected-approvals-list {
   background: white;
   border-radius: 12px;
@@ -582,43 +811,32 @@
   margin-top: 6px;
 }
 
-.rejected-approvals-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.rejected-approvals-list li {
-  padding: 16px;
-  border-bottom: 1px solid #e2e8f0;
-  transition: background-color 0.2s ease;
-}
-
-.rejected-approvals-list li:last-child {
-  border-bottom: none;
-}
-
-.rejected-approvals-list li:hover {
-  background-color: #f7fafc;
-}
-
-.badge.rejected {
-  background-color: #f56565;
+/* View Button for Rejected Frameworks Table */
+.view-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
+  border: none;
+  padding: 6px 12px;
+  font-size: 11px;
   font-weight: 600;
-  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.framework-rejection-reason {
-  margin-top: 8px;
-  padding: 10px;
-  background-color: #fff5f5;
-  border-left: 3px solid #f56565;
-  color: #c53030;
-  font-size: 0.9rem;
+.view-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.view-btn i {
+  font-size: 10px;
 }
 
 /* Edit Modal for Rejected Framework */
@@ -1272,4 +1490,49 @@ select.form-control {
 
 .policy-detail-item .form-control {
   margin-top: 4px;
+}
+
+/* View Button for Rejected Frameworks Table */
+.view-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.view-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+.view-btn i {
+  font-size: 10px;
+}
+
+/* Rejection Reason Cell Styling */
+.rejection-reason-cell {
+  display: block;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: help;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.rejection-reason-cell:hover {
+  color: #991b1b;
 } 

@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #251c64;
+  background: #4f7cff;
   border-radius: 32px;
   padding: 8px 18px;
   margin-bottom: 28px;
@@ -41,7 +41,7 @@
   min-width: 0;
 }
 .pill-tab.active {
-  background: linear-gradient(135deg, #4f56b7 0%, #3f45a5 100%);
+  background:  #6f8fed;
   color: #fff;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(79,86,183,0.2);

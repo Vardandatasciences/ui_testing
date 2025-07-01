@@ -131,7 +131,7 @@ export default {
       localStorage.removeItem('reviewSubmissionResult');
       
       // Navigate back to the reviews page
-      this.$router.push('/auditor/reviews');
+      this.$router.push('/auditor/reviewer');
     }
   }
 };
