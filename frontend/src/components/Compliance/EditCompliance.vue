@@ -22,6 +22,27 @@
 
     <!-- Edit form -->
     <div v-if="compliance" class="compliance-item-form">
+      <!-- Version type selection -->
+      <div class="field-group">
+        <div class="field-group-title">Version Control</div>
+        <div class="version-control-section">
+          <label>Version Type:</label>
+          <div class="version-radio-group">
+            <label class="version-radio">
+              <input type="radio" v-model="compliance.versionType" value="Minor" />
+              Minor Version (e.g., 1.0 → 1.1)
+            </label>
+            <label class="version-radio">
+              <input type="radio" v-model="compliance.versionType" value="Major" />
+              Major Version (e.g., 1.0 → 2.0)
+            </label>
+          </div>
+          <div class="version-info">
+            Current version: {{ compliance.ComplianceVersion }}
+          </div>
+        </div>
+      </div>
+      
       <!-- Basic compliance information -->
       <div class="field-group">
         <div class="field-group-title">Basic Information</div>
@@ -884,7 +905,7 @@ export default {
         if (response.data && response.data.success) {
           this.compliance = {
             ...response.data.data,
-            versionType: 'minor' // Set default version type
+            versionType: 'Minor' // Set default version type (must be 'Major' or 'Minor')
           };
           
           // Set default reviewer if not present
@@ -1493,6 +1514,33 @@ export default {
 
 <style scoped>
 @import './CreateCompliance.css';
+
+.version-control-section {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.version-radio-group {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.version-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.version-info {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
 
 .compliance-cancel-btn {
   width: auto;

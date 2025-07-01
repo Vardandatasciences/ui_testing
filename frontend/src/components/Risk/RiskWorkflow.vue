@@ -1,8 +1,5 @@
 <template>
   <div class="risk-workflow-container">
-    <!-- Add PopupModal component -->
-    <PopupModal />
-    
     <!-- Show tasks view when not viewing any workflows -->
     <div v-if="!showMitigationWorkflow && !showReviewerWorkflow">
       <!-- Toggle buttons for Risk Resolution and Risk Workflow -->
@@ -67,22 +64,49 @@
           <p>No risks assigned to this user.</p>
         </div>
         <div v-else>
-          <div v-for="(risks, status) in groupedUserRisks" :key="status">
-            <CollapsibleTable
-              :sectionConfig="{ name: status, statusClass: status.toLowerCase().replace(/\s+/g, '-'), tasks: risks }"
-              :tableHeaders="[
-                { key: 'RiskInstanceId', label: 'RiskID' },
-                { key: 'Origin', label: 'Origin' },
-                { key: 'Category', label: 'Category' },
-                { key: 'Criticality', label: 'Criticality' },
-                { key: 'RiskDescription', label: 'Risk Description' },
-                { key: 'RiskStatus', label: 'Status' },
-                { key: 'actions', label: 'Actions' }
-              ]"
-              :isExpanded="expandedSections[`user_${status}`] !== false"
-              @toggle="() => handleUserSectionToggle(status)"
-              @taskClick="(task) => viewMitigations(task.RiskInstanceId)"
-            />
+          <div class="risk-workflow-user-tasks-table-responsive">
+            <table class="risk-workflow-user-tasks-table">
+              <thead>
+                <tr>
+                  <th>RiskID</th>
+                  <th>Origin</th>
+                  <th>Category</th>
+                  <th>Criticality</th>
+                  <th>Risk Description</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="risk in userRisks" :key="risk.RiskInstanceId">
+                  <td>{{ risk.RiskInstanceId }}</td>
+                  <td>{{ risk.Origin || 'MANUAL' }}</td>
+                  <td>{{ risk.Category }}</td>
+                  <td>
+                    <span class="risk-workflow-criticality-badge" :class="risk.Criticality?.toLowerCase()">{{ risk.Criticality }}</span>
+                  </td>
+                  <td>{{ risk.RiskDescription }}</td>
+                  <td>
+                    <span :class="'risk-workflow-status-' + (risk.RiskStatus?.toLowerCase().replace(/\s+/g, '-') || 'not-assigned')">
+                      {{ risk.RiskStatus === 'Revision Required by Reviewer' ? 'Waiting for Reviewer' : 
+                         risk.RiskStatus === 'Revision Required by User' ? 'Action Required' : 
+                         risk.RiskStatus || 'Not Assigned' }}
+                    </span>
+                    <span v-if="risk.MitigationStatus" class="risk-workflow-mitigation-status" :class="getMitigationStatusClass(risk.MitigationStatus)">
+                      {{ risk.MitigationStatus }}
+                    </span>
+                    <span v-if="risk.MitigationDueDate" class="risk-workflow-due-status" :class="getDueStatusClass(risk.MitigationDueDate)">
+                      {{ getDueStatusText(risk.MitigationDueDate) }}
+                    </span>
+                  </td>
+                  <td>
+                    <button @click="viewMitigations(risk.RiskInstanceId)" class="risk-workflow-view-btn">
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -96,22 +120,45 @@
           <p>No review tasks assigned to this user.</p>
         </div>
         <div v-else>
-          <div v-for="(tasks, status) in groupedReviewerTasks" :key="status">
-            <CollapsibleTable
-              :sectionConfig="{ name: status, statusClass: status.toLowerCase().replace(/\s+/g, '-'), tasks: tasks }"
-              :tableHeaders="[
-                { key: 'RiskInstanceId', label: 'RiskID' },
-                { key: 'Origin', label: 'Origin' },
-                { key: 'Category', label: 'Category' },
-                { key: 'Criticality', label: 'Criticality' },
-                { key: 'RiskDescription', label: 'Risk Description' },
-                { key: 'RiskStatus', label: 'Status' },
-                { key: 'actions', label: 'Actions' }
-              ]"
-              :isExpanded="expandedSections[`reviewer_${status}`] !== false"
-              @toggle="() => handleReviewerSectionToggle(status)"
-              @taskClick="(task) => reviewMitigations(task)"
-            />
+          <div class="risk-workflow-user-tasks-table-responsive">
+            <table class="risk-workflow-user-tasks-table">
+              <thead>
+                <tr>
+                  <th>RiskID</th>
+                  <th>Origin</th>
+                  <th>Category</th>
+                  <th>Criticality</th>
+                  <th>Risk Description</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="task in reviewerTasks" :key="task.RiskInstanceId">
+                  <td>{{ task.RiskInstanceId }}</td>
+                  <td>{{ task.Origin || 'MANUAL' }}</td>
+                  <td>{{ task.Category || 'Unknown' }}</td>
+                  <td>
+                    <span class="risk-workflow-criticality-badge" :class="task.Criticality?.toLowerCase() || 'unknown'">{{ task.Criticality || 'Unknown' }}</span>
+                  </td>
+                  <td>{{ task.RiskDescription || 'Unknown' }}</td>
+                  <td>
+                    <span>{{ task.RiskStatus === 'Revision Required by Reviewer' ? 'Review Required' : 
+                             task.RiskStatus === 'Revision Required by User' ? 'Feedback Sent' : 
+                             task.RiskStatus || 'Unknown' }}</span>
+                    <span v-if="task.MitigationStatus" class="risk-workflow-mitigation-status" :class="getMitigationStatusClass(task.MitigationStatus)">
+                      {{ task.MitigationStatus }}
+                    </span>
+                    <div v-if="getUserName(task.UserId)" style="font-size:12px;color:#888;">By: {{ getUserName(task.UserId) }}</div>
+                  </td>
+                  <td>
+                    <button @click="reviewMitigations(task)" class="risk-workflow-review-btn">
+                      <i class="fas fa-tasks"></i> Review
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -203,25 +250,6 @@
     >
       <i class="fas fa-undo"></i> Reset
     </button>
-  </div>
-  
-  <!-- Add comments section for each mitigation step -->
-  <div v-if="!isStepLocked(index)" class="step-inputs">
-    <div class="input-group">
-      <label for="step-comments"><i class="fas fa-comment"></i> Comments:</label>
-      <textarea 
-        id="step-comments" 
-        v-model="step.comments" 
-        placeholder="Add your comments about this mitigation step..."
-        rows="4"
-      ></textarea>
-    </div>
-    
-    <!-- Display existing comments if available -->
-    <div v-if="step.comments" class="comments-display">
-      <h4><i class="fas fa-comment-alt"></i> Your Comments</h4>
-      <p>{{ step.comments }}</p>
-    </div>
   </div>
             </div>
           </div>
@@ -882,16 +910,10 @@
 
 <script>
 import axios from 'axios';
-import CollapsibleTable from '../CollapsibleTable.vue';
-import { PopupModal } from '@/modules/popup';
 import './RiskWorkflow.css'; // Import the CSS file
 
 export default {
   name: 'UserTasks',
-  components: {
-    CollapsibleTable,
-    PopupModal
-  },
   data() {
     return {
       userRisks: [],
@@ -941,8 +963,6 @@ export default {
       showVersionDropdowns: true,
       globalSelectedVersion: '',
       allVersionNames: [],
-      // Add state for tracking expanded sections
-      expandedSections: {},
     }
   },
   computed: {
@@ -992,26 +1012,7 @@ export default {
       return this.allVersions.filter(version => 
         version.version !== this.currentReviewTask?.version
       );
-    },
-    groupedUserRisks() {
-      // Group userRisks by RiskStatus for CollapsibleTable
-      const groups = {};
-      this.userRisks.forEach(risk => {
-        const status = risk.RiskStatus || 'Not Assigned';
-        if (!groups[status]) groups[status] = [];
-        groups[status].push(risk);
-      });
-      return groups;
-    },
-    groupedReviewerTasks() {
-      const groups = {};
-      this.reviewerTasks.forEach(task => {
-        const status = task.RiskStatus || 'Not Assigned';
-        if (!groups[status]) groups[status] = [];
-        groups[status].push(task);
-      });
-      return groups;
-    },
+    }
   },
   mounted() {
     // Fetch users immediately when component mounts
@@ -1115,10 +1116,6 @@ export default {
         
         this.loading = false;
         this.error = null;
-        // Initialize expanded sections after data is loaded
-        this.$nextTick(() => {
-          this.initializeExpandedSections();
-        });
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -1175,7 +1172,7 @@ export default {
           this.userRisks[index].RiskStatus = 'Approved'; // Also update risk status
         }
         this.loading = false;
-        this.$popup.success('Mitigation marked as completed!');
+        alert('Mitigation marked as completed!');
       })
       .catch(error => {
         console.error('Error updating status:', error);
@@ -1212,8 +1209,6 @@ export default {
                 improvementInitiative: formResponse.data.improvementInitiative || '',
                 approved: formResponse.data.approved,
                 remarks: formResponse.data.remarks || '',
-                reviewer_id: formResponse.data.reviewer_id || '',
-                reviewer: formResponse.data.reviewer || '',
                 user_submitted_date: formResponse.data.user_submitted_date || formResponse.data.submission_date,
                 reviewer_submitted_date: formResponse.data.reviewer_submitted_date
               };
@@ -1285,7 +1280,7 @@ export default {
                         }
                       } else {
                         // If no reviewer is assigned yet, show a message
-                        // this.$popup.warning('No reviewer has been assigned to this risk yet. Please contact your administrator.');
+                        alert('No reviewer has been assigned to this risk yet. Please contact your administrator.');
                         this.selectedReviewer = '';
                       }
                       this.loadingMitigations = false;
@@ -1295,7 +1290,7 @@ export default {
                     })
                     .catch(error => {
                       console.error('Error fetching assigned reviewer:', error);
-                      this.$popup.error('Could not fetch reviewer information. Please try again later.');
+                      alert('Could not fetch reviewer information. Please try again later.');
                       this.selectedReviewer = '';
                       this.loadingMitigations = false;
                       
@@ -1442,45 +1437,90 @@ export default {
       // It will be sent when the user submits for review
     },
     submitForReview() {
-      // Check if all required fields are filled
-      const requiredFields = ['cost', 'impact', 'financialImpact', 'reputationalImpact', 
-                             'operationalImpact', 'financialLoss', 'systemDowntime',
-                             'recoveryTime', 'recurrencePossible', 'improvementInitiative'];
+      // Remove the canSubmit check to always allow submission
       
-      const missingFields = requiredFields.filter(field => !this.formDetails[field]);
-      
-      if (missingFields.length > 0) {
-        this.$popup.warning('Please complete all questionnaire fields before submitting');
+      // Validate questionnaire is complete
+      if (!this.isQuestionnaireComplete()) {
+        alert('Please complete all questionnaire fields before submitting');
         return;
       }
       
-      const formData = {
-        risk_id: this.selectedRiskId,
-        reviewer_id: this.selectedReviewer,
-        risk_form_details: this.formDetails,
-        user_id: this.selectedUserId,
-        create_approval_record: true,
-        mitigations: this.mitigationSteps.reduce((obj, step, index) => {
-          obj[index + 1] = {
+      this.loading = true;
+      
+      // Prepare the mitigation data
+      const mitigationData = {};
+      this.mitigationSteps.forEach((step, index) => {
+        // Extract step number from title or use index+1
+        const stepNumber = step.title.replace('Step ', '') || (index + 1).toString();
+        
+        // If this step was previously approved, keep its approval
+        if (step.approved === true) {
+          mitigationData[stepNumber] = {
             description: step.description,
-            status: step.status,
-            comments: step.comments || '',
+            status: step.status || 'Completed',
+            approved: true,
+            remarks: "",
+            comments: step.comments || "",
             fileData: step.fileData,
             fileName: step.fileName
           };
-          return obj;
-        }, {})
+        } else {
+          // For rejected or new mitigations, include the updated data
+          // but don't set 'approved' for new submissions
+          const mitigationInfo = {
+            description: step.description,
+            status: step.status || 'Completed',
+            comments: step.comments || "",
+            fileData: step.fileData,
+            fileName: step.fileName
+          };
+          
+          // Only include approved and remarks if they were previously set
+          if (step.approved === false) {
+            mitigationInfo.approved = false;
+            mitigationInfo.remarks = step.remarks || "";
+          }
+          
+          mitigationData[stepNumber] = mitigationInfo;
+        }
+      });
+      
+      // Add timestamp to form details
+      const formDetailsWithTimestamp = {
+        ...this.formDetails,
+        user_submitted_date: new Date().toISOString()
       };
       
-      axios.post('http://localhost:8000/api/assign-reviewer/', formData)
-        .then(() => {
-          this.$popup.success('Risk submitted for review successfully!');
-          this.closeMitigationModal();
-        })
-        .catch(error => {
-          console.error('Error submitting for review:', error);
-          this.$popup.error('Failed to submit for review. Please try again.');
-        });
+      // Use the pre-assigned reviewer (already set in selectedReviewer)
+      console.log(`Submitting for review with reviewer ID: ${this.selectedReviewer}, type: ${typeof this.selectedReviewer}`);
+      
+      axios.post('http://localhost:8000/api/assign-reviewer/', {
+        risk_id: this.selectedRiskId,
+        reviewer_id: this.selectedReviewer,
+        user_id: this.selectedUserId,
+        mitigations: mitigationData,
+        risk_form_details: formDetailsWithTimestamp,
+        create_approval_record: true // Explicitly set to true to create version entry in risk_approval table
+      })
+      .then(response => {
+        console.log('Submission response:', response.data);
+        // Update the local risk data to show the new status
+        const index = this.userRisks.findIndex(r => r.RiskInstanceId === this.selectedRiskId);
+        if (index !== -1) {
+          this.userRisks[index].MitigationStatus = 'Under Review';
+          this.userRisks[index].RiskStatus = 'Revision Required by Reviewer';
+        }
+        this.loading = false;
+        // Close the workflow view
+        this.closeMitigationModal();
+        // Show success message
+        alert('Risk submitted for review successfully!');
+      })
+      .catch(error => {
+        console.error('Error submitting for review:', error);
+        this.loading = false;
+        alert('Failed to submit for review. Please try again.');
+      });
     },
     closeReviewerModal() {
       this.showReviewerWorkflow = false;
@@ -1531,31 +1571,66 @@ export default {
       }
     },
     submitReview(approved) {
-      if (!approved && !this.formDetails.remarks.trim()) {
-        this.$popup.warning('Please provide remarks for rejection');
-        return;
-      }
+      // Remove validation check to always allow submission
       
+      this.loading = true;
+      
+      // Prepare the final data with all mitigations and questionnaire
       const reviewData = {
-        risk_instance_id: this.currentReviewTask.RiskInstanceId,
+        approval_id: this.currentReviewTask.RiskInstanceId,
+        risk_id: this.currentReviewTask.RiskInstanceId,
         approved: approved,
-        remarks: this.formDetails.remarks,
-        reviewer_id: this.selectedUserId
+        mitigations: this.mitigationReviewData,
+        risk_form_details: {
+          ...this.formDetails,
+          approved: this.formDetails.approved,
+          remarks: this.formDetails.remarks || ''
+        }
       };
       
-      axios.post('http://localhost:8000/api/submit-review/', reviewData)
-        .then(() => {
-          this.$popup.success(`Risk ${approved ? 'approved' : 'rejected'} successfully!`);
-          this.closeReviewerWorkflow();
+      // Print the complete review data for debugging
+      console.log('SUBMITTING REVIEW DATA:', JSON.stringify(reviewData, null, 2));
+      
+      // Send the complete review with all mitigations and questionnaire in one request
+      axios.post('http://localhost:8000/api/complete-review/', reviewData)
+        .then(response => {
+          console.log('Review completed:', response.data);
+          this.loading = false;
+          
+          // Remove this task from the list
+          const index = this.reviewerTasks.findIndex(t => t.RiskInstanceId === this.currentReviewTask.RiskInstanceId);
+          if (index !== -1) {
+            this.reviewerTasks.splice(index, 1);
+          }
+          
+          // Set review as completed for UI
+          this.reviewCompleted = true;
+          this.reviewApproved = approved;
+          
+          // Update the current review task with the new status
+          if (index !== -1) {
+            const newStatus = approved ? 'Approved' : 'Revision Required by User';
+            this.currentReviewTask.RiskStatus = newStatus;
+            this.currentReviewTask.MitigationStatus = approved ? 'Completed' : 'Revision Required';
+          }
+          
+          // Show success message
+          alert(`Risk ${approved ? 'approved' : 'rejected'} successfully!`);
+          
+          // After a short delay, close the workflow view and return to tasks
+          setTimeout(() => {
+            this.closeReviewerModal();
+          }, 2500);
         })
         .catch(error => {
-          console.error('Error submitting review:', error);
-          this.$popup.error('Failed to submit review. Please try again.');
+          console.error('Error completing review:', error);
+          this.loading = false;
+          alert('Failed to submit review. Please try again.');
         });
     },
     updateRemarks(id) {
       if (!this.mitigationReviewData[id].remarks.trim()) {
-        this.$popup.warning('Please provide remarks for rejection');
+        alert('Please provide remarks for rejection');
         return;
       }
       
@@ -1567,27 +1642,53 @@ export default {
       // Show visual confirmation
       console.log(`Mitigation ${id} remarks updated successfully`);
     },
-    handleFileUpload(event) {
+    handleFileUpload(event, index) {
       const file = event.target.files[0];
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        this.$popup.error('File size exceeds 5MB limit');
+      if (!file) return;
+      
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB limit');
+        event.target.value = '';
         return;
       }
       
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('risk_instance_id', this.selectedRiskId);
-      
-      axios.post('http://localhost:8000/api/upload-evidence/', formData)
-        .then(() => {
-          this.$popup.success('File uploaded successfully');
-          // Refresh mitigation steps to show new evidence
-          this.fetchMitigationSteps(this.selectedRiskId);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Store file data as base64 string for preview
+        this.mitigationSteps[index].fileData = e.target.result;
+        this.mitigationSteps[index].fileName = file.name;
+        
+        // First save locally, then upload to S3
+        axios.post('http://localhost:8000/api/save-uploaded-file/', {
+          fileData: e.target.result,
+          fileName: file.name,
+          riskId: this.selectedRiskId,
+          category: this.userRisks.find(r => r.RiskInstanceId === this.selectedRiskId)?.Category || 'general',
+          mitigationNumber: index + 1
+        })
+        .then(response => {
+          console.log('File processed successfully:', response.data);
+          
+          // Store the S3 information
+          this.mitigationSteps[index].savedFileName = response.data.savedFileName;
+          this.mitigationSteps[index].s3FileInfo = response.data.s3FileInfo;
+          
+          // Optional: Add alert or notification
+          alert('File uploaded successfully');
         })
         .catch(error => {
-          console.error('Error uploading file:', error);
-          this.$popup.error('Error uploading file. Please try again.');
+          console.error('Error processing file:', error);
+          alert('Error uploading file. Please try again.');
         });
+      };
+      reader.readAsDataURL(file);
+    },
+    removeFile(index) {
+      this.mitigationSteps[index].fileData = null;
+      this.mitigationSteps[index].fileName = null;
+      // Reset the file input
+      document.getElementById(`file-upload-${index}`).value = '';
     },
     fetchReviewerComments(riskId) {
       axios.get(`http://localhost:8000/api/reviewer-comments/${riskId}/`)
@@ -1621,9 +1722,24 @@ export default {
     },
     // Complete a step
     completeStep(index) {
+      // Only allow completing if previous steps are completed
+      if (this.isStepLocked(index)) return;
+      
       this.mitigationSteps[index].status = 'Completed';
-      this.mitigationSteps[index].user_submitted_date = new Date().toISOString();
-      this.$popup.success('Mitigation marked as completed!');
+      
+      // Animate the timeline progress
+      this.$nextTick(() => {
+        // Use setTimeout to ensure the DOM has updated
+        setTimeout(() => {
+          const timelineEl = document.querySelector('.timeline');
+          if (timelineEl) {
+            timelineEl.classList.add('step-completed');
+            setTimeout(() => {
+              timelineEl.classList.remove('step-completed');
+            }, 1000);
+          }
+        }, 50);
+      });
     },
     
     // Reset a step to not completed
@@ -1722,65 +1838,84 @@ export default {
       // This will be called on each input to ensure sequential completion
     },
     async reviewMitigations(task) {
-      // if (!task.ReviewerId) {
-      //   this.$popup.warning('No reviewer has been assigned to this risk yet. Please contact your administrator.');
-      //   return;
-      // }
-      console.log('Reviewing mitigations for task:', task);
-      
-      if (!task.ApproverId) {
-        this.$popup.warning('No reviewer ID found for this task');
-        return;
-      }
-      
-      this.showReviewerWorkflow = true;
       this.currentReviewTask = task;
+      this.selectedRiskId = task.RiskInstanceId;
       this.loadingMitigations = true;
+      this.showReviewerWorkflow = true; // Show the reviewer workflow in full screen
+      this.previousVersions = {}; // Initialize empty object for previous versions
       
       try {
-        // Fetch reviewer information
-        const response = await axios.get(`http://localhost:8000/api/custom-users/${task.ApproverId}/`);
-        console.log('Reviewer data:', response.data);
-        this.selectedReviewer = response.data;
+        // Extract the mitigations from the ExtractedInfo JSON
+        const extractedInfo = JSON.parse(task.ExtractedInfo);
+        console.log('Extracted info:', extractedInfo);
+        
+        if (extractedInfo && extractedInfo.mitigations) {
+          this.mitigationReviewData = extractedInfo.mitigations;
+          
+          // Also get form details if available
+          if (extractedInfo.risk_form_details) {
+            const d = extractedInfo.risk_form_details;
+            this.formDetails = {
+              cost: String(d.cost ?? ''),
+              impact: String(d.impact ?? ''),
+              financialImpact: String(d.financialImpact ?? d.financialimpact ?? ''),
+              reputationalImpact: String(d.reputationalImpact ?? d.reputationalimpact ?? ''),
+              operationalImpact: String(d.operationalImpact ?? d.operationalimpact ?? ''),
+              financialLoss: String(d.financialLoss ?? d.financialloss ?? ''),
+              systemDowntime: String(d.systemDowntime ?? d.expecteddowntime ?? ''),
+              recoveryTime: String(d.recoveryTime ?? d.recoverytime ?? ''),
+              recurrencePossible: d.recurrencePossible ?? d.riskrecurrence ?? '',
+              improvementInitiative: d.improvementInitiative ?? d.improvementinitiative ?? '',
+              approved: d.approved,
+              remarks: d.remarks || '',
+              user_submitted_date: d.user_submitted_date || extractedInfo.user_submitted_date,
+              reviewer_submitted_date: d.reviewer_submitted_date
+            };
+          } else {
+            // Reset form details to empty
+            this.formDetails = {
+              cost: '',
+              impact: '',
+              financialImpact: '',
+              reputationalImpact: '',
+              operationalImpact: '',
+              financialLoss: '',
+              systemDowntime: '',
+              recoveryTime: '',
+              recurrencePossible: '',
+              improvementInitiative: '',
+              approved: undefined,
+              remarks: ''
+            };
+          }
+          
+          // Get previous versions from the task data that now includes it
+          if (task.PreviousVersion && task.PreviousVersion.mitigations) {
+            this.previousVersions = task.PreviousVersion.mitigations;
+            
+            // If there are previous form details, save them for comparison
+            if (task.PreviousVersion.risk_form_details) {
+              this.previousFormDetails = task.PreviousVersion.risk_form_details;
+            }
+          }
+          
+          // Add task status info for completed tasks
+          const isCompleted = task.RiskStatus === 'Approved' || task.RiskStatus === 'Revision Required';
+          this.reviewCompleted = isCompleted;
+          this.reviewApproved = task.RiskStatus === 'Approved';
+          
+          // Fetch all versions for this risk
+          await this.fetchAllVersions();
+          
+          this.loadingMitigations = false;
+        } else {
+          this.mitigationReviewData = {};
+          console.error('No mitigations found in ExtractedInfo');
+          this.loadingMitigations = false;
+        }
       } catch (error) {
-        console.error('Error fetching reviewer:', error);
-        this.$popup.error('Could not fetch reviewer information. Please try again later.');
-      }
-      
-      // Fetch mitigation data similar to viewMitigations function
-      const riskId = task.RiskInstanceId;
-      try {
-        const mitigationResponse = await axios.get(`http://localhost:8000/api/risk-mitigations/${riskId}/`);
-        console.log('Mitigations received:', mitigationResponse.data);
-        this.mitigationReviewData = this.parseMitigations(mitigationResponse.data);
-        
-        // Get the risk form details
-        const formResponse = await axios.get(`http://localhost:8000/api/risk-form-details/${riskId}/`);
-        console.log('Form details received:', formResponse.data);
-        
-        // Ensure all form values are strings
-        this.formDetails = {
-          cost: String(formResponse.data.cost || ''),
-          impact: String(formResponse.data.impact || ''),
-          financialImpact: String(formResponse.data.financialImpact || ''),
-          reputationalImpact: String(formResponse.data.reputationalImpact || ''),
-          operationalImpact: String(formResponse.data.operationalImpact || ''),
-          financialLoss: String(formResponse.data.financialLoss || ''),
-          systemDowntime: String(formResponse.data.systemDowntime || ''),
-          recoveryTime: String(formResponse.data.recoveryTime || ''),
-          recurrencePossible: formResponse.data.recurrencePossible || '',
-          improvementInitiative: formResponse.data.improvementInitiative || '',
-          approved: formResponse.data.approved,
-          remarks: formResponse.data.remarks || ''
-        };
-        
-        // Fetch all versions for comparison
-        await this.fetchAllVersions();
-        
-        this.loadingMitigations = false;
-      } catch (error) {
-        console.error('Error fetching mitigation data:', error);
-        this.$popup.error('Could not fetch mitigation data. Please try again later.');
+        console.error('Error parsing ExtractedInfo:', error);
+        this.mitigationReviewData = {};
         this.loadingMitigations = false;
       }
     },
@@ -1804,12 +1939,12 @@ export default {
     saveQuestionnaireRemarks() {
       // Validate that remarks are provided when rejecting
       if (this.formDetails.approved === false && !this.formDetails.remarks.trim()) {
-        this.$popup.warning('Please provide feedback for the questionnaire');
+        alert('Please provide feedback for the questionnaire');
         return;
       }
       
       // Show confirmation to the user
-      this.$popup.success('Questionnaire feedback saved');
+      alert('Questionnaire feedback saved');
     },
     // Format date and time
     formatDateTime(dateString) {
@@ -2019,7 +2154,7 @@ export default {
         }
       } catch (error) {
         console.error('Error in global version change:', error);
-        this.$popup.error('Failed to load version data. Please try again.');
+        alert('Failed to load version data. Please try again.');
       } finally {
         this.loadingVersions = false;
       }
@@ -2399,73 +2534,6 @@ export default {
       } else {
         return 'Pending';
       }
-    },
-    handleUserTaskClick(task) {
-      // Handle user task click - pass the RiskInstanceId to viewMitigations
-      this.viewMitigations(task.RiskInstanceId);
-    },
-    handleReviewerTaskClick(task) {
-      // Handle reviewer task click - pass the full task object to reviewMitigations
-      this.reviewMitigations(task);
-    },
-    handleUserSectionToggle(status) {
-      // Toggle the expanded state for user task sections
-      const key = `user_${status}`;
-      this.expandedSections[key] = !this.expandedSections[key];
-    },
-    handleReviewerSectionToggle(status) {
-      // Toggle the expanded state for reviewer task sections
-      const key = `reviewer_${status}`;
-      this.expandedSections[key] = !this.expandedSections[key];
-    },
-    initializeExpandedSections() {
-      // Initialize all sections as expanded by default
-      this.expandedSections = {};
-      
-      // Set user sections as expanded
-      Object.keys(this.groupedUserRisks).forEach(status => {
-        this.expandedSections[`user_${status}`] = true;
-      });
-      
-      // Set reviewer sections as expanded
-      Object.keys(this.groupedReviewerTasks).forEach(status => {
-        this.expandedSections[`reviewer_${status}`] = true;
-      });
-    },
-    submitQuestionnaireFeedback() {
-      if (!this.formDetails.remarks.trim()) {
-        this.$popup.warning('Please provide feedback for the questionnaire');
-        return;
-      }
-      
-      const feedbackData = {
-        risk_instance_id: this.currentReviewTask.RiskInstanceId,
-        feedback: this.formDetails.remarks,
-        reviewer_id: this.selectedUserId
-      };
-      
-      axios.post('http://localhost:8000/api/questionnaire-feedback/', feedbackData)
-        .then(() => {
-          this.$popup.success('Questionnaire feedback saved');
-          this.formDetails.remarks = '';
-        })
-        .catch(error => {
-          console.error('Error saving feedback:', error);
-          this.$popup.error('Failed to save feedback. Please try again.');
-        });
-    },
-    loadVersionData() {
-      this.loadingVersions = true;
-      axios.get(`http://localhost:8000/api/risk-versions/${this.currentReviewTask.RiskInstanceId}/`)
-        .then(response => {
-          this.versionData = response.data;
-          this.loadingVersions = false;
-        })
-        .catch(error => {
-          console.error('Error loading version data:', error);
-          this.$popup.error('Failed to load version data. Please try again.');
-          this.loadingVersions = false;
-        });
     },
   }
 }

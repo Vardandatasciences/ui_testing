@@ -4856,6 +4856,10 @@ def edit_compliance(request, compliance_id):
     Edit an existing compliance item
     """
     try:
+        # Debug logging
+        print(f"DEBUG: Received edit_compliance request for ID {compliance_id}")
+        print(f"DEBUG: Request data: {request.data}")
+        
         # Get the compliance item
         compliance = get_object_or_404(Compliance, ComplianceId=compliance_id)
         

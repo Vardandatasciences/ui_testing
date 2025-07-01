@@ -127,7 +127,7 @@ export const api = {
 
   // Compliance Service
   // createCompliance: (data) => axiosInstance.post('/compliance/create/', data),
-  editCompliance: (id, data) => axiosInstance.put(`/compliance/${id}/edit/`, data),
+  editCompliance: (id, data) => axiosInstance.put(`/compliance_edit/${id}/edit/`, data),
   cloneCompliance: (id) => axiosInstance.post(`/compliance/${id}/clone/`),
   getComplianceDashboard: () => axiosInstance.get('/compliance/dashboard/'),
 

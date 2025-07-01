@@ -1,35 +1,158 @@
-INFO 2025-07-01 18:13:44,531 utils 23472 19972 [RBAC] Successfully retrieved user_id from session: 2
-INFO 2025-07-01 18:13:44,546 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:13:44,548 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
-INFO 2025-07-01 18:13:44,554 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:13:44,554 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
-INFO 2025-07-01 18:13:44,564 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:13:44,564 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
-INFO 2025-07-01 18:13:44,572 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-ERROR 2025-07-01 18:13:44,574 utils 23472 19972 [RBAC] Invalid incident permission type: approve
-INFO 2025-07-01 18:13:44,583 utils 23472 19972 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:13:44,585 utils 23472 19972 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
-INFO 2025-07-01 18:49:20,633 utils 23472 22908 [RBAC] Successfully retrieved user_id from session: 2
-INFO 2025-07-01 18:49:20,661 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:49:20,661 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
-INFO 2025-07-01 18:49:20,674 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:49:20,674 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
-INFO 2025-07-01 18:49:20,685 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:49:20,685 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
-INFO 2025-07-01 18:49:20,699 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-ERROR 2025-07-01 18:49:20,702 utils 23472 22908 [RBAC] Invalid incident permission type: approve
-INFO 2025-07-01 18:49:20,710 utils 23472 22908 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 18:49:20,710 utils 23472 22908 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
-WARNING 2025-07-01 18:50:15,844 utils 23472 27076 [RBAC] No user_id found in session
-WARNING 2025-07-01 18:50:15,897 utils 23472 7064 [RBAC] No user_id found in session
-INFO 2025-07-01 19:00:27,191 utils 23472 4280 [RBAC] Successfully retrieved user_id from session: 2
-INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
-INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 19:00:27,204 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
-INFO 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
-INFO 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-ERROR 2025-07-01 19:00:27,219 utils 23472 4280 [RBAC] Invalid incident permission type: approve
-INFO 2025-07-01 19:00:27,235 utils 23472 4280 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-INFO 2025-07-01 19:00:27,235 utils 23472 4280 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+INFO 2025-07-01 23:07:22,370 utils 5824 19944 [RBAC] Successfully retrieved user_id from session: 2
+INFO 2025-07-01 23:07:22,384 utils 5824 19944 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:07:22,386 utils 5824 19944 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+INFO 2025-07-01 23:07:22,390 utils 5824 19944 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:07:22,391 utils 5824 19944 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+INFO 2025-07-01 23:07:22,395 utils 5824 19944 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:07:22,396 utils 5824 19944 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+INFO 2025-07-01 23:07:22,401 utils 5824 19944 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+ERROR 2025-07-01 23:07:22,402 utils 5824 19944 [RBAC] Invalid incident permission type: approve
+INFO 2025-07-01 23:07:22,405 utils 5824 19944 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:07:22,406 utils 5824 19944 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+INFO 2025-07-01 23:12:42,589 utils 5824 21464 [RBAC] Successfully retrieved user_id from session: 2
+INFO 2025-07-01 23:12:42,601 utils 5824 21464 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:12:42,602 utils 5824 21464 [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+INFO 2025-07-01 23:12:42,602 utils 5824 21464 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:12:42,602 utils 5824 21464 [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+INFO 2025-07-01 23:12:42,602 utils 5824 21464 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:12:42,602 utils 5824 21464 [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+INFO 2025-07-01 23:12:42,619 utils 5824 21464 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+ERROR 2025-07-01 23:12:42,619 utils 5824 21464 [RBAC] Invalid incident permission type: approve
+INFO 2025-07-01 23:12:42,619 utils 5824 21464 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-01 23:12:42,619 utils 5824 21464 [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+INFO 2025-07-01 23:58:52,076 utils 23312 17112 [RBAC] Successfully retrieved user_id from session: 2
+INFO 2025-07-02 00:35:44,389 utils 26920 26156 [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+INFO 2025-07-02 00:35:44,399 utils 26920 26156 [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+INFO 2025-07-02 00:35:44,400 utils 26920 26156 [RBAC] User ID: 2
+INFO 2025-07-02 00:35:44,401 utils 26920 26156 [RBAC] Username: vikram.patel
+INFO 2025-07-02 00:35:44,402 utils 26920 26156 [RBAC] Role: GRC Administrator
+INFO 2025-07-02 00:35:44,402 utils 26920 26156 [RBAC] Account Status: ACTIVE
+INFO 2025-07-02 00:35:44,403 utils 26920 26156 [RBAC] Login Time: 2025-07-02 00:35:44.403856
+INFO 2025-07-02 00:35:44,404 utils 26920 26156 [RBAC] 
+INFO 2025-07-02 00:35:44,405 utils 26920 26156 [RBAC] === INCIDENT MODULE PERMISSIONS ===
+INFO 2025-07-02 00:35:44,406 utils 26920 26156 [RBAC] Create Incidents: YES
+INFO 2025-07-02 00:35:44,407 utils 26920 26156 [RBAC] View All Incidents: YES
+INFO 2025-07-02 00:35:44,409 utils 26920 26156 [RBAC] Edit Incidents: YES
+INFO 2025-07-02 00:35:44,409 utils 26920 26156 [RBAC] Assign Incidents: YES
+INFO 2025-07-02 00:35:44,410 utils 26920 26156 [RBAC] Evaluate Assigned Incidents: YES
+INFO 2025-07-02 00:35:44,410 utils 26920 26156 [RBAC] Escalate to Risk: YES
+INFO 2025-07-02 00:35:44,411 utils 26920 26156 [RBAC] Incident Analytics: YES
+INFO 2025-07-02 00:35:44,411 utils 26920 26156 [RBAC] === POLICY MODULE PERMISSIONS ===
+INFO 2025-07-02 00:35:44,412 utils 26920 26156 [RBAC] Create Policy: YES
+INFO 2025-07-02 00:35:44,412 utils 26920 26156 [RBAC] View All Policy: YES
+INFO 2025-07-02 00:35:44,413 utils 26920 26156 [RBAC] Edit Policy: YES
+INFO 2025-07-02 00:35:44,415 utils 26920 26156 [RBAC] Approve Policy: YES
+INFO 2025-07-02 00:35:44,416 utils 26920 26156 [RBAC] Create Framework: YES
+INFO 2025-07-02 00:35:44,416 utils 26920 26156 [RBAC] Approve Framework: YES
+INFO 2025-07-02 00:35:44,418 utils 26920 26156 [RBAC] Policy Analytics: YES
+INFO 2025-07-02 00:35:44,418 utils 26920 26156 [RBAC] === AUDIT MODULE PERMISSIONS ===
+INFO 2025-07-02 00:35:44,419 utils 26920 26156 [RBAC] Assign Audit: YES
+INFO 2025-07-02 00:35:44,421 utils 26920 26156 [RBAC] Conduct Audit: YES
+INFO 2025-07-02 00:35:44,421 utils 26920 26156 [RBAC] Review Audit: YES
+INFO 2025-07-02 00:35:44,422 utils 26920 26156 [RBAC] View Audit Reports: YES
+INFO 2025-07-02 00:35:44,422 utils 26920 26156 [RBAC] Audit Analytics: YES
+INFO 2025-07-02 00:35:44,423 utils 26920 26156 [RBAC] === RISK MODULE PERMISSIONS ===
+INFO 2025-07-02 00:35:44,424 utils 26920 26156 [RBAC] Create Risk: YES
+INFO 2025-07-02 00:35:44,425 utils 26920 26156 [RBAC] View All Risk: YES
+INFO 2025-07-02 00:35:44,425 utils 26920 26156 [RBAC] Edit Risk: YES
+INFO 2025-07-02 00:35:44,426 utils 26920 26156 [RBAC] Approve Risk: YES
+INFO 2025-07-02 00:35:44,427 utils 26920 26156 [RBAC] Assign Risk: YES
+INFO 2025-07-02 00:35:44,427 utils 26920 26156 [RBAC] Evaluate Assigned Risk: YES
+INFO 2025-07-02 00:35:44,428 utils 26920 26156 [RBAC] Risk Analytics: YES
+INFO 2025-07-02 00:35:44,429 utils 26920 26156 [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+INFO 2025-07-02 00:35:44,429 utils 26920 26156 [RBAC] Create Compliance: YES
+INFO 2025-07-02 00:35:44,430 utils 26920 26156 [RBAC] View All Compliance: YES
+INFO 2025-07-02 00:35:44,432 utils 26920 26156 [RBAC] Edit Compliance: YES
+INFO 2025-07-02 00:35:44,433 utils 26920 26156 [RBAC] Approve Compliance: YES
+INFO 2025-07-02 00:35:44,434 utils 26920 26156 [RBAC] Compliance Analytics: YES
+INFO 2025-07-02 00:35:44,434 utils 26920 26156 [RBAC] ===============================================
+INFO 2025-07-02 00:38:57,061 utils 26920 26156 [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+INFO 2025-07-02 00:38:57,065 utils 26920 26156 [RBAC] Found active RBAC record for user 4: role=Compliance Manager
+INFO 2025-07-02 00:38:57,065 utils 26920 26156 [RBAC] User ID: 4
+INFO 2025-07-02 00:38:57,066 utils 26920 26156 [RBAC] Username: comp.anita.singh
+INFO 2025-07-02 00:38:57,068 utils 26920 26156 [RBAC] Role: Compliance Manager
+INFO 2025-07-02 00:38:57,068 utils 26920 26156 [RBAC] Account Status: ACTIVE
+INFO 2025-07-02 00:38:57,068 utils 26920 26156 [RBAC] Login Time: 2025-07-02 00:38:57.068941
+INFO 2025-07-02 00:38:57,068 utils 26920 26156 [RBAC] 
+INFO 2025-07-02 00:38:57,070 utils 26920 26156 [RBAC] === INCIDENT MODULE PERMISSIONS ===
+INFO 2025-07-02 00:38:57,071 utils 26920 26156 [RBAC] Create Incidents: NO
+INFO 2025-07-02 00:38:57,072 utils 26920 26156 [RBAC] View All Incidents: NO
+INFO 2025-07-02 00:38:57,072 utils 26920 26156 [RBAC] Edit Incidents: NO
+INFO 2025-07-02 00:38:57,073 utils 26920 26156 [RBAC] Assign Incidents: NO
+INFO 2025-07-02 00:38:57,075 utils 26920 26156 [RBAC] Evaluate Assigned Incidents: NO
+INFO 2025-07-02 00:38:57,076 utils 26920 26156 [RBAC] Escalate to Risk: NO
+INFO 2025-07-02 00:38:57,076 utils 26920 26156 [RBAC] Incident Analytics: NO
+INFO 2025-07-02 00:38:57,077 utils 26920 26156 [RBAC] === POLICY MODULE PERMISSIONS ===
+INFO 2025-07-02 00:38:57,077 utils 26920 26156 [RBAC] Create Policy: NO
+INFO 2025-07-02 00:38:57,078 utils 26920 26156 [RBAC] View All Policy: NO
+INFO 2025-07-02 00:38:57,078 utils 26920 26156 [RBAC] Edit Policy: NO
+INFO 2025-07-02 00:38:57,079 utils 26920 26156 [RBAC] Approve Policy: NO
+INFO 2025-07-02 00:38:57,080 utils 26920 26156 [RBAC] Create Framework: NO
+INFO 2025-07-02 00:38:57,080 utils 26920 26156 [RBAC] Approve Framework: NO
+INFO 2025-07-02 00:38:57,081 utils 26920 26156 [RBAC] Policy Analytics: NO
+INFO 2025-07-02 00:38:57,082 utils 26920 26156 [RBAC] === AUDIT MODULE PERMISSIONS ===
+INFO 2025-07-02 00:38:57,082 utils 26920 26156 [RBAC] Assign Audit: NO
+INFO 2025-07-02 00:38:57,083 utils 26920 26156 [RBAC] Conduct Audit: NO
+INFO 2025-07-02 00:38:57,083 utils 26920 26156 [RBAC] Review Audit: NO
+INFO 2025-07-02 00:38:57,084 utils 26920 26156 [RBAC] View Audit Reports: NO
+INFO 2025-07-02 00:38:57,084 utils 26920 26156 [RBAC] Audit Analytics: NO
+INFO 2025-07-02 00:38:57,085 utils 26920 26156 [RBAC] === RISK MODULE PERMISSIONS ===
+INFO 2025-07-02 00:38:57,085 utils 26920 26156 [RBAC] Create Risk: NO
+INFO 2025-07-02 00:38:57,085 utils 26920 26156 [RBAC] View All Risk: NO
+INFO 2025-07-02 00:38:57,087 utils 26920 26156 [RBAC] Edit Risk: NO
+INFO 2025-07-02 00:38:57,088 utils 26920 26156 [RBAC] Approve Risk: NO
+INFO 2025-07-02 00:38:57,088 utils 26920 26156 [RBAC] Assign Risk: NO
+INFO 2025-07-02 00:38:57,088 utils 26920 26156 [RBAC] Evaluate Assigned Risk: NO
+INFO 2025-07-02 00:38:57,089 utils 26920 26156 [RBAC] Risk Analytics: NO
+INFO 2025-07-02 00:38:57,089 utils 26920 26156 [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+INFO 2025-07-02 00:38:57,090 utils 26920 26156 [RBAC] Create Compliance: YES
+INFO 2025-07-02 00:38:57,090 utils 26920 26156 [RBAC] View All Compliance: YES
+INFO 2025-07-02 00:38:57,091 utils 26920 26156 [RBAC] Edit Compliance: YES
+INFO 2025-07-02 00:38:57,091 utils 26920 26156 [RBAC] Approve Compliance: YES
+INFO 2025-07-02 00:38:57,091 utils 26920 26156 [RBAC] Compliance Analytics: YES
+INFO 2025-07-02 00:38:57,092 utils 26920 26156 [RBAC] ===============================================
+INFO 2025-07-02 00:42:26,405 utils 26920 27504 [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+INFO 2025-07-02 00:42:26,410 utils 26920 27504 [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+INFO 2025-07-02 00:42:26,412 utils 26920 27504 [RBAC] User ID: 1
+INFO 2025-07-02 00:42:26,412 utils 26920 27504 [RBAC] Username: radha.sharma
+INFO 2025-07-02 00:42:26,413 utils 26920 27504 [RBAC] Role: GRC Administrator
+INFO 2025-07-02 00:42:26,415 utils 26920 27504 [RBAC] Account Status: ACTIVE
+INFO 2025-07-02 00:42:26,415 utils 26920 27504 [RBAC] Login Time: 2025-07-02 00:42:26.415003
+INFO 2025-07-02 00:42:26,416 utils 26920 27504 [RBAC] 
+INFO 2025-07-02 00:42:26,417 utils 26920 27504 [RBAC] === INCIDENT MODULE PERMISSIONS ===
+INFO 2025-07-02 00:42:26,417 utils 26920 27504 [RBAC] Create Incidents: YES
+INFO 2025-07-02 00:42:26,418 utils 26920 27504 [RBAC] View All Incidents: YES
+INFO 2025-07-02 00:42:26,419 utils 26920 27504 [RBAC] Edit Incidents: YES
+INFO 2025-07-02 00:42:26,420 utils 26920 27504 [RBAC] Assign Incidents: YES
+INFO 2025-07-02 00:42:26,420 utils 26920 27504 [RBAC] Evaluate Assigned Incidents: YES
+INFO 2025-07-02 00:42:26,421 utils 26920 27504 [RBAC] Escalate to Risk: YES
+INFO 2025-07-02 00:42:26,422 utils 26920 27504 [RBAC] Incident Analytics: YES
+INFO 2025-07-02 00:42:26,422 utils 26920 27504 [RBAC] === POLICY MODULE PERMISSIONS ===
+INFO 2025-07-02 00:42:26,423 utils 26920 27504 [RBAC] Create Policy: YES
+INFO 2025-07-02 00:42:26,424 utils 26920 27504 [RBAC] View All Policy: YES
+INFO 2025-07-02 00:42:26,424 utils 26920 27504 [RBAC] Edit Policy: YES
+INFO 2025-07-02 00:42:26,425 utils 26920 27504 [RBAC] Approve Policy: YES
+INFO 2025-07-02 00:42:26,425 utils 26920 27504 [RBAC] Create Framework: YES
+INFO 2025-07-02 00:42:26,425 utils 26920 27504 [RBAC] Approve Framework: YES
+INFO 2025-07-02 00:42:26,426 utils 26920 27504 [RBAC] Policy Analytics: YES
+INFO 2025-07-02 00:42:26,426 utils 26920 27504 [RBAC] === AUDIT MODULE PERMISSIONS ===
+INFO 2025-07-02 00:42:26,427 utils 26920 27504 [RBAC] Assign Audit: YES
+INFO 2025-07-02 00:42:26,427 utils 26920 27504 [RBAC] Conduct Audit: YES
+INFO 2025-07-02 00:42:26,428 utils 26920 27504 [RBAC] Review Audit: YES
+INFO 2025-07-02 00:42:26,429 utils 26920 27504 [RBAC] View Audit Reports: YES
+INFO 2025-07-02 00:42:26,429 utils 26920 27504 [RBAC] Audit Analytics: YES
+INFO 2025-07-02 00:42:26,430 utils 26920 27504 [RBAC] === RISK MODULE PERMISSIONS ===
+INFO 2025-07-02 00:42:26,431 utils 26920 27504 [RBAC] Create Risk: YES
+INFO 2025-07-02 00:42:26,431 utils 26920 27504 [RBAC] View All Risk: YES
+INFO 2025-07-02 00:42:26,431 utils 26920 27504 [RBAC] Edit Risk: YES
+INFO 2025-07-02 00:42:26,432 utils 26920 27504 [RBAC] Approve Risk: YES
+INFO 2025-07-02 00:42:26,432 utils 26920 27504 [RBAC] Assign Risk: YES
+INFO 2025-07-02 00:42:26,432 utils 26920 27504 [RBAC] Evaluate Assigned Risk: YES
+INFO 2025-07-02 00:42:26,433 utils 26920 27504 [RBAC] Risk Analytics: YES
+INFO 2025-07-02 00:42:26,433 utils 26920 27504 [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+INFO 2025-07-02 00:42:26,434 utils 26920 27504 [RBAC] Create Compliance: YES
+INFO 2025-07-02 00:42:26,434 utils 26920 27504 [RBAC] View All Compliance: YES
+INFO 2025-07-02 00:42:26,435 utils 26920 27504 [RBAC] Edit Compliance: YES
+INFO 2025-07-02 00:42:26,435 utils 26920 27504 [RBAC] Approve Compliance: YES
+INFO 2025-07-02 00:42:26,437 utils 26920 27504 [RBAC] Compliance Analytics: YES
+INFO 2025-07-02 00:42:26,437 utils 26920 27504 [RBAC] ===============================================

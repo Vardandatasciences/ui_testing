@@ -246,14 +246,15 @@ export const complianceService = {
       MaturityLevel: data.MaturityLevel || 'Initial',
       ActiveInactive: 'Active',
       PermanentTemporary: data.PermanentTemporary || 'Permanent',
-      versionType: data.versionType || 'Minor',
+      // Ensure versionType is properly capitalized (must be 'Major' or 'Minor')
+      versionType: data.versionType === 'major' ? 'Major' : 'Minor',
       PreviousComplianceVersionId: data.PreviousComplianceVersionId
     };
  
     // Debug log
     console.log('Updating compliance data:', formattedData);
    
-    return api.put(`/api/compliance/${complianceId}/edit/`, formattedData)
+    return api.put(`/api/compliance_edit/${complianceId}/edit/`, formattedData)
       .then(response => {
         console.log('Compliance update response:', response.data);
         return response;
@@ -264,7 +265,7 @@ export const complianceService = {
       });
   },
  
-  editCompliance: (complianceId, data) => api.put(`/api/compliance/${complianceId}/edit/`, data),
+  editCompliance: (complianceId, data) => api.put(`/api/compliance_edit/${complianceId}/edit/`, data),
   cloneCompliance: (complianceId, data) => {
     console.log('Cloning compliance with ID:', complianceId, 'Data:', data);
     

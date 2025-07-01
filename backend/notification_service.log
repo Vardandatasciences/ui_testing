@@ -1,260 +1,647 @@
-2025-07-01 17:24:10,397 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 17:24:10,397 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 17:24:10,397 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 18:05:23,798 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 18:05:24,855 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 18:05:24,855 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 18:05:24,855 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 18:11:45,820 - django.request - ERROR - Internal Server Error: /api/compliance/compliance/1/audit-info/
-2025-07-01 18:11:45,961 - django.request - ERROR - Internal Server Error: /api/compliance/compliance/2/audit-info/
-2025-07-01 18:11:46,102 - django.request - ERROR - Internal Server Error: /api/compliance/compliance/3/audit-info/
-2025-07-01 18:12:26,812 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliance-repetitions/
-2025-07-01 18:12:26,896 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
-2025-07-01 18:12:26,912 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliant-incidents/
-2025-07-01 18:13:44,531 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
-2025-07-01 18:13:44,531 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:13:44,531 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
-2025-07-01 18:13:44,531 - grc.incident_views - INFO -    User ID: 2
-2025-07-01 18:13:44,531 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
-2025-07-01 18:13:44,531 - grc.incident_views - INFO -    Resource: incident (ID: None)
-2025-07-01 18:13:44,531 - grc.incident_views - INFO -    IP Address: 127.0.0.1
-2025-07-01 18:13:44,531 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
-2025-07-01 18:13:44,531 - grc.incident_views - INFO -    No specific permissions found in database
-2025-07-01 18:13:44,546 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:13:44,548 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
-2025-07-01 18:13:44,548 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
-2025-07-01 18:13:44,549 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:13:44,554 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:13:44,554 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
-2025-07-01 18:13:44,558 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
-2025-07-01 18:13:44,558 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:13:44,564 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:13:44,564 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
-2025-07-01 18:13:44,564 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
-2025-07-01 18:13:44,564 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:13:44,572 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:13:44,574 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
-2025-07-01 18:13:44,574 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
-2025-07-01 18:13:44,576 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:13:44,583 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:13:44,585 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
-2025-07-01 18:13:44,585 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
-2025-07-01 18:13:44,585 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:13:44,585 - grc.incident_views - INFO -    Module Permissions for Incident:
-2025-07-01 18:13:44,585 - grc.incident_views - INFO -       View: YES
-2025-07-01 18:13:44,585 - grc.incident_views - INFO -       Create: YES
-2025-07-01 18:13:44,585 - grc.incident_views - INFO -       Edit: YES
-2025-07-01 18:13:44,585 - grc.incident_views - INFO -       Approve: NO
-2025-07-01 18:13:44,589 - grc.incident_views - INFO -       Assign: YES
-2025-07-01 18:13:44,589 - grc.incident_views - INFO -    Timestamp: 2025-07-01 18:13:44.589360
-2025-07-01 18:13:44,589 - grc.incident_views - INFO -    ============================================================
-2025-07-01 18:49:20,633 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
-2025-07-01 18:49:20,636 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:49:20,636 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
-2025-07-01 18:49:20,647 - grc.incident_views - INFO -    User ID: 2
-2025-07-01 18:49:20,650 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
-2025-07-01 18:49:20,650 - grc.incident_views - INFO -    Resource: incident (ID: None)
-2025-07-01 18:49:20,650 - grc.incident_views - INFO -    IP Address: 127.0.0.1
-2025-07-01 18:49:20,651 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
-2025-07-01 18:49:20,651 - grc.incident_views - INFO -    No specific permissions found in database
-2025-07-01 18:49:20,661 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:49:20,661 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
-2025-07-01 18:49:20,665 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
-2025-07-01 18:49:20,667 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:49:20,674 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:49:20,674 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
-2025-07-01 18:49:20,674 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
-2025-07-01 18:49:20,674 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:49:20,685 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:49:20,685 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
-2025-07-01 18:49:20,685 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
-2025-07-01 18:49:20,685 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:49:20,699 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:49:20,702 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
-2025-07-01 18:49:20,704 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
-2025-07-01 18:49:20,704 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:49:20,710 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 18:49:20,710 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
-2025-07-01 18:49:20,716 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
-2025-07-01 18:49:20,717 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 18:49:20,717 - grc.incident_views - INFO -    Module Permissions for Incident:
-2025-07-01 18:49:20,717 - grc.incident_views - INFO -       View: YES
-2025-07-01 18:49:20,718 - grc.incident_views - INFO -       Create: YES
-2025-07-01 18:49:20,718 - grc.incident_views - INFO -       Edit: YES
-2025-07-01 18:49:20,718 - grc.incident_views - INFO -       Approve: NO
-2025-07-01 18:49:20,718 - grc.incident_views - INFO -       Assign: YES
-2025-07-01 18:49:20,718 - grc.incident_views - INFO -    Timestamp: 2025-07-01 18:49:20.718458
-2025-07-01 18:49:20,718 - grc.incident_views - INFO -    ============================================================
-2025-07-01 18:50:13,947 - django.request - ERROR - Internal Server Error: /api/incident/first-response-time/
-Traceback (most recent call last):
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1886, in transform
-    return self.try_transform(wrapped, name)
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1423, in try_transform
-    raise FieldError(
-django.core.exceptions.FieldError: Unsupported lookup 'IdentifiedAt' for IntegerField or join on the field not permitted.
+2025-07-01 23:00:52,408 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-01 23:00:53,350 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-01 23:00:53,350 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-01 23:00:53,350 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-01 23:07:22,370 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-01 23:07:22,372 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:07:22,373 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 23:07:22,373 - grc.incident_views - INFO -    User ID: 2
+2025-07-01 23:07:22,374 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-01 23:07:22,375 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 23:07:22,376 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 23:07:22,376 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-01 23:07:22,376 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-01 23:07:22,384 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:07:22,386 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-01 23:07:22,387 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-01 23:07:22,387 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:07:22,390 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:07:22,391 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-01 23:07:22,392 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-01 23:07:22,392 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:07:22,395 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:07:22,396 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-01 23:07:22,397 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-01 23:07:22,397 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:07:22,401 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:07:22,402 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-01 23:07:22,403 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-01 23:07:22,403 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:07:22,405 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:07:22,406 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-01 23:07:22,407 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-01 23:07:22,407 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:07:22,407 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-01 23:07:22,407 - grc.incident_views - INFO -       View: YES
+2025-07-01 23:07:22,408 - grc.incident_views - INFO -       Create: YES
+2025-07-01 23:07:22,408 - grc.incident_views - INFO -       Edit: YES
+2025-07-01 23:07:22,408 - grc.incident_views - INFO -       Approve: NO
+2025-07-01 23:07:22,408 - grc.incident_views - INFO -       Assign: YES
+2025-07-01 23:07:22,409 - grc.incident_views - INFO -    Timestamp: 2025-07-01 23:07:22.409269
+2025-07-01 23:07:22,409 - grc.incident_views - INFO -    ============================================================
+2025-07-01 23:11:20,394 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-01 23:11:20,487 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-01 23:12:42,589 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-01 23:12:42,591 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:12:42,591 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 23:12:42,592 - grc.incident_views - INFO -    User ID: 2
+2025-07-01 23:12:42,592 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-01 23:12:42,593 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 23:12:42,593 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 23:12:42,593 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-01 23:12:42,593 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-01 23:12:42,601 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:12:42,602 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-01 23:12:42,602 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-01 23:12:42,602 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:12:42,602 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:12:42,602 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-01 23:12:42,602 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-01 23:12:42,602 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:12:42,602 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:12:42,602 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-01 23:12:42,602 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-01 23:12:42,602 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:12:42,619 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:12:42,619 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-01 23:12:42,619 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-01 23:12:42,619 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:12:42,619 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-01 23:12:42,619 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-01 23:12:42,627 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-01 23:12:42,627 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -       View: YES
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -       Create: YES
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -       Edit: YES
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -       Approve: NO
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -       Assign: YES
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -    Timestamp: 2025-07-01 23:12:42.627163
+2025-07-01 23:12:42,627 - grc.incident_views - INFO -    ============================================================
+2025-07-01 23:28:48,179 - django.request - WARNING - Bad Request: /api/risk-instances/13/
+2025-07-01 23:36:20,339 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-01 23:36:20,399 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-01 23:41:32,595 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-01 23:41:33,044 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-01 23:41:33,045 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-01 23:41:33,046 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-01 23:42:16,622 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-01 23:42:16,650 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-01 23:43:27,899 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-01 23:43:27,967 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-01 23:44:16,093 - grc.routes.policy - INFO - Processing add policy request for framework 241 from user: AnonymousUser
+2025-07-01 23:44:16,111 - grc.routes.policy - INFO - Processing policy: wrfgnb
+2025-07-01 23:44:16,111 - grc.routes.policy - INFO - Entities data received: 1 specific entities
+2025-07-01 23:44:16,111 - grc.routes.policy - INFO - Found policy reviewer: vikram.patel
+2025-07-01 23:44:16,142 - grc.routes.policy - INFO - Processing 1 subpolicies for policy wrfgnb
+2025-07-01 23:44:16,152 - grc.routes.policy - INFO - Found reviewer: vikram.patel
+2025-07-01 23:44:16,164 - grc.routes.policy - INFO - Attempting to send notification to reviewer
+2025-07-01 23:44:16,164 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for policySubmitted
+2025-07-01 23:44:16,164 - notification_service - INFO - Template data: ['vikram.patel', 'wrfgnb', 'radha.sharma', '2025-07-01']
+2025-07-01 23:44:16,164 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:44:16,164 - notification_service - INFO - Found template for policySubmitted
+2025-07-01 23:44:16,164 - notification_service - INFO - Email subject: Policy "wrfgnb" Submitted for Your Review
+2025-07-01 23:44:16,164 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:44:17,292 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:44:17,759 - notification_service - INFO - SMTP login successful
+2025-07-01 23:44:19,475 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:44:19,803 - grc.routes.policy - INFO - Notification sent successfully
+2025-07-01 23:44:19,803 - grc.routes.policy - INFO - 1 policies added successfully to framework 241
+2025-07-01 23:49:22,053 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-01 23:49:22,479 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-01 23:49:22,479 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-01 23:49:22,479 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-01 23:49:34,290 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-01 23:49:34,326 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-01 23:50:01,567 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkSubmitted
+2025-07-01 23:50:01,567 - notification_service - INFO - Template data: ['Bob Smith', 'internal framework', 'Alice Johnson']
+2025-07-01 23:50:01,567 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:50:01,567 - notification_service - INFO - Found template for frameworkSubmitted
+2025-07-01 23:50:01,568 - notification_service - INFO - Email subject: Framework "internal framework" Submitted for Your Review
+2025-07-01 23:50:01,568 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:50:02,569 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:50:02,962 - notification_service - INFO - SMTP login successful
+2025-07-01 23:50:03,935 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkSubmitted
+2025-07-01 23:50:03,935 - notification_service - INFO - Template data: ['Bob Smith', 'internal framework', 'radha.sharma']
+2025-07-01 23:50:03,935 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:50:03,935 - notification_service - INFO - Found template for frameworkSubmitted
+2025-07-01 23:50:03,935 - notification_service - INFO - Email subject: Framework "internal framework" Submitted for Your Review
+2025-07-01 23:50:03,935 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:50:04,442 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:50:04,944 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:50:05,336 - notification_service - INFO - SMTP login successful
+2025-07-01 23:50:06,886 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:50:18,202 - grc.routes.policy - INFO - Successfully retrieved 214 frameworks
+2025-07-01 23:50:42,842 - grc.routes.frameworks - INFO - Framework review submission attempt for framework ID: 309
+2025-07-01 23:50:42,865 - grc.routes.frameworks - INFO - Found framework: internal framework, current status: Under Review
+2025-07-01 23:50:42,882 - grc.routes.frameworks - INFO - Framework 309 rejected by reviewer
+2025-07-01 23:50:42,885 - grc.routes.frameworks - INFO - Rejecting 0 policies associated with framework 309
+2025-07-01 23:50:42,893 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkRejected
+2025-07-01 23:50:42,894 - notification_service - INFO - Template data: ['vikram.patel', 'internal framework', 'vikram.patel', 'efrdgtyh']
+2025-07-01 23:50:42,895 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:50:42,896 - notification_service - INFO - Found template for frameworkRejected
+2025-07-01 23:50:42,898 - notification_service - INFO - Email subject: Framework "internal framework" Was Rejected
+2025-07-01 23:50:42,899 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:50:43,907 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:50:44,324 - notification_service - INFO - SMTP login successful
+2025-07-01 23:50:44,644 - grc.routes.frameworks - INFO - Framework review submission attempt for framework ID: 309
+2025-07-01 23:50:44,655 - grc.routes.frameworks - INFO - Found framework: internal framework, current status: Under Review
+2025-07-01 23:50:45,940 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:50:46,058 - grc.routes.frameworks - INFO - Framework review submission attempt for framework ID: 309
+2025-07-01 23:50:46,083 - grc.routes.frameworks - INFO - Found framework: internal framework, current status: Under Review
+2025-07-01 23:50:46,306 - grc.routes.frameworks - INFO - Framework review submitted successfully for framework 309, approval status: False
+2025-07-01 23:50:46,306 - grc.routes.frameworks - INFO - Framework 309 rejected by reviewer
+2025-07-01 23:50:46,306 - grc.routes.frameworks - INFO - Framework 309 rejected by reviewer
+2025-07-01 23:50:46,334 - grc.routes.frameworks - INFO - Rejecting 0 policies associated with framework 309
+2025-07-01 23:50:46,338 - grc.routes.frameworks - ERROR - Error submitting framework review for framework 309: (1213, 'Deadlock found when trying to get lock; try restarting transaction')
+2025-07-01 23:50:46,341 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkRejected
+2025-07-01 23:50:46,341 - notification_service - INFO - Template data: ['vikram.patel', 'internal framework', 'vikram.patel', 'Framework was rejected']
+2025-07-01 23:50:46,341 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:50:46,341 - notification_service - INFO - Found template for frameworkRejected
+2025-07-01 23:50:46,341 - notification_service - INFO - Email subject: Framework "internal framework" Was Rejected
+2025-07-01 23:50:46,341 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:50:46,359 - grc.routes.policy - INFO - Successfully retrieved 214 frameworks
+2025-07-01 23:50:46,540 - grc.routes.frameworks - ERROR - Traceback (most recent call last):
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1213, 'Deadlock found when trying to get lock; try restarting transaction')
 
-During handling of the above exception, another exception occurred:
+The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\kpis_incidents.py", line 1372, in first_response_time
-    queryset = queryset.annotate(
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1630, in annotate
-    return self._annotate(args, kwargs, select=True)
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1680, in _annotate
-    clone.query.add_annotation(
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1194, in add_annotation
-    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\expressions.py", line 895, in resolve_expression
-    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 2026, in resolve_ref
-    transform = join_info.transform_function(targets[0], final_alias)
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1890, in transform
-    raise last_field_exception
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
-    path, final_field, targets, rest = self.names_to_path(
-  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
-    raise FieldError(
-django.core.exceptions.FieldError: Cannot resolve keyword 'IdentifiedAt' into field. Join on 'IncidentId' not permitted.
-2025-07-01 18:50:15,844 - grc.rbac.utils - WARNING - [RBAC] No user_id found in session
-2025-07-01 18:50:15,844 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
-2025-07-01 18:50:15,844 - grc.incident_views - INFO -    User ID: None (could not extract from request)
-2025-07-01 18:50:15,844 - grc.incident_views - INFO -    Action: VIEW_RECENT_INCIDENTS
-2025-07-01 18:50:15,844 - grc.incident_views - INFO -    Resource: incident (ID: None)
-2025-07-01 18:50:15,853 - grc.incident_views - INFO -    IP Address: 127.0.0.1
-2025-07-01 18:50:15,853 - grc.incident_views - INFO -    Status: FAILED - No user ID
-2025-07-01 18:50:15,855 - grc.incident_views - INFO -    ============================================================
-2025-07-01 18:50:15,897 - grc.rbac.utils - WARNING - [RBAC] No user_id found in session
-2025-07-01 18:50:15,897 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
-2025-07-01 18:50:15,897 - grc.incident_views - INFO -    User ID: None (could not extract from request)
-2025-07-01 18:50:15,897 - grc.incident_views - INFO -    Action: VIEW_INCIDENT_ANALYTICS
-2025-07-01 18:50:15,897 - grc.incident_views - INFO -    Resource: incident (ID: None)
-2025-07-01 18:50:15,897 - grc.incident_views - INFO -    IP Address: 127.0.0.1
-2025-07-01 18:50:15,904 - grc.incident_views - INFO -    Status: FAILED - No user ID
-2025-07-01 18:50:15,904 - grc.incident_views - INFO -    ============================================================
-2025-07-01 18:51:06,989 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 18:51:07,068 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
-2025-07-01 18:51:42,290 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 18:51:42,329 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
-2025-07-01 18:51:48,907 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 18:51:57,740 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 18:52:37,270 - grc.routes.policy - INFO - Successfully retrieved 212 frameworks
-2025-07-01 19:00:27,191 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
-2025-07-01 19:00:27,191 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 19:00:27,191 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
-2025-07-01 19:00:27,191 - grc.incident_views - INFO -    User ID: 2
-2025-07-01 19:00:27,191 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
-2025-07-01 19:00:27,200 - grc.incident_views - INFO -    Resource: incident (ID: None)
-2025-07-01 19:00:27,201 - grc.incident_views - INFO -    IP Address: 127.0.0.1
-2025-07-01 19:00:27,201 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
-2025-07-01 19:00:27,202 - grc.incident_views - INFO -    No specific permissions found in database
-2025-07-01 19:00:27,204 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 19:00:27,204 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
-2025-07-01 19:00:27,204 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
-2025-07-01 19:00:27,204 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 19:00:27,204 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 19:00:27,204 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
-2025-07-01 19:00:27,204 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
-2025-07-01 19:00:27,204 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 19:00:27,219 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 19:00:27,219 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
-2025-07-01 19:00:27,219 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
-2025-07-01 19:00:27,219 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 19:00:27,219 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 19:00:27,219 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
-2025-07-01 19:00:27,219 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
-2025-07-01 19:00:27,219 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 19:00:27,235 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
-2025-07-01 19:00:27,235 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
-2025-07-01 19:00:27,235 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
-2025-07-01 19:00:27,235 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
-2025-07-01 19:00:27,235 - grc.incident_views - INFO -    Module Permissions for Incident:
-2025-07-01 19:00:27,241 - grc.incident_views - INFO -       View: YES
-2025-07-01 19:00:27,241 - grc.incident_views - INFO -       Create: YES
-2025-07-01 19:00:27,241 - grc.incident_views - INFO -       Edit: YES
-2025-07-01 19:00:27,241 - grc.incident_views - INFO -       Approve: NO
-2025-07-01 19:00:27,241 - grc.incident_views - INFO -       Assign: YES
-2025-07-01 19:00:27,241 - grc.incident_views - INFO -    Timestamp: 2025-07-01 19:00:27.241963
-2025-07-01 19:00:27,243 - grc.incident_views - INFO -    ============================================================
-2025-07-01 19:03:34,091 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 19:03:34,129 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
-2025-07-01 19:03:41,364 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 19:25:14,852 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 19:25:14,920 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
-2025-07-01 19:48:22,881 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 19:48:27,233 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 19:48:28,310 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 19:48:28,312 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 19:48:28,312 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 19:48:36,295 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 19:48:38,890 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 19:48:39,369 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 19:48:39,369 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 19:48:39,370 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 19:49:32,203 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 19:49:34,503 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 19:49:35,089 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 19:49:35,089 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 19:49:35,089 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 19:50:24,886 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
-2025-07-01 19:50:27,090 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 19:50:27,640 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 19:50:27,640 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 19:50:27,640 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 19:50:34,845 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
-2025-07-01 19:50:37,067 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 19:50:37,527 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 19:50:37,528 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 19:50:37,528 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 19:54:00,285 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 19:54:03,593 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 19:54:04,136 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 19:54:04,145 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 19:54:04,145 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:08:51,280 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 20:08:53,785 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:08:54,312 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:08:54,312 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:08:54,312 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:09:00,126 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
-2025-07-01 20:09:02,544 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:09:03,077 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:09:03,077 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:09:03,077 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:09:11,607 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
-2025-07-01 20:09:13,602 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:09:14,221 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:09:14,222 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:09:14,222 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:11:13,093 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 20:11:17,282 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:11:17,882 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:11:17,882 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:11:17,882 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:11:44,101 - django.request - ERROR - Internal Server Error: /api/policies-paginated/
-2025-07-01 20:11:44,114 - django.request - ERROR - Internal Server Error: /api/policies-paginated/
-2025-07-01 20:11:44,143 - django.request - ERROR - Internal Server Error: /api/policies-paginated/
-2025-07-01 20:13:09,985 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 20:13:12,702 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:13:13,260 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:13:13,260 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:13:13,260 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:14:13,810 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 20:14:16,202 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:14:16,733 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:14:16,733 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:14:16,733 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:14:47,135 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
-2025-07-01 20:14:50,091 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
-2025-07-01 20:14:50,766 - mysql.connector - INFO - package: mysql.connector.plugins
-2025-07-01 20:14:50,766 - mysql.connector - INFO - plugin_name: caching_sha2_password
-2025-07-01 20:14:50,777 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
-2025-07-01 20:15:14,190 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 20:15:14,310 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
-2025-07-01 20:20:33,376 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 20:20:33,473 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
-2025-07-01 20:21:35,319 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
-2025-07-01 20:21:35,367 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+  File "C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\frameworks.py", line 734, in submit_framework_review
+    framework.save()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 1129, in _save_table
+    updated = self._do_update(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\base.py", line 1194, in _do_update
+    return filtered._update(values) > 0
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1278, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\compiler.py", line 2003, in execute_sql
+    cursor = super().execute_sql(result_type)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\backends\mysql\base.py", line 76, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+django.db.utils.OperationalError: (1213, 'Deadlock found when trying to get lock; try restarting transaction')
+
+2025-07-01 23:50:46,540 - django.request - ERROR - Internal Server Error: /api/frameworks/309/submit-review/
+2025-07-01 23:50:47,521 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:50:47,956 - notification_service - INFO - SMTP login successful
+2025-07-01 23:50:49,678 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:50:49,986 - grc.routes.frameworks - INFO - Framework review submitted successfully for framework 309, approval status: False
+2025-07-01 23:50:50,036 - grc.routes.policy - INFO - Successfully retrieved 214 frameworks
+2025-07-01 23:51:02,201 - grc.routes.policy - INFO - Successfully retrieved 214 frameworks
+2025-07-01 23:51:21,104 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkResubmitted
+2025-07-01 23:51:21,104 - notification_service - INFO - Template data: ['vikram.patel', 'internal framework', 'vikram.patel']
+2025-07-01 23:51:21,120 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:51:21,120 - notification_service - INFO - Found template for frameworkResubmitted
+2025-07-01 23:51:21,121 - notification_service - INFO - Email subject: Framework "internal framework" Resubmitted for Your Review
+2025-07-01 23:51:21,121 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:51:22,138 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:51:22,571 - notification_service - INFO - SMTP login successful
+2025-07-01 23:51:24,103 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:51:24,483 - grc.routes.policy - INFO - Successfully retrieved 214 frameworks
+2025-07-01 23:51:37,073 - grc.routes.frameworks - INFO - Framework review submission attempt for framework ID: 309
+2025-07-01 23:51:37,097 - grc.routes.frameworks - INFO - Found framework: internal framework, current status: Under Review
+2025-07-01 23:51:37,113 - grc.routes.frameworks - INFO - Framework 309 approved by reviewer
+2025-07-01 23:51:37,121 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkFinalApproved
+2025-07-01 23:51:37,129 - notification_service - INFO - Template data: ['vikram.patel', 'internal framework', 'vikram.patel', '2025-07-01']
+2025-07-01 23:51:37,129 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:51:37,130 - notification_service - INFO - Found template for frameworkFinalApproved
+2025-07-01 23:51:37,130 - notification_service - INFO - Email subject: Framework "internal framework" Approved
+2025-07-01 23:51:37,130 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:51:38,271 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:51:38,697 - notification_service - INFO - SMTP login successful
+2025-07-01 23:51:40,312 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:51:40,712 - grc.routes.frameworks - INFO - Framework review submitted successfully for framework 309, approval status: True
+2025-07-01 23:51:40,761 - grc.routes.policy - INFO - Successfully retrieved 213 frameworks
+2025-07-01 23:51:45,660 - grc.routes.frameworks - INFO - Framework review submission attempt for framework ID: 309
+2025-07-01 23:51:45,693 - grc.routes.frameworks - INFO - Found framework: internal framework, current status: Approved
+2025-07-01 23:51:45,710 - grc.routes.frameworks - INFO - Framework 309 approved by reviewer
+2025-07-01 23:51:45,727 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkFinalApproved
+2025-07-01 23:51:45,727 - notification_service - INFO - Template data: ['vikram.patel', 'internal framework', 'vikram.patel', '2025-07-01']
+2025-07-01 23:51:45,727 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:51:45,727 - notification_service - INFO - Found template for frameworkFinalApproved
+2025-07-01 23:51:45,727 - notification_service - INFO - Email subject: Framework "internal framework" Approved
+2025-07-01 23:51:45,727 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:51:46,742 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:51:47,243 - notification_service - INFO - SMTP login successful
+2025-07-01 23:51:48,709 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-01 23:51:49,092 - grc.routes.frameworks - INFO - Framework review submitted successfully for framework 309, approval status: True
+2025-07-01 23:51:49,142 - grc.routes.policy - INFO - Successfully retrieved 213 frameworks
+2025-07-01 23:52:10,407 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-01 23:52:44,720 - django.request - WARNING - Bad Request: /api/frameworks/263/create-version/
+2025-07-01 23:53:01,167 - django.request - WARNING - Bad Request: /api/frameworks/263/create-version/
+2025-07-01 23:53:14,423 - django.request - WARNING - Bad Request: /api/frameworks/263/create-version/
+2025-07-01 23:53:29,911 - django.request - WARNING - Bad Request: /api/frameworks/263/create-version/
+2025-07-01 23:55:02,917 - django.request - WARNING - Bad Request: /api/frameworks/263/create-version/
+2025-07-01 23:55:36,505 - django.request - WARNING - Bad Request: /api/frameworks/263/create-version/
+2025-07-01 23:56:40,439 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-01 23:57:09,718 - grc.routes.frameworks - INFO - Framework status change request for framework ID: 137
+2025-07-01 23:57:09,742 - grc.routes.frameworks - INFO - Found framework: derfty, Status: Under Review, ActiveInactive: Active
+2025-07-01 23:57:09,752 - notification_service - INFO - Attempting to send email to radha.sharma@company.com using gmail for frameworkInactiveRequested
+2025-07-01 23:57:09,752 - notification_service - INFO - Template data: ['derfty', 'radha.sharma', 'Alice Johnson', 'sdfgh']
+2025-07-01 23:57:09,752 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-01 23:57:09,752 - notification_service - INFO - Found template for frameworkInactiveRequested
+2025-07-01 23:57:09,759 - notification_service - INFO - Email subject: Framework "derfty" Inactivation Requested
+2025-07-01 23:57:09,760 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-01 23:57:10,796 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-01 23:57:11,194 - notification_service - INFO - SMTP login successful
+2025-07-01 23:57:12,052 - grc.routes.frameworks - INFO - Retrieving all framework status change requests
+2025-07-01 23:57:12,602 - notification_service - INFO - Email sent successfully to radha.sharma@company.com
+2025-07-01 23:57:12,919 - grc.routes.frameworks - INFO - Framework status change request submitted successfully for framework 137
+2025-07-01 23:57:14,368 - grc.routes.frameworks - INFO - Successfully retrieved 37 framework status change requests
+2025-07-01 23:57:33,590 - grc.routes.frameworks - INFO - Framework status change approval attempt for approval ID: 262
+2025-07-01 23:57:33,623 - grc.routes.frameworks - INFO - Found framework: derfty for status change approval
+2025-07-01 23:57:33,623 - grc.routes.frameworks - INFO - Processing status change approval: approved=True, remarks=dfgh
+2025-07-01 23:57:33,623 - grc.routes.frameworks - INFO - Approving status change for framework 137 to Inactive
+2025-07-01 23:57:33,657 - grc.routes.frameworks - INFO - Framework status change approved successfully for approval 262
+2025-07-01 23:57:33,674 - grc.routes.frameworks - INFO - Retrieving all framework status change requests
+2025-07-01 23:57:35,472 - grc.routes.frameworks - INFO - Successfully retrieved 39 framework status change requests
+2025-07-01 23:58:26,433 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-01 23:58:26,508 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-01 23:58:33,697 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-01 23:58:33,728 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-01 23:58:35,590 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-01 23:58:52,076 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-01 23:58:52,078 - grc.routes.policy - INFO - [RBAC DEBUG] get_policy_kpis called by user 2
+2025-07-01 23:58:52,078 - grc.routes.policy - INFO - [RBAC DEBUG] Request method: GET
+2025-07-01 23:58:52,078 - grc.routes.policy - INFO - [RBAC DEBUG] Request path: /api/policy-kpis/
+2025-07-01 23:58:52,081 - grc.routes.policy - WARNING - [RBAC DEBUG] No RBAC record found for user 2
+2025-07-02 00:33:30,883 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:33:31,572 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:33:31,572 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:33:31,572 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:35:43,838 - grc.views - INFO - Login attempt for user: vikram.patel
+2025-07-02 00:35:44,389 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 00:35:44,399 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 00:35:44,400 - grc.rbac.utils - INFO - [RBAC] User ID: 2
+2025-07-02 00:35:44,401 - grc.rbac.utils - INFO - [RBAC] Username: vikram.patel
+2025-07-02 00:35:44,402 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 00:35:44,402 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 00:35:44,403 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 00:35:44.403856
+2025-07-02 00:35:44,404 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 00:35:44,405 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 00:35:44,406 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 00:35:44,407 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 00:35:44,409 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 00:35:44,409 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 00:35:44,410 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 00:35:44,410 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 00:35:44,411 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 00:35:44,411 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 00:35:44,412 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 00:35:44,412 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 00:35:44,413 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 00:35:44,415 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 00:35:44,416 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 00:35:44,416 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 00:35:44,418 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 00:35:44,418 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 00:35:44,419 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 00:35:44,421 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 00:35:44,421 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 00:35:44,422 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 00:35:44,422 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 00:35:44,423 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 00:35:44,424 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 00:35:44,425 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 00:35:44,425 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 00:35:44,426 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 00:35:44,427 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 00:35:44,427 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 00:35:44,428 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 00:35:44,429 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 00:35:44,429 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 00:35:44,430 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 00:35:44,432 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 00:35:44,433 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 00:35:44,434 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 00:35:44,434 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 00:35:44,435 - grc.views - INFO - Successful login for user: vikram.patel
+2025-07-02 00:35:47,133 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 00:38:39,926 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 00:38:55,962 - grc.views - INFO - Login attempt for user: comp.anita.singh
+2025-07-02 00:38:57,061 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 00:38:57,065 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 4: role=Compliance Manager
+2025-07-02 00:38:57,065 - grc.rbac.utils - INFO - [RBAC] User ID: 4
+2025-07-02 00:38:57,066 - grc.rbac.utils - INFO - [RBAC] Username: comp.anita.singh
+2025-07-02 00:38:57,068 - grc.rbac.utils - INFO - [RBAC] Role: Compliance Manager
+2025-07-02 00:38:57,068 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 00:38:57,068 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 00:38:57.068941
+2025-07-02 00:38:57,068 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 00:38:57,070 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 00:38:57,071 - grc.rbac.utils - INFO - [RBAC] Create Incidents: NO
+2025-07-02 00:38:57,072 - grc.rbac.utils - INFO - [RBAC] View All Incidents: NO
+2025-07-02 00:38:57,072 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: NO
+2025-07-02 00:38:57,073 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: NO
+2025-07-02 00:38:57,075 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: NO
+2025-07-02 00:38:57,076 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: NO
+2025-07-02 00:38:57,076 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: NO
+2025-07-02 00:38:57,077 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 00:38:57,077 - grc.rbac.utils - INFO - [RBAC] Create Policy: NO
+2025-07-02 00:38:57,078 - grc.rbac.utils - INFO - [RBAC] View All Policy: NO
+2025-07-02 00:38:57,078 - grc.rbac.utils - INFO - [RBAC] Edit Policy: NO
+2025-07-02 00:38:57,079 - grc.rbac.utils - INFO - [RBAC] Approve Policy: NO
+2025-07-02 00:38:57,080 - grc.rbac.utils - INFO - [RBAC] Create Framework: NO
+2025-07-02 00:38:57,080 - grc.rbac.utils - INFO - [RBAC] Approve Framework: NO
+2025-07-02 00:38:57,081 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: NO
+2025-07-02 00:38:57,082 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 00:38:57,082 - grc.rbac.utils - INFO - [RBAC] Assign Audit: NO
+2025-07-02 00:38:57,083 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: NO
+2025-07-02 00:38:57,083 - grc.rbac.utils - INFO - [RBAC] Review Audit: NO
+2025-07-02 00:38:57,084 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: NO
+2025-07-02 00:38:57,084 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: NO
+2025-07-02 00:38:57,085 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 00:38:57,085 - grc.rbac.utils - INFO - [RBAC] Create Risk: NO
+2025-07-02 00:38:57,085 - grc.rbac.utils - INFO - [RBAC] View All Risk: NO
+2025-07-02 00:38:57,087 - grc.rbac.utils - INFO - [RBAC] Edit Risk: NO
+2025-07-02 00:38:57,088 - grc.rbac.utils - INFO - [RBAC] Approve Risk: NO
+2025-07-02 00:38:57,088 - grc.rbac.utils - INFO - [RBAC] Assign Risk: NO
+2025-07-02 00:38:57,088 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: NO
+2025-07-02 00:38:57,089 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: NO
+2025-07-02 00:38:57,089 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 00:38:57,090 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 00:38:57,090 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 00:38:57,091 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 00:38:57,091 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 00:38:57,091 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 00:38:57,092 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 00:38:57,093 - grc.views - INFO - Successful login for user: comp.anita.singh
+2025-07-02 00:39:00,247 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 00:40:04,436 - django.request - WARNING - Not Found: /api/upload
+2025-07-02 00:42:25,408 - grc.views - INFO - Login attempt for user: radha.sharma
+2025-07-02 00:42:26,405 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 00:42:26,410 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 00:42:26,412 - grc.rbac.utils - INFO - [RBAC] User ID: 1
+2025-07-02 00:42:26,412 - grc.rbac.utils - INFO - [RBAC] Username: radha.sharma
+2025-07-02 00:42:26,413 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 00:42:26,415 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 00:42:26,415 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 00:42:26.415003
+2025-07-02 00:42:26,416 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 00:42:26,417 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 00:42:26,417 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 00:42:26,418 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 00:42:26,419 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 00:42:26,420 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 00:42:26,420 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 00:42:26,421 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 00:42:26,422 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 00:42:26,422 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 00:42:26,423 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 00:42:26,424 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 00:42:26,424 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 00:42:26,425 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 00:42:26,425 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 00:42:26,425 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 00:42:26,426 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 00:42:26,426 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 00:42:26,427 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 00:42:26,427 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 00:42:26,428 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 00:42:26,429 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 00:42:26,429 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 00:42:26,430 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 00:42:26,431 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 00:42:26,431 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 00:42:26,431 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 00:42:26,432 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 00:42:26,432 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 00:42:26,432 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 00:42:26,433 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 00:42:26,433 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 00:42:26,434 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 00:42:26,434 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 00:42:26,435 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 00:42:26,435 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 00:42:26,437 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 00:42:26,437 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 00:42:26,438 - grc.views - INFO - Successful login for user: radha.sharma
+2025-07-02 00:49:04,599 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:49:07,482 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:49:08,197 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:49:08,198 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:49:08,198 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:49:14,741 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:49:17,014 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:49:17,509 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:49:17,510 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:49:17,510 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:52:32,890 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:52:35,272 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:52:35,830 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:52:35,831 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:52:35,831 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:52:39,914 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:52:42,004 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:52:42,526 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:52:42,526 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:52:42,526 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:52:47,853 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:52:50,158 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:52:50,672 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:52:50,673 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:52:50,673 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:52:59,232 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:53:01,638 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:53:02,239 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:53:02,239 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:53:02,240 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:53:16,910 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\audit_views.py changed, reloading.
+2025-07-02 00:53:19,344 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 00:53:20,020 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 00:53:20,020 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 00:53:20,020 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 00:59:57,706 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:00:35,845 - notification_service - INFO - Attempting to send email to anita.singh@company.com using gmail for auditCompleted
+2025-07-02 01:00:35,845 - notification_service - INFO - Template data: ['radha.sharma', 'Audit #35', 'comp.anita.singh', '2025-07-09']
+2025-07-02 01:00:35,845 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 01:00:35,845 - notification_service - INFO - Found template for auditCompleted
+2025-07-02 01:00:35,845 - notification_service - INFO - Email subject: Audit "{audit_title}" Ready for Review
+2025-07-02 01:00:35,845 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 01:00:37,095 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 01:00:37,516 - notification_service - INFO - SMTP login successful
+2025-07-02 01:00:39,003 - notification_service - INFO - Email sent successfully to anita.singh@company.com
+2025-07-02 01:00:39,329 - notification_service - INFO - Attempting to send email to anita.singh@company.com using gmail for auditReviewed
+2025-07-02 01:00:39,329 - notification_service - INFO - Template data: ['comp.anita.singh', 'wedwedwefdwe', 'Approved', 'radha.sharma', 'sdcsdcsd']
+2025-07-02 01:00:39,329 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 01:00:39,329 - notification_service - INFO - Found template for auditReviewed
+2025-07-02 01:00:39,329 - notification_service - INFO - Email subject: Your Audit "{audit_title}" Review Is Complete
+2025-07-02 01:00:39,329 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 01:00:40,444 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 01:00:40,885 - notification_service - INFO - SMTP login successful
+2025-07-02 01:00:42,538 - notification_service - INFO - Email sent successfully to anita.singh@company.com
+2025-07-02 01:04:52,389 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:06:32,994 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:06:33,081 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:06:34,201 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:06:34,276 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:06:44,254 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:06:44,337 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:08:20,500 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:08:30,818 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:08:30,918 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:08:34,442 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:08:34,540 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:10:39,603 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:10:39,696 - grc.routes.policy - INFO - Successfully retrieved 231 frameworks
+2025-07-02 01:35:52,626 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:35:52,683 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-02 01:36:58,512 - grc.routes.policy - INFO - Successfully retrieved 229 frameworks
+2025-07-02 01:38:52,934 - grc.routes.policy - INFO - Processing framework creation request from user: AnonymousUser
+2025-07-02 01:38:52,944 - grc.routes.policy - INFO - Found reviewer for framework creation
+2025-07-02 01:38:52,953 - grc.routes.policy - INFO - Entities data received: 1 specific entities
+2025-07-02 01:38:52,972 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkSubmitted
+2025-07-02 01:38:52,972 - notification_service - INFO - Template data: ['vikram.patel', 'Muni Syam', 'radha.sharma']
+2025-07-02 01:38:52,972 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 01:38:52,972 - notification_service - INFO - Found template for frameworkSubmitted
+2025-07-02 01:38:52,972 - notification_service - INFO - Email subject: Framework "Muni Syam" Submitted for Your Review
+2025-07-02 01:38:52,976 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 01:38:54,080 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 01:38:54,469 - notification_service - INFO - SMTP login successful
+2025-07-02 01:38:56,047 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-02 01:38:56,379 - grc.routes.policy - INFO - Notification sent successfully
+2025-07-02 01:38:56,379 - grc.routes.policy - INFO - Framework created successfully with ID: 308
+2025-07-02 01:39:28,211 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:39:28,259 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:39:37,869 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:39:37,903 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:40:27,131 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:44:12,378 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:44:12,505 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:44:42,500 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:44:56,476 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:44:56,612 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:45:18,376 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:45:18,411 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:45:47,189 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:45:47,333 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:45:53,311 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:46:01,802 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:46:01,936 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:46:47,229 - grc.routes.policy - INFO - Successfully retrieved 213 frameworks
+2025-07-02 01:47:09,666 - grc.routes.frameworks - INFO - Framework review submission attempt for framework ID: 308
+2025-07-02 01:47:09,710 - grc.routes.frameworks - INFO - Found framework: Muni Syam, current status: Under Review
+2025-07-02 01:47:09,724 - grc.routes.frameworks - INFO - Framework 308 approved by reviewer
+2025-07-02 01:47:09,754 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for frameworkFinalApproved
+2025-07-02 01:47:09,754 - notification_service - INFO - Template data: ['vikram.patel', 'Muni Syam', 'vikram.patel', '2025-07-02']
+2025-07-02 01:47:09,754 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 01:47:09,754 - notification_service - INFO - Found template for frameworkFinalApproved
+2025-07-02 01:47:09,754 - notification_service - INFO - Email subject: Framework "Muni Syam" Approved
+2025-07-02 01:47:09,764 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 01:47:10,812 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 01:47:11,233 - notification_service - INFO - SMTP login successful
+2025-07-02 01:47:12,732 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-02 01:47:13,219 - grc.routes.frameworks - INFO - Framework review submitted successfully for framework 308, approval status: True
+2025-07-02 01:47:13,297 - grc.routes.policy - INFO - Successfully retrieved 212 frameworks
+2025-07-02 01:47:40,830 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:47:40,879 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:48:16,165 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:48:16,196 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:48:25,273 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:48:25,306 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:52:20,108 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1624/
+2025-07-02 01:52:26,489 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1624/
+2025-07-02 01:52:28,189 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1616/
+2025-07-02 01:52:28,704 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1615/
+2025-07-02 01:52:29,737 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1616/
+2025-07-02 01:52:30,719 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1624/
+2025-07-02 01:52:31,589 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1616/
+2025-07-02 01:52:32,036 - django.request - WARNING - Not Found: /api/policy-approvals/latest/1615/
+2025-07-02 01:53:24,329 - grc.routes.frameworks - INFO - Framework status change request for framework ID: 308
+2025-07-02 01:53:24,364 - grc.routes.frameworks - INFO - Found framework: Muni Syam, Status: Approved, ActiveInactive: Scheduled
+2025-07-02 01:53:24,379 - django.request - WARNING - Bad Request: /api/frameworks/308/toggle-status/
+2025-07-02 01:53:35,256 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:53:35,302 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:54:36,462 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-02 01:54:36,500 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:56:56,540 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:56:56,576 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 01:57:39,719 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 01:57:39,768 - grc.routes.policy - INFO - Successfully retrieved 230 frameworks
+2025-07-02 02:16:11,974 - django.request - ERROR - Internal Server Error: /api/compliance/compliance/1/audit-info/
+2025-07-02 02:16:12,007 - django.request - ERROR - Internal Server Error: /api/compliance/compliance/2/audit-info/
+2025-07-02 02:16:12,007 - django.request - ERROR - Internal Server Error: /api/compliance/compliance/3/audit-info/
+2025-07-02 02:19:13,511 - django.request - WARNING - Bad Request: /api/compliance/33/edit/
+2025-07-02 02:22:51,106 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 02:22:54,493 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 02:22:55,160 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 02:22:55,160 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 02:22:55,160 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 02:23:01,762 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 02:23:04,108 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 02:23:04,541 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 02:23:04,541 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 02:23:04,541 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 02:24:48,101 - django.request - WARNING - Bad Request: /api/compliance_edit/33/edit/
+2025-07-02 02:27:40,295 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 02:27:42,717 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 02:27:43,208 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 02:27:43,211 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 02:27:43,211 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 02:28:56,964 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\compliance_views.py changed, reloading.
+2025-07-02 02:28:59,111 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 02:28:59,710 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 02:28:59,710 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 02:28:59,710 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 02:31:12,588 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 02:31:15,261 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 02:31:15,872 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 02:31:15,872 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 02:31:15,872 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 02:36:14,007 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliance-repetitions/
+2025-07-02 02:36:14,146 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 02:36:14,151 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliant-incidents/
+2025-07-02 02:44:57,269 - django.request - WARNING - Bad Request: /api/risk-instances/13/
+2025-07-02 02:45:03,194 - django.request - WARNING - Bad Request: /api/risk-instances/13/

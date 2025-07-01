@@ -31,10 +31,10 @@
             <i class="fas fa-plus icon"></i>
             <span>Create Policy</span>
           </div>
-          <div class="menu-item" @click="navigate('/create-policy/framework')">
+          <!-- <div class="menu-item" @click="navigate('/create-policy/framework')">
             <i class="fas fa-sitemap icon"></i>
             <span>Create Framework</span>
-          </div>
+          </div> -->
           <div class="menu-item" @click="navigate('/create-policy/upload-framework')">
             <i class="fas fa-upload icon"></i>
             <span>Upload Framework</span>

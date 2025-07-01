@@ -3310,7 +3310,7 @@ def create_review_version(audit_id, user_id, compliance_reviews=None, overall_co
                         ApproverId, ApprovedRejected, Date
                     )
                     VALUES (%s, %s, %s, %s, NULL, NULL, %s)
-                """, [audit_id, version, extracted_info_json, user_id, current_time])
+                """, [audit_id, version, extracted_info_json, user_id, timezone.localtime(current_time_utc)])
                 print(f"DEBUG: Created new review version {version} for audit {audit_id}")
         
         # Also update the audit_findings table with the review data so it persists
@@ -5093,7 +5093,7 @@ def save_review_json(request, audit_id):
                     print(timezone.now(),"------------------------------------------------------------------------------")
                     cursor.execute(
                         "INSERT INTO audit_version (AuditId, Version, ExtractedInfo, UserId, Date) VALUES (%s, %s, %s, %s, %s)",
-                        [audit_id, existing_version, json_data, user_id, timezone.now()]
+                        [audit_id, existing_version, json_data, user_id, timezone.localtime(current_time_utc)]
                     )
                     print(f"DEBUG: Created new review version {existing_version} for audit {audit_id}")
             except Exception as e:
