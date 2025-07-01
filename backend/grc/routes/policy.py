@@ -8241,3 +8241,156 @@ def get_policy_extraction_progress(request, task_id):
             'progress': 0,
             'message': 'Error fetching extraction progress'
         }, status=500)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_policy_counts_by_status(request):
+    """
+    Get policy counts by status for dashboard display
+    Returns counts for Under Review, Approved, and Rejected policies
+    """
+    # Log policy counts request
+    send_log(
+        module="Policy",
+        actionType="GET_POLICY_COUNTS_BY_STATUS",
+        description="Getting policy counts by status for dashboard",
+        userId=getattr(request.user, 'id', None),
+        userName=getattr(request.user, 'username', 'Anonymous'),
+        entityType="Policy",
+        ipAddress=get_client_ip(request),
+        additionalInfo={}
+    )
+    
+    try:
+        from django.db.models import Count, Q
+        
+        # Get counts for each status
+        pending_count = Policy.objects.filter(Status='Under Review').count()
+        approved_count = Policy.objects.filter(Status='Approved').count()
+        rejected_count = Policy.objects.filter(Status='Rejected').count()
+        
+        # Also get total count
+        total_count = Policy.objects.count()
+        
+        result = {
+            'pending': pending_count,
+            'approved': approved_count,
+            'rejected': rejected_count,
+            'total': total_count
+        }
+        
+        # Log successful policy counts retrieval
+        send_log(
+            module="Policy",
+            actionType="GET_POLICY_COUNTS_BY_STATUS_SUCCESS",
+            description=f"Successfully retrieved policy counts: {result}",
+            userId=getattr(request.user, 'id', None),
+            userName=getattr(request.user, 'username', 'Anonymous'),
+            entityType="Policy",
+            ipAddress=get_client_ip(request),
+            additionalInfo=result
+        )
+        
+        return Response(result)
+        
+    except Exception as e:
+        # Log error
+        send_log(
+            module="Policy",
+            actionType="GET_POLICY_COUNTS_BY_STATUS_ERROR",
+            description=f"Error getting policy counts: {str(e)}",
+            userId=getattr(request.user, 'id', None),
+            userName=getattr(request.user, 'username', 'Anonymous'),
+            entityType="Policy",
+            ipAddress=get_client_ip(request),
+            additionalInfo={"error": str(e)}
+        )
+        
+        return Response(
+            {"error": f"Error retrieving policy counts: {str(e)}"}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_policies_paginated_by_status(request):
+    """
+    Get policies by status with pagination support
+    Query params: status, limit, offset
+    """
+    try:
+        # Get query parameters with validation
+        status_param = request.GET.get('status', 'Under Review')
+        try:
+            limit = int(request.GET.get('limit', 10))
+            offset = int(request.GET.get('offset', 0))
+        except (ValueError, TypeError):
+            limit = 10
+            offset = 0
+        
+        # Limit the maximum number of records per request
+        limit = min(max(limit, 1), 100)  # Between 1 and 100
+        offset = max(offset, 0)  # Non-negative
+        
+        print(f"DEBUG: Fetching policies with status='{status_param}', limit={limit}, offset={offset}")
+        
+        # Get policies with the specified status - simplified query first
+        policies_queryset = Policy.objects.filter(Status=status_param)
+        
+        # Get total count
+        total_count = policies_queryset.count()
+        print(f"DEBUG: Total count for status '{status_param}': {total_count}")
+        
+        # Apply pagination
+        policies = policies_queryset[offset:offset + limit]
+        print(f"DEBUG: Retrieved {len(policies)} policies for this page")
+        
+        # Serialize the policies with simplified data
+        policies_data = []
+        for policy in policies:
+            try:
+                policy_data = {
+                    'PolicyId': policy.PolicyId,
+                    'PolicyName': getattr(policy, 'PolicyName', 'No Name'),
+                    'PolicyDescription': getattr(policy, 'PolicyDescription', ''),
+                    'Scope': getattr(policy, 'Scope', ''),
+                    'Objective': getattr(policy, 'Objective', ''),
+                    'Department': getattr(policy, 'Department', ''),
+                    'CreatedByName': getattr(policy, 'CreatedByName', 'System'),
+                    'CreatedByDate': getattr(policy, 'CreatedByDate', None),
+                    'Status': getattr(policy, 'Status', 'Unknown'),
+                    'CurrentVersion': getattr(policy, 'CurrentVersion', 'v1.0'),
+                    'Identifier': getattr(policy, 'Identifier', ''),
+                    'subpolicies': []  # Simplified - skip subpolicies for now to avoid errors
+                }
+                policies_data.append(policy_data)
+            except Exception as policy_error:
+                print(f"DEBUG: Error processing policy {policy.PolicyId}: {str(policy_error)}")
+                continue
+        
+        result = {
+            'success': True,
+            'data': policies_data,
+            'pagination': {
+                'total': total_count,
+                'limit': limit,
+                'offset': offset,
+                'current_page': (offset // limit) + 1 if limit > 0 else 1,
+                'total_pages': (total_count + limit - 1) // limit if limit > 0 else 1
+            }
+        }
+        
+        print(f"DEBUG: Returning {len(policies_data)} policies")
+        return Response(result)
+        
+    except Exception as e:
+        print(f"DEBUG: Exception in get_policies_paginated_by_status: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        
+        return Response(
+            {"error": f"Error retrieving policies: {str(e)}", "success": False}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

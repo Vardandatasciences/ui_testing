@@ -91,6 +91,8 @@ from .routes.policy import (
     get_policy_status_change_requests_by_reviewer,
     test_policy_status_debug,
     get_policy_extraction_progress,
+    get_policy_counts_by_status,
+    get_policies_paginated_by_status,
 )
 
 
@@ -456,6 +458,8 @@ urlpatterns = [
     path('subpolicies/<int:pk>/review/', submit_subpolicy_review, name='submit-subpolicy-review'),
     path('subpolicies/<int:pk>/resubmit/', resubmit_subpolicy, name='resubmit-subpolicy'),
     path('policy-approvals/reviewer/', list_policy_approvals_for_reviewer, name='policy-approvals-for-reviewer'),
+    path('policy-counts/', get_policy_counts_by_status, name='get-policy-counts-by-status'),
+    path('policies-paginated/', get_policies_paginated_by_status, name='get-policies-paginated-by-status'),
     path('policy-approvals/<int:approval_id>/', update_policy_approval, name='update_policy_approval'),
     path('policy-approvals/<int:approval_id>/review/', submit_policy_review, name='submit_policy_review'),
     path('policy-approvals/rejected/<int:user_id>/', list_rejected_policy_approvals_for_user, name='list-rejected-policy-approvals-for-user'),
