@@ -1,3 +1,175 @@
 2025-07-01 17:24:10,397 - mysql.connector - INFO - package: mysql.connector.plugins
 2025-07-01 17:24:10,397 - mysql.connector - INFO - plugin_name: caching_sha2_password
 2025-07-01 17:24:10,397 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-01 18:00:02,926 - grc.routes.policy - INFO - Successfully retrieved 11 frameworks
+2025-07-01 18:00:16,962 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-01 18:00:16,968 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 18:00:16,971 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 18:00:16,982 - grc.incident_views - INFO -    User ID: 1
+2025-07-01 18:00:16,983 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-01 18:00:16,984 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 18:00:16,986 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 18:00:16,987 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-01 18:00:16,989 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-01 18:00:17,013 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 18:00:17,015 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-01 18:00:17,018 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-01 18:00:17,020 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 18:00:17,032 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 18:00:17,034 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-01 18:00:17,035 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-01 18:00:17,037 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 18:00:17,047 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 18:00:17,051 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-01 18:00:17,052 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-01 18:00:17,054 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 18:00:17,064 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 18:00:17,068 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-01 18:00:17,069 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-01 18:00:17,069 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 18:00:17,081 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 18:00:17,084 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-01 18:00:17,085 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-01 18:00:17,085 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 18:00:17,087 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-01 18:00:17,088 - grc.incident_views - INFO -       View: YES
+2025-07-01 18:00:17,088 - grc.incident_views - INFO -       Create: YES
+2025-07-01 18:00:17,090 - grc.incident_views - INFO -       Edit: YES
+2025-07-01 18:00:17,090 - grc.incident_views - INFO -       Approve: NO
+2025-07-01 18:00:17,091 - grc.incident_views - INFO -       Assign: YES
+2025-07-01 18:00:17,092 - grc.incident_views - INFO -    Timestamp: 2025-07-01 18:00:17.092936
+2025-07-01 18:00:17,094 - grc.incident_views - INFO -    ============================================================
+2025-07-01 18:20:14,483 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 404 Not Found"
+2025-07-01 18:41:48,780 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-01 18:41:48,780 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-01 18:41:48,780 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-01 19:50:29,712 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 404 Not Found"
+2025-07-01 19:50:32,953 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 404 Not Found"
+2025-07-01 23:10:41,685 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-01 23:10:41,687 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-01 23:10:41,687 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-01 23:19:49,554 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-01 23:19:49,556 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:19:49,557 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 23:19:49,557 - grc.incident_views - INFO -    User ID: 1
+2025-07-01 23:19:49,557 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-01 23:19:49,559 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 23:19:49,559 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 23:19:49,559 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-01 23:19:49,559 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-01 23:19:49,579 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:19:49,580 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-01 23:19:49,580 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-01 23:19:49,582 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:19:49,586 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:19:49,587 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-01 23:19:49,589 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-01 23:19:49,589 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:19:49,592 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:19:49,593 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-01 23:19:49,595 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-01 23:19:49,596 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:19:49,599 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:19:49,601 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-01 23:19:49,601 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-01 23:19:49,603 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:19:49,606 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:19:49,607 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-01 23:19:49,609 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-01 23:19:49,609 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:19:49,609 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-01 23:19:49,610 - grc.incident_views - INFO -       View: YES
+2025-07-01 23:19:49,611 - grc.incident_views - INFO -       Create: YES
+2025-07-01 23:19:49,611 - grc.incident_views - INFO -       Edit: YES
+2025-07-01 23:19:49,611 - grc.incident_views - INFO -       Approve: NO
+2025-07-01 23:19:49,611 - grc.incident_views - INFO -       Assign: YES
+2025-07-01 23:19:49,613 - grc.incident_views - INFO -    Timestamp: 2025-07-01 23:19:49.613123
+2025-07-01 23:19:49,613 - grc.incident_views - INFO -    ============================================================
+2025-07-01 23:20:03,293 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-01 23:20:03,294 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:20:03,295 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 23:20:03,296 - grc.incident_views - INFO -    User ID: 1
+2025-07-01 23:20:03,296 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-01 23:20:03,297 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 23:20:03,297 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 23:20:03,299 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-01 23:20:03,300 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-01 23:20:03,322 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:20:03,326 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-01 23:20:03,327 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-01 23:20:03,328 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:20:03,335 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:20:03,338 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-01 23:20:03,339 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-01 23:20:03,339 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:20:03,347 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:20:03,348 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-01 23:20:03,349 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-01 23:20:03,351 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:20:03,357 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:20:03,359 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-01 23:20:03,360 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-01 23:20:03,362 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:20:03,367 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-01 23:20:03,370 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-01 23:20:03,372 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-01 23:20:03,372 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\models.py)
+2025-07-01 23:20:03,374 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-01 23:20:03,374 - grc.incident_views - INFO -       View: YES
+2025-07-01 23:20:03,375 - grc.incident_views - INFO -       Create: YES
+2025-07-01 23:20:03,375 - grc.incident_views - INFO -       Edit: YES
+2025-07-01 23:20:03,375 - grc.incident_views - INFO -       Approve: NO
+2025-07-01 23:20:03,376 - grc.incident_views - INFO -       Assign: YES
+2025-07-01 23:20:03,376 - grc.incident_views - INFO -    Timestamp: 2025-07-01 23:20:03.376931
+2025-07-01 23:20:03,378 - grc.incident_views - INFO -    ============================================================
+2025-07-01 23:20:19,435 - django.request - ERROR - Internal Server Error: /api/incident/first-response-time/
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1920, in transform
+    return self.try_transform(wrapped, name)
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1455, in try_transform
+    raise FieldError(
+django.core.exceptions.FieldError: Unsupported lookup 'IdentifiedAt' for IntegerField or join on the field not permitted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\HP\Downloads\ui_risk_testing\ui_testing\backend\grc\kpis_incidents.py", line 1372, in first_response_time
+    queryset = queryset.annotate(
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1645, in annotate
+    return self._annotate(args, kwargs, select=True)
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1697, in _annotate
+    clone.query.add_annotation(
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 2062, in resolve_ref
+    transform = join_info.transform_function(targets[0], final_alias)
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1924, in transform
+    raise last_field_exception
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1897, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+  File "C:\Users\HP\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1839, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'IdentifiedAt' into field. Join on 'IncidentId' not permitted.
+2025-07-01 23:20:23,775 - grc.rbac.utils - WARNING - [RBAC] No user_id found in session
+2025-07-01 23:20:23,778 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 23:20:23,779 - grc.incident_views - INFO -    User ID: None (could not extract from request)
+2025-07-01 23:20:23,779 - grc.incident_views - INFO -    Action: VIEW_RECENT_INCIDENTS
+2025-07-01 23:20:23,781 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 23:20:23,781 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 23:20:23,782 - grc.incident_views - INFO -    Status: FAILED - No user ID
+2025-07-01 23:20:23,787 - grc.incident_views - INFO -    ============================================================
+2025-07-01 23:20:23,850 - grc.rbac.utils - WARNING - [RBAC] No user_id found in session
+2025-07-01 23:20:23,853 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-01 23:20:23,853 - grc.incident_views - INFO -    User ID: None (could not extract from request)
+2025-07-01 23:20:23,853 - grc.incident_views - INFO -    Action: VIEW_INCIDENT_ANALYTICS
+2025-07-01 23:20:23,855 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-01 23:20:23,855 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-01 23:20:23,855 - grc.incident_views - INFO -    Status: FAILED - No user ID
+2025-07-01 23:20:23,856 - grc.incident_views - INFO -    ============================================================
+2025-07-01 23:25:45,406 - grc.routes.policy - INFO - Successfully retrieved 212 frameworks

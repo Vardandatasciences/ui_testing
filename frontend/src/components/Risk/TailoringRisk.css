@@ -27,11 +27,9 @@
 .tailoring-risk-container {
   padding: 16px 16px 16px 280px;
   background: none;
-  min-height: 100vh;
-  height: 100vh;
+  min-height: calc(100vh - 32px);
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: var(--tailoring-risk-gray-800);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -124,10 +122,10 @@
 .tailoring-risk-form {
   padding: 0;
   flex: 1;
-  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-bottom: 16px;
 }
 
 /* Form Row Styles - New for horizontal layout */
@@ -199,8 +197,9 @@ select.tailoring-risk-form-control {
 }
 
 textarea.tailoring-risk-form-control {
-  min-height: 100px;
-  height: 100px;
+  min-height: 120px;
+  height: 120px;
+  resize: none;
 }
 
 .tailoring-risk-form-control:focus {
@@ -343,6 +342,7 @@ textarea.tailoring-risk-form-control {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 250px; /* Ensure minimum width for dropdown */
 }
 
 .tailoring-risk-business-impact-dropdown {
@@ -377,6 +377,8 @@ textarea.tailoring-risk-form-control {
   margin-top: 4px;
   box-shadow: var(--tailoring-risk-box-shadow);
   z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .tailoring-risk-business-impact-search {
@@ -591,6 +593,8 @@ textarea.tailoring-risk-form-control {
   margin-top: 4px;
   box-shadow: var(--tailoring-risk-box-shadow);
   z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .tailoring-risk-category-search {
