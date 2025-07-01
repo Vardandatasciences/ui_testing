@@ -1232,6 +1232,43 @@ def get_custom_users(request):
         return Response({"error": str(e)}, status=500)
 
 @api_view(['GET'])
+def get_custom_user(request, user_id):
+    """Get a single user from the custom user table by ID"""
+    send_log(
+        module="User",
+        actionType="VIEW",
+        description=f"Viewing custom user {user_id}",
+        userId=request.user.id if request.user.is_authenticated else None,
+        userName=request.user.username if request.user.is_authenticated else None,
+        entityType="CustomUser",
+        entityId=user_id
+    )
+    
+    try:
+        # Using raw SQL query to fetch from your custom table
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM grc.users WHERE UserId = %s", [user_id])
+            columns = [col[0] for col in cursor.description]
+            row = cursor.fetchone()
+            
+            if not row:
+                return Response({"error": f"User with ID {user_id} not found"}, status=404)
+                
+            user = dict(zip(columns, row))
+            
+            # Map the field names for compatibility
+            if 'UserId' in user and 'user_id' not in user:
+                user['user_id'] = user['UserId']
+            if 'UserName' in user and 'user_name' not in user:
+                user['user_name'] = user['UserName']
+                    
+        return Response(user)
+    except Exception as e:
+        print(f"Error fetching custom user {user_id}: {e}")
+        return Response({"error": str(e)}, status=500)
+
+@api_view(['GET'])
 def risk_instances_view(request):
     """Simple view to return all risk instances with proper date handling"""
     try:

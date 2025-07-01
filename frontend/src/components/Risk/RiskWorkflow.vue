@@ -1726,17 +1726,63 @@ export default {
       //   this.$popup.warning('No reviewer has been assigned to this risk yet. Please contact your administrator.');
       //   return;
       // }
-      axios.get(`http://localhost:8000/api/custom-users/${task.ReviewerId}/`)
-        .then(response => {
-          this.selectedReviewer = response.data;
-          this.showReviewerWorkflow = true;
-          this.currentReviewTask = task;
-          this.fetchMitigationSteps(task.RiskInstanceId);
-        })
-        .catch(error => {
-          console.error('Error fetching reviewer:', error);
-          this.$popup.error('Could not fetch reviewer information. Please try again later.');
-        });
+      console.log('Reviewing mitigations for task:', task);
+      
+      if (!task.ApproverId) {
+        this.$popup.warning('No reviewer ID found for this task');
+        return;
+      }
+      
+      this.showReviewerWorkflow = true;
+      this.currentReviewTask = task;
+      this.loadingMitigations = true;
+      
+      try {
+        // Fetch reviewer information
+        const response = await axios.get(`http://localhost:8000/api/custom-users/${task.ApproverId}/`);
+        console.log('Reviewer data:', response.data);
+        this.selectedReviewer = response.data;
+      } catch (error) {
+        console.error('Error fetching reviewer:', error);
+        this.$popup.error('Could not fetch reviewer information. Please try again later.');
+      }
+      
+      // Fetch mitigation data similar to viewMitigations function
+      const riskId = task.RiskInstanceId;
+      try {
+        const mitigationResponse = await axios.get(`http://localhost:8000/api/risk-mitigations/${riskId}/`);
+        console.log('Mitigations received:', mitigationResponse.data);
+        this.mitigationReviewData = this.parseMitigations(mitigationResponse.data);
+        
+        // Get the risk form details
+        const formResponse = await axios.get(`http://localhost:8000/api/risk-form-details/${riskId}/`);
+        console.log('Form details received:', formResponse.data);
+        
+        // Ensure all form values are strings
+        this.formDetails = {
+          cost: String(formResponse.data.cost || ''),
+          impact: String(formResponse.data.impact || ''),
+          financialImpact: String(formResponse.data.financialImpact || ''),
+          reputationalImpact: String(formResponse.data.reputationalImpact || ''),
+          operationalImpact: String(formResponse.data.operationalImpact || ''),
+          financialLoss: String(formResponse.data.financialLoss || ''),
+          systemDowntime: String(formResponse.data.systemDowntime || ''),
+          recoveryTime: String(formResponse.data.recoveryTime || ''),
+          recurrencePossible: formResponse.data.recurrencePossible || '',
+          improvementInitiative: formResponse.data.improvementInitiative || '',
+          approved: formResponse.data.approved,
+          remarks: formResponse.data.remarks || ''
+        };
+        
+        // Fetch all versions for comparison
+        await this.fetchAllVersions();
+        
+        this.loadingMitigations = false;
+      } catch (error) {
+        console.error('Error fetching mitigation data:', error);
+        this.$popup.error('Could not fetch mitigation data. Please try again later.');
+        this.loadingMitigations = false;
+      }
     },
     approveQuestionnaire(approved) {
       // Update approval status

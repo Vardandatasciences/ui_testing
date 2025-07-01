@@ -322,7 +322,8 @@
             v-model="newRisk.RiskTitle"
             label="Risk Title"
             placeholder="Enter a clear, concise risk title"
-            @update:modelValue="value => newRisk.RiskTitle = sanitizeInput(value)"
+            required
+            :pattern="null"
             name="RiskTitle"
           />
         </div>
@@ -577,6 +578,13 @@ export default {
     
     // Fetch compliances for dropdown
     this.fetchCompliances();
+    
+    // Add click outside listener to close dropdowns
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeUnmount() {
+    // Remove click outside listener
+    document.removeEventListener('click', this.handleClickOutside);
   },
   methods: {
     // Security utility methods without external dependencies
@@ -1193,6 +1201,10 @@ export default {
       }
 
       // Validate required fields
+      if (!this.newRisk.RiskTitle?.trim()) {
+        errors.RiskTitle = 'Risk Title is required';
+      }
+
       if (!this.newRisk.RiskDescription?.trim()) {
         errors.RiskDescription = 'Risk Description is required';
       }

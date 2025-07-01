@@ -20107,3 +20107,19 @@ INFO 2025-06-30 06:28:11,739 permissions 27592 21404 [RBAC POLICY] User Details 
 INFO 2025-06-30 06:28:11,739 permissions 27592 24336 [RBAC POLICY] PolicyViewPermission check result: True
 INFO 2025-06-30 06:28:11,741 permissions 27592 8280 [RBAC POLICY] PolicyViewPermission check result: True
 INFO 2025-06-30 06:28:11,741 permissions 27592 21404 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: True
+INFO 2025-07-01 16:22:56,007 utils 15304 9996 [RBAC] Successfully retrieved user_id from session: 1
+INFO 2025-07-01 16:22:56,011 utils 15304 42908 [RBAC] Successfully retrieved user_id from session: 1
+INFO 2025-07-01 16:22:56,011 utils 15304 10692 [RBAC] Successfully retrieved user_id from session: 1
+INFO 2025-07-01 16:22:56,017 utils 15304 17456 [RBAC] Successfully retrieved user_id from session: 1
+INFO 2025-07-01 16:22:56,056 permissions 15304 42908 [RBAC POLICY] User 1 policy.view = ALLOWED
+INFO 2025-07-01 16:22:56,057 permissions 15304 42908 [RBAC POLICY] User Details - Role: GRC Administrator, Field Checked: view_all_policy
+INFO 2025-07-01 16:22:56,060 permissions 15304 10692 [RBAC POLICY] User 1 policy.view = ALLOWED
+INFO 2025-07-01 16:22:56,060 permissions 15304 9996 [RBAC POLICY] User 1 policy.view = ALLOWED
+INFO 2025-07-01 16:22:56,062 permissions 15304 42908 [RBAC POLICY] PolicyViewPermission check result: True
+INFO 2025-07-01 16:22:56,062 permissions 15304 17456 [RBAC POLICY] User 1 policy.view = ALLOWED
+INFO 2025-07-01 16:22:56,062 permissions 15304 10692 [RBAC POLICY] User Details - Role: GRC Administrator, Field Checked: view_all_policy
+INFO 2025-07-01 16:22:56,063 permissions 15304 9996 [RBAC POLICY] User Details - Role: GRC Administrator, Field Checked: view_all_policy
+INFO 2025-07-01 16:22:56,063 permissions 15304 17456 [RBAC POLICY] User Details - Role: GRC Administrator, Field Checked: view_all_policy
+INFO 2025-07-01 16:22:56,065 permissions 15304 10692 [RBAC POLICY] PolicyViewPermission check result: True
+INFO 2025-07-01 16:22:56,065 permissions 15304 9996 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: True
+INFO 2025-07-01 16:22:56,066 permissions 15304 17456 [RBAC POLICY] PolicyFrameworkPermission (GET) check result: True

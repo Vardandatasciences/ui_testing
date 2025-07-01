@@ -96,7 +96,7 @@
   border: 1px solid var(--form-gray-300);
   border-radius: var(--form-border-radius);
   box-shadow: var(--form-box-shadow);
-  z-index: 1000;
+  z-index: 100;
   margin-top: 4px;
   overflow: hidden;
   display: flex;
@@ -109,7 +109,7 @@
   position: sticky;
   top: 0;
   background: white;
-  z-index: 10;
+  z-index: 5;
 }
 
 .risk-compliance-dropdown-search input {
@@ -523,6 +523,32 @@
   overflow: unset;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure sidebar has higher z-index than dropdowns */
+.sidebar {
+  z-index: 1000 !important;
+}
+
+/* Ensure dropdowns don't block sidebar */
+.risk-compliance-dropdown,
+.risk-category-options,
+.risk-business-impact-options {
+  z-index: 100;
+}
+
+/* When dropdowns are active, they should have pointer-events */
+.risk-compliance-dropdown.active,
+.risk-category-options.active,
+.risk-business-impact-options.active {
+  pointer-events: auto;
+}
+
+/* Modal overlay should be below sidebar */
+.risk-modal-overlay {
+  z-index: 500;
 }
 
 /* Header Styles for create risk */
@@ -545,8 +571,6 @@
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
 }
-
-
 
 .create-risk .risk-register-icon {
   color: var(--form-primary);
@@ -713,24 +737,24 @@
   box-shadow: 0 4px 10px rgba(67, 97, 238, 0.25);
 }
 
-.create-risk .risk-register-cancel-btn {
+.create-risk .risk-register-reset-btn {
   background: white;
   color: var(--form-gray-700);
   border: 1px solid var(--form-gray-300);
   border-radius: 6px;
-  padding: 6px 20px;
-  font-size: 0.9rem;
+  padding: 4px 16px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--form-transition);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 120px;
-  height: 38px;
+  min-width: 100px;
+  height: 32px;
 }
 
-.create-risk .risk-register-cancel-btn:hover {
+.create-risk .risk-register-reset-btn:hover {
   background: var(--form-gray-200);
   color: var(--form-gray-900);
 }
@@ -937,7 +961,7 @@
 }
 
 .risk-selected-impacts {
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: 1px solid var(--form-gray-300);
   border-radius: var(--form-border-radius);
   background-color: white;
@@ -945,7 +969,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 38px;
+  min-height: 32px;
+  font-size: 0.85rem;
 }
 
 .risk-selected-impacts:hover {
@@ -962,53 +987,54 @@
   border-radius: var(--form-border-radius);
   margin-top: 4px;
   box-shadow: var(--form-box-shadow);
-  z-index: 1000;
+  z-index: 100;
 }
 
 .risk-business-impact-search {
-  padding: 8px;
+  padding: 6px;
   border-bottom: 1px solid var(--form-gray-200);
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .risk-business-impact-search input {
   flex: 1;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border: 1px solid var(--form-gray-300);
   border-radius: var(--form-border-radius);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
-.add-impact-btn {
-  padding: 6px 12px;
+.risk-add-impact-btn {
+  padding: 4px 8px;
   background: #4f7cff;
   color: white;
   border: none;
   border-radius: var(--form-border-radius);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
-.add-impact-btn:hover {
+.risk-add-impact-btn:hover {
   background: var(--form-primary-dark);
 }
 
 .risk-business-impact-list {
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
 }
 
 .risk-business-impact-item {
-  padding: 8px 12px;
+  padding: 6px 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: 0.8rem;
 }
 
 .risk-business-impact-item:hover {
@@ -1016,32 +1042,32 @@
 }
 
 .risk-business-impact-item input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
 }
 
 .risk-selected-impacts-display {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 4px 0;
+  gap: 6px;
+  padding: 3px 0;
 }
 
 .risk-selected-impact-tag {
   background: var(--form-primary-light);
   color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .risk-selected-impact-tag i {
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .risk-selected-impact-tag i:hover {
@@ -1053,7 +1079,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .risk-category-dropdown {
@@ -1062,7 +1088,7 @@
 }
 
 .risk-selected-category {
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: 1px solid var(--form-gray-300);
   border-left: 3px solid var(--form-primary);
   border-radius: var(--form-border-radius);
@@ -1071,9 +1097,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 34px;
+  min-height: 32px;
   box-sizing: border-box;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   transition: var(--form-transition);
 }
 
@@ -1092,35 +1118,35 @@
   border-radius: var(--form-border-radius);
   margin-top: 4px;
   box-shadow: var(--form-box-shadow);
-  z-index: 1000;
+  z-index: 100;
 }
 
 .risk-category-search {
-  padding: 8px;
+  padding: 6px;
   border-bottom: 1px solid var(--form-gray-200);
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .risk-category-search input {
   flex: 1;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border: 1px solid var(--form-gray-300);
   border-radius: var(--form-border-radius);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .risk-add-category-btn {
-  padding: 6px 12px;
+  padding: 4px 8px;
   background: #4f7cff;
   color: white;
   border: none;
   border-radius: var(--form-border-radius);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .risk-add-category-btn:hover {
@@ -1128,17 +1154,18 @@
 }
 
 .risk-category-list {
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
 }
 
 .risk-category-item {
-  padding: 8px 12px;
+  padding: 6px 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: 0.8rem;
 }
 
 .risk-category-item:hover {
@@ -1146,8 +1173,8 @@
 }
 
 .risk-category-item input[type="radio"] {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
 }
 
@@ -1162,7 +1189,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 200;
 }
 
 .risk-modal-content {

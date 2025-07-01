@@ -168,6 +168,7 @@ risk_api_urlpatterns = [
 user_urlpatterns = [
     path('users/', risk_views.get_users, name='get-users'),
     path('custom-users/', risk_views.get_custom_users, name='custom-users'),
+    path('custom-users/<int:user_id>/', risk_views.get_custom_user, name='custom-user'),
     path('user-risks/<int:user_id>/', risk_views.get_user_risks, name='user-risks'),
     path('user-notifications/<int:user_id>/', risk_views.get_user_notifications, name='user-notifications'),
     path('generate-test-notification/<int:user_id>/', risk_views.generate_test_notification, name='generate-test-notification'),
