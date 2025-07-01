@@ -569,7 +569,7 @@ export default {
 
             this.$toast?.success('Audit has been rejected and returned for revision');
             this.showRejectModal = false;
-            this.$router.push('/reviews'); // Redirect to reviews list
+            this.$router.push('/reviewer'); // Redirect to reviews list
           } else {
             throw new Error('Failed to save review version');
           }
@@ -628,7 +628,7 @@ export default {
             });
 
             this.showAcceptModal = false;
-            this.$router.push('/reviews'); // Redirect to reviews list
+            this.$router.push('/reviewer'); // Redirect to reviews list
           } else {
             throw new Error('Failed to save review version');
           }

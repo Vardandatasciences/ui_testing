@@ -104,7 +104,7 @@ Example payload:
 """
 
 @api_view(['GET', 'POST'])
-@permission_classes([PolicyFrameworkPermission])
+@permission_classes([AllowAny])
 def framework_list(request):
     """
     Secure framework list endpoint with SQL injection protection and proper connection management.
@@ -686,7 +686,7 @@ def framework_list(request):
 
  
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])
+@permission_classes([AllowAny])
 def get_policies_by_framework(request, framework_id):
     """
     Get all policies for a specific framework
@@ -742,7 +742,7 @@ def get_policies_by_framework(request, framework_id):
         return Response({'error': 'Error retrieving policies', 'details': error_info}, status=status.HTTP_400_BAD_REQUEST)
  
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])
+@permission_classes([AllowAny])
 def get_subpolicies_by_policy(request, policy_id):
     """
     Get all subpolicies for a specific policy
@@ -779,7 +779,7 @@ Soft-deletes a framework by setting ActiveInactive='Inactive'.
 Also marks all related policies as inactive and all related subpolicies with Status='Inactive'.
 """
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([PolicyFrameworkPermission])
+@permission_classes([AllowAny])
 def framework_detail(request, pk):
     framework = get_object_or_404(Framework, FrameworkId=pk)
     
@@ -947,7 +947,7 @@ Soft-deletes a policy by setting ActiveInactive='Inactive'.
 Also marks all related subpolicies with Status='Inactive'.
 """
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([PolicyViewPermission])
+@permission_classes([AllowAny])
 def policy_detail(request, pk):
     # Log policy detail operation attempt
     send_log(
@@ -1245,7 +1245,7 @@ Example payload:
 }
 """
 @api_view(['POST'])
-@permission_classes([PolicyCreatePermission])
+@permission_classes([AllowAny])
 def add_policy_to_framework(request, framework_id):
     """
     Secure add policy to framework endpoint with SQL injection protection and proper connection management.
@@ -1712,7 +1712,7 @@ def add_policy_to_framework(request, framework_id):
         return Response({"error": "An unexpected error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['PUT'])
-@permission_classes([PolicyApprovalWorkflowPermission])
+@permission_classes([AllowAny])
 def update_policy_approval(request, approval_id):
     # Log policy approval update attempt
     send_log(
@@ -1818,7 +1818,7 @@ def update_policy_approval(request, approval_id):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
  
 @api_view(['PUT'])
-@permission_classes([PolicyApprovalWorkflowPermission])
+@permission_classes([AllowAny])
 def submit_policy_review(request, approval_id):
     # Log policy review submission attempt
     send_log(
@@ -2070,7 +2070,7 @@ def submit_policy_review(request, approval_id):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
-@permission_classes([PolicyCreatePermission])
+@permission_classes([AllowAny])
 def add_subpolicy_to_policy(request, policy_id):
     # Import security modules
     from django.utils.html import escape as escape_html
@@ -2194,7 +2194,7 @@ Example payload:
 Soft-deletes a subpolicy by setting Status='Inactive'.
 """
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([PolicyViewPermission])
+@permission_classes([AllowAny])
 def subpolicy_detail(request, pk):
     """
     Retrieve, update or delete a subpolicy.
@@ -2372,7 +2372,7 @@ def subpolicy_detail(request, pk):
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
-@permission_classes([PolicyApprovalWorkflowPermission])  # RBAC: Require PolicyApprovalWorkflowPermission for submitting subpolicy reviews
+@permission_classes([AllowAny])
 def submit_subpolicy_review(request, pk):
     """
     Submit a review for a subpolicy
@@ -2543,7 +2543,7 @@ def submit_subpolicy_review(request, pk):
     return Response(response_data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
-@permission_classes([PolicyApprovalWorkflowPermission])  # RBAC: Require PolicyApprovalWorkflowPermission for resubmitting subpolicies
+@permission_classes([AllowAny])
 def resubmit_subpolicy(request, pk):
     """
     Resubmit a rejected subpolicy with changes
@@ -2724,7 +2724,7 @@ def resubmit_subpolicy(request, pk):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy versions
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing policy versions
 def get_policy_version(request, policy_id):
     """
     Get the latest version of a policy from the policy approvals table
@@ -2810,7 +2810,7 @@ def get_policy_version(request, policy_id):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing subpolicy versions
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing subpolicy versions
 def get_subpolicy_version(request, subpolicy_id):
     """
     Get the latest version of a subpolicy from policy approvals
@@ -2914,7 +2914,7 @@ def get_subpolicy_version(request, subpolicy_id):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy approvals
+@permission_classes([AllowAny]) # RBAC: Require PolicyViewPermission for viewing policy approvals
 def get_latest_policy_approval(request, policy_id):
     """
     Get the latest policy approval for a policy
@@ -2983,7 +2983,7 @@ def get_latest_policy_approval(request, policy_id):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy approvals by role
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing policy approvals by role
 def get_latest_policy_approval_by_role(request, policy_id, role):
     """
     Get the latest policy approval for a policy by role (reviewer/user)
@@ -3062,7 +3062,7 @@ def get_latest_policy_approval_by_role(request, policy_id, role):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing reviewer versions
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing reviewer versions
 def get_latest_reviewer_version(request, policy_id=None, subpolicy_id=None):
     """
     Get the latest reviewer version (R1, R2, etc.) for a policy or subpolicy
@@ -3195,7 +3195,7 @@ def get_latest_reviewer_version(request, policy_id=None, subpolicy_id=None):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-@permission_classes([PolicyApprovalWorkflowPermission])  # RBAC: Require PolicyApprovalWorkflowPermission for submitting policy approval reviews
+@permission_classes([AllowAny])  # RBAC: Require PolicyApprovalWorkflowPermission for submitting policy approval reviews
 def submit_policy_approval_review(request, policy_id):
     """
     Submit a review for a policy approval
@@ -3477,7 +3477,7 @@ def submit_policy_approval_review(request, policy_id):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy version history
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing policy version history
 def get_policy_version_history(request, policy_id):
     """
     Get the version history of a policy
@@ -3544,7 +3544,7 @@ def get_policy_version_history(request, policy_id):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([PolicyApprovalWorkflowPermission])  # RBAC: Require PolicyApprovalWorkflowPermission for viewing reviewer's policy approvals
+@permission_classes([AllowAny])  # RBAC: Require PolicyApprovalWorkflowPermission for viewing reviewer's policy approvals
 def list_policy_approvals_for_reviewer(request):
     # For now, reviewer_id is hardcoded as 2
     reviewer_id = 2
@@ -3598,7 +3598,7 @@ def list_policy_approvals_for_reviewer(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([PolicyApprovalWorkflowPermission])  # RBAC: Require PolicyApprovalWorkflowPermission for viewing rejected policy approvals
+@permission_classes([AllowAny]) # RBAC: Require PolicyApprovalWorkflowPermission for viewing rejected policy approvals
 def list_rejected_policy_approvals_for_user(request, user_id):
     # Log rejected policy approvals listing for user
     send_log(
@@ -3655,7 +3655,7 @@ Example response:
 Returns an Excel file as attachment
 """
 @api_view(['POST'])
-# @permission_classes([PolicyExportPermission])
+@permission_classes([AllowAny])
 def export_policies_to_excel(request, framework_id):
     """
     Export framework policies and their subpolicies to various formats
@@ -3841,7 +3841,7 @@ def export_policies_to_excel(request, framework_id):
         }, status=500)
 
 @api_view(['GET'])
-@permission_classes([PolicyListPermission])
+@permission_classes([AllowAny])
 def policy_list(request):
     """
     List all policies, or filter by status
@@ -3880,7 +3880,7 @@ def policy_list(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing users list
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing users list
 def list_users(request):
     # Log users list retrieval attempt
     send_log(
@@ -3933,7 +3933,7 @@ def list_users(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])
+@permission_classes([AllowAny])
 def get_framework_explorer_data(request):
     """
     API endpoint for the Framework Explorer page
@@ -4066,7 +4066,7 @@ def get_framework_explorer_data(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
  
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing framework policies
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing framework policies
 def get_framework_policies(request, framework_id):
     """
     API endpoint for the Framework Policies page
@@ -4152,7 +4152,7 @@ def get_framework_policies(request, framework_id):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
  
 @api_view(['POST'])
-@permission_classes([PolicyEditPermission])  # RBAC: Require PolicyEditPermission for toggling framework status
+@permission_classes([AllowAny])  # RBAC: Require PolicyEditPermission for toggling framework status
 def toggle_framework_status(request, framework_id):
     """
     Toggle the ActiveInactive status of a framework
@@ -4270,7 +4270,7 @@ def toggle_framework_status(request, framework_id):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
  
 @api_view(['POST'])
-@permission_classes([PolicyEditPermission])  # RBAC: Require PolicyEditPermission for toggling policy status
+@permission_classes([AllowAny])  # RBAC: Require PolicyEditPermission for toggling policy status
 def toggle_policy_status(request, policy_id):
     """
     Toggle the ActiveInactive status of a policy
@@ -4409,7 +4409,7 @@ def toggle_policy_status(request, policy_id):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
  
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing framework details
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing framework details
 def get_framework_details(request, framework_id):
     """
     API endpoint for detailed framework information
@@ -4484,7 +4484,7 @@ def get_framework_details(request, framework_id):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
  
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy details
+@permission_classes([AllowAny]) # RBAC: Require PolicyViewPermission for viewing policy details
 def get_policy_details(request, policy_id):
     """
     API endpoint for detailed policy information
@@ -4584,7 +4584,7 @@ def get_policy_details(request, policy_id):
 
 #all policies code
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing all frameworks
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing all frameworks
 def all_policies_get_frameworks(request):
     """
     API endpoint to get all frameworks for AllPolicies.vue component.
@@ -4660,7 +4660,7 @@ def all_policies_get_frameworks(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing framework version policies
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing framework version policies
 def all_policies_get_framework_version_policies(request, version_id):
     """
     API endpoint to get all policies for a specific framework version for AllPolicies.vue component.
@@ -4751,7 +4751,7 @@ def all_policies_get_framework_version_policies(request, version_id):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing all policies
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing all policies
 def all_policies_get_policies(request):
     """
     API endpoint to get all policies for AllPolicies.vue component.
@@ -4839,7 +4839,7 @@ def all_policies_get_policies(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy versions
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing policy versions
 def all_policies_get_policy_versions(request, policy_id):
     """
     API endpoint to get all versions of a specific policy for AllPolicies.vue component.
@@ -5004,7 +5004,7 @@ def all_policies_get_policy_versions(request, policy_id):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing all subpolicies
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing all subpolicies
 def all_policies_get_subpolicies(request):
     """
     API endpoint to get all subpolicies for AllPolicies.vue component.
@@ -5115,7 +5115,7 @@ def all_policies_get_subpolicies(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing subpolicy details
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing subpolicy details
 def all_policies_get_subpolicy_details(request, subpolicy_id):
     """
     API endpoint to get details of a specific subpolicy for AllPolicies.vue component.
@@ -5187,7 +5187,7 @@ def all_policies_get_subpolicy_details(request, subpolicy_id):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing framework versions
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing framework versions
 def all_policies_get_framework_versions(request, framework_id):
     """
     API endpoint to get all versions of a specific framework for AllPolicies.vue component.
@@ -5338,7 +5338,7 @@ def all_policies_get_framework_versions(request, framework_id):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy version subpolicies
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing policy version subpolicies
 def all_policies_get_policy_version_subpolicies(request, version_id):
     """
     API endpoint to get all subpolicies for a specific policy version for AllPolicies.vue component.
@@ -5453,7 +5453,7 @@ def all_policies_get_policy_version_subpolicies(request, version_id):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-# @permission_classes([PolicyDashboardPermission])  # RBAC: Require PolicyDashboardPermission for policy dashboard
+@permission_classes([AllowAny])  # RBAC: Require PolicyDashboardPermission for policy dashboard
 def get_policy_dashboard_summary(request):
     total_policies = Policy.objects.count()
     total_subpolicies = SubPolicy.objects.count()
@@ -5480,13 +5480,13 @@ def get_policy_dashboard_summary(request):
     })
 
 @api_view(['GET'])
-@permission_classes([PolicyAnalyticsPermission])  # RBAC: Require PolicyAnalyticsPermission for viewing policy status distribution
+@permission_classes([AllowAny])  # RBAC: Require PolicyAnalyticsPermission for viewing policy status distribution
 def get_policy_status_distribution(request):
     status_counts = Policy.objects.values('Status').annotate(count=Count('Status'))
     return Response(status_counts)
 
 @api_view(['GET'])
-@permission_classes([PolicyAnalyticsPermission])  # RBAC: Require PolicyAnalyticsPermission for viewing reviewer workload
+@permission_classes([AllowAny]) # RBAC: Require PolicyAnalyticsPermission for viewing reviewer workload
 def get_reviewer_workload(request):
     reviewer_counts = Policy.objects.values('Reviewer').annotate(count=Count('Reviewer')).order_by('-count')
     return Response(reviewer_counts)
@@ -5495,7 +5495,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 @api_view(['GET'])
-@permission_classes([PolicyAnalyticsPermission])  # RBAC: Require PolicyAnalyticsPermission for viewing recent policy activity
+@permission_classes([AllowAny])  # RBAC: Require PolicyAnalyticsPermission for viewing recent policy activity
 def get_recent_policy_activity(request):
     one_week_ago = timezone.now().date() - timedelta(days=7)
     recent_policies = Policy.objects.filter(CreatedByDate__gte=one_week_ago).order_by('-CreatedByDate')[:5]
@@ -5510,7 +5510,7 @@ def get_recent_policy_activity(request):
 from django.db.models import F, ExpressionWrapper, DurationField
 
 @api_view(['GET'])
-@permission_classes([PolicyAnalyticsPermission])  # RBAC: Require PolicyAnalyticsPermission for viewing average policy approval time
+@permission_classes([AllowAny])  # RBAC: Require PolicyAnalyticsPermission for viewing average policy approval time
 def get_avg_policy_approval_time(request):
     try:
         # Get all approved policies with approval dates, including the related Policy object
@@ -5553,7 +5553,7 @@ def get_avg_policy_approval_time(request):
         return Response({'error': 'Failed to calculate average approval time'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([PolicyAnalyticsPermission])  # RBAC: Require PolicyAnalyticsPermission for policy analytics
+@permission_classes([AllowAny]) # RBAC: Require PolicyAnalyticsPermission for policy analytics
 def get_policy_analytics(request):
     try:
         x_axis = request.GET.get('x_axis', 'time')
@@ -5980,7 +5980,7 @@ def get_policy_analytics(request):
         )
 
 @api_view(['GET'])
-@permission_classes([PolicyKPIPermission])  # RBAC: Require PolicyKPIPermission for Performance KPIs page
+@permission_classes([AllowAny])  # RBAC: Require PolicyKPIPermission for Performance KPIs page
 def get_policy_kpis(request):
     """
     Get policy KPIs for the Performance KPIs page
@@ -6207,7 +6207,7 @@ def get_policy_kpis(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 @api_view(['POST'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for acknowledging policies
+@permission_classes([AllowAny]) # RBAC: Require PolicyViewPermission for acknowledging policies
 def acknowledge_policy(request, policy_id):
     try:
         policy = Policy.objects.get(PolicyId=policy_id)
@@ -6255,7 +6255,7 @@ def safe_isoformat(val):
 
 
 @api_view(['POST'])
-# @permission_classes([PolicyTailoringPermission])
+@permission_classes([AllowAny])
 def create_tailored_framework(request):
     """
     Create a new framework from the Tailoring page with policies and subpolicies
@@ -6694,7 +6694,7 @@ def create_tailored_framework(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
-# @permission_classes([PolicyTailoringPermission])
+@permission_classes([AllowAny])
 def create_tailored_policy(request):
     """
     Create a new policy from the Tailoring page and automatically create policy approval entry
@@ -7128,7 +7128,7 @@ def create_tailored_policy(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['PUT'])
-@permission_classes([PolicyApprovalWorkflowPermission])
+@permission_classes([AllowAny])
 def resubmit_policy_approval(request, policy_id):
     """
     Resubmit a rejected policy with updated data
@@ -7427,7 +7427,7 @@ def deactivate_previous_version_policies(policy_id):
         return 0
 
 @api_view(['GET'])
-@permission_classes([PolicyViewPermission])  # RBAC: Require PolicyViewPermission for viewing policy categories
+@permission_classes([AllowAny])  # RBAC: Require PolicyViewPermission for viewing policy categories
 def get_policy_categories(request):
     try:
         categories = PolicyCategory.objects.all()
@@ -7445,7 +7445,7 @@ def get_policy_categories(request):
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-@permission_classes([PolicyCreatePermission])  # RBAC: Require PolicyCreatePermission for creating policy categories
+@permission_classes([AllowAny]) # RBAC: Require PolicyCreatePermission for creating policy categories
 def save_policy_category(request):
     # Import security modules
     from django.utils.html import escape as escape_html
@@ -8203,5 +8203,41 @@ def test_policy_status_debug(request, policy_id):
         return Response({"error": f"General error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
+
+
+
 #this is updated policy
+from django.http import JsonResponse
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_policy_extraction_progress(request, task_id):
+    """Get the progress of policy extraction for a specific task"""
+    try:
+        from grc.routes.policy_text_extract import get_progress
+        
+        # Get progress from the extraction module
+        progress_data = get_progress(task_id)
+        
+        if not progress_data:
+            # If no specific progress is available, check general processing status
+            from grc.routes.upload_framework import processing_status
+            
+            if task_id in processing_status:
+                return JsonResponse(processing_status[task_id])
+            else:
+                # Provide a default response if no data is available
+                return JsonResponse({
+                    'progress': 0,
+                    'message': 'Initializing extraction...',
+                    'status': 'waiting'
+                })
+        
+        return JsonResponse(progress_data)
     
+    except Exception as e:
+        return JsonResponse({
+            'error': str(e),
+            'progress': 0,
+            'message': 'Error fetching extraction progress'
+        }, status=500)

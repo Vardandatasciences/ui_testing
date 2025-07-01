@@ -191,22 +191,24 @@
                   <div class="dynamic-field-col">
                     <label class="dynamic-label">Audit Title</label>
                     <div class="dynamic-desc">Enter a concise title for this audit assignment.</div>
-                    <TextInput
+                    <!-- <TextInput
                       v-model="member.auditTitle"
                       label="Audit Title"
                       placeholder="Enter audit title..."
-                      :error="getFieldError('auditTitle', index)"
-                    />
+                      
+                    />   -->
+                    <input type="text" v-model="member.auditTitle" class="dynamic-input" placeholder="Enter audit title..." />
                   </div>
                   <div class="dynamic-field-col">
                     <label class="dynamic-label">Business Unit</label>
                     <div class="dynamic-desc">Mention the business unit or process area being audited.</div>
-                    <TextInput
+                    <!-- <TextInput
                       v-model="member.businessUnit"
                       label="Business Unit"
                       placeholder="Enter business unit..."
-                      :error="getFieldError('businessUnit', index)"
-                    />
+                    /> -->
+                    <input type="text" v-model="member.businessUnit" class="dynamic-input" placeholder="Enter business unit..." />
+
                   </div>
                 </div>
 
@@ -417,19 +419,24 @@
                   <div class="dynamic-fields-row">
                     <div class="dynamic-field-col">
                       <label class="dynamic-label">Audit Title</label>
-                      <TextInput
+                      <!-- <TextInput
                         v-model="member.auditTitle"
                         label="Audit Title"
                         placeholder="Enter audit title..."
-                      />
+                      /> -->
+                      <input type="text" v-model="member.auditTitle" class="dynamic-input" placeholder="Enter audit title..." />
+
                     </div>
                     <div class="dynamic-field-col">
                       <label class="dynamic-label">Business Unit</label>
-                      <TextInput
-                        v-model="member.businessUnit"
-                        label="Business Unit"
-                        placeholder="Enter business unit..."
-                      />
+                      <div class="dynamic-desc">Mention the business unit or process area being audited.</div>
+                        <!-- <TextInput
+                          v-model="member.businessUnit"
+                          label="Business Unit"
+                          placeholder="Enter business unit..."
+                        /> -->
+                        <input type="text" v-model="member.businessUnit" class="dynamic-input" placeholder="Enter business unit..." />
+
                     </div>
                   </div>
                   <div class="dynamic-fields-row">
@@ -604,7 +611,7 @@
 import axios from 'axios';
 import ValidationMixin from '@/mixins/ValidationMixin';
 import SelectInput from '@/components/inputs/SelectInput.vue';
-import TextInput from '@/components/inputs/TextInput.vue';
+// import TextInput from '@/components/inputs/TextInput.vue';
 import TextareaInput from '@/components/inputs/TextareaInput.vue';
 import DateInput from '@/components/inputs/DateInput.vue';
 
@@ -613,7 +620,7 @@ export default {
   mixins: [ValidationMixin],
   components: {
     SelectInput,
-    TextInput,
+    // TextInput,
     TextareaInput,
     DateInput,
   },
@@ -624,7 +631,7 @@ export default {
         { name: 'Framework Selection', required: ['framework'] },
         { name: 'Team Creation', required: [] },
         { name: 'Policy Assignment', required: [] },
-        { name: 'Review & Assign', required: ['auditTitle', 'scope', 'objective', 'businessUnit', 'type', 'frequency', 'dueDate'] }
+        { name: 'Review & Assign', required: ['scope', 'objective', 'type', 'frequency', 'dueDate'] }
       ],
       auditData: {
         framework: '',
@@ -726,10 +733,8 @@ export default {
         return this.teamMembers.every(member =>
           member.assignedPolicy &&
           member.reviewer &&
-          member.auditTitle &&
           member.scope &&
           member.objective &&
-          member.businessUnit &&
           member.type &&
           member.frequency &&
           member.dueDate
@@ -754,10 +759,8 @@ export default {
         const hasAssignmentInfo = member.assignedPolicy && 
                                 member.reviewer;
                                 
-        const hasAuditDetails = member.auditTitle && 
-                              member.scope && 
+        const hasAuditDetails = member.scope && 
                               member.objective && 
-                              member.businessUnit && 
                               member.type && 
                               member.frequency && 
                               member.dueDate;
@@ -884,11 +887,11 @@ export default {
       if (this.assigning) return;
       
       // Validate form before submission
-      if (!this.validateForm()) {
-        // Show error message
-        this.$popup.error('Please fix the validation errors before submitting.');
-        return;
-      }
+      // if (!this.validateForm()) {
+      //   // Show error message
+      //   this.$popup.error('Please fix the validation errors before submitting.');
+      //   return;
+      // }
       
       try {
         this.assigning = true;

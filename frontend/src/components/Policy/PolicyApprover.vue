@@ -46,38 +46,54 @@
     <!-- Add this after the performance-summary div -->
     <div class="approvals-list">
       <h3>My Approval Tasks</h3>
-      <ul>
-        <li v-for="policy in sortedPolicies" 
-            :key="policy.ApprovalId" 
-            :class="{'new-policy': isNewPolicy(policy)}">
-          <strong class="clickable" @click="openApprovalDetails(policy)">
-            {{ policy.ExtractedData?.PolicyName || getPolicyId(policy) }}
-          </strong>
-          <span class="item-type-badge" :class="{
-            'policy-badge': !policy.ExtractedData.type || policy.ExtractedData.type === 'policy',
-            'subpolicy-badge': policy.ExtractedData.type === 'subpolicy'
-          }">
-            {{ policy.ExtractedData.type === 'subpolicy' ? 'Subpolicy' : 'Policy' }}
-          </span>
-          <span class="date-info">
-            {{ formatDate(policy.ExtractedData?.CreatedByDate || policy.created_at) }}
-          </span>
-          <span v-if="isNewPolicy(policy)" class="new-badge">NEW</span>
-          <span class="policy-scope">{{ policy.ExtractedData.Scope || 'No Scope' }}</span>
-          <span class="assigned-by">
-            <img class="assigned-avatar" :src="policy.ExtractedData.CreatedByAvatar || 'https://randomuser.me/api/portraits/men/32.jpg'" alt="avatar" />
-            {{ policy.ExtractedData.CreatedByName || 'System' }}
-          </span>
-          <span v-if="policy.dbStatus === 'Approved' || policy.ApprovedNot === true || policy.ExtractedData?.Status === 'Approved'" class="approval-status approved">(Approved)</span>
-          <span v-else-if="policy.dbStatus === 'Rejected' || policy.ApprovedNot === false || policy.ExtractedData?.Status === 'Rejected'" class="approval-status rejected">(Rejected)</span>
-          <span v-else class="approval-status pending">(Pending)</span>
-        </li>
-      </ul>
+      
+      <!-- Collapsible Tables for different statuses -->
+      <div class="approval-tables-container">
+        <!-- Pending Approvals Table -->
+        <CollapsibleTable
+          v-if="pendingApprovals.length > 0"
+          :section-config="pendingSectionConfig"
+          :table-headers="tableHeaders"
+          :is-expanded="pendingExpanded"
+          @task-click="handleTaskClick"
+          @toggle="togglePendingSection"
+        />
+        
+        <!-- Approved Approvals Table -->
+        <CollapsibleTable
+          v-if="approvedApprovals.length > 0"
+          :section-config="approvedSectionConfig"
+          :table-headers="tableHeaders"
+          :is-expanded="approvedExpanded"
+          @task-click="handleTaskClick"
+          @toggle="toggleApprovedSection"
+        />
+        
+        <!-- Rejected Approvals Table -->
+        <CollapsibleTable
+          v-if="rejectedApprovals.length > 0"
+          :section-config="rejectedSectionConfig"
+          :table-headers="tableHeaders"
+          :is-expanded="rejectedExpanded"
+          @task-click="handleTaskClick"
+          @toggle="toggleRejectedSection"
+        />
+        
+        <!-- No approvals message -->
+        <div v-if="sortedPolicies.length === 0" class="no-approvals-message">
+          <div class="no-approvals-content">
+            <i class="fas fa-inbox"></i>
+            <h4>No Approval Tasks</h4>
+            <p>You don't have any approval tasks at the moment.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Policy/Compliance Details Modal/Section -->
-    <div v-if="showDetails && selectedApproval" class="policy-details-modal">
+    <!-- Policy/Compliance Details Section (New Inline Section) -->
+    <div v-if="showDetails && selectedApproval" class="policy-details-section">
       <div class="policy-details-content">
+        <div class="details-header">
         <h3>
           <span class="detail-type-indicator">
             {{ isComplianceApproval ? 'Compliance' : 'Policy' }}
@@ -88,6 +104,10 @@
             Showing Approved Only
           </span>
         </h3>
+          <button class="back-btn" @click="closeApprovalDetails">
+            <i class="fas fa-arrow-left"></i> Back to Tasks
+          </button>
+        </div>
         
         <!-- Add version history section -->
         <div class="version-history" v-if="selectedApproval.ExtractedData">
@@ -107,8 +127,6 @@
             </ul>
           </div>
         </div>
-        
-        <button class="close-btn" @click="closeApprovalDetails">Close</button>
         
         <!-- Policy/Compliance Approval Section -->
         <div class="policy-approval-section">
@@ -273,70 +291,38 @@
           <strong>Policy ID:</strong> <span>{{ getPolicyId(selectedApproval) }}</span>
         </div>
       </div>
-      
-      <!-- Rejection Modal -->
-      <div v-if="showRejectModal" class="reject-modal">
-        <div class="reject-modal-content">
-          <h4>Rejection Reason</h4>
-          <p>Please provide a reason for rejecting {{ rejectingType === 'policy' ? 'the policy' : 'subpolicy ' + rejectingSubpolicy?.Identifier }}</p>
-          <textarea 
-            v-model="rejectionComment" 
-            class="rejection-comment" 
-            placeholder="Enter your comments here..."></textarea>
-          <div class="reject-modal-actions">
-            <button class="cancel-btn" @click="cancelRejection">Cancel</button>
-            <button class="confirm-btn" @click="confirmRejection">Confirm Rejection</button>
-          </div>
-        </div>
-      </div>
     </div>
+      
+    <!-- Policy/Compliance Details Modal/Section -->
+    <!-- Original modal section removed to fix nested-comment parsing error -->
 
     <!-- GRC Tasks Card -->
-    <div class="dashboard-main-row">
-      <div class="dashboard-main-col grc-tasks-col">
-        <div class="my-grc-tasks-header">
-         
-        </div>
-      </div>
-    </div>
 
     <!-- Rejected Policies & Compliances List -->
     <div class="rejected-approvals-list" v-if="rejectedPolicies.length">
       <h3>Rejected Policies & Compliances (Edit & Resubmit)</h3>
-      <ul>
-        <li v-for="policy in rejectedPolicies" :key="policy.ApprovalId">
-          <div>
-            <strong class="clickable" @click="openRejectedItem(policy)">
-              {{ getPolicyId(policy) }}
-            </strong>
-            <span class="item-type-badge" :class="{
-              'compliance-badge': policy.is_compliance,
-              'policy-badge': !policy.is_compliance && policy.main_policy_rejected,
-              'subpolicy-badge': !policy.is_compliance && !policy.main_policy_rejected
-            }">
-              {{ policy.is_compliance ? 'Compliance' : 
-                 (policy.main_policy_rejected ? 'Policy' : 'Subpolicy') }}
-            </span>
-            <span class="badge rejected">Rejected</span>
-            
-            <!-- Show item description -->
-            <div v-if="policy.is_compliance">
-              - {{ policy.ExtractedData.ComplianceItemDescription || 'No Description' }}
-            </div>
-            <div v-else>
-              - {{ policy.ExtractedData.Scope || 'No Scope' }}
-            </div>
-            
-            <!-- Add this section to show rejection reason -->
-            <div v-if="policy.ExtractedData?.policy_approval?.remarks" class="policy-rejection-reason">
-              <strong>Rejection Reason:</strong> {{ policy.ExtractedData.policy_approval.remarks }}
-            </div>
-            <div v-else-if="policy.rejection_reason" class="policy-rejection-reason">
-              <strong>Rejection Reason:</strong> {{ policy.rejection_reason }}
-            </div>
-          </div>
-        </li>
-      </ul>
+      
+      <!-- Dynamic Table for Rejected Items -->
+      <DynamicTable
+        :data="rejectedPoliciesTableData"
+        :columns="rejectedPoliciesColumns"
+        :show-actions="true"
+        :show-pagination="true"
+        :default-page-size="10"
+        unique-key="ApprovalId"
+        @row-action="handleRejectedItemAction"
+      >
+        <template #actions="{ row }">
+          <button 
+            class="view-details-btn"
+            @click="openRejectedItem(row.originalPolicy)"
+            title="View Details"
+          >
+            <i class="fas fa-eye"></i>
+            View
+          </button>
+        </template>
+      </DynamicTable>
     </div>
 
     <!-- Edit Modal for Rejected Compliance -->
@@ -639,101 +625,26 @@
       </div>
     </div>
 
-    <!-- Tabs for different sections -->
-    <div class="tabs">
-      <button 
-        :class="{'active': activeTab === 'pending'}"
-        @click="activeTab = 'pending'"
-      >
-        Pending Tasks
-      </button>
-      <button 
-        :class="{'active': activeTab === 'rejected'}"
-        @click="activeTab = 'rejected'"
-      >
-        Rejected Items
-      </button>
-    </div>
     
     <!-- Pending Tasks Tab -->
-    <div v-if="activeTab === 'pending'" class="tab-content">
-      <!-- Existing content for pending tasks -->
-      <div v-if="isReviewer">
-        <h2>Pending Approvals</h2>
-        <ul class="approval-list">
-          <li v-for="approval in approvals" :key="approval.ApprovalId" class="approval-item">
-            <!-- Existing content -->
-          </li>
-        </ul>
-      </div>
-      
-      <div v-else>
-        <h2>No pending tasks for users</h2>
-        <p>Switch to Reviewer Mode to see pending approvals</p>
-      </div>
-    </div>
-    
-    <!-- Rejected Items Tab -->
-    <div v-if="activeTab === 'rejected'" class="tab-content">
-      <div v-if="!isReviewer">
-        <h2>Rejected Subpolicies</h2>
-        <div v-if="rejectedSubpolicies.length === 0" class="no-items">
-          No rejected subpolicies found.
-        </div>
-        <ul v-else class="rejected-list">
-          <li v-for="item in rejectedSubpolicies" :key="item.SubPolicyId" class="rejected-item">
-            <div class="rejected-header">
-              <h3>{{ item.SubPolicyName }}</h3>
-              <span class="status rejected">Rejected</span>
-            </div>
-            <div class="rejected-details">
-              <p><strong>Policy:</strong> {{ item.PolicyName }}</p>
-              <p><strong>Identifier:</strong> {{ item.Identifier }}</p>
-              <p><strong>Description:</strong> {{ item.Description }}</p>
-              <p v-if="item.approval && item.approval.remarks">
-                <strong>Rejection Reason:</strong> {{ item.approval.remarks }}
-              </p>
-            </div>
-            <div class="rejected-actions">
-              <button @click="openEditSubpolicyModal(item)" class="edit-button">
-                Edit & Resubmit
-              </button>
-            </div>
-          </li>
-        </ul>
-      </div>
-      
-      <div v-else>
-        <h2>Rejected Policies</h2>
-        <div v-if="rejectedPolicies.length === 0" class="no-items">
-          No rejected policies found.
-        </div>
-        <ul v-else class="rejected-list">
-          <li v-for="policy in rejectedPolicies" :key="policy.PolicyId" class="rejected-item">
-            <div class="rejected-header">
-              <h3>{{ policy.ExtractedData.PolicyName }}</h3>
-              <span class="status rejected">Rejected</span>
-            </div>
-            <div class="rejected-details">
-              <p><strong>Identifier:</strong> {{ policy.ExtractedData.Identifier || 'N/A' }}</p>
-              <p><strong>Scope:</strong> {{ policy.ExtractedData.Scope || 'No Scope' }}</p>
-              <p><strong>Description:</strong> {{ policy.ExtractedData.PolicyDescription || 'No description' }}</p>
-            </div>
-            <div class="rejected-actions">
-              <button @click="openEditModal = true; editingPolicy = policy" class="edit-button">
-                Edit & Resubmit
-              </button>
-              <button @click="openSubpoliciesModal(policy)" class="view-button">
-                View Subpolicies
-              </button>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <!-- Popup Modal -->
     <PopupModal />
+
+    <!-- Rejection Modal -->
+    <div v-if="showRejectModal" class="reject-modal">
+      <div class="reject-modal-content">
+        <h4>Rejection Reason</h4>
+        <p>Please provide a reason for rejecting {{ rejectingType === 'policy' ? 'the policy' : 'subpolicy ' + rejectingSubpolicy?.Identifier }}</p>
+        <textarea 
+          v-model="rejectionComment" 
+          class="rejection-comment" 
+          placeholder="Enter your comments here..."></textarea>
+        <div class="reject-modal-actions">
+          <button class="cancel-btn" @click="cancelRejection">Cancel</button>
+          <button class="confirm-btn" @click="confirmRejection">Confirm Rejection</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -741,11 +652,15 @@
 import axios from 'axios'
 import { PopupService } from '@/modules/popus/popupService'
 import PopupModal from '@/modules/popus/PopupModal.vue'
+import CollapsibleTable from '@/components/CollapsibleTable.vue'
+import DynamicTable from '@/components/DynamicTable.vue'
 
 export default {
   name: 'PolicyApprover',
   components: {
-    PopupModal
+    PopupModal,
+    CollapsibleTable,
+    DynamicTable
   },
   data() {
     return {
@@ -772,6 +687,10 @@ export default {
       activeTab: 'pending', // Track active tab
       policyCategories: [], // Store all policy categories
       policyCategoriesMap: {}, // Structured map of policy categories
+      // CollapsibleTable expansion states
+      pendingExpanded: true,
+      approvedExpanded: false,
+      rejectedExpanded: false,
     }
   },
   mounted() {
@@ -1706,14 +1625,11 @@ export default {
       this.showRejectModal = true;
     },
     openRejectedItem(item) {
-      if (item.is_compliance) {
-        // For compliance items
-        this.editingCompliance = JSON.parse(JSON.stringify(item)); // Deep copy
-        this.showEditComplianceModal = true;
-      } else {
-        // For policy items
-        this.openSubpoliciesModal(item);
-      }
+      this.selectedApproval = item;
+      this.showDetails = true;
+      this.showEditComplianceModal = false;
+      this.showEditModal = false;
+      this.showSubpoliciesModal = false;
     },
     closeEditComplianceModal() {
       this.showEditComplianceModal = false;
@@ -2470,6 +2386,71 @@ export default {
       // Reset subcategory when category changes
       policy.ExtractedData.PolicySubCategory = '';
     },
+    
+    // CollapsibleTable related methods
+    handleTaskClick(task) {
+      // Find the original policy object from the task data using approvalId
+      const policy = this.approvals.find(p => 
+        p.ApprovalId === task.approvalId
+      );
+      
+      if (policy) {
+        this.openApprovalDetails(policy);
+      }
+    },
+    
+    formatPolicyForTable(policy) {
+      const approvalId = policy.ApprovalId || 'N/A';
+      const policyId = this.getPolicyId(policy);
+      const policyName = policy.ExtractedData?.PolicyName || 'No Name';
+      const scope = policy.ExtractedData?.Scope || 'No Scope';
+      const createdBy = policy.ExtractedData?.CreatedByName || 'System';
+      const createdDate = this.formatDate(policy.ExtractedData?.CreatedByDate || policy.created_at);
+      const version = policy.version || 'u1';
+      
+      // Determine status based on real data
+      let status = 'Pending';
+      let statusClass = 'pending';
+      
+      if (policy.ApprovedNot === true || policy.dbStatus === 'Approved' || policy.ExtractedData?.Status === 'Approved') {
+        status = 'Approved';
+        statusClass = 'approved';
+      } else if (policy.ApprovedNot === false || policy.dbStatus === 'Rejected' || policy.ExtractedData?.Status === 'Rejected') {
+        status = 'Rejected';
+        statusClass = 'rejected';
+      }
+      
+      return {
+        incidentId: approvalId, // Using approvalId as the key for CollapsibleTable
+        approvalId: approvalId,
+        policyId: policyId,
+        policyName: policyName,
+        scope: scope,
+        createdBy: createdBy,
+        createdDate: createdDate,
+        version: version,
+        status: `<span class="status-badge ${statusClass}">${status}</span>`,
+        originalPolicy: policy // Keep reference to original policy object
+      };
+    },
+    togglePendingSection() {
+      this.pendingExpanded = !this.pendingExpanded;
+    },
+    toggleApprovedSection() {
+      this.approvedExpanded = !this.approvedExpanded;
+    },
+    toggleRejectedSection() {
+      this.rejectedExpanded = !this.rejectedExpanded;
+    },
+    
+    // Handle rejected item action from DynamicTable
+    handleRejectedItemAction(action, row) {
+      console.log('Rejected item action:', action, row);
+      
+      if (action === 'view') {
+        this.openRejectedItem(row.originalPolicy);
+      }
+    }
   },
   computed: {
     policyApprovals() {
@@ -2586,6 +2567,147 @@ export default {
         sub.Status === 'Rejected' || 
         (sub.approval && sub.approval.approved === false)
       );
+    },
+    
+    // CollapsibleTable related computed properties
+    pendingApprovals() {
+      return this.sortedPolicies.filter(policy => 
+        policy.ApprovedNot === null && 
+        !(['Approved', 'Rejected'].includes(policy.dbStatus)) && 
+        !(['Approved', 'Rejected'].includes(policy.ExtractedData?.Status))
+      );
+    },
+    
+    approvedApprovals() {
+      return this.sortedPolicies.filter(policy => 
+        policy.ApprovedNot === true || 
+        policy.dbStatus === 'Approved' || 
+        policy.ExtractedData?.Status === 'Approved'
+      );
+    },
+    
+    rejectedApprovals() {
+      return this.sortedPolicies.filter(policy => 
+        policy.ApprovedNot === false || 
+        policy.dbStatus === 'Rejected' || 
+        policy.ExtractedData?.Status === 'Rejected'
+      );
+    },
+    
+    // Table headers configuration
+    tableHeaders() {
+      return [
+        { key: 'approvalId', label: 'Approval ID', width: '120px', className: 'approval-id' },
+        { key: 'policyId', label: 'Policy ID', width: '120px', className: 'policy-id' },
+        { key: 'policyName', label: 'Policy Name', width: '200px', className: 'policy-name' },
+        { key: 'scope', label: 'Scope', width: '150px', className: 'policy-scope' },
+        { key: 'createdBy', label: 'Created By', width: '120px', className: 'created-by' },
+        { key: 'createdDate', label: 'Created Date', width: '120px', className: 'created-date' },
+        { key: 'version', label: 'Version', width: '80px', className: 'version' },
+        { key: 'status', label: 'Status', width: '100px', className: 'status' },
+        { key: 'actions', label: 'Actions', width: '150px', className: 'actions' }
+      ];
+    },
+    
+    // Section configurations for CollapsibleTable
+    pendingSectionConfig() {
+      return {
+        name: 'Pending',
+        statusClass: 'pending',
+        tasks: this.pendingApprovals.map(policy => this.formatPolicyForTable(policy))
+      };
+    },
+    
+    approvedSectionConfig() {
+      return {
+        name: 'Approved',
+        statusClass: 'completed',
+        tasks: this.approvedApprovals.map(policy => this.formatPolicyForTable(policy))
+      };
+    },
+    
+    rejectedSectionConfig() {
+      return {
+        name: 'Rejected',
+        statusClass: 'rejected',
+        tasks: this.rejectedApprovals.map(policy => this.formatPolicyForTable(policy))
+      };
+    },
+    
+    // DynamicTable configuration for rejected policies
+    rejectedPoliciesTableData() {
+      return this.rejectedPolicies.map(policy => ({
+        ApprovalId: policy.ApprovalId || policy.PolicyId,
+        PolicyId: this.getPolicyId(policy),
+        ItemType: policy.is_compliance ? 'Compliance' : 
+                 (policy.main_policy_rejected ? 'Policy' : 'Subpolicy'),
+        ItemName: policy.ExtractedData?.PolicyName || policy.ExtractedData?.ComplianceItemDescription || 'No Name',
+        Description: policy.is_compliance ? 
+                    (policy.ExtractedData?.ComplianceItemDescription || 'No Description') :
+                    (policy.ExtractedData?.Scope || 'No Scope'),
+        CreatedBy: policy.ExtractedData?.CreatedByName || 'System',
+        CreatedDate: this.formatDate(policy.ExtractedData?.CreatedByDate || policy.created_at),
+        RejectionReason: policy.ExtractedData?.policy_approval?.remarks || 
+                        policy.ExtractedData?.compliance_approval?.remarks || 
+                        policy.rejection_reason || 'No reason provided',
+        Status: 'Rejected',
+        originalPolicy: policy // Keep reference to original policy object
+      }));
+    },
+    
+    rejectedPoliciesColumns() {
+      return [
+        {
+          key: 'PolicyId',
+          label: 'Item ID',
+          sortable: true,
+          headerClass: 'policy-id-header',
+          cellClass: 'policy-id-cell'
+        },
+        {
+          key: 'ItemType',
+          label: 'Type',
+          sortable: true,
+          type: 'status',
+          headerClass: 'item-type-header',
+          cellClass: 'item-type-cell'
+        },
+        {
+          key: 'ItemName',
+          label: 'Name',
+          sortable: true,
+          headerClass: 'item-name-header',
+          cellClass: 'item-name-cell'
+        },
+        {
+          key: 'Description',
+          label: 'Description',
+          sortable: false,
+          headerClass: 'description-header',
+          cellClass: 'description-cell'
+        },
+        {
+          key: 'CreatedBy',
+          label: 'Created By',
+          sortable: true,
+          headerClass: 'created-by-header',
+          cellClass: 'created-by-cell'
+        },
+        {
+          key: 'CreatedDate',
+          label: 'Created Date',
+          sortable: true,
+          headerClass: 'created-date-header',
+          cellClass: 'created-date-cell'
+        },
+        {
+          key: 'RejectionReason',
+          label: 'Rejection Reason',
+          sortable: false,
+          headerClass: 'rejection-reason-header',
+          cellClass: 'rejection-reason-cell'
+        }
+      ];
     }
   }
 }

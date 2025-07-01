@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "task_id": "upload_1751354011_NIST.SP.800-53r5.pdf",
+    "creation_timestamp": 1751355678,
+    "creation_date": "2025-07-01 13:11:18",
+    "total_policies": 1,
+    "total_sub_policies": 1,
+    "total_compliance_items": 4,
+    "unique_sections": [
+      "3.1 ACCESS  CONTROL"
+    ],
+    "hierarchy_levels": 4
+  },
+  "hierarchy": {
+    "level_1_framework": {
+      "level": 1,
+      "type": "framework",
+      "data": {
+        "title": "ccccccccccc",
+        "description": "cccccccccccccccccccccccccccccccccccccccccccccc",
+        "category": "ccccccccccccccccccccccccc",
+        "effectiveDate": "2025-07-18",
+        "startDate": "2025-07-24",
+        "endDate": "2025-07-30"
+      },
+      "children": [
+        {
+          "level": 2,
+          "type": "policy",
+          "section_name": "3.1 ACCESS  CONTROL",
+          "section_index": 1,
+          "data": {
+            "documentUrl": "c",
+            "identifier": "cccccccccccccccccccc",
+            "createdBy": "ccccccccccccccccccccccccc",
+            "reviewer": "ccccccccccccccccccccccccccccccccccccccccccccc",
+            "policyName": "cccccccccccccccccccccc",
+            "department": "ccccccccccccccccccc",
+            "scope": "cccccccccccccccccccccccccc",
+            "applicability": "cccccccccccccccccc",
+            "objective": "ccccccc",
+            "coverageRate": 22
+          },
+          "children": [
+            {
+              "level": 3,
+              "type": "sub_policy",
+              "section_name": "3.1 ACCESS  CONTROL",
+              "sub_policy_index": 1,
+              "parent_policy_section": "3.1 ACCESS  CONTROL",
+              "data": {
+                "section_name": "3.1 ACCESS  CONTROL",
+                "file_name": "AC-1.txt",
+                "Sub_policy_id": "AC-1",
+                "sub_policy_name": "Access Control Policy and Procedures",
+                "control": "a. Addresses purpose, scope, roles, responsibilities, management commitment,\ncoordination among organizational entities, and compliance;\nb. Is consistent with applicable laws, executive orders, directives, regulations, policies,\nstandards, and guidelines;\nc. Procedures to facilitate the implementation of the access control policy and the\nassociated access controls;\n\n1. Assignment: organization-defined personnel or a.Develop, document, and disseminate to [",
+                "discussion": "",
+                "related_controls": "IA-1, PM-9, PM-24, PS-8, SI-12",
+                "control_enhancements": "",
+                "references": "[OMB A-130], [SP 800-12], [SP 800-30], [SP 800-39], [SP 800-100], [IR 7874]",
+                "scope": "cccccccccccc",
+                "department": "cccccccccccccccccc",
+                "applicability": "ccccccccccccccc",
+                "objective": "cccccccccccccccccccccccccccccc",
+                "coverage_rate": 33
+              },
+              "children": [
+                {
+                  "level": 4,
+                  "type": "compliance",
+                  "section_name": "3.1 ACCESS  CONTROL",
+                  "parent_section": "AC-1",
+                  "sub_policy_id": "AC-1",
+                  "compliance_index": 1,
+                  "compliance_id": "compliance_1",
+                  "data": {
+                    "letter": "a",
+                    "name": "Addresses purpose, scope, roles, responsibilities, management commitment,\ncoordination among organiz...",
+                    "description": "Addresses purpose, scope, roles, responsibilities, management commitment,\ncoordination among organizational entities, and compliance;",
+                    "status": "pending",
+                    "assignee": "cccccc",
+                    "dueDate": ""
+                  }
+                },
+                {
+                  "level": 4,
+                  "type": "compliance",
+                  "section_name": "3.1 ACCESS  CONTROL",
+                  "parent_section": "AC-1",
+                  "sub_policy_id": "AC-1",
+                  "compliance_index": 2,
+                  "compliance_id": "compliance_2",
+                  "data": {
+                    "letter": "b",
+                    "name": "Is consistent with applicable laws, executive orders, directives, regulations, policies,\nstandards, ...",
+                    "description": "Is consistent with applicable laws, executive orders, directives, regulations, policies,\nstandards, and guidelines;",
+                    "status": "pending",
+                    "assignee": "cccccccccccccccccccccccccccc",
+                    "dueDate": ""
+                  }
+                },
+                {
+                  "level": 4,
+                  "type": "compliance",
+                  "section_name": "3.1 ACCESS  CONTROL",
+                  "parent_section": "AC-1",
+                  "sub_policy_id": "AC-1",
+                  "compliance_index": 3,
+                  "compliance_id": "compliance_3",
+                  "data": {
+                    "letter": "c",
+                    "name": "Procedures to facilitate the implementation of the access control policy and the\nassociated access c...",
+                    "description": "Procedures to facilitate the implementation of the access control policy and the\nassociated access controls;\n\n1. Assignment: organization-defined personnel or",
+                    "status": "pending",
+                    "assignee": "ccccccccccccccc",
+                    "dueDate": ""
+                  }
+                },
+                {
+                  "level": 4,
+                  "type": "compliance",
+                  "section_name": "3.1 ACCESS  CONTROL",
+                  "parent_section": "AC-1",
+                  "sub_policy_id": "AC-1",
+                  "compliance_index": 4,
+                  "compliance_id": "compliance_4",
+                  "data": {
+                    "letter": "a",
+                    "name": "Develop, document, and disseminate to [",
+                    "description": "Develop, document, and disseminate to [",
+                    "status": "pending",
+                    "assignee": "ccccccccccccccccc",
+                    "dueDate": ""
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

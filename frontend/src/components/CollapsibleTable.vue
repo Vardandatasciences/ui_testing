@@ -43,13 +43,6 @@
           </tr>
         </tbody>
       </table>
-
-      <div class="add-task-wrapper">
-        <button class="add-task-btn" @click="$emit('addTask')">
-          <PhPlus :size="12" />
-          <span>Add Task</span>
-        </button>
-      </div>
     </div>
   </div>
 </template>
@@ -63,8 +56,7 @@ import {
   PhDotsThree, 
   PhCircleNotch,
   PhCircle,
-  PhCheckCircle,
-  PhPlus
+  PhCheckCircle
 } from '@phosphor-icons/vue';
 
 const props = defineProps({
@@ -176,6 +168,15 @@ const headerIconWeight = computed(() => {
   cursor: pointer;
   font-weight: 500;
   color: var(--table-header-text);
+  transition: background-color 0.2s ease;
+}
+
+.task-section-header:hover {
+  background-color: #f8f9fa;
+}
+
+.task-section-header:active {
+  background-color: #e9ecef;
 }
 
 .task-section-header .header-left {
@@ -186,6 +187,12 @@ const headerIconWeight = computed(() => {
 
 .task-section-header .header-right {
   color: var(--table-header-dots);
+}
+
+.toggle-icon {
+  font-size: 14px;
+  color: var(--table-header-text);
+  transition: transform 0.2s ease;
 }
 
 .status-chip {

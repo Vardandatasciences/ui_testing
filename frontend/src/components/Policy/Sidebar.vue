@@ -35,6 +35,10 @@
             <i class="fas fa-sitemap icon"></i>
             <span>Create Framework</span>
           </div>
+          <div class="menu-item" @click="navigate('/create-policy/upload-framework')">
+            <i class="fas fa-upload icon"></i>
+            <span>Upload Framework</span>
+          </div>
           <div class="menu-item" @click="navigate('/create-policy/tailoring')">
             <i class="fas fa-edit icon"></i>
             <span>Tailoring & Templating</span>

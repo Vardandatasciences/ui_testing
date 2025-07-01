@@ -314,7 +314,7 @@
   box-shadow: 0 4px 20px rgba(106, 90, 205, 0.1);
 }
 
-/* Workflow fullscreen styles */
+/* Workflow fullscreen styles - improved visibility */
 .workflow-fullscreen, .reviewer-workflow-fullscreen {
   position: fixed !important;
   top: 0 !important;
@@ -322,10 +322,13 @@
   right: 0 !important;
   bottom: 0 !important;
   background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
-  z-index: 1000 !important;
+  z-index: 1001 !important; /* Increased z-index to ensure visibility */
   overflow-y: auto !important;
   padding: 20px !important;
   box-sizing: border-box !important;
+  display: block !important; /* Force display */
+  width: calc(100vw - 280px) !important; /* Ensure proper width */
+  height: 100vh !important; /* Ensure full height */
 }
 
 /* When sidebar is collapsed */
@@ -2148,4 +2151,185 @@
 /* Actions column styling */
 .actions-column {
   text-align: center !important;
+}
+
+/* Status tab styling - collapsible sections */
+.user-tasks-container .approved-section {
+  border-left: 4px solid #4CAF50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.user-tasks-container .rejected-section {
+  border-left: 4px solid #F44336;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.user-tasks-container .pending-review-section {
+  border-left: 4px solid #FF9800;
+  background-color: rgba(255, 152, 0, 0.05);
+}
+
+.user-tasks-container .assigned-section {
+  border-left: 4px solid #2196F3;
+  background-color: rgba(33, 150, 243, 0.05);
+}
+
+/* Status header styling */
+.status-header {
+  padding: 15px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.status-header:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.status-header .status-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Status icon colors */
+.status-header.approved .status-icon {
+  color: #4CAF50;
+}
+
+.status-header.rejected .status-icon {
+  color: #F44336;
+}
+
+.status-header.pending-review .status-icon {
+  color: #FF9800;
+}
+
+.status-header.assigned .status-icon {
+  color: #2196F3;
+}
+
+.status-header.approved:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.status-header.rejected:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.status-header.pending-review:hover {
+  background-color: rgba(255, 152, 0, 0.1);
+}
+
+.status-header.assigned:hover {
+  background-color: rgba(33, 150, 243, 0.1);
+}
+
+/* Status count badge */
+.status-count {
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.approved-section .status-count {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #2E7D32;
+}
+
+.rejected-section .status-count {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #C62828;
+}
+
+.pending-review-section .status-count {
+  background-color: rgba(255, 152, 0, 0.2);
+  color: #EF6C00;
+}
+
+.assigned-section .status-count {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: #1565C0;
+}
+
+/* Collapsible content */
+.collapsible-content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+.collapsible-content.expanded {
+  max-height: 2000px; /* Adjust based on expected content height */
+  padding-bottom: 20px;
+}
+
+/* Arrow indicator for collapsible sections */
+.status-header .arrow-indicator {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.status-header .arrow-indicator.expanded {
+  transform: rotate(180deg);
+}
+
+/* Simple status colors for table rows */
+.user-tasks-table tr.status-approved {
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.user-tasks-table tr.status-rejected {
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.user-tasks-table tr.status-pending-review {
+  background-color: rgba(255, 152, 0, 0.05);
+}
+
+.user-tasks-table tr.status-assigned {
+  background-color: rgba(33, 150, 243, 0.05);
+}
+
+/* Status indicator dot in table rows */
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-dot.approved {
+  background-color: #4CAF50;
+}
+
+.status-dot.rejected {
+  background-color: #F44336;
+}
+
+.status-dot.pending-review {
+  background-color: #FF9800;
+}
+
+.status-dot.assigned {
+  background-color: #2196F3;
+}
+
+/* Add margin between collapsible sections */
+.approved-section,
+.rejected-section,
+.pending-review-section,
+.assigned-section {
+  margin-bottom: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

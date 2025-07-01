@@ -72,6 +72,7 @@ import ComplianceTailoring from '../components/Compliance/ComplianceTailoring.vu
 import ComplianceVersioning from '../components/Compliance/ComplianceVersioning.vue'
 import ComplianceKPI from '../components/Compliance/ComplianceKPI.vue'
 import PopupDemo from '../components/Compliance/PopupDemo.vue'
+import UploadFramework from '../components/Policy/UploadFramework.vue'
 
 
 
@@ -429,6 +430,11 @@ const routes = [
     path: '/auditor/reports',
     name: 'AuditReports',
     component: AuditReport
+  },
+  {
+    path: '/create-policy/upload-framework',
+    name: 'UploadFramework',
+    component: UploadFramework
   },
   {
     path: '/auditor/performance',

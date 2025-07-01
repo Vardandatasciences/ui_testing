@@ -1,5 +1,25 @@
 <template>
   <div class="framework-explorer-container">
+    <div class="export-controls">
+      <div class="export-controls-inner">
+        <select v-model="selectedExportFormat" class="export-dropdown">
+          <option value="" disabled>Select format</option>
+          <option value="xlsx">Excel (.xlsx)</option>
+          <option value="pdf">PDF (.pdf)</option>
+          <option value="csv">CSV (.csv)</option>
+          <option value="json">JSON (.json)</option>
+          <option value="xml">XML (.xml)</option>
+          <option value="txt">Text (.txt)</option>
+        </select>
+        <button @click="exportFrameworkPolicies">
+          Export
+        </button>
+      </div>
+    </div>
+    <div class="page-header">
+      <h1>Framework Explorer</h1>
+      <div class="page-header-underline"></div>
+    </div>
     <div class="summary-cards">
       <div class="summary-card active-framework" @click="filterByStatus('Active', 'framework')">
         <div class="summary-icon-wrapper">
@@ -32,46 +52,26 @@
     </div>
     <div class="top-controls">
       <div class="framework-dropdown-section">
-        <label>Framework</label>
-        <select v-model="selectedFrameworkId" class="framework-dropdown">
-          <option value="">Select Framework</option>
-          <option v-for="fw in frameworks" :key="fw.id" :value="fw.id">{{ fw.name }}</option>
-        </select>
+        <CustomDropdown
+          :config="frameworkDropdownConfig"
+          v-model="selectedFrameworkId"
+        />
       </div>
       <div class="internal-external-dropdown-section">
-        <label>Type</label>
-        <select v-model="selectedInternalExternal" class="internal-external-dropdown">
-          <option value="">All Types</option>
-          <option value="Internal">Internal</option>
-          <option value="External">External</option>
-        </select>
+        <CustomDropdown
+          :config="typeDropdownConfig"
+          v-model="selectedInternalExternal"
+        />
       </div>
       <div class="entity-dropdown-section">
-        <label>Entity</label>
-        <select v-model="selectedEntity" class="entity-dropdown">
-          <option value="">All Entities</option>
-          <option v-for="entity in entities" :key="entity.id" :value="entity.id">{{ entity.label }}</option>
-        </select>
+        <CustomDropdown
+          :config="entityDropdownConfig"
+          v-model="selectedEntity"
+        />
       </div>
       <div v-if="activeFilter" class="active-filter">
         <span>Filtered by: {{ activeFilter }}</span>
         <button class="clear-filter-btn" @click="clearFilter">Clear Filter</button>
-      </div>
-    </div>
-    <div class="export-controls">
-      <div class="export-controls-inner">
-        <select v-model="selectedExportFormat" class="export-dropdown">
-          <option value="" disabled>Select format</option>
-          <option value="xlsx">Excel (.xlsx)</option>
-          <option value="pdf">PDF (.pdf)</option>
-          <option value="csv">CSV (.csv)</option>
-          <option value="json">JSON (.json)</option>
-          <option value="xml">XML (.xml)</option>
-          <option value="txt">Text (.txt)</option>
-        </select>
-        <button @click="exportFrameworkPolicies">
-          Export
-        </button>
       </div>
     </div>
     <div class="framework-card-grid">
@@ -190,6 +190,7 @@ import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 import { PopupService } from '@/modules/popus/popupService'
 import PopupModal from '@/modules/popus/PopupModal.vue'
+import CustomDropdown from '@/components/CustomDropdown.vue'
  
 const frameworks = ref([])
 const selectedFrameworkId = ref('')
@@ -521,21 +522,108 @@ onMounted(() => {
   
   fetchFrameworks() // Fetch frameworks after setting entity filter
 })
+
+// Dropdown configs
+const frameworkDropdownConfig = computed(() => ({
+  label: 'Framework',
+  values: [
+    { value: '', label: 'Select Framework' },
+    ...frameworks.value.map(fw => ({ value: String(fw.id), label: fw.name }))
+  ]
+}))
+const typeDropdownConfig = {
+  label: 'Type',
+  values: [
+    { value: '', label: 'All Types' },
+    { value: 'Internal', label: 'Internal' },
+    { value: 'External', label: 'External' }
+  ]
+}
+const entityDropdownConfig = computed(() => ({
+  label: 'Entity',
+  values: [
+    { value: '', label: 'All Entities' },
+    ...entities.value.map(entity => ({ value: String(entity.id), label: entity.label }))
+  ]
+}))
 </script>
  
 <style scoped>
 .framework-explorer-container {
-  padding: 32px 40px;
-  margin-left: 200px;
-  max-width: calc(100vw - 240px);
+  padding: 24px 32px;
+  margin-left: 280px;
+  max-width: calc(100vw - 280px);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  padding-top: 70px; /* Add space for export controls */
+}
+.page-header {
+  margin-bottom: 18px;
+  margin-top: 0;
+}
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  letter-spacing: -1px;
+}
+.page-header-underline {
+  width: 75px;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+  margin-top: 0;
+}
+.export-controls {
+  position: absolute;
+  top: 20px;
+  right: 32px;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: auto;
+  margin-bottom: 0;
+}
+.export-controls-inner {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.export-dropdown {
+  min-width: 120px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 0.85rem;
+  padding: 0 10px;
+  background: #fff;
+  color: #222;
+}
+.export-controls button {
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #4f6cff;
+  color: #fff;
+  transition: background 0.2s;
+}
+.export-controls button:disabled {
+  background: #bfc8e6;
+  cursor: not-allowed;
 }
 .summary-cards {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 24px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: nowrap;
   width: 100%;
   max-width: 100%;
 }
@@ -545,17 +633,19 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: #f2f2f7;
-  border-radius: 18px;
-  padding: 24px;
-  font-size: 0.9rem;
+  border-radius: 16px;
+  padding: 20px 16px;
+  font-size: 0.85rem;
   font-weight: 600;
   text-align: center;
-  min-width: 240px;
-  min-height: 160px;
+  min-width: 180px;
+  max-width: 200px;
+  min-height: 140px;
   box-shadow: 0 2px 12px rgba(79,108,255,0.10);
   transition: box-shadow 0.18s, transform 0.18s;
   position: relative;
   cursor: pointer;
+  flex: 1;
 }
 .summary-card.active-framework {
   background: linear-gradient(135deg, #e8f7ee 60%, #f2f2f7 100%);
@@ -570,14 +660,14 @@ onMounted(() => {
   background: linear-gradient(135deg, #fffbe6 60%, #f2f2f7 100%);
 }
 .summary-icon-wrapper {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
-  font-size: 1.6rem;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -607,36 +697,37 @@ onMounted(() => {
 }
 .summary-value {
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-top: 12px;
+  margin-top: 10px;
   color: #222;
 }
 .top-controls {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 24px;
-  margin-bottom: 18px;
+  gap: 20px;
+  margin-bottom: 16px;
   width: 100%;
+  flex-wrap: wrap;
 }
 .framework-dropdown-section,
 .internal-external-dropdown-section,
 .entity-dropdown-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 0;
 }
 .framework-dropdown,
 .internal-external-dropdown,
 .entity-dropdown {
-  min-width: 160px;
-  height: 34px;
+  min-width: 140px;
+  height: 32px;
   border-radius: 8px;
   border: 1.5px solid #e2e8f0;
-  font-size: 0.9rem;
-  padding: 0 12px;
+  font-size: 0.85rem;
+  padding: 0 10px;
   background: white;
   cursor: pointer;
   transition: border-color 0.2s ease;
@@ -656,11 +747,11 @@ onMounted(() => {
 .active-filter {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: #f0f4ff;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #4f6cff;
 }
 .clear-filter-btn {
@@ -668,8 +759,8 @@ onMounted(() => {
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 0.8rem;
+  padding: 4px 8px;
+  font-size: 0.75rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -678,24 +769,24 @@ onMounted(() => {
 }
 .framework-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
   width: 100%;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 .framework-card {
   background: #f7f7fa !important;
   border-radius: 16px !important;
   box-shadow: 0 4px 14px rgba(79,108,255,0.08) !important;
-  padding: 24px 20px !important;
+  padding: 20px 18px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 10px !important;
   position: relative !important;
-  font-size: 0.9rem !important;
+  font-size: 0.85rem !important;
   cursor: pointer !important;
   transition: box-shadow 0.18s, transform 0.18s !important;
-  min-height: 200px !important;
+  min-height: 180px !important;
 }
 .framework-card:hover {
   box-shadow: 0 8px 24px rgba(79,108,255,0.13) !important;
@@ -705,30 +796,30 @@ onMounted(() => {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  font-size: 1.1rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
   width: 100% !important;
 }
 .framework-title-section {
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
+  gap: 10px !important;
 }
 .framework-icon {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 32px !important;
-  height: 32px !important;
+  width: 28px !important;
+  height: 28px !important;
   background: #e8edfa !important;
   border-radius: 8px !important;
   color: #7c3aed !important;
-  font-size: 1rem !important;
+  font-size: 0.9rem !important;
 }
 .framework-card-status {
-  padding: 4px 12px !important;
+  padding: 4px 10px !important;
   border-radius: 12px !important;
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   background: #f5f5f7 !important;
 }
 .framework-card-status.active {
@@ -740,16 +831,16 @@ onMounted(() => {
   background: #fbeaea !important;
 }
 .framework-card-category {
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   color: #7c3aed !important;
   font-weight: 600 !important;
   background: #e8edfa !important;
   border-radius: 8px !important;
-  padding: 2px 8px !important;
+  padding: 2px 6px !important;
   width: fit-content !important;
 }
 .framework-card-type {
-  font-size: 0.8rem !important;
+  font-size: 0.75rem !important;
   font-weight: 600 !important;
   border-radius: 6px !important;
   padding: 2px 6px !important;
@@ -765,9 +856,9 @@ onMounted(() => {
   background: #fecaca !important;
 }
 .framework-card-desc {
-  font-size: 0.9rem !important;
-  line-height: 1.5 !important;
-  margin-top: 8px !important;
+  font-size: 0.85rem !important;
+  line-height: 1.4 !important;
+  margin-top: 6px !important;
   color: #444 !important;
   font-weight: 400 !important;
   flex-grow: 1;
@@ -780,14 +871,14 @@ onMounted(() => {
 }
 .action-buttons {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 .switch {
   position: relative;
   display: inline-block;
-  width: 48px;
-  height: 28px;
-  margin-right: 8px;
+  width: 44px;
+  height: 26px;
+  margin-right: 6px;
   vertical-align: middle;
 }
 .switch input {
@@ -805,13 +896,13 @@ onMounted(() => {
   background-color: #4f6cff;
   -webkit-transition: .4s;
   transition: .4s;
-  border-radius: 28px;
+  border-radius: 26px;
 }
 .slider:before {
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   left: 4px;
   bottom: 4px;
   background-color: #f5f6fa;
@@ -826,16 +917,17 @@ onMounted(() => {
   background-color: #bfc8e6;
 }
 .switch input:checked + .slider:before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  transform: translateX(20px);
+  -webkit-transform: translateX(18px);
+  -ms-transform: translateX(18px);
+  transform: translateX(18px);
 }
 .switch-label {
   font-weight: 600;
   color: #4f6cff;
-  min-width: 60px;
+  min-width: 50px;
   display: inline-block;
   text-align: left;
+  font-size: 0.8rem;
 }
 .switch-label.active {
   color: #22a722;
@@ -847,8 +939,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   background: #f0f4ff;
   border-radius: 50%;
   color: #4f6cff;
@@ -974,42 +1066,5 @@ onMounted(() => {
   background: #fcfcff;
   border-radius: 8px;
   padding: 15px;
-}
-.export-controls {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 18px;
-  width: 100%;
-}
-.export-controls-inner {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.export-dropdown {
-  min-width: 140px;
-  height: 34px;
-  border-radius: 8px;
-  border: 1.5px solid #e2e8f0;
-  font-size: 0.95rem;
-  padding: 0 12px;
-  background: #fff;
-  color: #222;
-}
-.export-controls button {
-  padding: 7px 18px;
-  border-radius: 8px;
-  border: none;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: #4f6cff;
-  color: #fff;
-  transition: background 0.2s;
-}
-.export-controls button:disabled {
-  background: #bfc8e6;
-  cursor: not-allowed;
 }
 </style>

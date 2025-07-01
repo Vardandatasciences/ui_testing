@@ -472,12 +472,11 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
     
     class Meta:
-        model = Users
+        model = Users  # Use your custom Users model
         fields = ['UserId', 'UserName', 'CreatedAt', 'UpdatedAt', 'role']
     
     def get_role(self, obj):
-        # Assign roles based on UserName patterns or UserId
-        # This is a temporary solution until role field is added to the database
+        # Now you can use UserName and UserId
         name = obj.UserName.lower()
         user_id = obj.UserId
         
@@ -500,6 +499,7 @@ class UserSerializer(serializers.ModelSerializer):
             # Default roles for other users
             roles = ['Security Analyst', 'Risk Analyst', 'Compliance Officer', 'IT Security Specialist']
             return roles[user_id % len(roles)]
+
 
 
 class GRCLogSerializer(serializers.ModelSerializer):

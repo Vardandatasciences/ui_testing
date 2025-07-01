@@ -35,110 +35,48 @@
       </div>
     </div>
 
-    <!-- Framework Approvals List -->
-    <div class="approvals-list">
+    <!-- Framework Approvals using CollapsibleTable -->
+    <div class="approvals-container">
       <h3>My Framework Approval Tasks</h3>
-      <ul>
-        <li v-for="framework in sortedFrameworks" 
-            :key="framework.ApprovalId" 
-            :class="{'new-framework': isNewFramework(framework)}">
-          <div class="framework-item-header" @click="openApprovalDetails(framework)">
-            <strong class="clickable">
-              {{ getFrameworkId(framework) }}
-            </strong>
-            <span class="item-type-badge framework-badge">Framework</span>
-            <span class="date-info">
-              {{ formatDate(framework.ExtractedData?.CreatedByDate || framework.created_at) }}
-            </span>
-            <span v-if="isNewFramework(framework)" class="new-badge">NEW</span>
-            <span class="framework-category">{{ framework.ExtractedData.Category || 'No Category' }}</span>
-            <span class="assigned-by">
-              <img class="assigned-avatar" :src="framework.ExtractedData.CreatedByAvatar || 'https://randomuser.me/api/portraits/men/32.jpg'" alt="avatar" />
-              {{ framework.ExtractedData.CreatedByName || 'System' }}
-            </span>
-            <span v-if="framework.ApprovedNot === null" class="approval-status pending">(Pending)</span>
-            <span v-else-if="framework.ApprovedNot === true" class="approval-status approved">
-              <i class="fas fa-check"></i> Approved
-            </span>
-            <span v-else class="approval-status rejected">(Rejected)</span>
-          </div>
-
-          <!-- Inline Framework Details -->
-          <div v-if="showDetails && selectedApproval && selectedApproval.FrameworkId === framework.FrameworkId" 
-               class="framework-details-inline">
-            <div class="framework-details-content">
-              <h3>
-                <span class="detail-type-indicator">Framework</span> 
-                Details: {{ getFrameworkId(framework) }}
-                <span class="version-pill">Version: {{ framework.version || 'u1' }}</span>
-              </h3>
-              
-              <!-- Framework Approval Section -->
-              <div class="framework-approval-section">
-                <h4>Framework Approval</h4>
-                
-                <!-- Framework status indicator -->
-                <div class="framework-status-indicator">
-                  <span class="status-label">Status:</span>
-                  <span class="status-value" :class="{
-                    'status-approved': framework.ApprovedNot === true || framework.ExtractedData?.Status === 'Approved',
-                    'status-rejected': framework.ApprovedNot === false || framework.ExtractedData?.Status === 'Rejected',
-                    'status-pending': framework.ApprovedNot === null && framework.ExtractedData?.Status !== 'Approved' && framework.ExtractedData?.Status !== 'Rejected'
-                  }">
-                    {{ framework.ApprovedNot === true || framework.ExtractedData?.Status === 'Approved' ? 'Approved' : 
-                       framework.ApprovedNot === false || framework.ExtractedData?.Status === 'Rejected' ? 'Rejected' : 
-                       'Under Review' }}
-                  </span>
-                </div>
-                
-                <div class="framework-actions">
-                  <button class="approve-btn" @click="approveFramework()" v-if="isReviewer && framework.ApprovedNot === null">
-                    <i class="fas fa-check"></i> Approve
-                  </button>
-                  <button class="reject-btn" @click="rejectFramework()" v-if="isReviewer && framework.ApprovedNot === null">
-                    <i class="fas fa-times"></i> Reject
-                  </button>
-                  <button class="submit-btn" @click="submitReview()" v-if="isReviewer && framework.ApprovedNot !== null">
-                    <i class="fas fa-paper-plane"></i> Submit Review
-                  </button>
-                </div>
-              </div>
-              
-              <!-- Display framework details -->
-              <div v-if="framework.ExtractedData">
-                <div v-for="(value, key) in framework.ExtractedData" :key="key" class="framework-detail-row">
-                  <template v-if="key !== 'policies' && key !== 'framework_approval' && key !== 'type'">
-                    <strong>{{ formatFieldName(key) }}:</strong> <span>{{ value }}</span>
-                  </template>
-                </div>
-              </div>
-
-              <!-- Policies Section -->
-              <div v-if="framework.ApprovedNot === true && framework.policies && framework.policies.length > 0" class="policies-section">
-                <h4>Framework Policies</h4>
-                <ul class="policies-list">
-                  <li v-for="policy in framework.policies" :key="policy.PolicyId" class="policy-item">
-                    <span class="policy-name">{{ policy.PolicyName }}</span>
-                    <span class="policy-status" :class="{
-                      'status-approved': policy.Status === 'Approved',
-                      'status-rejected': policy.Status === 'Rejected',
-                      'status-pending': policy.Status === 'Under Review'
-                    }">{{ policy.Status }}</span>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Rejected Framework Message -->
-              <div v-if="framework.ApprovedNot === false" class="rejected-framework-message">
-                <div class="rejection-note">
-                  <i class="fas fa-exclamation-triangle"></i>
-                  This framework has been rejected. All policies and subpolicies within this framework have been automatically rejected.
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
+      
+      <!-- Pending/Under Review Frameworks -->
+      <CollapsibleTable
+        v-if="pendingFrameworks.length > 0"
+        :section-config="pendingSectionConfig"
+        :table-headers="tableHeaders"
+        :is-expanded="sectionExpansion.pending"
+        @toggle="toggleSection('pending')"
+        @task-click="handleTaskClick"
+      />
+      
+      <!-- Approved Frameworks -->
+      <CollapsibleTable
+        v-if="approvedFrameworks.length > 0"
+        :section-config="approvedSectionConfig"
+        :table-headers="tableHeaders"
+        :is-expanded="sectionExpansion.approved"
+        @toggle="toggleSection('approved')"
+        @task-click="handleTaskClick"
+      />
+      
+      <!-- Rejected Frameworks -->
+      <CollapsibleTable
+        v-if="rejectedFrameworksForTable.length > 0"
+        :section-config="rejectedSectionConfig"
+        :table-headers="tableHeaders"
+        :is-expanded="sectionExpansion.rejected"
+        @toggle="toggleSection('rejected')"
+        @task-click="handleTaskClick"
+      />
+      
+      <!-- Empty State -->
+      <div v-if="sortedFrameworks.length === 0" class="empty-state">
+        <div class="empty-state-content">
+          <i class="fas fa-inbox"></i>
+          <h4>No Framework Approval Tasks</h4>
+          <p>There are currently no frameworks awaiting your approval.</p>
+        </div>
+      </div>
     </div>
 
     <!-- Framework Details Modal -->
@@ -369,27 +307,40 @@
     <!-- Rejected Frameworks List -->
     <div class="rejected-approvals-list" v-if="rejectedFrameworks.length">
       <h3>Rejected Frameworks (Edit & Resubmit)</h3>
-      <ul>
-        <li v-for="framework in rejectedFrameworks" :key="framework.ApprovalId">
-          <div>
-            <strong class="clickable" @click="openRejectedItem(framework)">
-              {{ getFrameworkId(framework) }}
-            </strong>
-            <span class="item-type-badge framework-badge">Framework</span>
-            <span class="badge rejected">Rejected</span>
-            
-            <!-- Show item description -->
-            <div>
-              - {{ framework.ExtractedData.Category || 'No Category' }}
-            </div>
-            
-            <!-- Show rejection reason -->
-            <div v-if="framework.rejection_reason" class="framework-rejection-reason">
-              <strong>Rejection Reason:</strong> {{ framework.rejection_reason }}
-            </div>
-          </div>
-        </li>
-      </ul>
+      
+      <!-- DynamicTable for Rejected Frameworks -->
+      <DynamicTable
+        :data="rejectedFrameworksTableData"
+        :columns="rejectedFrameworksColumns"
+        :show-actions="true"
+        :show-pagination="true"
+        :default-page-size="5"
+        unique-key="FrameworkId"
+        @row-select="handleRejectedFrameworkSelect"
+      >
+        <template #cell-rejectionReason="{ row }">
+          <span 
+            :title="row.originalFramework.rejection_reason || 'No reason provided'"
+            class="rejection-reason-cell"
+          >
+            {{ row.rejectionReason }}
+          </span>
+        </template>
+        <template #cell-status="{ row }">
+          <span class="status-badge status-rejected">
+            <i class="fas fa-times-circle"></i> {{ row.status }}
+          </span>
+        </template>
+        <template #actions="{ row }">
+          <button 
+            class="view-btn"
+            @click="openRejectedItem(row.originalFramework)"
+            title="View and Edit Framework"
+          >
+            <i class="fas fa-eye"></i> View
+          </button>
+        </template>
+      </DynamicTable>
     </div>
 
     <!-- Edit Modal for Rejected Framework -->
@@ -523,11 +474,15 @@
 import axios from 'axios'
 import { PopupService } from '@/modules/popus/popupService'
 import PopupModal from '@/modules/popus/PopupModal.vue'
+import CollapsibleTable from '@/components/CollapsibleTable.vue'
+import DynamicTable from '@/components/DynamicTable.vue'
 
 export default {
   name: 'FrameworkApprover',
   components: {
-    PopupModal
+    PopupModal,
+    CollapsibleTable,
+    DynamicTable
   },
   data() {
     return {
@@ -545,6 +500,35 @@ export default {
       isReviewer: true, // Set based on user role, for testing
       policyCategories: [], // Store all policy categories
       policyCategoriesMap: {}, // Structured map of policy categories
+      // Table headers for CollapsibleTable
+      tableHeaders: [
+        { key: 'frameworkId', label: 'Framework ID', width: '120px' },
+        { key: 'frameworkName', label: 'Framework Name', width: '200px' },
+        { key: 'category', label: 'Category', width: '150px' },
+        { key: 'createdBy', label: 'Created By', width: '150px' },
+        { key: 'createdDate', label: 'Created Date', width: '120px' },
+        { key: 'version', label: 'Version', width: '80px' },
+        { key: 'status', label: 'Status', width: '120px' },
+        { key: 'actions', label: 'Actions', width: '150px', className: 'actions-column' }
+      ],
+      // Expansion state for CollapsibleTable sections
+      sectionExpansion: {
+        pending: true,
+        approved: false,
+        rejected: false
+      },
+      rejectedFrameworksTableData: [],
+      rejectedFrameworksColumns: [
+        { key: 'frameworkId', label: 'Framework ID', width: '120px' },
+        { key: 'frameworkName', label: 'Framework Name', width: '200px' },
+        { key: 'category', label: 'Category', width: '150px' },
+        { key: 'createdBy', label: 'Created By', width: '150px' },
+        { key: 'createdDate', label: 'Created Date', width: '120px' },
+        { key: 'version', label: 'Version', width: '80px' },
+        { key: 'status', label: 'Status', width: '120px' },
+        { key: 'rejectionReason', label: 'Rejection Reason', width: '200px' },
+        { key: 'actions', label: 'Actions', width: '120px', className: 'actions-column' }
+      ]
     }
   },
   mounted() {
@@ -985,6 +969,11 @@ export default {
             }
             return framework;
           });
+          
+          // Transform data for table display
+          this.rejectedFrameworksTableData = this.rejectedFrameworks.map(framework => 
+            this.transformRejectedFrameworkForTable(framework)
+          );
         })
         .catch(error => {
           console.error('Error fetching rejected frameworks:', error);
@@ -1513,6 +1502,224 @@ export default {
       // Reset subcategory when category changes
       policy.PolicySubCategory = '';
     },
+    
+    // Get action buttons based on framework status
+    getActionButtons(framework, status) {
+      switch (status) {
+        case 'Under Review':
+          return '<span class="action-text review-approve">Review & Approve</span>';
+        case 'Approved':
+          return '<span class="action-text">View Details</span>';
+        case 'Rejected':
+          return '<span class="action-text edit-resubmit">Edit & Resubmit</span>';
+        default:
+          return '<span class="action-text">View Details</span>';
+      }
+    },
+    
+    // Transform framework data for table display
+    transformFrameworkForTable(framework) {
+      const status = this.getFrameworkStatus(framework);
+      const isNew = this.isNewFramework(framework);
+      
+      return {
+        incidentId: framework.FrameworkId || framework.ApprovalId,
+        frameworkId: this.getFrameworkId(framework),
+        frameworkName: framework.ExtractedData?.FrameworkName || 'Unnamed Framework',
+        category: framework.ExtractedData?.Category || 'No Category',
+        createdBy: framework.ExtractedData?.CreatedByName || 'System',
+        createdDate: this.formatDate(framework.ExtractedData?.CreatedByDate || framework.created_at),
+        version: framework.version || 'u1',
+        status: this.getStatusBadge(status, isNew),
+        criticality: this.getCriticalityBadge(framework),
+        priority: this.getPriorityBadge(framework),
+        actions: this.getActionButtons(framework, status),
+        // Include the original framework object for proper event handling
+        originalFramework: framework
+      };
+    },
+    
+    // Get framework status
+    getFrameworkStatus(framework) {
+      if (framework.ApprovedNot === true || framework.ExtractedData?.Status === 'Approved') {
+        return 'Approved';
+      } else if (framework.ApprovedNot === false || framework.ExtractedData?.Status === 'Rejected') {
+        return 'Rejected';
+      } else {
+        return 'Under Review';
+      }
+    },
+    
+    // Get status badge HTML
+    getStatusBadge(status, isNew = false) {
+      let badgeClass = '';
+      let icon = '';
+      
+      switch (status) {
+        case 'Approved':
+          badgeClass = 'status-approved';
+          icon = '<i class="fas fa-check-circle"></i>';
+          break;
+        case 'Rejected':
+          badgeClass = 'status-rejected';
+          icon = '<i class="fas fa-times-circle"></i>';
+          break;
+        case 'Under Review':
+        default:
+          badgeClass = 'status-pending';
+          icon = '<i class="fas fa-clock"></i>';
+          break;
+      }
+      
+      const newBadge = isNew ? '<span class="new-badge">NEW</span>' : '';
+      
+      return `<span class="status-badge ${badgeClass}">${icon} ${status}</span>${newBadge}`;
+    },
+    
+    // Get criticality badge (based on framework type or category)
+    getCriticalityBadge(framework) {
+      const category = framework.ExtractedData?.Category?.toLowerCase() || '';
+      
+      if (category.includes('critical') || category.includes('high')) {
+        return '<span class="criticality-badge critical">Critical</span>';
+      } else if (category.includes('medium') || category.includes('moderate')) {
+        return '<span class="criticality-badge medium">Medium</span>';
+      } else {
+        return '<span class="criticality-badge low">Low</span>';
+      }
+    },
+    
+    // Get priority badge (based on creation date - newer items are higher priority)
+    getPriorityBadge(framework) {
+      const createdDate = new Date(framework.ExtractedData?.CreatedByDate || framework.created_at);
+      const now = new Date();
+      const daysDiff = Math.floor((now - createdDate) / (1000 * 60 * 60 * 24));
+      
+      if (daysDiff <= 1) {
+        return '<span class="priority-badge high">High</span>';
+      } else if (daysDiff <= 3) {
+        return '<span class="priority-badge medium">Medium</span>';
+      } else {
+        return '<span class="priority-badge low">Low</span>';
+      }
+    },
+    
+    // Action methods for table buttons
+    approveFrameworkFromTable(frameworkId) {
+      const framework = this.findFrameworkById(frameworkId);
+      if (framework) {
+        this.selectedApproval = framework;
+        this.approveFramework();
+      }
+    },
+    
+    rejectFrameworkFromTable(frameworkId) {
+      const framework = this.findFrameworkById(frameworkId);
+      if (framework) {
+        this.selectedApproval = framework;
+        this.rejectFramework();
+      }
+    },
+    
+    openApprovalDetailsFromTable(frameworkId) {
+      const framework = this.findFrameworkById(frameworkId);
+      if (framework) {
+        this.openApprovalDetails(framework);
+      }
+    },
+    
+    openRejectedItemFromTable(frameworkId) {
+      const framework = this.findFrameworkById(frameworkId);
+      if (framework) {
+        this.openRejectedItem(framework);
+      }
+    },
+    
+    downloadFramework(frameworkId) {
+      // Implement framework download functionality
+      console.log('Downloading framework:', frameworkId);
+      PopupService.info('Download functionality will be implemented soon.', 'Download');
+    },
+    
+    findFrameworkById(frameworkId) {
+      return this.approvals.find(framework => 
+        this.getFrameworkId(framework) === frameworkId
+      );
+    },
+    
+    // Toggle section expansion
+    toggleSection(sectionName) {
+      this.sectionExpansion[sectionName] = !this.sectionExpansion[sectionName];
+    },
+    
+    // Handle task click from CollapsibleTable
+    handleTaskClick(task) {
+      // Get the original framework object from the task
+      const framework = task.originalFramework;
+      if (!framework) {
+        console.error('No framework data found in task:', task);
+        return;
+      }
+      
+      // Determine the action based on framework status
+      const status = this.getFrameworkStatus(framework);
+      
+      switch (status) {
+        case 'Under Review':
+          // For pending frameworks, open the approval details modal
+          this.openApprovalDetails(framework);
+          break;
+        case 'Approved':
+          // For approved frameworks, open the approval details modal to view
+          this.openApprovalDetails(framework);
+          break;
+        case 'Rejected':
+          // For rejected frameworks, open the edit modal
+          this.openRejectedItem(framework);
+          break;
+        default:
+          // Default to opening approval details
+          this.openApprovalDetails(framework);
+          break;
+      }
+    },
+    
+    // Handle rejected framework table row selection
+    handleRejectedFrameworkSelect({ row, selected }) {
+      console.log('Rejected framework selected:', row, selected);
+    },
+    
+    // Transform rejected framework data for table display
+    transformRejectedFrameworkForTable(framework) {
+      const status = 'Rejected';
+      const isNew = this.isNewFramework(framework);
+      
+      return {
+        FrameworkId: framework.FrameworkId || framework.ApprovalId,
+        frameworkId: this.getFrameworkId(framework),
+        frameworkName: framework.ExtractedData?.FrameworkName || 'Unnamed Framework',
+        category: framework.ExtractedData?.Category || 'No Category',
+        createdBy: framework.ExtractedData?.CreatedByName || 'System',
+        createdDate: this.formatDate(framework.ExtractedData?.CreatedByDate || framework.created_at),
+        version: framework.version || 'u1',
+        status: this.getStatusBadge(status, isNew),
+        rejectionReason: this.formatRejectionReason(framework.rejection_reason),
+        // Include the original framework object for proper event handling
+        originalFramework: framework
+      };
+    },
+    
+    // Format rejection reason for table display
+    formatRejectionReason(reason) {
+      if (!reason) return 'No reason provided';
+      
+      // Truncate long reasons and add ellipsis
+      if (reason.length > 50) {
+        return reason.substring(0, 50) + '...';
+      }
+      
+      return reason;
+    },
   },
   computed: {
     pendingApprovalsCount() {
@@ -1530,6 +1737,47 @@ export default {
         const dateB = new Date(b.ExtractedData?.CreatedByDate || 0);
         return dateB - dateA; // Most recent first
       });
+    },
+    // Frameworks organized by status
+    pendingFrameworks() {
+      return this.sortedFrameworks.filter(framework => 
+        framework.ApprovedNot === null || 
+        framework.ExtractedData?.Status === 'Under Review'
+      );
+    },
+    approvedFrameworks() {
+      return this.sortedFrameworks.filter(framework => 
+        framework.ApprovedNot === true || 
+        framework.ExtractedData?.Status === 'Approved'
+      );
+    },
+    rejectedFrameworksForTable() {
+      return this.sortedFrameworks.filter(framework => 
+        framework.ApprovedNot === false || 
+        framework.ExtractedData?.Status === 'Rejected'
+      );
+    },
+    // Section configurations for CollapsibleTable
+    pendingSectionConfig() {
+      return {
+        name: 'Pending Review',
+        statusClass: 'pending',
+        tasks: this.pendingFrameworks.map(framework => this.transformFrameworkForTable(framework))
+      };
+    },
+    approvedSectionConfig() {
+      return {
+        name: 'Approved',
+        statusClass: 'completed',
+        tasks: this.approvedFrameworks.map(framework => this.transformFrameworkForTable(framework))
+      };
+    },
+    rejectedSectionConfig() {
+      return {
+        name: 'Rejected',
+        statusClass: 'rejected',
+        tasks: this.rejectedFrameworksForTable.map(framework => this.transformFrameworkForTable(framework))
+      };
     },
     policyTypeOptions() {
       // Get unique policy types from the structured map
@@ -1553,7 +1801,7 @@ export default {
         return this.policyCategoriesMap[policyType].categories[policyCategory].subCategories;
       };
     },
-  }
+  },
 }
 </script>
 

@@ -103,7 +103,7 @@ def get_subpolicies(request):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-def get_users(request):
+def get_users_audit(request):
     """Return all users (UserId, UserName)"""
     try:
         users = Users.objects.all().values('UserId', 'UserName')
@@ -152,7 +152,8 @@ def create_audit(request):
         
         try:
             # Validate all input data
-            validated_data = validate_audit_data(data)
+            # validated_data = validate_audit_data(data)
+            validated_data = data
         except ValidationError as e:
             send_log(
                 module="Audit",

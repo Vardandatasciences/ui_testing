@@ -1019,7 +1019,7 @@ def get_users(request):
         entityType="User"
     )
     
-    users = User.objects.all()
+    users = Users.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 

@@ -8,7 +8,7 @@ import datetime
 import traceback
 
 from ..serializers import ComplianceSerializer, PolicyApprovalSerializer
-from ..models import SubPolicy, PolicyApproval, Compliance
+from ..models import SubPolicy, PolicyApproval, Compliance, Framework, Policy
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -415,4 +415,198 @@ def get_compliance_status(request, compliance_id):
     except Exception as e:
         return Response({
             'error': str(e)
-        }, status=status.HTTP_400_BAD_REQUEST) 
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_compliances_by_type(request, type, id):
+    """
+    Get all compliances based on framework, policy, or subpolicy ID
+    """
+    try:
+        compliances = []
+        
+        if type == 'framework':
+            # Get all compliances under the framework through policy and subpolicy relationships
+            compliances = Compliance.objects.select_related(
+                'SubPolicy__PolicyId__FrameworkId'
+            ).filter(
+                SubPolicy__PolicyId__FrameworkId__FrameworkId=id
+            ).order_by('ComplianceId')
+        elif type == 'policy':
+            # Get all compliances under the policy through subpolicy relationship
+            compliances = Compliance.objects.select_related(
+                'SubPolicy__PolicyId'
+            ).filter(
+                SubPolicy__PolicyId__PolicyId=id
+            ).order_by('ComplianceId')
+        elif type == 'subpolicy':
+            # Get all compliances directly under the subpolicy
+            compliances = Compliance.objects.filter(
+                SubPolicy__SubPolicyId=id
+            ).order_by('ComplianceId')
+        else:
+            return Response({
+                'success': False,
+                'message': 'Invalid type specified'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Serialize the compliances with additional hierarchy information
+        serialized_compliances = []
+        for compliance in compliances:
+            compliance_data = {
+                'ComplianceId': compliance.ComplianceId,
+                'ComplianceTitle': compliance.ComplianceTitle,
+                'ComplianceItemDescription': compliance.ComplianceItemDescription,
+                'ComplianceType': compliance.ComplianceType,
+                'Scope': compliance.Scope,
+                'Objective': compliance.Objective,
+                'IsRisk': compliance.IsRisk,
+                'PossibleDamage': compliance.PossibleDamage,
+                'mitigation': compliance.mitigation,
+                'Criticality': compliance.Criticality,
+                'MandatoryOptional': compliance.MandatoryOptional,
+                'ManualAutomatic': compliance.ManualAutomatic,
+                'Impact': compliance.Impact,
+                'Probability': compliance.Probability,
+                'MaturityLevel': compliance.MaturityLevel,
+                'Status': compliance.Status,
+                'ComplianceVersion': compliance.ComplianceVersion,
+                'CreatedByName': compliance.CreatedByName,
+                'CreatedByDate': compliance.CreatedByDate,
+                'Identifier': compliance.Identifier,
+                # Add hierarchy information
+                'SubPolicyName': compliance.SubPolicy.SubPolicyName,
+                'PolicyName': compliance.SubPolicy.PolicyId.PolicyName,
+                'FrameworkName': compliance.SubPolicy.PolicyId.FrameworkId.FrameworkName
+            }
+            serialized_compliances.append(compliance_data)
+
+        return Response({
+            'success': True,
+            'compliances': serialized_compliances
+        }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(f"Error in get_compliances_by_type: {str(e)}")
+        return Response({
+            'success': False,
+            'message': f'Error fetching compliances: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_frameworks(request):
+    """
+    Get all frameworks
+    """
+    try:
+        frameworks = Framework.objects.all().order_by('FrameworkId')
+        frameworks_data = []
+        
+        for framework in frameworks:
+            framework_data = {
+                'id': framework.FrameworkId,
+                'name': framework.FrameworkName,
+                'description': framework.FrameworkDescription,
+                'category': framework.Category,
+                'status': framework.Status,
+                'version': str(framework.CurrentVersion),
+                'createdBy': framework.CreatedByName,
+                'createdDate': framework.CreatedByDate,
+                'effectiveDate': framework.EffectiveDate,
+                'identifier': framework.Identifier
+            }
+            frameworks_data.append(framework_data)
+            
+        return Response({
+            'success': True,
+            'frameworks': frameworks_data
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error in get_frameworks: {str(e)}")
+        return Response({
+            'success': False,
+            'message': f'Error fetching frameworks: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_policies(request, framework_id):
+    """
+    Get all policies for a framework
+    """
+    try:
+        policies = Policy.objects.filter(
+            FrameworkId=framework_id
+        ).order_by('PolicyId')
+        
+        policies_data = []
+        for policy in policies:
+            policy_data = {
+                'id': policy.PolicyId,
+                'name': policy.PolicyName,
+                'description': policy.PolicyDescription,
+                'status': policy.Status,
+                'version': policy.CurrentVersion,
+                'createdBy': policy.CreatedByName,
+                'createdDate': policy.CreatedByDate,
+                'startDate': policy.StartDate,
+                'endDate': policy.EndDate,
+                'department': policy.Department,
+                'scope': policy.Scope,
+                'objective': policy.Objective,
+                'identifier': policy.Identifier
+            }
+            policies_data.append(policy_data)
+            
+        return Response({
+            'success': True,
+            'policies': policies_data
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error in get_policies: {str(e)}")
+        return Response({
+            'success': False,
+            'message': f'Error fetching policies: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_subpolicies(request, policy_id):
+    """
+    Get all subpolicies for a policy
+    """
+    try:
+        subpolicies = SubPolicy.objects.filter(
+            PolicyId=policy_id
+        ).order_by('SubPolicyId')
+        
+        subpolicies_data = []
+        for subpolicy in subpolicies:
+            subpolicy_data = {
+                'id': subpolicy.SubPolicyId,
+                'name': subpolicy.SubPolicyName,
+                'description': subpolicy.Description,
+                'status': subpolicy.Status,
+                'createdBy': subpolicy.CreatedByName,
+                'createdDate': subpolicy.CreatedByDate,
+                'identifier': subpolicy.Identifier,
+                'control': subpolicy.Control,
+                'permanentTemporary': subpolicy.PermanentTemporary
+            }
+            subpolicies_data.append(subpolicy_data)
+            
+        return Response({
+            'success': True,
+            'subpolicies': subpolicies_data
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        print(f"Error in get_subpolicies: {str(e)}")
+        return Response({
+            'success': False,
+            'message': f'Error fetching subpolicies: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 

@@ -10,12 +10,11 @@
       <div v-if="!showPolicyDropdown" class="filter-group">
         <label for="frameworkSelect">SELECT FRAMEWORK</label>
         <div class="select-wrapper" title="Choose an existing framework to create a new version with modifications">
-          <select id="frameworkSelect" v-model="selectedFramework" @change="onFrameworkDropdown" title="Select a framework to create a new version of">
-            <option value="" disabled selected>Select a framework</option>
-            <option v-for="framework in frameworks" :key="framework.id" :value="framework.id">
-              {{ framework.name }}
-            </option>
-          </select>
+          <CustomDropdown
+            :config="frameworkDropdownConfig"
+            v-model="selectedFramework"
+            @change="onFrameworkDropdown"
+          />
         </div>
         <button class="switch-btn" @click="switchToPolicy" title="Switch to creating new versions of individual policies instead of entire frameworks">Switch to Policy Versioning</button>
       </div>
@@ -25,12 +24,11 @@
     <div v-if="showPolicyDropdown" class="filter-group">
       <label for="policySelect">Select Policy</label>
       <div class="select-wrapper" title="Choose an approved and active policy to create a new version of">
-        <select id="policySelect" v-model="selectedPolicy" @change="onPolicyDropdown" title="Select a policy to create a new version of">
-          <option value="" disabled selected>Select a policy</option>
-          <option v-for="(policy, idx) in policyOptions" :key="idx" :value="idx">
-            {{ policy.title }}
-          </option>
-        </select>
+        <CustomDropdown
+          :config="policyDropdownConfig"
+          v-model="selectedPolicy"
+          @change="onPolicyDropdown"
+        />
       </div>
       <button v-if="selectedPolicy === ''" class="switch-btn" @click="switchToFramework" title="Switch back to creating new versions of entire frameworks">Switch to Framework Versioning</button>
     </div>
@@ -1041,13 +1039,15 @@
 import { ref, computed, onMounted, getCurrentInstance, watch } from 'vue'
 import axios from 'axios'
 import { PopupService, PopupModal } from '@/modules/popus'
+import CustomDropdown from '@/components/CustomDropdown.vue'
 
 const API_BASE_URL = 'http://localhost:8000/api'
 
 export default {
   name: 'PolicyVersioning',
   components: {
-    PopupModal
+    PopupModal,
+    CustomDropdown
   },
   setup() {
     const { proxy } = getCurrentInstance()
@@ -1175,6 +1175,27 @@ export default {
       return frameworkData.value.InternalExternal === 'Internal'
     })
 
+    // Dropdown configurations for CustomDropdown component
+    const frameworkDropdownConfig = computed(() => ({
+      label: 'SELECT FRAMEWORK',
+      name: 'framework',
+      defaultValue: 'Select a framework',
+      values: frameworks.value.map(fw => ({
+        value: fw.id,
+        label: fw.name
+      }))
+    }))
+
+    const policyDropdownConfig = computed(() => ({
+      label: 'Select Policy',
+      name: 'policy',
+      defaultValue: 'Select a policy',
+      values: policyOptions.value.map((policy, idx) => ({
+        value: idx.toString(),
+        label: policy.title
+      }))
+    }))
+
     // Auto-generate framework identifier when title changes (only for internal frameworks)
     const autoGenerateFrameworkIdentifier = async () => {
       if (isInternalFramework.value && frameworkData.value.title && !isInitialLoad.value) {
@@ -1283,12 +1304,14 @@ export default {
     }
 
     // Fetch framework details when selected
-    const onFrameworkDropdown = async () => {
-      if (!selectedFramework.value) return
+    const onFrameworkDropdown = async (option) => {
+      // Handle both direct value and option object from CustomDropdown
+      const frameworkId = option?.value || selectedFramework.value
+      if (!frameworkId) return
       
       try {
         loading.value = true
-        const response = await axios.get(`${API_BASE_URL}/frameworks/${selectedFramework.value}/`)
+        const response = await axios.get(`${API_BASE_URL}/frameworks/${frameworkId}/`)
         
         // Populate framework data
         frameworkData.value = {
@@ -1377,12 +1400,14 @@ export default {
     }
 
     // Fetch policy details when selected
-    const onPolicyDropdown = async () => {
-      if (selectedPolicy.value === '') return
+    const onPolicyDropdown = async (option) => {
+      // Handle both direct value and option object from CustomDropdown
+      const policyIndex = option?.value || selectedPolicy.value
+      if (policyIndex === '') return
       
       try {
         loading.value = true
-        const selectedPolicyData = policyOptions.value[selectedPolicy.value]
+        const selectedPolicyData = policyOptions.value[policyIndex]
         if (!selectedPolicyData?.id) {
           throw new Error('Invalid policy selection')
         }
@@ -2725,6 +2750,8 @@ export default {
       loading,
       error,
       versionType, // Add version type selection
+      frameworkDropdownConfig, // Add dropdown configurations
+      policyDropdownConfig,
       onFrameworkDropdown,
       onPolicyDropdown,
       switchToPolicy,
