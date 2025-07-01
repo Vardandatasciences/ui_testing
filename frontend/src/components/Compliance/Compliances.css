@@ -2,9 +2,29 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  margin-left: 180px;
+  margin-left: 280px;
 }
 
+.compliance-custom-header {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.compliance-custom-header span {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #344054;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+.compliance-custom-header-underline {
+  margin-top: 16px;
+  width: 100px;
+  height: 6px;
+  border-radius: 4px;
+  background:#4f8cff ;
+}
 h1 {
   color: #2c3e50;
   margin-bottom: 30px;
@@ -33,10 +53,10 @@ h1 {
 }
 
 .compliance-content-wrapper {
-  background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .compliance-section-header {
@@ -47,7 +67,6 @@ h1 {
   color: #1f2937;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #e5e7eb;
 }
 
 .compliance-section-actions {
@@ -707,13 +726,16 @@ h1 {
 .compliance-view-toggle-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 4px;
+  padding: 4px 8px;
   background-color: #f3f4f6;
   border: 1px solid #d1d5db;
   color: #4b5563;
-  border-radius: 6px;
+  border-radius: 4px;
   font-weight: 500;
+  font-size: 13px;
+  min-height: 28px;
+  min-width: 28px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
@@ -725,6 +747,7 @@ h1 {
 
 .compliance-view-toggle-btn i {
   color: #6b7280;
+  font-size: 15px;
 }
 
 .compliance-list-view {
@@ -1050,4 +1073,50 @@ h1 {
 .compliance-audit-id-link:hover {
   color: #1d4ed8;
   text-decoration: underline;
+}
+
+/* Ensure DynamicTable fits and is scrollable if needed */
+.dynamic-table-container {
+  width: 100%;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.dynamic-table {
+  width: 100%;
+  min-width: 900px; /* or a reasonable min width for columns */
+  table-layout: auto;
+}
+
+.dynamic-table th, .dynamic-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* Compact card/list view toggle button for both card and list view */
+.compliance-view-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 13px;
+  min-height: 28px;
+  min-width: 28px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.compliance-view-toggle-btn:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-1px);
+}
+.compliance-view-toggle-btn i {
+  color: #6b7280;
+  font-size: 15px;
 } 

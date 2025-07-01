@@ -4,7 +4,6 @@
   max-width: 1400px;
   margin-right: auto;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  background: #fafafa;
 }
 
 .version-list-header {
@@ -33,40 +32,38 @@
   position: unset;
 }
 
-.select {
-  padding: 1rem 1.5rem !important;
-  border: 1.5px solid #e0e3ea !important;
+/* Custom styles for CustomDropdown components */
+.filter-group :deep(.dropdown-container) {
+  --dropdown-bg: #f9fafb;
+  --dropdown-border: #e0e3ea;
+  --dropdown-hover-bg: #fff;
+  --dropdown-hover-border: #1976d2;
+  --dropdown-label-text: #2d3748;
+  --dropdown-value-text: #333;
+  --dropdown-menu-bg: #fff;
+  --dropdown-menu-shadow: rgba(60, 72, 88, 0.07);
+  --dropdown-item-hover-bg: #f8f9fa;
+  --font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.filter-group :deep(.filter-btn) {
   border-radius: 16px !important;
-  background: #f9fafb !important;
-  font-size: 0.95rem !important;
-  color: #333 !important;
-  font-weight: 500 !important;
   box-shadow: 0 2px 8px rgba(60, 72, 88, 0.07) !important;
   transition: border-color 0.2s, box-shadow 0.2s !important;
-  outline: none !important;
-  appearance: none !important;
-  min-width: 240px !important;
-  cursor: pointer !important;
-  background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='20' height='20' fill='gray' xmlns='http://www.w3.org/2000/svg'><path d='M7 8l3 3 3-3'/></svg>") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 1.5rem center !important;
-  background-size: 2rem !important;
-  margin-bottom: 0 !important;
+  min-width: 140px !important;
+  max-width: 140px !important;
+  width: 140px !important;
 }
 
-.select:focus {
-  border-color: #1976d2 !important;
+.filter-group :deep(.filter-btn:hover) {
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15) !important;
-  background: #fff !important;
 }
 
-.filter-group label {
+.filter-group :deep(.dropdown-label) {
   font-weight: 700 !important;
   color: #2d3748 !important;
-  margin-bottom: 0.5rem !important;
   letter-spacing: 0.03em !important;
   font-size: 1.05rem !important;
-  display: block;
 }
 
 .search-bar-container {

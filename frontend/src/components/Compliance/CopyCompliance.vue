@@ -1,10 +1,24 @@
 <template>
-  <div class="create-compliance-container">
-    <!-- Header section -->
-    <div class="compliance-header">
-      <h2>Template Compliance Record</h2>
-      <p>Create a new compliance item based on an existing one</p>
+  <div class="copy-compliance-page">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-left">
+          <button @click="goBack" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+          <div class="header-text">
+            <h1>Copy Compliance Record</h1>
+            <p>Create a new compliance item based on the selected one. Target location is auto-populated from current context.</p>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Main Content with Scroll -->
+    <div class="page-content">
+      <div class="content-container">
 
     <!-- Message display -->
     <div v-if="successMessage" class="message success-message">
@@ -14,17 +28,28 @@
     <!-- Loading indicator -->
     <div v-if="loading" class="loading-overlay">
       <div class="spinner"></div>
-      <div class="loading-text">Loading data...</div>
+      <div class="loading-text">Loading compliance data...</div>
+    </div>
+
+    <!-- Error message -->
+    <div v-if="error" class="message error-message">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ error }}
     </div>
 
     <!-- Target selection -->
     <div class="field-group selection-fields">
-      <div class="field-group-title">Select Target Location</div>
+      <div class="field-group-title">Target Location</div>
+      <div class="selection-info">
+        <i class="fas fa-info-circle"></i>
+        Framework is auto-selected from your current context. You can choose different Policy and Sub Policy as the target location.
+      </div>
       <div class="row-fields">
         <div class="compliance-field">
           <label for="framework">
             Framework
             <span class="required">*</span>
+            <span class="field-status auto-selected">Auto-selected</span>
           </label>
           <select 
             id="framework" 
@@ -33,7 +58,7 @@
             :class="{ 'error': validationErrors.targetFrameworkId }"
             :ref="'field_targetFrameworkId'"
             required 
-            title="Select the target framework"
+            title="Target framework (auto-selected)"
             disabled
           >
             <option value="" disabled>Select Framework</option>
@@ -48,6 +73,7 @@
           <label for="policy">
             Policy
             <span class="required">*</span>
+            <span class="field-status selectable">Selectable</span>
           </label>
           <select 
             id="policy" 
@@ -56,6 +82,7 @@
             :class="{ 'error': validationErrors.targetPolicyId }"
             :ref="'field_targetPolicyId'"
             required 
+            title="Select target policy"
             :disabled="!targetFrameworkId"
           >
             <option value="" disabled>Select Policy</option>
@@ -70,6 +97,7 @@
           <label for="subpolicy">
             Sub Policy
             <span class="required">*</span>
+            <span class="field-status selectable">Selectable</span>
           </label>
           <select 
             id="subpolicy" 
@@ -78,6 +106,7 @@
             :class="{ 'error': validationErrors.targetSubPolicyId }"
             :ref="'field_targetSubPolicyId'"
             required 
+            title="Select target sub-policy"
             :disabled="!targetPolicyId"
           >
             <option value="" disabled>Select Sub Policy</option>
@@ -567,8 +596,8 @@
       </div>
     </div>
     
-    <div class="compliance-submit-container">
-      <button 
+        <div class="compliance-submit-container">
+                <button 
         class="compliance-submit-btn" 
         @click="validateAndSubmit"
         :disabled="loading || !canSaveCopy"
@@ -576,13 +605,15 @@
         <span v-if="loading">Saving...</span>
         <span v-else>Save Copy</span>
       </button>
-      <button 
-        class="compliance-cancel-btn" 
-        @click="cancelCopy"
-        :disabled="loading"
-      >
-        Cancel
-      </button>
+          <button 
+            class="compliance-cancel-btn" 
+            @click="cancelCopy"
+            :disabled="loading"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -609,7 +640,7 @@ export default {
       impactError: false,
       probabilityError: false,
       originalComplianceId: null,
-      sourceSubPolicyId: null,
+      localSourceSubPolicyId: null,
       categoryOptions: {
         BusinessUnitsCovered: [],
         RiskType: [],
@@ -637,15 +668,7 @@ export default {
           { required: true, message: 'Description is required' },
           { minLength: 20, message: 'Description must be at least 20 characters long' }
         ],
-        targetFrameworkId: [
-          { required: true, message: 'Framework is required' }
-        ],
-        targetPolicyId: [
-          { required: true, message: 'Policy is required' }
-        ],
-        targetSubPolicyId: [
-          { required: true, message: 'Sub Policy is required' }
-        ],
+
         Scope: [
           { required: true, message: 'Scope is required' },
           { minLength: 15, message: 'Scope must be at least 15 characters long' }
@@ -710,13 +733,12 @@ export default {
   },
   computed: {
     canSaveCopy() {
-      // Validate all required fields are filled and subpolicy is different from source
-      return this.compliance && 
+      // Validate all required fields are filled
+      const isValid = this.compliance && 
         this.compliance.ComplianceItemDescription &&
         this.targetFrameworkId &&
         this.targetPolicyId &&
         this.targetSubPolicyId &&
-        this.targetSubPolicyId !== this.sourceSubPolicyId && // Must be different subpolicy
         this.compliance.Criticality &&
         this.compliance.MandatoryOptional &&
         this.compliance.ManualAutomatic &&
@@ -724,6 +746,22 @@ export default {
         this.compliance.Probability && 
         this.compliance.MaturityLevel &&
         this.compliance.reviewer_id;
+        
+      // Only log every 10th check to avoid spam
+      if (Math.random() < 0.1) {
+        console.log('🔍 canSaveCopy check:', {
+          isValid,
+          targetFrameworkId: this.targetFrameworkId,
+          targetPolicyId: this.targetPolicyId,
+          targetSubPolicyId: this.targetSubPolicyId,
+          hasCompliance: !!this.compliance,
+          hasDescription: !!this.compliance?.ComplianceItemDescription,
+          hasCriticality: !!this.compliance?.Criticality,
+          hasReviewer: !!this.compliance?.reviewer_id
+        });
+      }
+      
+      return isValid;
     }
   },
   async created() {
@@ -735,10 +773,18 @@ export default {
     }
     
     this.originalComplianceId = complianceId;
-    await this.loadUsers();
-    await this.loadFrameworks();
     await this.loadComplianceData(complianceId);
+    
+    await this.loadUsers();
     await this.loadCategoryOptions();
+    
+    // Use passed context from route query or load frameworks
+    await this.initializeFromContext();
+    
+    // Set default reviewer if not present
+    if (this.compliance && !this.compliance.reviewer_id && this.users.length > 0) {
+      this.compliance.reviewer_id = this.users[0].UserId;
+    }
     
     // Add click event listener to close dropdowns when clicking outside
     document.addEventListener('click', this.handleClickOutside);
@@ -750,6 +796,8 @@ export default {
   watch: {
     targetFrameworkId(newValue) {
       if (newValue) {
+        console.log('Framework changed to:', newValue); // Debug log
+        this.validationErrors.targetFrameworkId = ''; // Clear validation error
         this.loadPolicies(newValue);
         this.targetPolicyId = '';
         this.targetSubPolicyId = '';
@@ -759,6 +807,8 @@ export default {
     },
     targetPolicyId(newValue) {
       if (newValue) {
+        console.log('Policy changed to:', newValue); // Debug log
+        this.validationErrors.targetPolicyId = ''; // Clear validation error
         this.loadSubPolicies(newValue);
         this.targetSubPolicyId = '';
         this.subPolicies = [];
@@ -767,7 +817,14 @@ export default {
         const selectedPolicy = this.policies.find(p => p.id === newValue);
         if (selectedPolicy && selectedPolicy.applicability && this.compliance) {
           this.compliance.Applicability = selectedPolicy.applicability;
+          console.log('Updated applicability:', this.compliance.Applicability); // Debug log
         }
+      }
+    },
+    targetSubPolicyId(newValue) {
+      if (newValue) {
+        console.log('Sub-policy changed to:', newValue); // Debug log
+        this.validationErrors.targetSubPolicyId = ''; // Clear validation error
       }
     }
   },
@@ -779,13 +836,15 @@ export default {
         
         if (response.data && response.data.success) {
           this.compliance = response.data.data;
-          this.sourceSubPolicyId = this.compliance.SubPolicy;
+          this.localSourceSubPolicyId = this.compliance.SubPolicy;
 
-          // Get the framework ID from the API response and set it as target
-          if (response.data.data.FrameworkId) {
-            this.targetFrameworkId = response.data.data.FrameworkId;
-            await this.loadPolicies(response.data.data.FrameworkId);
-          }
+          console.log('Loaded compliance data:', this.compliance); // Debug log
+
+          // Store framework and policy information for auto-population
+          this.compliance.FrameworkId = response.data.data.FrameworkId;
+          this.compliance.PolicyId = response.data.data.PolicyId;
+          
+          console.log('Framework ID:', this.compliance.FrameworkId, 'Policy ID:', this.compliance.PolicyId); // Debug log
           
           // Set default reviewer if not present
           if (!this.compliance.reviewer_id && this.users.length > 0) {
@@ -794,6 +853,9 @@ export default {
           
           // Clear identifier since a new one will be generated
           this.compliance.Identifier = '';
+
+          // Format mitigation data if needed
+          this.compliance.mitigation = this.formatMitigationData(this.compliance.mitigation);
         } else {
           this.error = 'Failed to load compliance data';
         }
@@ -802,6 +864,170 @@ export default {
         this.error = 'Failed to load compliance data. Please try again.';
       } finally {
         this.loading = false;
+      }
+    },
+    
+    // Format mitigation data to ensure it's in the expected JSON format
+    formatMitigationData(mitigation) {
+      console.log('Formatting mitigation data:', mitigation);
+      
+      // If empty, return empty object
+      if (!mitigation) return {};
+      
+      // If already an object, format it properly
+      if (typeof mitigation === 'object' && mitigation !== null) {
+        // Check if it's already in the numbered format
+        if (Object.keys(mitigation).some(key => !isNaN(parseInt(key)))) {
+          console.log('Mitigation is already in numbered format');
+          return mitigation;
+        }
+        
+        // Convert to numbered format
+        const formattedMitigation = {};
+        // Use Object.values instead since we only need the values
+        Object.values(mitigation).forEach((value, index) => {
+          formattedMitigation[(index + 1).toString()] = value;
+        });
+        
+        console.log('Converted object mitigation to numbered format:', formattedMitigation);
+        return formattedMitigation;
+      }
+      
+      // If it's a string, try to parse as JSON first
+      if (typeof mitigation === 'string') {
+        try {
+          if (mitigation.trim().startsWith('{')) {
+            const parsedMitigation = JSON.parse(mitigation);
+            console.log('Parsed mitigation JSON:', parsedMitigation);
+            
+            // If parsed successfully and it's an object, format it
+            if (typeof parsedMitigation === 'object' && parsedMitigation !== null) {
+              return this.formatMitigationData(parsedMitigation);
+            }
+          }
+        } catch (e) {
+          console.log('Failed to parse mitigation as JSON:', e);
+        }
+        
+        // If parsing failed or it's not JSON, use as single step
+        if (mitigation.trim()) {
+          console.log('Using mitigation string as single step');
+          return { "1": mitigation.trim() };
+        }
+      }
+      
+      // Default empty object
+      return {};
+    },
+    async initializeFromContext() {
+      try {
+        const query = this.$route.query;
+        console.log('=== INITIALIZING FROM CONTEXT ==='); // Debug log
+        console.log('Route query:', query); // Debug log
+        console.log('Current route params:', this.$route.params); // Debug log
+        
+        // Check if we have context from the parent page
+        if (query.frameworkId && query.frameworkName) {
+          console.log('✓ Using context from parent page'); // Debug log
+          console.log('Framework context:', {
+            id: query.frameworkId,
+            name: query.frameworkName
+          }); // Debug log
+          
+          // Set up frameworks array with the current framework
+          this.frameworks = [{
+            id: parseInt(query.frameworkId),
+            name: query.frameworkName
+          }];
+          
+          // Set target framework
+          this.targetFrameworkId = parseInt(query.frameworkId);
+          console.log('Set targetFrameworkId:', this.targetFrameworkId, typeof this.targetFrameworkId);
+          
+          // Load policies for this framework
+          await this.loadPolicies(parseInt(query.frameworkId));
+          
+          // Set target policy if available
+          if (query.policyId && query.policyName) {
+            this.targetPolicyId = parseInt(query.policyId);
+            console.log('Set targetPolicyId:', this.targetPolicyId, typeof this.targetPolicyId);
+          }
+          
+          // Load sub-policies if we have a policy
+          if (query.policyId) {
+            await this.loadSubPolicies(parseInt(query.policyId));
+            
+            // Set target sub-policy if available
+            if (query.subPolicyId && query.subPolicyName) {
+              this.targetSubPolicyId = parseInt(query.subPolicyId);
+              console.log('Set targetSubPolicyId:', this.targetSubPolicyId, typeof this.targetSubPolicyId);
+            }
+          }
+          
+          console.log('Context initialized:', {
+            framework: this.targetFrameworkId,
+            policy: this.targetPolicyId,
+            subPolicy: this.targetSubPolicyId
+          });
+          
+          // Force reactivity update
+          this.$forceUpdate();
+          
+          // Clear any validation errors for target fields
+          this.validationErrors.targetFrameworkId = '';
+          this.validationErrors.targetPolicyId = '';
+          this.validationErrors.targetSubPolicyId = '';
+          
+          console.log('Cleared validation errors for target fields');
+          
+        } else {
+          // Fall back to loading all frameworks
+          console.log('✗ No context provided, loading all frameworks'); // Debug log
+          console.log('Missing context items:', {
+            frameworkId: !!query.frameworkId,
+            frameworkName: !!query.frameworkName,
+            policyId: !!query.policyId,
+            subPolicyId: !!query.subPolicyId
+          }); // Debug log
+          await this.loadFrameworks();
+          await this.autoPopulateTargetFields();
+        }
+      } catch (error) {
+        console.error('Error initializing from context:', error);
+        this.error = 'Failed to initialize page context. Please try again.';
+      }
+    },
+    
+    async autoPopulateTargetFields() {
+      if (!this.compliance) return;
+      
+      try {
+        console.log('Auto-populating target fields...'); // Debug log
+        
+        // Auto-select framework from source compliance
+        if (this.compliance.FrameworkId) {
+          this.targetFrameworkId = this.compliance.FrameworkId;
+          console.log('Set target framework ID:', this.targetFrameworkId); // Debug log
+          
+          await this.loadPolicies(this.compliance.FrameworkId);
+          
+          // Pre-populate policy but don't force it - user can change
+          if (this.compliance.PolicyId) {
+            this.targetPolicyId = this.compliance.PolicyId;
+            console.log('Set target policy ID:', this.targetPolicyId); // Debug log
+            
+            await this.loadSubPolicies(this.compliance.PolicyId);
+            
+            // Pre-populate sub-policy but don't force it - user can change
+            if (this.compliance.SubPolicy) {
+              this.targetSubPolicyId = this.compliance.SubPolicy;
+              console.log('Set target sub-policy ID:', this.targetSubPolicyId); // Debug log
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error auto-populating target fields:', error);
+        this.error = 'Failed to auto-populate target fields. Please select manually.';
       }
     },
     async loadUsers() {
@@ -825,27 +1051,42 @@ export default {
     async loadFrameworks() {
       try {
         this.loading = true;
-        const response = await complianceService.getFrameworks();
+        this.error = null; // Clear any previous errors
+        
+        const response = await complianceService.getComplianceFrameworks();
+        
+        console.log('Frameworks API URL: /api/compliance/frameworks/'); // Debug log
+        console.log('Frameworks response:', response.data); // Debug log
         
         // Handle both response formats: direct array or success wrapper
         let frameworksData;
-        if (response.data.success) {
-          frameworksData = response.data.data;
+        if (response.data.success && response.data.frameworks) {
+          frameworksData = response.data.frameworks;
         } else if (Array.isArray(response.data)) {
           frameworksData = response.data;
         } else {
           console.error('Unexpected response format:', response.data);
-          this.error = 'Failed to load frameworks';
+          this.error = 'Failed to load frameworks - invalid response format';
+          this.frameworks = [];
           return;
         }
         
         this.frameworks = frameworksData.map(fw => ({
-          id: fw.FrameworkId,
-          name: fw.FrameworkName
+          id: fw.id,
+          name: fw.name
         }));
+        
+        console.log('Processed frameworks:', this.frameworks); // Debug log
+        
+        if (this.frameworks.length === 0) {
+          console.warn('No frameworks found');
+          this.error = 'No frameworks available';
+        }
       } catch (error) {
-        this.error = 'Failed to load frameworks';
-        console.error(error);
+        this.error = `Failed to load frameworks: ${error.response?.data?.message || error.message || 'Unknown error'}`;
+        console.error('Framework loading error:', error);
+        console.error('Error response:', error.response);
+        this.frameworks = [];
       } finally {
         this.loading = false;
       }
@@ -853,20 +1094,35 @@ export default {
     async loadPolicies(frameworkId) {
       try {
         this.loading = true;
-        const response = await complianceService.getPolicies(frameworkId);
-        if (response.data.success) {
-          this.policies = response.data.data.map(p => ({
-            id: p.PolicyId,
-            name: p.PolicyName,
-            applicability: p.Applicability || '' // Store the Applicability field
+        this.error = null; // Clear any previous errors
+        
+        const response = await complianceService.getCompliancePolicies(frameworkId);
+        
+        console.log(`Policies API URL: /api/compliance/frameworks/${frameworkId}/policies/list/`); // Debug log
+        console.log('Policies response for framework', frameworkId, ':', response.data); // Debug log
+        
+        if (response.data.success && response.data.policies) {
+          this.policies = response.data.policies.map(p => ({
+            id: p.id,
+            name: p.name,
+            applicability: p.scope || p.Applicability || '' // Store the Applicability field
           }));
+          
+          console.log('Processed policies:', this.policies); // Debug log
+          
+          if (this.policies.length === 0) {
+            console.warn('No policies found for framework:', frameworkId);
+          }
         } else {
           console.error('Error in response:', response.data);
-          this.error = 'Failed to load policies';
+          this.error = 'Failed to load policies for the selected framework';
+          this.policies = [];
         }
       } catch (error) {
-        this.error = 'Failed to load policies';
-        console.error(error);
+        this.error = `Failed to load policies: ${error.response?.data?.message || error.message || 'Unknown error'}`;
+        console.error('Policy loading error:', error);
+        console.error('Error response:', error.response);
+        this.policies = [];
       } finally {
         this.loading = false;
       }
@@ -874,17 +1130,35 @@ export default {
     async loadSubPolicies(policyId) {
       try {
         this.loading = true;
-        const response = await complianceService.getSubPolicies(policyId);
-        this.subPolicies = response.data.data
-          .map(sp => ({
-            id: sp.SubPolicyId,
-            name: sp.SubPolicyName
-          }))
-          // Filter out the source subpolicy to prevent copying to same subpolicy
-          .filter(sp => sp.id !== this.sourceSubPolicyId);
+        this.error = null; // Clear any previous errors
+        
+        const response = await complianceService.getComplianceSubPolicies(policyId);
+        
+        console.log(`Sub-policies API URL: /api/compliance/policies/${policyId}/subpolicies/`); // Debug log
+        console.log('Sub-policies response for policy', policyId, ':', response.data); // Debug log
+        
+        if (response.data.success && response.data.subpolicies) {
+          this.subPolicies = response.data.subpolicies
+            .map(sp => ({
+              id: sp.id,
+              name: sp.name
+            }));
+            
+          console.log('Processed sub-policies:', this.subPolicies); // Debug log
+          
+          if (this.subPolicies.length === 0) {
+            console.warn('No sub-policies found for policy:', policyId);
+          }
+        } else {
+          console.error('Error in response:', response.data);
+          this.error = 'Failed to load sub-policies for the selected policy';
+          this.subPolicies = [];
+        }
       } catch (error) {
-        this.error = 'Failed to load sub-policies';
-        console.error(error);
+        this.error = `Failed to load sub-policies: ${error.response?.data?.message || error.message || 'Unknown error'}`;
+        console.error('Sub-policy loading error:', error);
+        console.error('Error response:', error.response);
+        this.subPolicies = [];
       } finally {
         this.loading = false;
       }
@@ -897,9 +1171,10 @@ export default {
       const value = parseFloat(event.target.value);
       this.probabilityError = value < 1 || value > 10;
     },
+    
     getDefaultDueDate() {
       const date = new Date();
-      date.setDate(date.getDate() + 7);
+      date.setDate(date.getDate() + 7); // 7 days from now
       return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     },
     async submitCopy() {
@@ -913,24 +1188,82 @@ export default {
         this.error = null;
         this.successMessage = null;
         
+        console.log('🚀 Preparing clone data...');
+        console.log('Original compliance:', this.compliance);
+        console.log('Target SubPolicy ID:', this.targetSubPolicyId);
+        
+        // Format mitigation data as JSON object using our helper function
+        const formattedMitigation = this.formatMitigationData(this.compliance.mitigation);
+        
+        console.log('📋 Formatted mitigation:', formattedMitigation);
+        
         const cloneData = {
-          ...this.compliance,
-          Impact: String(this.compliance.Impact),
-          Probability: String(this.compliance.Probability),
+          // Basic compliance fields
+          ComplianceTitle: this.compliance.ComplianceTitle || '',
+          ComplianceItemDescription: this.compliance.ComplianceItemDescription || '',
+          ComplianceType: this.compliance.ComplianceType || '',
+          Scope: this.compliance.Scope || '',
+          Objective: this.compliance.Objective || '',
+          BusinessUnitsCovered: this.compliance.BusinessUnitsCovered || '',
+          
+          // Risk fields
+          IsRisk: Boolean(this.compliance.IsRisk),
+          PossibleDamage: this.compliance.PossibleDamage || '',
+          mitigation: formattedMitigation, // Using the formatted JSON object
+          PotentialRiskScenarios: this.compliance.PotentialRiskScenarios || '',
+          RiskType: this.compliance.RiskType || '',
+          RiskCategory: this.compliance.RiskCategory || '',
+          RiskBusinessImpact: this.compliance.RiskBusinessImpact || '',
+          
+          // Classification fields
+          Criticality: this.compliance.Criticality || 'Medium',
+          MandatoryOptional: this.compliance.MandatoryOptional || 'Mandatory',
+          ManualAutomatic: this.compliance.ManualAutomatic || 'Manual',
+          Impact: String(this.compliance.Impact || 5.0),
+          Probability: String(this.compliance.Probability || 5.0),
+          MaturityLevel: this.compliance.MaturityLevel || 'Initial',
+          
+          // Target location - CRITICAL: Make sure both field names are included
+          SubPolicy: this.targetSubPolicyId,
           target_subpolicy_id: this.targetSubPolicyId,
+          
+          // Status fields
           Status: 'Under Review',
           ActiveInactive: 'Inactive',
-          PermanentTemporary: this.compliance.PermanentTemporary || 'Permanent',
           ComplianceVersion: '1.0',
-
+          PermanentTemporary: this.compliance.PermanentTemporary || 'Permanent',
+          
+          // Reviewer
           reviewer_id: this.compliance.reviewer_id,
-          Applicability: this.compliance.Applicability
+          reviewer: this.compliance.reviewer_id, // Support both field names
+          
+          // Other fields
+          Applicability: this.compliance.Applicability || '',
+          Identifier: '', // Will be auto-generated
+          CreatedByName: (this.compliance.reviewer_id || this.compliance.reviewer).toString(),
+          
+          // Ensure all dates are properly formatted
+          ApprovalDueDate: this.getDefaultDueDate(),
+          
+          // Add any missing fields that might be required by backend
+          ComplianceId: null, // Will be auto-generated
+          FrameworkId: null, // Not needed for clone
+          PolicyId: null // Not needed for clone
         };
+
+        console.log('📦 Clone data prepared:', cloneData);
+        console.log('🔑 Key fields check:');
+        console.log('- SubPolicy:', cloneData.SubPolicy);
+        console.log('- target_subpolicy_id:', cloneData.target_subpolicy_id);
+        console.log('- reviewer_id:', cloneData.reviewer_id);
+        console.log('- ApprovalDueDate:', cloneData.ApprovalDueDate);
 
         const response = await complianceService.cloneCompliance(
           this.originalComplianceId,
           cloneData
         );
+
+        console.log('📬 Clone response:', response.data);
 
         if (response.data.success) {
           // Show success popup with the correct data structure
@@ -948,14 +1281,31 @@ export default {
         }
       } catch (error) {
         console.error('Copy error:', error);
+        console.error('Error response:', error.response);
         this.error = 'Failed to copy compliance: ' + (error.response?.data?.message || error.message);
       } finally {
         this.loading = false;
       }
     },
     cancelCopy() {
-      // Navigate back to the tailoring page
+      // Navigate back to tailoring page
       this.$router.push('/compliance/tailoring');
+    },
+    
+    goBack() {
+      // Navigate back to tailoring page with current context
+      const query = this.$route.query;
+      if (query.frameworkId && query.policyId && query.subPolicyId) {
+        // Go back to tailoring page (it will handle context restoration)
+        this.$router.push('/compliance/tailoring');
+      } else {
+        // Generic back navigation
+        if (window.history.length > 1) {
+          this.$router.go(-1);
+        } else {
+          this.$router.push('/compliance/tailoring');
+        }
+      }
     },
     async loadCategoryOptions() {
       try {
@@ -1095,18 +1445,44 @@ export default {
       }
     },
     scrollToError() {
-      const errorFields = Object.keys(this.validationErrors);
+      const errorFields = Object.keys(this.validationErrors).filter(field => this.validationErrors[field]);
+      console.log('📍 Scrolling to error for fields:', errorFields);
+      
       if (errorFields.length > 0) {
         const firstErrorField = errorFields[0];
-        const errorElement = this.$refs[`field_${firstErrorField}`];
+        console.log('🎯 First error field:', firstErrorField);
+        
+        // Handle target fields differently since they don't have refs with field_ prefix
+        let errorElement;
+        if (firstErrorField.startsWith('target')) {
+          const fieldMap = {
+            'targetFrameworkId': 'framework',
+            'targetPolicyId': 'policy', 
+            'targetSubPolicyId': 'subpolicy'
+          };
+          errorElement = document.getElementById(fieldMap[firstErrorField]);
+        } else {
+          errorElement = this.$refs[`field_${firstErrorField}`];
+        }
         
         if (errorElement) {
+          console.log('✅ Found error element, scrolling...');
           errorElement.scrollIntoView({
             behavior: 'smooth',
             block: 'center'
           });
           if (errorElement.focus) {
             errorElement.focus();
+          }
+        } else {
+          console.log('❌ Error element not found for:', firstErrorField);
+          // Fallback: scroll to target location section
+          const targetSection = document.querySelector('.selection-fields');
+          if (targetSection) {
+            targetSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
           }
         }
       }
@@ -1189,23 +1565,56 @@ export default {
       return isValid;
     },
     validateAndSubmit() {
+      console.log('🚀 Starting validation and submit');
+      console.log('Current target values:', {
+        framework: this.targetFrameworkId,
+        policy: this.targetPolicyId,
+        subPolicy: this.targetSubPolicyId
+      });
+      
       this.validationErrors = {};
       let isValid = true;
 
-      // Validate all fields
+      // Validate target fields first - these don't use the standard validation rules
+      if (!this.targetFrameworkId) {
+        this.validationErrors.targetFrameworkId = 'Framework is required';
+        isValid = false;
+      }
+      
+      if (!this.targetPolicyId) {
+        this.validationErrors.targetPolicyId = 'Policy is required';
+        isValid = false;
+      }
+      
+      if (!this.targetSubPolicyId) {
+        this.validationErrors.targetSubPolicyId = 'Sub Policy is required';
+        isValid = false;
+      }
+
+      // Validate other fields using the standard validation rules
       Object.keys(this.validationRules).forEach(field => {
-        if (!this.validateField(field)) {
-          isValid = false;
+        // Skip target fields as we've already validated them above
+        if (!field.startsWith('target')) {
+          if (!this.validateField(field)) {
+            isValid = false;
+          }
         }
       });
 
+      console.log('📋 Validation result:', {
+        isValid,
+        validationErrors: this.validationErrors
+      });
+
       if (!isValid) {
+        console.log('❌ Validation failed, scrolling to error');
         this.$nextTick(() => {
           this.scrollToError();
         });
         return;
       }
 
+      console.log('✅ Validation passed, submitting...');
       // If valid, proceed with submission
       this.submitCopy();
     }
@@ -1214,44 +1623,524 @@ export default {
 </script>
 
 <style scoped>
-@import './CreateCompliance.css';
+/* Page Layout */
+.copy-compliance-page {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+}
 
-.compliance-cancel-btn {
-  width: auto;
-  min-width: 120px;
-  padding: 0.875rem 1.75rem;
-  background-color: #f1f5f9;
-  color: #64748b;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border: 1px solid #cbd5e1;
+/* Header Styles */
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.back-button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.header-text h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.header-text p {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Main Content */
+.page-content {
+  flex: 1;
+  padding: 2rem 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: white;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+/* Messages */
+.message {
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.success-message {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.error-message {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.error-message i {
+  margin-right: 0.5rem;
+}
+
+/* Field Groups */
+.field-group {
+  margin-bottom: 2rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.field-group-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #667eea;
+}
+
+.selection-fields {
+  background-color: #e0e7ff;
+  border: 1px solid #a5b4fc;
+}
+
+.risk-fields {
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+}
+
+.classification-fields {
+  background-color: #ddd6fe;
+  border: 1px solid #a78bfa;
+}
+
+.approval-fields {
+  background-color: #d1fae5;
+  border: 1px solid #34d399;
+}
+
+/* Form Fields */
+.row-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.compliance-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.compliance-field label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.compliance-input,
+.compliance-select {
+  padding: 0.875rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: white;
+}
+
+.compliance-input:focus,
+.compliance-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.compliance-input:disabled,
+.compliance-select:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-color: #d1d5db;
+  opacity: 0.7;
+}
+
+.compliance-select:not(:disabled) {
+  background-color: white;
+  cursor: pointer;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Character Count */
+.char-count {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 0.75rem;
+  color: #6b7280;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.char-count.error {
+  color: #dc2626;
+}
+
+/* Checkbox Container */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  padding-top: 1.75rem;
+}
+
+/* Selection Info */
+.selection-info {
+  background-color: #e0f2fe;
+  border: 1px solid #0284c7;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: #0c4a6e;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
   gap: 0.75rem;
-  margin: 2rem 0.5rem;
+}
+
+.selection-info i {
+  color: #0284c7;
+  font-size: 1.25rem;
+}
+
+/* Searchable Dropdowns */
+.searchable-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.dropdown-option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-option:hover {
+  background-color: #f8fafc;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-add-option {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.dropdown-add-btn {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px dashed #9ca3af;
+  background: white;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dropdown-add-btn:hover {
+  background: #f3f4f6;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+/* Submit Container */
+.compliance-submit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.compliance-submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.compliance-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.compliance-submit-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.compliance-cancel-btn {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .compliance-cancel-btn:hover {
   background-color: #e2e8f0;
   color: #475569;
+  transform: translateY(-1px);
 }
 
-.compliance-submit-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 2rem;
+/* Error Styles */
+.compliance-input.error,
+.compliance-select.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
 }
 
-.compliance-submit-btn:disabled {
-  background-color: #94a3b8;
-  cursor: not-allowed;
-  transform: none;
+.compliance-input.error:focus,
+.compliance-select.error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.field-error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #fef2f2;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 0.25rem;
+}
+
+.field-requirements {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  font-weight: 400;
+}
+
+.field-status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.field-status.auto-selected {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+}
+
+.field-status.selectable {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #22c55e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1.5rem 0;
+  }
+  
+  .header-content {
+    padding: 0 1rem;
+  }
+  
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .header-text h1 {
+    font-size: 1.5rem;
+  }
+  
+  .content-container {
+    margin: 0 1rem;
+    padding: 1.5rem;
+  }
+  
+  .row-fields {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .compliance-submit-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .compliance-submit-btn,
+  .compliance-cancel-btn {
+    width: 100%;
+  }
+}
+
+/* Smooth Scrolling */
+.page-content {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.page-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.page-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.page-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.page-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .field-error-message {
@@ -1317,5 +2206,22 @@ export default {
 
 .validation-feedback {
   margin-top: 0.25rem;
+}
+
+.selection-info {
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  color: #1565c0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.selection-info i {
+  color: #2196f3;
 }
 </style> 

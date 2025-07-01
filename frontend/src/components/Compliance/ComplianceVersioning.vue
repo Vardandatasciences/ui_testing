@@ -7,108 +7,78 @@
     <!-- Filter Section -->
     <div class="filter-section">
       <div class="filter-group">
-        <label>Framework:</label>
-        <select v-model="selectedFramework" @change="loadPolicies" class="select">
-          <option value="">Select Framework</option>
-          <option v-for="framework in frameworks" 
-                  :key="framework.FrameworkId" 
-                  :value="framework.FrameworkId">
-            {{ framework.FrameworkName }}
-          </option>
-        </select>
+        <CustomDropdown
+          :config="frameworkDropdownConfig"
+          v-model="selectedFramework"
+          @change="onFrameworkChange"
+        />
       </div>
 
       <div class="filter-group">
-        <label>Policy:</label>
-        <select v-model="selectedPolicy" @change="loadSubPolicies" :disabled="!selectedFramework" class="select">
-          <option value="">Select Policy</option>
-          <option v-for="policy in policies" 
-                  :key="policy.PolicyId" 
-                  :value="policy.PolicyId">
-            {{ policy.PolicyName }}
-          </option>
-        </select>
+        <CustomDropdown
+          :config="policyDropdownConfig"
+          v-model="selectedPolicy"
+          @change="onPolicyChange"
+          :disabled="!selectedFramework"
+        />
       </div>
 
       <div class="filter-group">
-        <label>Sub Policy:</label>
-        <select v-model="selectedSubPolicy" @change="loadCompliances" :disabled="!selectedPolicy" class="select">
-          <option value="">Select Sub Policy</option>
-          <option v-for="subPolicy in subPolicies" 
-                  :key="subPolicy.SubPolicyId" 
-                  :value="subPolicy.SubPolicyId">
-            {{ subPolicy.SubPolicyName }}
-          </option>
-        </select>
+        <CustomDropdown
+          :config="subPolicyDropdownConfig"
+          v-model="selectedSubPolicy"
+          @change="onSubPolicyChange"
+          :disabled="!selectedPolicy"
+        />
       </div>
 
       <!-- Search Bar -->
-      <div class="search-bar-container">
-        <input
-          v-model="searchQuery"
-          @keyup.enter="handleSearch"
-          type="text"
-          class="search-input"
-          placeholder="Search..."
-        />
-        <button class="search-btn" @click="handleSearch">
-          <svg height="20" width="20" viewBox="0 0 20 20" fill="none">
-            <circle cx="9" cy="9" r="7" stroke="white" stroke-width="2"/>
-            <line x1="14.2" y1="14.2" x2="18" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
     </div>
 
-    <!-- Grouped Compliance Table -->
+    <!-- Grouped Compliance Table using DynamicTable -->
     <div class="table-container" v-if="groupedCompliances.length > 0">
       <div v-for="(group, groupIndex) in groupedCompliances" :key="groupIndex" class="compliance-group">
         <div class="group-header">
           <h3>Compliance ID: {{ group[0].Identifier }}</h3>
           <div class="group-description">{{ group[0].ComplianceItemDescription }}</div>
         </div>
-        
         <div class="table-wrapper">
-          <table class="compliance-table">
-            <thead>
-              <tr>
-                <th>Version</th>
-                <th>Status</th>
-                <th>Active/Inactive</th>
-                <th>Created By</th>
-                <th>Created Date</th>
-                <th>Previous Version</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="compliance in group" 
-                  :key="compliance.ComplianceId"
-                  :class="{ 'active-version': compliance.ActiveInactive === 'Active' }">
-                <td>{{ compliance.ComplianceVersion }}</td>
-                <td>{{ compliance.Status }}</td>
-                <td>
-                  <div class="toggle-switch">
-                    <input 
-                      type="checkbox" 
-                      :id="'toggle-' + compliance.ComplianceId"
-                      :checked="compliance.ActiveInactive === 'Active'"
-                      @change="toggleActiveStatus(compliance)"
-                      :disabled="compliance.Status !== 'Approved'"
-                    >
-                    <label :for="'toggle-' + compliance.ComplianceId"></label>
-                  </div>
-                </td>
-                <td>{{ compliance.CreatedByName || 'N/A' }}</td>
-                <td>{{ formatDate(compliance.CreatedByDate) }}</td>
-                <td>{{ getPreviousVersionDisplay(compliance) }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <DynamicTable
+            :data="group"
+            :columns="tableColumns"
+            :showPagination="false"
+          >
+            <template #cell-ActiveInactive="{ row }">
+              <div class="toggle-switch">
+                <input
+                  type="checkbox"
+                  :id="'toggle-' + row.ComplianceId"
+                  :checked="row.ActiveInactive === 'Active'"
+                  @change="toggleActiveStatus(row)"
+                  :disabled="row.Status !== 'Approved'"
+                >
+                <label :for="'toggle-' + row.ComplianceId"></label>
+              </div>
+            </template>
+            <template #cell-CreatedByDate="{ row }">
+              {{ formatDate(row.CreatedByDate) }}
+            </template>
+            <template #cell-PreviousComplianceVersionId="{ row }">
+              {{ getPreviousVersionDisplay(row) }}
+            </template>
+          </DynamicTable>
         </div>
       </div>
     </div>
     <div v-else-if="selectedSubPolicy" class="no-data">
       No compliances found for the selected criteria
+    </div>
+    
+    <!-- Error Message Display -->
+    <div v-if="error" class="error-message">
+      <div class="error-icon">⚠️</div>
+      <div class="error-text">{{ error }}</div>
+      <button @click="refreshCurrentData" class="retry-button">Retry</button>
     </div>
     
     <!-- Deactivation Dialog -->
@@ -157,9 +127,16 @@
 
 <script>
 import { complianceService } from '@/services/api';
+import axios from 'axios';
+import CustomDropdown from '@/components/CustomDropdown.vue';
+import DynamicTable from '@/components/DynamicTable.vue';
 
 export default {
   name: 'ComplianceVersionList',
+  components: {
+    CustomDropdown,
+    DynamicTable
+  },
   data() {
     return {
       frameworks: [],
@@ -176,7 +153,31 @@ export default {
       cascadeToPolicies: true,
       affectedPoliciesCount: 0,
       complianceToDeactivate: null,
-      showDeactivationConfirmation: false
+      showDeactivationConfirmation: false,
+      error: null,
+      frameworkDropdownConfig: {
+        values: [],
+        defaultLabel: 'Select Framework',
+        name: 'Framework'
+      },
+      policyDropdownConfig: {
+        values: [],
+        defaultLabel: 'Select Policy',
+        name: 'Policy'
+      },
+      subPolicyDropdownConfig: {
+        values: [],
+        defaultLabel: 'Select Sub Policy',
+        name: 'Sub Policy'
+      },
+      tableColumns: [
+        { key: 'ComplianceVersion', label: 'Version' },
+        { key: 'Status', label: 'Status' },
+        { key: 'ActiveInactive', label: 'Active/Inactive', slot: true },
+        { key: 'CreatedByName', label: 'Created By' },
+        { key: 'CreatedByDate', label: 'Created Date', slot: true },
+        { key: 'PreviousComplianceVersionId', label: 'Previous Version', slot: true }
+      ],
     }
   },
   computed: {
@@ -213,16 +214,35 @@ export default {
     async loadFrameworks() {
       try {
         this.loading = true;
-        const response = await complianceService.getFrameworks();
+        const response = await complianceService.getComplianceFrameworks();
+        console.log('Frameworks API response:', response.data);
         
         // Handle both response formats: direct array or success wrapper
-        if (response.data.success) {
-          this.frameworks = response.data.data;
+        let frameworksData = [];
+        if (response.data.success && response.data.frameworks) {
+          frameworksData = response.data.frameworks;
+        } else if (response.data.success && Array.isArray(response.data.data)) {
+          frameworksData = response.data.data;
         } else if (Array.isArray(response.data)) {
-          this.frameworks = response.data;
+          frameworksData = response.data;
         } else {
           console.error('Unexpected response format:', response.data);
         }
+        
+        // Map the data to match the expected format in the component
+        this.frameworks = frameworksData.map(fw => ({
+          FrameworkId: fw.id,
+          FrameworkName: fw.name,
+          Category: fw.category || '',
+          Status: fw.status || '',
+          Description: fw.description || ''
+        }));
+        
+        console.log('Mapped frameworks:', this.frameworks);
+        this.frameworkDropdownConfig.values = this.frameworks.map(fw => ({
+          value: fw.FrameworkId,
+          label: fw.FrameworkName
+        }));
       } catch (error) {
         console.error('Error loading frameworks:', error);
       } finally {
@@ -235,16 +255,36 @@ export default {
         this.selectedPolicy = '';
         return;
       }
+      console.log('Calling getCompliancePolicies with ID:', this.selectedFramework);
       try {
         this.loading = true;
-        const response = await complianceService.getPolicies(this.selectedFramework);
-        if (response.data.success) {
-          this.policies = response.data.data;
+        const response = await complianceService.getCompliancePolicies(this.selectedFramework);
+        console.log('Policies API response:', response.data);
+        
+        let policiesData = [];
+        if (response.data.success && response.data.policies) {
+          policiesData = response.data.policies;
+        } else if (response.data.success && Array.isArray(response.data.data)) {
+          policiesData = response.data.data;
         } else if (Array.isArray(response.data)) {
-          this.policies = response.data;
+          policiesData = response.data;
         } else {
           console.error('Unexpected response format:', response.data);
         }
+        
+        // Map the data to match the expected format in the component
+        this.policies = policiesData.map(p => ({
+          PolicyId: p.id,
+          PolicyName: p.name,
+          Applicability: p.applicability || p.scope || '',
+          Status: p.status || ''
+        }));
+        
+        console.log('Mapped policies:', this.policies);
+        this.policyDropdownConfig.values = this.policies.map(p => ({
+          value: p.PolicyId,
+          label: p.PolicyName
+        }));
         this.selectedPolicy = '';
         this.selectedSubPolicy = '';
       } catch (error) {
@@ -261,14 +301,35 @@ export default {
       }
       try {
         this.loading = true;
-        const response = await complianceService.getSubPolicies(this.selectedPolicy);
-        if (response.data.success) {
-          this.subPolicies = response.data.data;
+        const response = await complianceService.getComplianceSubPolicies(this.selectedPolicy);
+        console.log('SubPolicies API response:', response.data);
+        
+        let subpoliciesData = [];
+        if (response.data.success && response.data.subpolicies) {
+          subpoliciesData = response.data.subpolicies;
+        } else if (response.data.success && Array.isArray(response.data.data)) {
+          subpoliciesData = response.data.data;
         } else if (Array.isArray(response.data)) {
-          this.subPolicies = response.data;
+          subpoliciesData = response.data;
         } else {
           console.error('Unexpected response format:', response.data);
         }
+        
+        // Map the data to match the expected format in the component
+        this.subPolicies = subpoliciesData.map(sp => ({
+          SubPolicyId: sp.id,
+          SubPolicyName: sp.name,
+          Status: sp.status || '',
+          Description: sp.description || '',
+          Control: sp.control || '',
+          Identifier: sp.identifier || ''
+        }));
+        
+        console.log('Mapped subpolicies:', this.subPolicies);
+        this.subPolicyDropdownConfig.values = this.subPolicies.map(sp => ({
+          value: sp.SubPolicyId,
+          label: sp.SubPolicyName
+        }));
         this.selectedSubPolicy = '';
       } catch (error) {
         console.error('Error loading subpolicies:', error);
@@ -327,9 +388,30 @@ export default {
           }
         } else {
           console.error('Error in response:', response.data);
+          this.error = response.data.message || 'Failed to load compliances';
         }
       } catch (error) {
         console.error('Error loading compliances:', error);
+        // Check if it's a 500 error
+        if (error.response && error.response.status === 500) {
+          console.error('Server error (500):', error.response.data);
+          this.error = 'Server error: The compliance data could not be loaded. Please try again later or contact support.';
+          
+          // Try to use the alternative endpoint
+          try {
+            console.log('Attempting to use alternative endpoint...');
+            const altResponse = await complianceService.getCompliancesByType('subpolicy', this.selectedSubPolicy);
+            if (altResponse.data.success && altResponse.data.compliances) {
+              this.compliances = altResponse.data.compliances;
+              this.error = null;
+              console.log('Successfully loaded compliances from alternative endpoint');
+            }
+          } catch (altError) {
+            console.error('Alternative endpoint also failed:', altError);
+          }
+        } else {
+          this.error = error.message || 'Failed to load compliances';
+        }
       } finally {
         this.loading = false;
       }
@@ -354,16 +436,79 @@ export default {
       // Otherwise proceed with normal toggle for activation
       try {
         this.loading = true;
-        const response = await complianceService.toggleComplianceVersion(compliance.ComplianceId);
+        this.error = null;
         
-        if (response.data.success) {
+        console.log(`Toggling compliance ${compliance.ComplianceId} to Active`);
+        
+        let response;
+        
+        try {
+          // Try the primary endpoint first
+          response = await complianceService.toggleComplianceVersion(compliance.ComplianceId);
+          console.log('Toggle response from primary endpoint:', response.data);
+        } catch (primaryError) {
+          console.error('Primary endpoint failed:', primaryError);
+          
+          // If the primary endpoint fails with a 404, try the alternative endpoint
+          if (primaryError.response && primaryError.response.status === 404) {
+            console.log('Trying alternative toggle endpoint...');
+            
+            // Create a simple toggle request payload
+            const toggleData = {
+              compliance_id: compliance.ComplianceId,
+              new_status: compliance.ActiveInactive === 'Active' ? 'Inactive' : 'Active'
+            };
+            
+            // Try alternative endpoint
+            try {
+              response = await axios.post(`/api/compliance/${compliance.ComplianceId}/toggle/`, toggleData);
+              console.log('Toggle response from alternative endpoint:', response.data);
+            } catch (altError) {
+              console.error('Alternative endpoint also failed:', altError);
+              throw altError; // Re-throw to be caught by the outer catch
+            }
+          } else {
+            throw primaryError; // Re-throw to be caught by the outer catch
+          }
+        }
+        
+        if (response && response.data && response.data.success) {
+          console.log(`Successfully toggled compliance to ${response.data.new_status}`);
+          // Refresh the data
           await this.loadCompliances();
         } else {
-          alert(response.data.message || 'Error toggling compliance status');
+          const errorMsg = (response && response.data && response.data.message) || 'Error toggling compliance status';
+          console.error('Error in toggle response:', errorMsg);
+          this.error = `Failed to toggle compliance status: ${errorMsg}`;
+          
+          // Reset the checkbox state to match the actual status
+          const checkbox = document.getElementById(`toggle-${compliance.ComplianceId}`);
+          if (checkbox) {
+            checkbox.checked = compliance.ActiveInactive === 'Active';
+          }
         }
       } catch (error) {
         console.error('Error toggling compliance status:', error);
-        alert('Error toggling compliance status');
+        
+        // Show detailed error information
+        let errorMsg = 'Error toggling compliance status';
+        if (error.response) {
+          console.error('Error response:', error.response.data);
+          errorMsg += `: ${error.response.data.message || error.response.statusText}`;
+        } else if (error.request) {
+          console.error('Error request:', error.request);
+          errorMsg += ' - No response received from server';
+        } else {
+          errorMsg += `: ${error.message}`;
+        }
+        
+        this.error = errorMsg;
+        
+        // Reset the checkbox state to match the actual status
+        const checkbox = document.getElementById(`toggle-${compliance.ComplianceId}`);
+        if (checkbox) {
+          checkbox.checked = compliance.ActiveInactive === 'Active';
+        }
       } finally {
         this.loading = false;
       }
@@ -439,6 +584,30 @@ export default {
     },
     handleSearch() {
       // Filtering is handled reactively in computed property
+    },
+    refreshCurrentData() {
+      this.error = null;
+      if (this.selectedSubPolicy) {
+        this.loadCompliances();
+      } else if (this.selectedPolicy) {
+        this.loadSubPolicies();
+      } else if (this.selectedFramework) {
+        this.loadPolicies();
+      } else {
+        this.loadFrameworks();
+      }
+    },
+    onFrameworkChange(option) {
+      this.selectedFramework = option.value;
+      this.loadPolicies();
+    },
+    onPolicyChange(option) {
+      this.selectedPolicy = option.value;
+      this.loadSubPolicies();
+    },
+    onSubPolicyChange(option) {
+      this.selectedSubPolicy = option.value;
+      this.loadCompliances();
     }
   }
 }
@@ -533,5 +702,41 @@ export default {
 .approval-info i {
   color: #4285f4;
   font-size: 18px;
+}
+
+/* Error message styles */
+.error-message {
+  margin: 20px;
+  padding: 15px;
+  background-color: #fff1f0;
+  border: 1px solid #ffccc7;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.error-icon {
+  font-size: 24px;
+}
+
+.error-text {
+  flex-grow: 1;
+  color: #cf1322;
+  font-size: 14px;
+}
+
+.retry-button {
+  padding: 6px 12px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.retry-button:hover {
+  background-color: #40a9ff;
 }
 </style> 

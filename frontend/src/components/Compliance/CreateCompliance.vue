@@ -1,14 +1,11 @@
 <template>
   <div class="create-compliance-container">
-    <!-- Header section -->
-    <div class="compliance-header">
-      <h2>Create Compliance Record</h2>
-      <p>Add new compliance items to track in your GRC system</p>
+    <div class="compliance-headers">
+      <span>Control Management</span>
+      <div class="compliance-headers-underline"></div>
     </div>
-
     <!-- Popup Modal -->
     <PopupModal />
-
     <!-- Selection controls -->
     <div class="field-group selection-fields">
       <div class="field-group-title">Select Policy Framework</div>
@@ -20,7 +17,6 @@
             <option v-for="fw in frameworks" :key="fw.id" :value="fw">{{ fw.name }}</option>
           </select>
         </div>
-        
         <div class="compliance-field">
           <label for="policy">Policy</label>
           <select id="policy" v-model="selectedPolicy" class="compliance-select" required title="Select the policy within the framework">
@@ -28,7 +24,6 @@
             <option v-for="p in policies" :key="p.id" :value="p">{{ p.name }}</option>
           </select>
         </div>
-        
         <div class="compliance-field">
           <label for="subpolicy">Sub Policy</label>
           <select id="subpolicy" v-model="selectedSubPolicy" class="compliance-select" required title="Select the sub-policy within the policy">
@@ -38,7 +33,6 @@
         </div>
       </div>
     </div>
-
     <!-- Compliance items list with tabs -->
     <div class="compliance-list">
       <!-- Tabs navigation -->
@@ -68,7 +62,6 @@
           <span class="btn-icon">+</span>
         </button>
       </div>
-
       <!-- Tab content - only show active tab -->
       <div 
         v-for="(compliance, idx) in complianceList" 
@@ -257,17 +250,28 @@
           </div>
           
           <div class="compliance-field full-width">
-            <label>Mitigation</label>
-            <textarea
-              v-model="compliance.mitigation" 
-              @input="onFieldChange(idx, 'mitigation', $event)"
-              class="compliance-input" 
-              placeholder="Mitigation"
-              rows="3"
-              required
-              :maxlength="validationRules.maxLengths.mitigation"
-              title="Actions taken to reduce the risk or its impact" 
-            ></textarea>
+            <label>Mitigation Steps</label>
+            <div class="mitigation-steps">
+              <div v-for="(step, stepIndex) in compliance.mitigationSteps" :key="stepIndex" class="mitigation-step">
+                <div class="step-header">
+                  <span class="step-number">Step {{ stepIndex + 1 }}</span>
+                  <button type="button" class="remove-step-btn" @click="removeStep(idx, stepIndex)" title="Remove this step">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <textarea
+                  v-model="step.description"
+                  @input="onMitigationStepChange(idx)"
+                  class="compliance-input"
+                  placeholder="Describe this mitigation step"
+                  rows="2"
+                  required
+                ></textarea>
+              </div>
+              <button type="button" class="add-step-btn" @click="addStep(idx)" title="Add new mitigation step">
+                <i class="fas fa-plus"></i> Add Step
+              </button>
+            </div>
             <div v-if="compliance.validationErrors && compliance.validationErrors.mitigation" 
                  class="validation-error">
               {{ compliance.validationErrors.mitigation.join(', ') }}
@@ -295,34 +299,21 @@
           <div class="row-fields">
             <div class="compliance-field">
               <label>Risk Type</label>
-              <div class="searchable-dropdown">
-                <input 
-                  v-model="riskTypeSearch[idx]" 
-                  class="compliance-input" 
-                  placeholder="Search or add risk type"
-                  required
-                  :maxlength="validationRules.maxLengths.RiskType"
-                  title="Type of risk (e.g. Operational, Financial, Strategic, Compliance, Reputational)"
-                  @focus="showDropdown(idx, 'RiskType')"
-                  @input="filterOptions(idx, 'RiskType')"
-                />
-                <div v-show="activeDropdown.index === idx && activeDropdown.field === 'RiskType'" class="dropdown-options">
-                  <div v-if="filteredOptions.RiskType.length === 0 && riskTypeSearch[idx]" class="dropdown-add-option">
-                    <span>No matches found. Add new:</span>
-                    <button @click="addNewOption(idx, 'RiskType', riskTypeSearch[idx])" class="dropdown-add-btn">
-                      + Add "{{ riskTypeSearch[idx] }}"
-                    </button>
-                  </div>
-                  <div 
-                    v-for="option in filteredOptions.RiskType" 
-                    :key="option.id" 
-                    class="dropdown-option"
-                    @click="selectOption(idx, 'RiskType', option.value)"
-                  >
-                    {{ option.value }}
-                  </div>
-                </div>
-              </div>
+              <select 
+                v-model="compliance.RiskType"
+                class="compliance-input"
+                required
+                :maxlength="validationRules.maxLengths.RiskType"
+                title="Type of risk"
+                @change="validateComplianceField(compliance, 'RiskType', $event.target.value)"
+              >
+                <option value="">Select Risk Type</option>
+                <option value="Current">Current</option>
+                <option value="Residual">Residual</option>
+                <option value="Inherent">Inherent</option>
+                <option value="Emerging">Emerging</option>
+                <option value="Accepted">Accepted</option>
+              </select>
               <div v-if="compliance.validationErrors && compliance.validationErrors.RiskType" 
                    class="validation-error">
                 {{ compliance.validationErrors.RiskType.join(', ') }}
@@ -510,7 +501,7 @@
             <div class="compliance-field">
               <label>Assign Reviewer</label>
               <select 
-                v-model="compliance.reviewer" 
+                v-model="compliance.reviewer_id" 
                 class="compliance-select" 
                 required
                 title="Person responsible for reviewing this compliance item"
@@ -544,6 +535,7 @@
 <script>
 import { complianceService } from '@/services/api';
 import { PopupService, PopupModal } from '@/modules/popup';
+import { CompliancePopups } from './utils/popupUtils';
 
 export default {
   name: 'CreateCompliance',
@@ -605,9 +597,13 @@ export default {
           Impact: 5.0,
           Probability: 5.0,
           Status: 'Under Review',
-          reviewer: 2, // Default reviewer
+          reviewer_id: 2, // Default reviewer ID
+          CreatedByName: '2', // Default reviewer name as string
           Applicability: '',
-          // Validation errors for each field
+          MaturityLevel: 'Initial',
+          ActiveInactive: 'Active',
+          PermanentTemporary: 'Permanent',
+          mitigationSteps: [], // Array to hold mitigation steps
           validationErrors: {}
         }
       ],
@@ -947,12 +943,17 @@ export default {
           break;
           
         case 'mitigation':
-          result = this.validateRequiredString(
-            value, 'Mitigation', 
-            rules.maxLengths.mitigation,
-            rules.minLengths.mitigation,
-            rules.textPattern
-          );
+          if (compliance.IsRisk) {
+            if (!value || !compliance.mitigationSteps.length) {
+              result.errors.push('At least one mitigation step is required for risks');
+            }
+            
+            // Check if all steps have descriptions
+            const emptySteps = compliance.mitigationSteps.some(step => !step.description.trim());
+            if (emptySteps) {
+              result.errors.push('All mitigation steps must have descriptions');
+            }
+          }
           break;
           
         case 'Applicability':
@@ -1089,7 +1090,7 @@ export default {
         ];
         
         // Validate reviewer selection
-        if (!compliance.reviewer || compliance.reviewer === '') {
+        if (!compliance.reviewer_id || compliance.reviewer_id === '') {
           compliance.validationErrors.reviewer_id = ['Please select a reviewer'];
           errors.push(`Please select a reviewer for item ${index + 1}`);
           isValid = false;
@@ -1123,27 +1124,21 @@ export default {
     async loadFrameworks() {
       try {
         this.loading = true;
-        const response = await complianceService.getFrameworks();
+        const response = await complianceService.getComplianceFrameworks();
         
-        // Handle both response formats: direct array or success wrapper
-        let frameworksData;
-        if (response.data.success) {
-          frameworksData = response.data.data;
-        } else if (Array.isArray(response.data)) {
-          frameworksData = response.data;
+        // Handle the response data with success wrapper
+        if (response.data.success && Array.isArray(response.data.frameworks)) {
+          this.frameworks = response.data.frameworks.map(fw => ({
+            id: fw.id,
+            name: fw.name
+          }));
         } else {
           console.error('Unexpected response format:', response.data);
           PopupService.error('Failed to load frameworks. Please refresh the page and try again.');
-          return;
         }
-        
-        this.frameworks = frameworksData.map(fw => ({
-          id: fw.FrameworkId,
-          name: fw.FrameworkName
-        }));
       } catch (error) {
+        console.error('Error loading frameworks:', error);
         PopupService.error('Failed to load frameworks. Please refresh the page and try again.');
-        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -1151,20 +1146,20 @@ export default {
     async loadPolicies(frameworkId) {
       try {
         this.loading = true;
-        const response = await complianceService.getPolicies(frameworkId);
-        if (response.data.success) {
-          this.policies = response.data.data.map(p => ({
-            id: p.PolicyId,
-            name: p.PolicyName,
-            applicability: p.Applicability || ''
+        const response = await complianceService.getCompliancePolicies(frameworkId);
+        if (response.data.success && Array.isArray(response.data.policies)) {
+          this.policies = response.data.policies.map(p => ({
+            id: p.id,
+            name: p.name,
+            applicability: p.scope || ''
           }));
         } else {
           console.error('Error in response:', response.data);
           PopupService.error('Failed to load policies. Please try selecting a different framework.');
         }
       } catch (error) {
+        console.error('Error loading policies:', error);
         PopupService.error('Failed to load policies. Please try selecting a different framework.');
-        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -1172,19 +1167,19 @@ export default {
     async loadSubPolicies(policyId) {
       try {
         this.loading = true;
-        const response = await complianceService.getSubPolicies(policyId);
-        if (response.data.success) {
-          this.subPolicies = response.data.data.map(sp => ({
-            id: sp.SubPolicyId,
-            name: sp.SubPolicyName
+        const response = await complianceService.getComplianceSubPolicies(policyId);
+        if (response.data.success && Array.isArray(response.data.subpolicies)) {
+          this.subPolicies = response.data.subpolicies.map(sp => ({
+            id: sp.id,
+            name: sp.name
           }));
         } else {
           console.error('Error in response:', response.data);
           PopupService.error('Failed to load sub-policies. Please try selecting a different policy.');
         }
       } catch (error) {
+        console.error('Error loading sub-policies:', error);
         PopupService.error('Failed to load sub-policies. Please try selecting a different policy.');
-        console.error(error);
       } finally {
         this.loading = false;
       }
@@ -1204,7 +1199,7 @@ export default {
           
           // Set default reviewer if users exist
           if (this.users.length > 0 && this.complianceList.length > 0) {
-            this.complianceList[0].reviewer = this.users[0].UserId;
+            this.complianceList[0].reviewer_id = this.users[0].UserId;
           }
           
           console.log('Loaded users:', this.users);
@@ -1398,11 +1393,13 @@ export default {
         Impact: 5.0,
         Probability: 5.0,
         Status: 'Under Review',
-        reviewer: 2, // Default reviewer
-        Applicability: policyApplicability, // Set Applicability from policy
-        MaturityLevel: 'Initial', // Add default MaturityLevel
-        ActiveInactive: 'Active', // Add default ActiveInactive
-        PermanentTemporary: 'Permanent', // Add default PermanentTemporary
+        reviewer_id: 2, // Default reviewer ID
+        CreatedByName: '2', // Default reviewer name as string
+        Applicability: policyApplicability,
+        MaturityLevel: 'Initial',
+        ActiveInactive: 'Active',
+        PermanentTemporary: 'Permanent',
+        mitigationSteps: [], // Initialize empty steps array
         validationErrors: {}
       });
       
@@ -1444,138 +1441,151 @@ export default {
     },
 
     async submitCompliance() {
-      // Comprehensive validation using allow-list approach
-      const validation = this.validateAllFields();
-      
-      if (!validation.isValid) {
-        PopupService.error(validation.errors.join('\n'), 'Validation Error');
-        return;
-      }
-
       try {
+        // Validate all fields first
+        const validation = this.validateAllFields();
+        if (!validation.isValid) {
+          // Show validation errors
+          PopupService.error(`Validation failed: ${validation.errors.join(', ')}`);
+          return;
+        }
+
         this.loading = true;
-        const complianceData = this.complianceList.map(compliance => ({
-          SubPolicy: this.selectedSubPolicy.id,
-          ComplianceTitle: this.sanitizeStringForSubmission(compliance.ComplianceTitle),
-          ComplianceItemDescription: this.sanitizeStringForSubmission(compliance.ComplianceItemDescription),
-          ComplianceType: this.sanitizeStringForSubmission(compliance.ComplianceType),
-          Scope: this.sanitizeStringForSubmission(compliance.Scope),
-          Objective: this.sanitizeStringForSubmission(compliance.Objective),
-          BusinessUnitsCovered: this.sanitizeStringForSubmission(compliance.BusinessUnitsCovered),
-          Identifier: this.sanitizeStringForSubmission(compliance.Identifier) || '',
-          IsRisk: Boolean(compliance.IsRisk),
-          PossibleDamage: this.sanitizeStringForSubmission(compliance.PossibleDamage),
-          mitigation: this.sanitizeStringForSubmission(compliance.mitigation),
-          PotentialRiskScenarios: this.sanitizeStringForSubmission(compliance.PotentialRiskScenarios),
-          RiskType: this.sanitizeStringForSubmission(compliance.RiskType),
-          RiskCategory: this.sanitizeStringForSubmission(compliance.RiskCategory),
-          RiskBusinessImpact: this.sanitizeStringForSubmission(compliance.RiskBusinessImpact),
-          Criticality: compliance.Criticality,
-          MandatoryOptional: compliance.MandatoryOptional,
-          ManualAutomatic: compliance.ManualAutomatic,
-          Impact: compliance.Impact,
-          Probability: compliance.Probability,
-          Status: compliance.Status,
-          ComplianceVersion: "1.0",
-          reviewer_id: compliance.reviewer,
-          Applicability: this.sanitizeStringForSubmission(compliance.Applicability),
-          MaturityLevel: compliance.MaturityLevel || 'Initial',
-          ActiveInactive: compliance.ActiveInactive || 'Active',
-          PermanentTemporary: compliance.PermanentTemporary || 'Permanent'
-        }));
+        console.log('Submitting compliance list:', this.complianceList);
 
-        // Submit all compliance items and collect created IDs
-        const createdComplianceIds = [];
-        for (const data of complianceData) {
-          console.log('Submitting compliance data:', data);
-          const response = await complianceService.createCompliance(data);
-          console.log('Response:', response);
-          
-          if (!response.data.success) {
-            console.error('Validation errors:', response.data.errors);
-            throw new Error(JSON.stringify(response.data.errors) || 'Failed to create compliance');
+        // Process each compliance item
+        for (const compliance of this.complianceList) {
+          // Ensure all required fields are present
+          if (!this.selectedSubPolicy?.id) {
+            throw new Error('SubPolicy is required');
           }
-          
-          // Extract compliance ID from response
-          if (response.data.compliance && response.data.compliance.ComplianceId) {
-            createdComplianceIds.push(response.data.compliance.ComplianceId);
-          } else if (response.data.ComplianceId) {
-            createdComplianceIds.push(response.data.ComplianceId);
-          }
-        }
 
-        // Show success popup with compliance IDs
-        let successMessage = 'All compliance items have been successfully saved and submitted for review!';
-        if (createdComplianceIds.length > 0) {
-          if (createdComplianceIds.length === 1) {
-            successMessage = `Compliance item has been successfully created with ID: ${createdComplianceIds[0]} and submitted for review!`;
-          } else {
-            successMessage = `${createdComplianceIds.length} compliance items have been successfully created with IDs: ${createdComplianceIds.join(', ')} and submitted for review!`;
-          }
-        }
-        PopupService.success(successMessage, 'Success');
-        
-        // Reset form
-        this.$emit('compliance-created');
-        this.complianceList = [
-          {
-            ComplianceTitle: '',
-            ComplianceItemDescription: '',
-            ComplianceType: '',
-            Scope: '',
-            Objective: '',
-            BusinessUnitsCovered: '',
-            Identifier: '',
-            IsRisk: false,
-            PossibleDamage: '',
-            mitigation: '',
-            PotentialRiskScenarios: '',
-            RiskType: '',
-            RiskCategory: '',
-            RiskBusinessImpact: '',
-            Criticality: 'Medium',
-            MandatoryOptional: 'Mandatory',
-            ManualAutomatic: 'Manual',
-            Impact: 5.0,
-            Probability: 5.0,
+          const complianceData = {
+            SubPolicy: this.selectedSubPolicy.id,
+            ComplianceTitle: compliance.ComplianceTitle?.trim(),
+            ComplianceItemDescription: compliance.ComplianceItemDescription?.trim(),
+            ComplianceType: compliance.ComplianceType?.trim(),
+            Scope: compliance.Scope?.trim(),
+            Objective: compliance.Objective?.trim(),
+            BusinessUnitsCovered: compliance.BusinessUnitsCovered?.trim(),
+            Identifier: compliance.Identifier?.trim() || '',
+            IsRisk: Boolean(compliance.IsRisk),
+            PossibleDamage: compliance.PossibleDamage?.trim(),
+            mitigation: compliance.mitigation?.trim(),
+            PotentialRiskScenarios: compliance.PotentialRiskScenarios?.trim(),
+            RiskType: compliance.RiskType?.trim(),
+            RiskCategory: compliance.RiskCategory?.trim(),
+            RiskBusinessImpact: compliance.RiskBusinessImpact?.trim(),
+            Criticality: compliance.Criticality || 'Medium',
+            MandatoryOptional: compliance.MandatoryOptional || 'Mandatory',
+            ManualAutomatic: compliance.ManualAutomatic || 'Manual',
+            Impact: parseFloat(compliance.Impact) || 5.0,
+            Probability: parseFloat(compliance.Probability) || 5.0,
             Status: 'Under Review',
-            reviewer: 2, // Default reviewer
-            Applicability: '',
-            MaturityLevel: 'Initial', // Add default MaturityLevel
-            ActiveInactive: 'Active', // Add default ActiveInactive
-            PermanentTemporary: 'Permanent', // Add default PermanentTemporary
-            validationErrors: {}
-          }
-        ];
-        
-        // Reset active tab
-        this.activeTab = 0;
+            ComplianceVersion: "1.0",
+            reviewer: parseInt(compliance.reviewer_id), // Ensure it's a number
+            CreatedByName: compliance.CreatedByName || compliance.reviewer_id?.toString(),
+            Applicability: compliance.Applicability?.trim(),
+            MaturityLevel: compliance.MaturityLevel || 'Initial',
+            ActiveInactive: compliance.ActiveInactive || 'Active',
+            PermanentTemporary: compliance.PermanentTemporary || 'Permanent',
+            ApprovalDueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+          };
 
-        // Clear selections
-        this.selectedSubPolicy = '';
-        this.selectedPolicy = '';
-        this.selectedFramework = '';
-      } catch (error) {
-        console.error('Error submitting compliance:', error);
-        let errorMessage = 'Failed to submit compliance. Please check your data and try again.';
-        if (error.response?.data?.errors) {
-          errorMessage = Object.entries(error.response.data.errors)
-            .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
-            .join('\n');
-        } else if (error.message) {
-          try {
-            const parsedError = JSON.parse(error.message);
-            errorMessage = Object.entries(parsedError)
-              .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
-              .join('\n');
-          } catch {
-            errorMessage = error.message;
+          // Validate required fields
+          const requiredFields = ['SubPolicy', 'ComplianceTitle', 'ComplianceItemDescription', 'reviewer'];
+          const missingFields = requiredFields.filter(field => !complianceData[field]);
+          if (missingFields.length > 0) {
+            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
           }
+
+          console.log('Submitting compliance data:', complianceData);
+          const response = await complianceService.createCompliance(complianceData);
+          console.log('Compliance creation response:', response);
+
+          if (!response.data.success) {
+            throw new Error(response.data.message || 'Failed to create compliance');
+          }
+
+          // Show success popup using CompliancePopups
+          CompliancePopups.complianceCreated({
+            ComplianceId: response.data.compliance_id,
+            ComplianceItemDescription: complianceData.ComplianceItemDescription
+          });
+
+          // Clear form instead of navigating away
+          this.resetForm();
         }
-        PopupService.error(errorMessage, 'Submission Failed');
+      } catch (error) {
+        console.error('Error creating compliance:', error);
+        this.$toast?.error(error.response?.data?.message || error.message || 'Failed to create compliance items');
       } finally {
         this.loading = false;
       }
+    },
+    addStep(complianceIndex) {
+      this.complianceList[complianceIndex].mitigationSteps.push({
+        stepNumber: this.complianceList[complianceIndex].mitigationSteps.length + 1,
+        description: ''
+      });
+      this.onMitigationStepChange(complianceIndex);
+    },
+    
+    removeStep(complianceIndex, stepIndex) {
+      this.complianceList[complianceIndex].mitigationSteps.splice(stepIndex, 1);
+      // Renumber remaining steps
+      this.complianceList[complianceIndex].mitigationSteps.forEach((step, idx) => {
+        step.stepNumber = idx + 1;
+      });
+      this.onMitigationStepChange(complianceIndex);
+    },
+    
+    onMitigationStepChange(complianceIndex) {
+      const compliance = this.complianceList[complianceIndex];
+      // Create the JSON structure for mitigation
+      const mitigationData = {
+        steps: compliance.mitigationSteps.map(step => ({
+          stepNumber: step.stepNumber,
+          description: step.description.trim()
+        })),
+        totalSteps: compliance.mitigationSteps.length,
+        lastUpdated: new Date().toISOString(),
+        version: '2.0'
+      };
+      // Store the stringified JSON in the mitigation field
+      compliance.mitigation = JSON.stringify(mitigationData);
+      // Validate the field
+      this.validateComplianceField(compliance, 'mitigation', compliance.mitigation);
+    },
+
+    resetForm() {
+      // Reset all form fields to their initial state
+      this.compliance = {
+        SubPolicy: '',
+        ComplianceTitle: '',
+        ComplianceItemDescription: '',
+        ComplianceType: '',
+        Scope: '',
+        Objective: '',
+        BusinessUnitsCovered: '',
+        IsRisk: false,
+        PossibleDamage: '',
+        mitigation: '',
+        Criticality: '',
+        MandatoryOptional: '',
+        ManualAutomatic: '',
+        Impact: '',
+        Probability: '',
+        MaturityLevel: 'Initial',
+        ActiveInactive: 'Inactive',
+        PermanentTemporary: 'Permanent',
+        reviewer: '',
+        Applicability: ''
+      };
+      
+      // Reset any other form-related data
+      this.error = null;
+      this.loading = false;
     }
   }
 }
@@ -1619,5 +1629,63 @@ export default {
 
 .compliance-field small {
   font-size: 0.75rem;
+}
+
+.mitigation-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mitigation-step {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.step-number {
+  font-weight: 500;
+  color: #666;
+}
+
+.remove-step-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.remove-step-btn:hover {
+  background: #fee;
+}
+
+.add-step-btn {
+  background: #f8f9fa;
+  border: 1px dashed #ddd;
+  color: #666;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-step-btn:hover {
+  background: #fff;
+  border-color: #999;
+  color: #333;
 }
 </style> 
