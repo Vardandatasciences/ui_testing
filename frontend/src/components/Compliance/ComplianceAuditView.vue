@@ -15,10 +15,11 @@
     </div>
 
     <div class="content-wrapper">
-      <div class="section-header">
-        <div class="section-actions">
-          <!-- Export Controls -->
-          <div class="inline-export-controls">
+      <!-- Simplified Action Bar -->
+      <div class="action-bar">
+        <div class="action-buttons">
+          <!-- Export Section -->
+          <div class="export-section">
             <select v-model="selectedFormat" class="format-select">
               <option value="xlsx">Excel (.xlsx)</option>
               <option value="csv">CSV (.csv)</option>
@@ -26,16 +27,22 @@
               <option value="json">JSON (.json)</option>
               <option value="xml">XML (.xml)</option>
             </select>
-            <button class="export-btn" @click="handleExport(selectedFormat)">
-              <i class="fas fa-download"></i> Export
+            <button class="btn btn-primary" @click="handleExport(selectedFormat)">
+              <i class="fas fa-download"></i>
+              Export
             </button>
           </div>
-          <button class="view-toggle-btn" @click="toggleViewMode">
+          
+          <!-- View Toggle -->
+          <button class="btn btn-secondary" @click="toggleViewMode">
             <i :class="viewMode === 'card' ? 'fas fa-list' : 'fas fa-th-large'"></i>
             {{ viewMode === 'card' ? 'List View' : 'Card View' }}
           </button>
-          <button class="action-btn" @click="goBack">
-            <i class="fas fa-arrow-left"></i> Back
+          
+          <!-- Back Button -->
+          <button class="btn btn-outline" @click="goBack">
+            <i class="fas fa-arrow-left"></i>
+            Back
           </button>
         </div>
       </div>
@@ -377,73 +384,121 @@ async function handleExport(format) {
 
 .compliance-view-container .content-wrapper {
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px;
 }
 
-.compliance-view-container .section-header {
+/* New Action Bar Styling */
+.action-bar {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.action-buttons {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 1.5rem;
-  color: #1f2937;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.compliance-view-container .section-actions {
-  display: flex;
   justify-content: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.export-section {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f9fafb;
+  gap: 12px;
+  background: #ffffff;
+  padding: 8px 12px;
   border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.format-select {
   padding: 8px 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-}
-
-.compliance-view-container .action-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  background: #f3f4f6;
-  color: #4b5563;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.compliance-view-container .action-btn:hover {
-  background: #e5e7eb;
-  color: #1f2937;
-}
-
-.compliance-view-container .view-toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background-color: #f3f4f6;
   border: 1px solid #d1d5db;
-  color: #4b5563;
   border-radius: 6px;
-  font-weight: 500;
+  background-color: #f9fafb;
+  color: #374151;
+  font-size: 14px;
+  outline: none;
+  min-width: 140px;
   transition: all 0.2s ease;
+}
+
+.format-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.compliance-view-container .view-toggle-btn:hover {
-  background-color: #e5e7eb;
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: 1px solid #2563eb;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }
 
-.compliance-view-container .view-toggle-btn i {
-  color: #6b7280;
+.btn-secondary {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  color: white;
+  border: 1px solid #475569;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #475569 0%, #334155 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(100, 116, 139, 0.3);
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: #64748b;
+  border: 1px solid #d1d5db;
+}
+
+.btn-outline:hover {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(100, 116, 139, 0.15);
+}
+
+.btn i {
+  font-size: 14px;
 }
 
 .compliance-view-container .compliances-list-view {
@@ -514,8 +569,8 @@ async function handleExport(format) {
 .compliance-view-container .compliances-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 40px !important;
-  justify-content: end !important;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .compliance-view-container .compliance-card {
@@ -524,18 +579,19 @@ async function handleExport(format) {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
 }
 
 .compliance-view-container .compliance-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-color: #d1d5db;
 }
 
 .compliance-view-container .compliance-header {
   background-color: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
-  padding: 10px 12px;
+  padding: 12px 16px;
   display: flex;
   justify-content: space-between;
 }
@@ -558,47 +614,6 @@ async function handleExport(format) {
   border-top: 1px solid #e5e7eb;
   font-size: 0.85rem;
   color: #6b7280;
-}
-
-.compliance-view-container .inline-export-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.compliance-view-container .format-select {
-  padding: 7px 10px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  background-color: #f9fafb;
-  color: #4b5563;
-  font-size: 0.9rem;
-  outline: none;
-  min-width: 140px;
-}
-
-.compliance-view-container .export-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 12px;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.compliance-view-container .export-btn:hover {
-  background-color: #2563eb;
-  transform: translateY(-1px);
-}
-
-.compliance-view-container .export-btn i {
-  font-size: 0.9rem;
 }
 
 .compliance-view-container .no-data {
@@ -726,9 +741,41 @@ async function handleExport(format) {
   text-decoration: underline;
 }
 
-@media (max-width: 1200px) {
-  .compliance-view-container .compliances-table {
-    min-width: 1000px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .export-section {
+    justify-content: space-between;
+  }
+  
+  .format-select {
+    min-width: 120px;
+  }
+  
+  .compliance-view-container {
+    margin-left: 0;
+    padding: 16px;
+  }
+  
+  .compliances-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .export-section {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .format-select,
+  .btn {
+    width: 100%;
   }
 }
 
@@ -740,61 +787,4 @@ async function handleExport(format) {
 .compliance-view-container .fa-sync {
   animation: spin 1s linear infinite;
 }
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .section-actions {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  
-  .inline-export-controls {
-    order: 1;
-    width: 100%;
-    margin-bottom: 8px;
-    justify-content: flex-end;
-  }
-}
-
-/* Ensure the audit view container fits the page and is aligned */
-.compliance-view-container {
-  margin-left: 280px !important;
-  width: 100%;
-  max-width: 1200px;
-  box-sizing: border-box;
-}
-
-/* Modern, right-aligned, and compact section actions */
-.section-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 8px 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-}
-
-.section-actions .export-btn,
-.section-actions .view-toggle-btn,
-.section-actions .action-btn {
-  padding: 4px 10px;
-  font-size: 13px;
-  border-radius: 5px;
-  min-width: 28px;
-  min-height: 28px;
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
-  color: #4b5563;
-  font-weight: 500;
-  transition: background 0.2s, color 0.2s;
-}
-
-.section-actions .export-btn:hover,
-.section-actions .view-toggle-btn:hover,
-.section-actions .action-btn:hover {
-  background: #e5e7eb;
-  color: #1f2937;
-}
-</style> 
+</style>

@@ -27,6 +27,7 @@ import AuditReport from '../components/Auditor/AuditReport.vue'
 import PerformanceAnalysis from '../components/Auditor/PerformanceAnalysis.vue'
 import KPIAnalysis from '../components/PerformanceAnalysis/KpiAnalysis.vue'
 import PerformanceDashboard from '../components/Auditor/UserDashboard.vue'
+import UploadFramework from '../components/Policy/UploadFramework.vue'
 
 // import AuditorDashboard from '../components/Auditor/AuditorDashboard.vue'
 // import Reviewer from '../components/Auditor/Reviewer.vue'
@@ -143,6 +144,11 @@ const routes = [
     name: 'ActivePolicies',
     component: ActivePolicies,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/create-policy/upload-framework',
+    name: 'UploadFramework',
+    component: UploadFramework
   },
   {
     path: '/create-policy/create',

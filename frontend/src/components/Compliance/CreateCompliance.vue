@@ -92,8 +92,8 @@
             </div>
 
             <div class="compliance-field checkbox-container">
-              <label style="font-weight: 500; font-size: 1rem; display: flex; align-items: center; gap: 8px;" title="Check if this compliance item represents a risk">
-                <input type="checkbox" v-model="compliance.IsRisk" @change="onFieldChange(idx, 'IsRisk', $event)" style="margin-right: 8px; width: auto;" />
+              <label style="font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 6px;" title="Check if this compliance item represents a risk">
+                <input type="checkbox" v-model="compliance.IsRisk" @change="onFieldChange(idx, 'IsRisk', $event)" style="margin-right: 6px; width: auto;" />
                 Is Risk
               </label>
             </div>
@@ -256,7 +256,7 @@
                 <div class="step-header">
                   <span class="step-number">Step {{ stepIndex + 1 }}</span>
                   <button type="button" class="remove-step-btn" @click="removeStep(idx, stepIndex)" title="Remove this step">
-                    <i class="fas fa-times"></i>
+                    <span class="btn-icon">×</span>
                   </button>
                 </div>
                 <textarea
@@ -268,9 +268,11 @@
                   required
                 ></textarea>
               </div>
-              <button type="button" class="add-step-btn" @click="addStep(idx)" title="Add new mitigation step">
-                <i class="fas fa-plus"></i> Add Step
-              </button>
+              <div class="add-step-container">
+                <button type="button" class="add-step-btn" @click="addStep(idx)" title="Add new mitigation step">
+                  <span class="btn-icon">+</span> Add Step
+                </button>
+              </div>
             </div>
             <div v-if="compliance.validationErrors && compliance.validationErrors.mitigation" 
                  class="validation-error">
@@ -495,7 +497,7 @@
         <!-- Approval section -->
         <div class="field-group approval-fields">
           <div class="field-group-title">Approval Information</div>
-          <!-- Approver and Approval Due Date in the same row -->
+          <!-- Approver row -->
           <div class="row-fields">
             <!-- Assign Reviewer -->
             <div class="compliance-field">
@@ -513,25 +515,26 @@
               </select>
               <span v-if="!users.length" class="validation-error">No reviewers available</span>
             </div>
-
           </div>
         </div>
       </div>
     </div>
     
+    <!-- Submit button container with better alignment -->
     <div class="compliance-submit-container">
       <button 
         class="compliance-submit-btn" 
         @click="submitCompliance"
         :disabled="loading"
       >
+        <span v-if="loading" class="btn-icon">⏳</span>
+        <span v-else class="btn-icon">💾</span>
         <span v-if="loading">Saving...</span>
         <span v-else>Submit Compliance</span>
       </button>
     </div>
   </div>
 </template>
-
 <script>
 import { complianceService } from '@/services/api';
 import { PopupService, PopupModal } from '@/modules/popup';

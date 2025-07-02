@@ -18,15 +18,15 @@
 
 /* Dashboard Container */
 .risk-dashboard-container {
-  padding: 15px;
-  max-width: calc(95% - 150px); /* Adjust width to account for sidebar */
-  margin: 0 auto;
-  /* background-color: var(--bg-light); */
+  padding: 20px;
+  max-width: calc(100% - 250px); /* Increased space for sidebar */
+  margin-left: 250px; /* Increased margin to match sidebar width */
+  margin-right: 20px;
   min-height: 100vh;
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  margin-left: 150px; /* Add margin to prevent overlap with sidebar */
   box-sizing: border-box;
   overflow-x: hidden;
+  background-color: var(--bg-light);
 }
 
 /* Dashboard Header */
@@ -34,12 +34,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .risk-dashboard-heading {
@@ -109,14 +107,13 @@
 .risk-dashboard-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
   background: white;
   border-radius: 10px;
-  padding: 12px;
+  padding: 15px;
   box-shadow: var(--shadow-sm);
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .risk-filter-group {
@@ -170,10 +167,9 @@
 .risk-performance-summary {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .risk-summary-card {
@@ -519,72 +515,33 @@
 
 /* Responsive layout */
 @media screen and (max-width: 1400px) {
-  .risk-performance-summary {
-    grid-template-columns: repeat(3, 1fr);
-    width: 90%;
-  }
-  
-  .risk-charts-row,
-  .risk-charts-row-uneven,
-  .risk-dashboard-filters {
-    width: 90%;
-  }
-  
-  .risk-chart-card {
-    max-width: 90%;
+  .risk-dashboard-container {
+    max-width: calc(100% - 250px);
+    margin-left: 250px;
   }
 }
 
 @media screen and (max-width: 1200px) {
-  .risk-charts-row-uneven {
-    grid-template-columns: 1fr 1fr;
-  }
-  
   .risk-dashboard-container {
-    padding: 12px;
+    max-width: calc(100% - 220px);
+    margin-left: 220px;
+    padding: 15px;
   }
 }
 
 @media screen and (max-width: 900px) {
-  .risk-charts-row, .risk-charts-row-uneven {
-    grid-template-columns: 1fr;
-    width: 85%;
-  }
-  
-  .risk-performance-summary {
-    grid-template-columns: repeat(2, 1fr);
-    width: 85%;
-  }
-  
-  .risk-dashboard-filters {
-    width: 85%;
-  }
-  
-  .risk-chart-card {
-    max-width: 85%;
-  }
-  
   .risk-dashboard-container {
-    margin-left: 120px; /* Adjust margin for smaller screens */
+    max-width: calc(100% - 200px);
+    margin-left: 200px;
+    padding: 10px;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .risk-performance-summary {
-    grid-template-columns: 1fr;
-  }
-  
-  .risk-dashboard-filters {
-    flex-direction: column;
-  }
-  
-  .risk-axis-controls {
-    flex-direction: column;
-  }
-  
   .risk-dashboard-container {
-    margin-left: 100px; /* Further adjust margin for mobile screens */
-    padding: 16px;
+    max-width: 100%;
+    margin-left: 0;
+    padding: 10px;
   }
 }
 

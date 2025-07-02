@@ -2,8 +2,20 @@
   <div class="create-compliance-container">
     <!-- Header section -->
     <div class="compliance-header">
-      <h2>Edit Compliance Record</h2>
-      <p>Update compliance item details</p>
+      <div class="header-content">
+        <div class="header-text">
+          <h2>Edit Compliance Record</h2>
+          <p>Update compliance item details</p>
+        </div>
+        <button 
+          class="back-button" 
+          @click="goBack"
+          title="Go back to previous page"
+        >
+          <i class="fas fa-arrow-left"></i>
+          Back
+        </button>
+      </div>
     </div>
 
     <!-- Message display -->
@@ -22,27 +34,6 @@
 
     <!-- Edit form -->
     <div v-if="compliance" class="compliance-item-form">
-      <!-- Version type selection -->
-      <div class="field-group">
-        <div class="field-group-title">Version Control</div>
-        <div class="version-control-section">
-          <label>Version Type:</label>
-          <div class="version-radio-group">
-            <label class="version-radio">
-              <input type="radio" v-model="compliance.versionType" value="Minor" />
-              Minor Version (e.g., 1.0 → 1.1)
-            </label>
-            <label class="version-radio">
-              <input type="radio" v-model="compliance.versionType" value="Major" />
-              Major Version (e.g., 1.0 → 2.0)
-            </label>
-          </div>
-          <div class="version-info">
-            Current version: {{ compliance.ComplianceVersion }}
-          </div>
-        </div>
-      </div>
-      
       <!-- Basic compliance information -->
       <div class="field-group">
         <div class="field-group-title">Basic Information</div>
@@ -905,7 +896,7 @@ export default {
         if (response.data && response.data.success) {
           this.compliance = {
             ...response.data.data,
-            versionType: 'Minor' // Set default version type (must be 'Major' or 'Minor')
+            versionType: 'minor' // Set default version type
           };
           
           // Set default reviewer if not present
@@ -1099,6 +1090,10 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    goBack() {
+      // Navigate back to the previous page
+      this.$router.go(-1);
     },
     cancelEdit() {
       // Show simple confirmation before canceling
@@ -1515,33 +1510,6 @@ export default {
 <style scoped>
 @import './CreateCompliance.css';
 
-.version-control-section {
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.version-radio-group {
-  display: flex;
-  gap: 1.5rem;
-  margin: 0.5rem 0;
-}
-
-.version-radio {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-weight: normal;
-}
-
-.version-info {
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-top: 0.5rem;
-}
-
 .compliance-cancel-btn {
   width: auto;
   min-width: 120px;
@@ -1883,5 +1851,87 @@ input[type="number"] {
 /* Add transition for smooth error state changes */
 .compliance-input {
   transition: all 0.3s ease;
+}
+
+/* Header layout styles */
+.compliance-header {
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.header-text h2 {
+  margin: 0 0 0.5rem 0;
+  color: #1f2937;
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.header-text p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+/* Back button styles */
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: #f8fafc;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+
+.back-button:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.back-button i {
+  font-size: 0.875rem;
+}
+
+/* Responsive design for header */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .back-button {
+    align-self: flex-end;
+    margin-left: 0;
+  }
+  
+  .header-text h2 {
+    font-size: 1.5rem;
+  }
 }
 </style> 

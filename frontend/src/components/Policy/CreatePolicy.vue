@@ -1196,13 +1196,15 @@ export default {
             formData.append('frameworkName', frameworkFormData.value.FrameworkName)
 
             try {
-              const uploadResponse = await axios.post('http://localhost:3000/api/upload', formData)
+              const uploadResponse = await axios.post('http://localhost:5000/api/upload', formData)
               if (uploadResponse.data.success) {
                 frameworkFormData.value.DocURL = uploadResponse.data.file.url
+              } else {
+                throw new Error(uploadResponse.data.error || 'Upload failed')
               }
             } catch (uploadError) {
               console.error('Error uploading framework document:', uploadError)
-              PopupService.error('Failed to upload framework document', 'Upload Error')
+              PopupService.error('Failed to upload framework document: ' + (uploadError.response?.data?.error || uploadError.message), 'Upload Error')
               loading.value = false
               return
             }
@@ -1219,13 +1221,15 @@ export default {
               formData.append('policyName', policy.PolicyName)
 
               try {
-                const uploadResponse = await axios.post('http://localhost:3000/api/upload', formData)
+                const uploadResponse = await axios.post('http://localhost:5000/api/upload', formData)
                 if (uploadResponse.data.success) {
                   policy.DocURL = uploadResponse.data.file.url
+                } else {
+                  throw new Error(uploadResponse.data.error || 'Upload failed')
                 }
               } catch (uploadError) {
                 console.error('Error uploading policy document:', uploadError)
-                PopupService.error('Failed to upload policy document', 'Upload Error')
+                PopupService.error('Failed to upload policy document: ' + (uploadError.response?.data?.error || uploadError.message), 'Upload Error')
                 loading.value = false
                 return
               }
@@ -1292,13 +1296,15 @@ export default {
               formData.append('policyName', policy.PolicyName)
 
               try {
-                const uploadResponse = await axios.post('http://localhost:3000/api/upload', formData)
+                const uploadResponse = await axios.post('http://localhost:5000/api/upload', formData)
                 if (uploadResponse.data.success) {
                   policy.DocURL = uploadResponse.data.file.url
+                } else {
+                  throw new Error(uploadResponse.data.error || 'Upload failed')
                 }
               } catch (uploadError) {
                 console.error('Error uploading policy document:', uploadError)
-                PopupService.error('Failed to upload policy document', 'Upload Error')
+                PopupService.error('Failed to upload policy document: ' + (uploadError.response?.data?.error || uploadError.message), 'Upload Error')
                 loading.value = false
                 return
               }

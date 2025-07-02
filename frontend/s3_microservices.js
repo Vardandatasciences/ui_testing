@@ -415,6 +415,57 @@ async function getDownloadUrl(fileId, expiresIn = 3600) {
 }
 
 // API Routes
+app.get('/api/health', (req, res) => {
+  // Check S3 connection
+  let s3Status = "unknown";
+  let dbStatus = "unknown";
+  
+  // Check database connection
+  pool.getConnection()
+    .then(connection => {
+      dbStatus = "connected";
+      connection.release();
+      
+      // Now check S3 connection
+      const params = {
+        Bucket: bucketName,
+        MaxKeys: 1
+      };
+      
+      s3.listObjects(params, function(err, data) {
+        if (err) {
+          s3Status = `error: ${err.code}`;
+          res.status(200).json({ 
+            status: 'warning', 
+            message: 'S3 microservice is running with issues',
+            s3: s3Status,
+            database: dbStatus,
+            timestamp: new Date().toISOString()
+          });
+        } else {
+          s3Status = "connected";
+          res.status(200).json({ 
+            status: 'ok', 
+            message: 'S3 microservice is running properly',
+            s3: s3Status,
+            database: dbStatus,
+            timestamp: new Date().toISOString()
+          });
+        }
+      });
+    })
+    .catch(err => {
+      dbStatus = `error: ${err.code || err.message}`;
+      res.status(200).json({ 
+        status: 'warning', 
+        message: 'S3 microservice is running with issues',
+        s3: s3Status,
+        database: dbStatus,
+        timestamp: new Date().toISOString()
+      });
+    });
+});
+
 app.post('/api/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {

@@ -22,6 +22,28 @@ class S3Client:
         # Add common extensions that might be missing
         self._add_missing_mimetypes()
     
+    def check_health(self) -> Dict[str, bool]:
+        """
+        Check if the S3 microservice is running.
+        
+        Returns:
+            Dict with status of the microservice
+        """
+        try:
+            url = f"{self.base_url}/api/health"
+            response = requests.get(url, timeout=5)
+            return {
+                "is_running": response.status_code == 200,
+                "status_code": response.status_code,
+                "message": response.json().get("message", "") if response.status_code == 200 else "Service not responding correctly"
+            }
+        except requests.RequestException as e:
+            return {
+                "is_running": False,
+                "status_code": None,
+                "message": f"Connection error: {str(e)}"
+            }
+    
     def _add_missing_mimetypes(self):
         """Add common MIME types that might be missing from the system."""
         types_map = {

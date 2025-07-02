@@ -1,9 +1,9 @@
 .create-compliance-container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2.5rem 4.5rem 4.5rem 4.5rem;
-  border-radius: 24px;
-  margin-left: 280px;
+  padding: 2rem 3rem 3rem 3rem;
+  border-radius: 16px;
+  margin-left: 310px;
 }
 
 .compliance-headers {
@@ -13,29 +13,27 @@
 }
 
 .compliance-headers span {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #344054;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   display: block;
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .compliance-headers-underline {
-  margin-top: 8px;
-  width: 100px;
-  height: 6px;
-  border-radius: 4px;
+  margin-top: 6px;
+  width: 80px;
+  height: 4px;
+  border-radius: 3px;
   background: #4f8cff;
 }
 
-/* Removed old flash message styles - now using popup modals */
-
 .icon {
-  margin-right: 8px;
-  width: 24px;
-  height: 24px;
+  margin-right: 6px;
+  width: 20px;
+  height: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -59,18 +57,18 @@
 
 .icon-save::before {
   content: "💾";
-  margin-right: 8px;
+  margin-right: 6px;
 }
 
 .compliance-form-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
   background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .select-wrapper {
@@ -79,14 +77,14 @@
 
 .select-wrapper label {
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   font-weight: 600;
   color: #334155;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   position: relative;
-  padding-left: 28px;
+  padding-left: 22px;
 }
 
 .select-wrapper label::before {
@@ -94,8 +92,8 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -115,10 +113,10 @@
 
 .compliance-select {
   width: 100% !important;
-  padding: 14px 16px !important;
+  padding: 10px 12px !important;
   border: 1.5px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  font-size: 0.9rem !important;
+  border-radius: 8px !important;
+  font-size: 0.85rem !important;
   color: #334155 !important;
   background-color: #f9fafb !important;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
@@ -128,8 +126,8 @@
   appearance: none !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2399a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
-  background-position: right 18px center !important;
-  background-size: 22px !important;
+  background-position: right 12px center !important;
+  background-size: 18px !important;
   cursor: pointer !important;
 }
 
@@ -147,32 +145,32 @@
 }
 
 .compliance-list {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .compliance-item-form {
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 60px;
+  padding: 2rem;
   background-color: #fff;
-  border-radius: 24px;
-  margin-bottom: 3.5rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
   border: 1.5px solid #e2e8f0;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.11);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
 }
 
 .compliance-item-form:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Approval row styling - ensures approver and due date are in the same row */
+/* Approval row styling */
 .approval-row {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 1rem;
 }
 
 .approval-row .compliance-field {
@@ -182,7 +180,7 @@
 @media (max-width: 900px) {
   .approval-row {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 1rem;
   }
 }
 
@@ -191,20 +189,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid #6366f1;
 }
 
 .item-number {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1e293b;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .compliance-field {
-  margin-bottom: 48px;
+  margin-bottom: 2rem;
   position: relative;
 }
 
@@ -214,85 +212,37 @@
 
 .compliance-field label {
   display: block;
-  margin-bottom: 18px;
-  font-weight: 700;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
   color: #1e293b;
-  font-size: 1.45rem;
+  font-size: 0.9rem;
 }
 
 .compliance-field:hover label {
   color: #1e293b;
 }
 
-.compliance-field:nth-of-type(2) label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'%3E%3C/path%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.compliance-field:nth-of-type(3) label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 20l4-16m2 16l4-16M6 9h14M4 15h14'%3E%3C/path%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.compliance-field:nth-of-type(4) label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'%3E%3C/path%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.compliance-field:nth-of-type(5) label::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'%3E%3C/path%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
 .checkbox-container {
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 .checkbox-field {
-  margin: 1.25rem 0;
+  margin: 1rem 0;
 }
 
 .checkbox-field label {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   cursor: pointer;
   user-select: none;
 }
 
 .checkbox-field label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border: 1.5px solid #e2e8f0;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
@@ -309,10 +259,10 @@
 .checkbox-field label input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
@@ -325,10 +275,10 @@
 
 .compliance-input {
   width: 100% !important;
-  padding: 28px 28px !important;
-  border: 2px solid #e2e8f0 !important;
-  border-radius: 18px !important;
-  font-size: 1.45rem !important;
+  padding: 12px 16px !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
   color: #334155 !important;
   background-color: #f9fafb !important;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
@@ -342,7 +292,7 @@
   border-color: #6366f1 !important;
   background: #fff !important;
   outline: none !important;
-  box-shadow: 0 0 0 4px rgba(99,102,241,0.10);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
 }
 
 .compliance-input::placeholder {
@@ -364,47 +314,48 @@
 .compliance-field small {
   display: block;
   color: #6b7280;
-  margin-top: 8px;
-  font-size: 0.75rem;
+  margin-top: 6px;
+  font-size: 0.7rem;
   font-style: italic;
-  padding-left: 28px;
+  padding-left: 16px;
 }
 
 .validation-error {
   color: #dc2626;
-  font-size: 0.75rem;
-  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  margin-top: 0.4rem;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .validation-error::before {
   content: "⚠️";
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .compliance-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  align-items: center;
 }
 
 .compliance-add-btn,
 .compliance-remove-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .btn-icon {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   line-height: 1;
 }
@@ -416,8 +367,8 @@
 
 .compliance-add-btn:hover {
   background-color: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(16, 185, 129, 0.2);
 }
 
 .compliance-remove-btn {
@@ -427,18 +378,18 @@
 
 .compliance-remove-btn:hover {
   background-color: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(239, 68, 68, 0.2);
 }
 
 .compliance-submit-btn {
   width: auto;
-  min-width: 160px;
-  padding: 0.75rem 1.5rem;
+  min-width: 140px;
+  padding: 0.7rem 1.3rem;
   background-color: #6366f1;
   color: white;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -446,14 +397,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  margin: 2rem auto;
+  gap: 0.4rem;
+  margin: 0 auto;
 }
 
 .compliance-submit-btn:hover {
   background-color: #4f46e5;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.18);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(99, 102, 241, 0.15);
 }
 
 .compliance-submit-btn:disabled {
@@ -462,42 +413,44 @@
   transform: none;
 }
 
-/* Add container for the button */
+/* Button container for better alignment */
 .compliance-submit-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
 }
 
 @media (max-width: 1400px) {
   .create-compliance-container {
     max-width: 99%;
-    padding: 2.5rem;
+    padding: 2rem;
   }
   .compliance-item-form {
-    padding: 32px;
+    padding: 1.5rem;
   }
   .row-fields {
-    gap: 32px;
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: 900px) {
   .row-fields {
     flex-direction: column;
-    gap: 24px;
+    gap: 1rem;
   }
   .compliance-item-form {
-    padding: 16px;
+    padding: 1rem;
   }
   .field-group {
-    padding: 16px 8px 8px 8px !important;
+    padding: 1rem 0.5rem 0.5rem 0.5rem !important;
   }
 }
 
-/* Date picker input (if using native or custom) */
+/* Date picker input */
 .compliance-input[type="date"] {
   color: #334155;
 }
@@ -515,14 +468,14 @@
 .compliance-file-label {
   display: inline-block;
   width: 100%;
-  padding: 14px 0;
+  padding: 12px 0;
   text-align: center;
   background: #f5faff;
   border: 1.5px dashed #b6c0ce;
-  border-radius: 12px;
+  border-radius: 8px;
   color: #334155;
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -535,11 +488,11 @@
 
 /* Textarea styles */
 textarea.compliance-input {
-  min-height: 180px;
+  min-height: 100px;
   resize: vertical;
-  line-height: 2.1;
-  padding-top: 28px !important;
-  font-size: 1.45rem !important;
+  line-height: 1.5;
+  padding-top: 12px !important;
+  font-size: 0.9rem !important;
 }
 
 /* Remove icon styles for input fields and labels */
@@ -567,19 +520,19 @@ textarea.compliance-input {
 .classification-fields,
 .approval-fields,
 .selection-fields {
-  margin-bottom: 36px !important;
-  padding-top: 24px !important;
-  padding-bottom: 24px !important;
+  margin-bottom: 2rem !important;
+  padding-top: 1.2rem !important;
+  padding-bottom: 1.2rem !important;
 }
 
 .field-group-title {
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   color: #1e293b;
-  font-weight: 800;
-  margin-bottom: 36px;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  padding-bottom: 18px;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.8rem;
   border-bottom: 2px solid #e2e8f0;
 }
 
@@ -619,7 +572,7 @@ textarea.compliance-input {
 /* Selection fields styling */
 .selection-fields {
   border-left-color: #000000;
-  margin-bottom: 30px;
+  margin-bottom: 1.5rem;
 }
 
 .selection-fields .field-group-title {
@@ -631,28 +584,28 @@ textarea.compliance-input {
 .row-fields {
   display: flex;
   flex-wrap: wrap;
-  gap: 60px;
-  margin-bottom: 48px;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .row-fields .compliance-field {
   flex: 1;
-  min-width: 340px;
+  min-width: 280px;
   margin-bottom: 0;
 }
 
 .row-fields .checkbox-container {
   display: flex;
   align-items: flex-end;
-  min-height: 38px;
-  padding-bottom: 8px;
+  min-height: 32px;
+  padding-bottom: 6px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .row-fields {
     flex-direction: column;
-    gap: 15px;
+    gap: 1rem;
   }
   
   .row-fields .compliance-field {
@@ -662,11 +615,11 @@ textarea.compliance-input {
   
   .create-compliance-container {
     max-width: 95%;
-    padding: 1.5rem;
+    padding: 1.2rem;
   }
   
   .field-group {
-    padding: 15px 20px;
+    padding: 1rem 0.8rem;
   }
 }
 
@@ -686,8 +639,8 @@ textarea.compliance-input {
 .compliance-field small {
   display: block;
   color: #6b7280;
-  margin-top: 5px;
-  font-size: 0.75rem;
+  margin-top: 4px;
+  font-size: 0.7rem;
   font-style: italic;
 }
 
@@ -695,8 +648,8 @@ textarea.compliance-input {
 .compliance-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 20px;
+  gap: 4px;
+  margin-bottom: 1rem;
   border-bottom: 2px solid #e2e8f0;
   padding-bottom: 2px;
   position: relative;
@@ -704,22 +657,22 @@ textarea.compliance-input {
 }
 
 .compliance-tab {
-  padding: 10px 15px;
+  padding: 8px 12px;
   background-color: #f1f5f9;
-  border-radius: 8px 8px 0 0;
+  border-radius: 6px 6px 0 0;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #64748b;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   border: 1px solid #e2e8f0;
   border-bottom: none;
   margin-bottom: -2px;
-  min-width: 100px;
+  min-width: 80px;
   justify-content: center;
 }
 
@@ -733,27 +686,27 @@ textarea.compliance-input {
   color: #1e293b;
   border-bottom: 2px solid #ffffff;
   z-index: 1;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-  padding-top: 12px; /* Make active tab slightly taller */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
+  padding-top: 10px;
 }
 
 .tab-remove-btn {
   background: none;
   border: none;
   color: #94a3b8;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
-  padding: 2px;
-  width: 20px;
-  height: 20px;
+  padding: 1px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 4px;
+  top: 4px;
   line-height: 1;
 }
 
@@ -763,10 +716,10 @@ textarea.compliance-input {
 }
 
 .add-tab-btn {
-  padding: 8px 12px;
+  padding: 6px 10px;
   background-color: #e0f2fe;
   border: 1px dashed #38bdf8;
-  border-radius: 8px 8px 0 0;
+  border-radius: 6px 6px 0 0;
   color: #0284c7;
   font-weight: 600;
   cursor: pointer;
@@ -774,8 +727,8 @@ textarea.compliance-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 5px;
-  height: 38px;
+  margin-left: 4px;
+  height: 32px;
   margin-bottom: -2px;
 }
 
@@ -785,7 +738,7 @@ textarea.compliance-input {
 }
 
 .add-tab-btn .btn-icon {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
@@ -794,33 +747,33 @@ textarea.compliance-input {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid #6366f1;
   text-align: center;
 }
 
 .item-number {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1e293b;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 /* Responsive tab adjustments */
 @media (max-width: 768px) {
   .compliance-tabs {
-    gap: 3px;
+    gap: 2px;
     padding-bottom: 0;
   }
   
   .compliance-tab {
-    padding: 8px 10px;
-    font-size: 0.8rem;
+    padding: 6px 8px;
+    font-size: 0.7rem;
   }
   
   .add-tab-btn {
-    padding: 6px 8px;
+    padding: 4px 6px;
   }
 }
 
@@ -835,21 +788,21 @@ textarea.compliance-input {
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 200px;
+  max-height: 160px;
   overflow-y: auto;
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   z-index: 1000;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .dropdown-option {
-  padding: 10px 16px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.2s;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #334155;
 }
 
@@ -859,22 +812,22 @@ textarea.compliance-input {
 }
 
 .dropdown-add-option {
-  padding: 10px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid #e2e8f0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #64748b;
 }
 
 .dropdown-add-btn {
   display: block;
   width: 100%;
-  padding: 8px 12px;
-  margin-top: 6px;
+  padding: 6px 10px;
+  margin-top: 4px;
   background-color: #e0f2fe;
   color: #0284c7;
   border: 1px dashed #38bdf8;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -884,4 +837,66 @@ textarea.compliance-input {
 .dropdown-add-btn:hover {
   background-color: #bae6fd;
   border-color: #0284c7;
+}
+
+/* Mitigation steps styling */
+.mitigation-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.mitigation-step {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.step-number {
+  font-weight: 500;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.remove-step-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.remove-step-btn:hover {
+  background: #fee;
+}
+
+.add-step-btn {
+  background: #f8f9fa;
+  border: 1px dashed #ddd;
+  color: #666;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.add-step-btn:hover {
+  background: #fff;
+  border-color: #999;
+  color: #333;
 }

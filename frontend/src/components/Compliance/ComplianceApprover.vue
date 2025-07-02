@@ -1,282 +1,368 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-header">
-      <h2 class="dashboard-heading">Compliance Approver</h2>
-      <div class="dashboard-actions">
-        <button class="action-btn" @click="refreshData" :disabled="isLoading">
-          <i class="fas fa-sync-alt" :class="{ 'fa-spin': isLoading }"></i>
-        </button>
-        <button class="action-btn"><i class="fas fa-download"></i></button>
-      </div>
-    </div>
- 
-    <!-- Error message -->
-    <div v-if="error" class="error-message">
-      {{ error }}
-      <button @click="refreshData" class="retry-btn">Retry</button>
-    </div>
- 
-    <!-- Performance Summary Cards -->
-    <div class="performance-summary">
-      <div class="summary-card growth">
-        <div class="summary-icon"><i class="fas fa-user-check"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Pending Approvals</div>
-          <div class="summary-value">{{ pendingApprovalsCount }}</div>
+    <!-- Only show summary and list if not viewing details -->
+    <template v-if="!showDetails || !selectedApproval">
+      <div class="dashboard-header">
+        <h2 class="dashboard-heading">Compliance Approver</h2>
+        <div class="dashboard-actions">
+          <button class="action-btn" @click="refreshData" :disabled="isLoading">
+            <i class="fas fa-sync-alt" :class="{ 'fa-spin': isLoading }"></i>
+          </button>
+          <button class="action-btn"><i class="fas fa-download"></i></button>
         </div>
       </div>
-     
-      <div class="summary-card">
-        <div class="summary-icon"><i class="fas fa-check-circle"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Approved</div>
-          <div class="summary-value">{{ approvedApprovalsCount }}</div>
+      <!-- Error message -->
+      <div v-if="error" class="error-message">
+        {{ error }}
+        <button @click="refreshData" class="retry-btn">Retry</button>
+      </div>
+      <!-- Performance Summary Cards -->
+      <div class="performance-summary">
+        <div class="summary-card growth">
+          <div class="summary-icon"><i class="fas fa-user-check"></i></div>
+          <div class="summary-content">
+            <div class="summary-label">Pending Approvals</div>
+            <div class="summary-value">{{ pendingApprovalsCount }}</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="summary-content">
+            <div class="summary-label">Approved</div>
+            <div class="summary-value">{{ approvedApprovalsCount }}</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon"><i class="fas fa-times-circle"></i></div>
+          <div class="summary-content">
+            <div class="summary-label">Rejected</div>
+            <div class="summary-value">{{ rejectedApprovalsCount }}</div>
+          </div>
         </div>
       </div>
-     
-      <div class="summary-card">
-        <div class="summary-icon"><i class="fas fa-times-circle"></i></div>
-        <div class="summary-content">
-          <div class="summary-label">Rejected</div>
-          <div class="summary-value">{{ rejectedApprovalsCount }}</div>
+      <!-- Loading state -->
+      <div v-if="isLoading && !approvals.length" class="loading-state">
+        <i class="fas fa-spinner fa-spin"></i> Loading approvals...
+      </div>
+      <!-- No data state -->
+      <div v-else-if="!isLoading && complianceApprovals.length === 0" class="no-data-state">
+        <i class="fas fa-inbox"></i>
+        <p>No pending approvals found.</p>
+        <small>Any compliance items with "Under Review" status will appear here.</small>
+      </div>
+      <!-- Compliance Approvals List -->
+      <div>
+        <CollapsibleTable
+          v-for="(tasks, status) in groupedApprovals"
+          :key="status"
+          :sectionConfig="{
+            name: status,
+            statusClass: status.toLowerCase().replace(' ', '-'),
+            tasks: tasks.map(mapApprovalToRow)
+          }"
+          :tableHeaders="approvalTableHeaders"
+          :isExpanded="collapsibleStates[status]"
+          @toggle="toggleSection(status)"
+          @taskClick="handleApprovalAction"
+        />
+      </div>
+      <!-- Recently Approved Compliances -->
+      <div v-if="approvedComplianceItems.length > 0">
+        <CollapsibleTable
+          :sectionConfig="{
+            name: 'Recently Approved',
+            statusClass: 'approved',
+            tasks: approvedComplianceItems.map(mapApprovalToRow)
+          }"
+          :tableHeaders="approvalTableHeaders"
+          :isExpanded="collapsibleStates['Recently Approved']"
+          @toggle="toggleSection('Recently Approved')"
+          @taskClick="handleApprovalAction"
+        />
+      </div>
+      <!-- Rejected Compliances List -->
+      <div v-if="rejectedCompliances.length">
+        <CollapsibleTable
+          :sectionConfig="{
+            name: 'Rejected',
+            statusClass: 'rejected',
+            tasks: rejectedCompliances.map(mapRejectedToRow)
+          }"
+          :tableHeaders="rejectedTableHeaders"
+          :isExpanded="collapsibleStates['Rejected']"
+          @toggle="toggleSection('Rejected')"
+          @taskClick="handleRejectedAction"
+        />
+      </div>
+      <!-- Edit Modal for Rejected Compliance -->
+      <div v-if="showEditComplianceModal && editingCompliance" class="edit-policy-modal">
+        <div class="edit-policy-content">
+          <h3>Edit & Resubmit Compliance: {{ editingCompliance.Identifier }}</h3>
+          <button class="close-btn" @click="closeEditComplianceModal">Close</button>
+          <!-- Compliance fields -->
+          <div>
+            <label>Description:</label>
+            <input v-model="editingCompliance.ExtractedData.ComplianceItemDescription" />
+          </div>
+          <div>
+            <label>Criticality:</label>
+            <select v-model="editingCompliance.ExtractedData.Criticality">
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+          <div>
+            <label>Severity Rating:</label>
+            <input v-model="editingCompliance.ExtractedData.Impact" />
+          </div>
+          <div>
+            <label>Probability:</label>
+            <input v-model="editingCompliance.ExtractedData.Probability" />
+          </div>
+          <div>
+            <label>Mitigation:</label>
+            <textarea v-model="editingCompliance.ExtractedData.mitigation"></textarea>
+          </div>
+          <!-- Show rejection reason -->
+          <div>
+            <label>Rejection Reason:</label>
+            <div class="rejection-reason">{{ editingCompliance.ExtractedData.compliance_approval?.remarks }}</div>
+          </div>
+          <button class="resubmit-btn" @click="resubmitCompliance(editingCompliance)">Resubmit for Review</button>
         </div>
       </div>
+      <!-- Add PopupModal component -->
+      <PopupModal />
+    </template>
+    <!-- Details Section (Full Page Section) -->
+    <!-- Enhanced Details Section Template -->
+<template v-else>
+  <div class="compliance-details-section">
+    <!-- Header Section with Gradient Background -->
+    <div class="compliance-details-header">
+      <button class="back-btn" @click="closeApprovalDetails">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Dashboard</span>
+      </button>
+      
+      <h3>
+        <span class="detail-type-indicator">Compliance</span>
+        <span v-if="selectedApproval.ExtractedData?.RequestType === 'Change Status to Inactive' || selectedApproval.ExtractedData?.type === 'compliance_deactivation'">
+          Deactivation Request: {{ selectedApproval.Identifier }}
+        </span>
+        <span v-else>
+          Details: {{ selectedApproval.Identifier }}
+        </span>
+      </h3>
     </div>
- 
-    <!-- Loading state -->
-    <div v-if="isLoading && !approvals.length" class="loading-state">
-      <i class="fas fa-spinner fa-spin"></i> Loading approvals...
-    </div>
- 
-    <!-- No data state -->
-    <div v-else-if="!isLoading && complianceApprovals.length === 0" class="no-data-state">
-      <i class="fas fa-inbox"></i>
-      <p>No pending approvals found.</p>
-      <small>Any compliance items with "Under Review" status will appear here.</small>
-    </div>
- 
-    <!-- Compliance Approvals List -->
-    <div>
-      <CollapsibleTable
-        v-for="(tasks, status) in groupedApprovals"
-        :key="status"
-        :sectionConfig="{
-          name: status,
-          statusClass: status.toLowerCase().replace(' ', '-'),
-          tasks: tasks.map(mapApprovalToRow)
-        }"
-        :tableHeaders="approvalTableHeaders"
-        :isExpanded="collapsibleStates[status]"
-        @toggle="toggleSection(status)"
-        @taskClick="handleApprovalAction"
-      />
-    </div>
- 
-    <!-- Recently Approved Compliances -->
-    <div v-if="approvedComplianceItems.length > 0">
-      <CollapsibleTable
-        :sectionConfig="{
-          name: 'Recently Approved',
-          statusClass: 'approved',
-          tasks: approvedComplianceItems.map(mapApprovalToRow)
-        }"
-        :tableHeaders="approvalTableHeaders"
-        :isExpanded="collapsibleStates['Recently Approved']"
-        @toggle="toggleSection('Recently Approved')"
-        @taskClick="handleApprovalAction"
-      />
-    </div>
- 
-    <!-- Compliance Details Modal -->
-    <div v-if="showDetails && selectedApproval" class="policy-details-modal">
-      <div class="policy-details-content">
-        <h3>
-          <span class="detail-type-indicator">Compliance</span>
+
+    <!-- Main Content Area -->
+    <div class="policy-details-content">
+      <!-- Compliance Approval Section -->
+      <div class="policy-approval-section">
+        <h4>
           <span v-if="selectedApproval.ExtractedData?.RequestType === 'Change Status to Inactive' || selectedApproval.ExtractedData?.type === 'compliance_deactivation'">
-            Deactivation Request: {{ selectedApproval.Identifier }}
+            Compliance Deactivation Approval
           </span>
           <span v-else>
-          Details: {{ selectedApproval.Identifier }}
+            Compliance Approval
           </span>
-        </h3>
-        <button class="close-btn" @click="closeApprovalDetails">Close</button>
-       
-        <!-- Compliance Approval Section -->
-        <div class="policy-approval-section">
-          <h4>
-            <span v-if="selectedApproval.ExtractedData?.RequestType === 'Change Status to Inactive' || selectedApproval.ExtractedData?.type === 'compliance_deactivation'">
-              Compliance Deactivation Approval
-            </span>
-            <span v-else>
-              Compliance Approval
-            </span>
-          </h4>
-          
-
-          
-          <div class="policy-actions">
-            <button class="submit-btn" @click="submitReview()">
-              <i class="fas fa-paper-plane"></i> Submit Review
-            </button>
-          </div>
-         
-          <!-- Add this section to show approval status -->
-          <div v-if="approvalStatus" class="policy-approval-status">
-            <div class="status-container">
-              <div class="status-label">Status:</div>
-              <div class="status-value" :class="{
-                'approved': approvalStatus.approved === true,
-                'rejected': approvalStatus.approved === false,
-                'pending': approvalStatus.approved === null
-              }">
-                {{ approvalStatus.approved === true ? 'Approved' :
-                   approvalStatus.approved === false ? 'Rejected' : 'Pending' }}
-              </div>
-            </div>
-           
-            <!-- Add approval date display -->
-            <div v-if="selectedApproval.ApprovedDate" class="approval-date">
-              <div class="date-label">Approved on:</div>
-              <div class="date-value">{{ formatDate(selectedApproval.ApprovedDate) }}</div>
-            </div>
-           
-            <!-- Show remarks if rejected -->
-            <div v-if="approvalStatus.approved === false &&
-                      approvalStatus.remarks" class="policy-rejection-remarks">
-              <div class="remarks-label">Rejection Reason:</div>
-              <div class="remarks-value">{{ approvalStatus.remarks }}</div>
-            </div>
-          </div>
+        </h4>
+        
+        <!-- Quick Action Button -->
+        <div class="policy-actions">
+          <button class="submit-btn" @click="submitReview()">
+            <i class="fas fa-paper-plane"></i>
+            <span>Submit Review</span>
+          </button>
         </div>
-       
-        <!-- Display compliance details -->
-        <div v-if="selectedApproval.ExtractedData" class="compliance-details">
-          <!-- Show different details for deactivation requests -->
-          <div v-if="selectedApproval.ExtractedData?.RequestType === 'Change Status to Inactive' || selectedApproval.ExtractedData?.type === 'compliance_deactivation'" class="deactivation-request-details">
-            <div class="compliance-detail-row">
-              <strong>Reason for Deactivation:</strong> 
-              <span>{{ selectedApproval.ExtractedData.reason || 'No reason provided' }}</span>
-            </div>
-            <div class="compliance-detail-row">
-              <strong>Current Status:</strong> 
-              <span>{{ selectedApproval.ExtractedData.current_status }}</span>
-            </div>
-            <div class="compliance-detail-row">
-              <strong>Requested Status:</strong> 
-              <span>{{ selectedApproval.ExtractedData.requested_status }}</span>
-            </div>
-            <div class="compliance-detail-row">
-              <strong>Cascade to Policies:</strong> 
-              <span>{{ selectedApproval.ExtractedData.cascade_to_policies }}</span>
-            </div>
-            <div v-if="selectedApproval.ExtractedData.affected_policies_count > 0" class="compliance-detail-row">
-              <strong>Affected Policies:</strong> 
-              <span>{{ selectedApproval.ExtractedData.affected_policies_count }}</span>
-            </div>
-            <div class="warning-message">
-              <i class="fas fa-exclamation-triangle"></i>
-              <span>Warning: Deactivating this compliance will make it inactive. {{ selectedApproval.ExtractedData.cascade_to_policies === 'Yes' ? 'All related policies will also be deactivated.' : '' }}</span>
+        
+        <!-- Approval Status Display -->
+        <div v-if="approvalStatus" class="policy-approval-status">
+          <div class="status-container">
+            <div class="status-label">Current Status:</div>
+            <div class="status-value" :class="{
+              'approved': approvalStatus.approved === true,
+              'rejected': approvalStatus.approved === false,
+              'pending': approvalStatus.approved === null
+            }">
+              {{ approvalStatus.approved === true ? 'Approved' :
+                 approvalStatus.approved === false ? 'Rejected' : 'Pending Review' }}
             </div>
           </div>
-          <div v-else>
-          <div class="compliance-detail-row">
-            <strong>Description:</strong> <span>{{ selectedApproval.ExtractedData.ComplianceItemDescription }}</span>
-          </div>
-          <div class="compliance-detail-row">
-            <strong>Criticality:</strong> <span>{{ selectedApproval.ExtractedData.Criticality }}</span>
-          </div>
-          <div class="compliance-detail-row">
-            <strong>Severity Rating:</strong> <span>{{ selectedApproval.ExtractedData.Impact }}</span>
-          </div>
-          <div class="compliance-detail-row">
-            <strong>Probability:</strong> <span>{{ selectedApproval.ExtractedData.Probability }}</span>
-          </div>
-          <div class="compliance-detail-row">
-            <strong>Mitigation:</strong> <span>{{ selectedApproval.ExtractedData.mitigation }}</span>
+          
+          <!-- Approval Date Display -->
+          <div v-if="selectedApproval.ApprovedDate" class="approval-date">
+            <div class="date-label">
+              <i class="fas fa-calendar-check"></i>
+              Approved on:
             </div>
+            <div class="date-value">{{ formatDate(selectedApproval.ApprovedDate) }}</div>
           </div>
-          <div class="policy-actions">
-            <button class="approve-btn" @click="approveCompliance()">Approve</button>
-            <button class="reject-btn" @click="rejectCompliance()">Reject</button>
+          
+          <!-- Rejection Remarks -->
+          <div v-if="approvalStatus.approved === false && approvalStatus.remarks" class="policy-rejection-remarks">
+            <div class="remarks-label">
+              <i class="fas fa-exclamation-circle"></i>
+              Rejection Reason:
+            </div>
+            <div class="remarks-value">{{ approvalStatus.remarks }}</div>
           </div>
         </div>
       </div>
-     
-      <!-- Rejection Modal -->
-      <div v-if="showRejectModal" class="reject-modal">
-        <div class="reject-modal-content">
-          <h4>Rejection Reason</h4>
-          <p>Please provide a reason for rejecting the compliance item</p>
-          <textarea
-            v-model="rejectionComment"
-            class="rejection-comment"
-            placeholder="Enter your comments here..."></textarea>
-          <div class="reject-modal-actions">
-            <button class="cancel-btn" @click="cancelRejection">Cancel</button>
-            <button class="confirm-btn" @click="confirmRejection">Confirm Rejection</button>
+      
+      <!-- Compliance Details Display -->
+      <div v-if="selectedApproval.ExtractedData" class="compliance-details">
+        <!-- Deactivation Request Details -->
+        <div v-if="selectedApproval.ExtractedData?.RequestType === 'Change Status to Inactive' || selectedApproval.ExtractedData?.type === 'compliance_deactivation'" 
+             class="deactivation-request-details">
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-question-circle"></i>
+              Reason for Deactivation:
+            </strong>
+            <span>{{ selectedApproval.ExtractedData.reason || 'No reason provided' }}</span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-info-circle"></i>
+              Current Status:
+            </strong>
+            <span class="status-badge current">{{ selectedApproval.ExtractedData.current_status }}</span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-arrow-right"></i>
+              Requested Status:
+            </strong>
+            <span class="status-badge requested">{{ selectedApproval.ExtractedData.requested_status }}</span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-sitemap"></i>
+              Cascade to Policies:
+            </strong>
+            <span class="cascade-indicator" :class="{ 'warning': selectedApproval.ExtractedData.cascade_to_policies === 'Yes' }">
+              {{ selectedApproval.ExtractedData.cascade_to_policies }}
+            </span>
+          </div>
+          
+          <div v-if="selectedApproval.ExtractedData.affected_policies_count > 0" class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-file-alt"></i>
+              Affected Policies:
+            </strong>
+            <span class="policy-count">{{ selectedApproval.ExtractedData.affected_policies_count }} policies</span>
+          </div>
+          
+          <!-- Enhanced Warning Message -->
+          <div class="warning-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>
+              <strong>Warning:</strong> Deactivating this compliance will make it inactive.
+              {{ selectedApproval.ExtractedData.cascade_to_policies === 'Yes' ? 
+                 'All related policies will also be deactivated.' : 
+                 'Related policies will not be affected.' }}
+            </span>
           </div>
         </div>
-      </div>
-    </div>
- 
-    <!-- Rejected Compliances List -->
-    <div v-if="rejectedCompliances.length">
-      <CollapsibleTable
-        :sectionConfig="{
-          name: 'Rejected',
-          statusClass: 'rejected',
-          tasks: rejectedCompliances.map(mapRejectedToRow)
-        }"
-        :tableHeaders="rejectedTableHeaders"
-        :isExpanded="collapsibleStates['Rejected']"
-        @toggle="toggleSection('Rejected')"
-        @taskClick="handleRejectedAction"
-      />
-    </div>
- 
-    <!-- Edit Modal for Rejected Compliance -->
-    <div v-if="showEditComplianceModal && editingCompliance" class="edit-policy-modal">
-      <div class="edit-policy-content">
-        <h3>Edit & Resubmit Compliance: {{ editingCompliance.Identifier }}</h3>
-        <button class="close-btn" @click="closeEditComplianceModal">Close</button>
-       
-        <!-- Compliance fields -->
-        <div>
-          <label>Description:</label>
-          <input v-model="editingCompliance.ExtractedData.ComplianceItemDescription" />
+        
+        <!-- Regular Compliance Details -->
+        <div v-else>
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-file-text"></i>
+              Description:
+            </strong>
+            <span>{{ selectedApproval.ExtractedData.ComplianceItemDescription }}</span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-exclamation"></i>
+              Criticality:
+            </strong>
+            <span class="criticality-badge" :class="selectedApproval.ExtractedData.Criticality?.toLowerCase()">
+              {{ selectedApproval.ExtractedData.Criticality }}
+            </span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-chart-line"></i>
+              Severity Rating:
+            </strong>
+            <span class="severity-rating">{{ selectedApproval.ExtractedData.Impact }}</span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-percentage"></i>
+              Probability:
+            </strong>
+            <span class="probability-value">{{ selectedApproval.ExtractedData.Probability }}</span>
+          </div>
+          
+          <div class="compliance-detail-row">
+            <strong>
+              <i class="fas fa-shield-alt"></i>
+              Mitigation:
+            </strong>
+            <span>{{ selectedApproval.ExtractedData.mitigation }}</span>
+          </div>
         </div>
-        <div>
-          <label>Criticality:</label>
-          <select v-model="editingCompliance.ExtractedData.Criticality">
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
-          </select>
+        
+        <!-- Action Buttons -->
+        <div class="policy-actions">
+          <button class="approve-btn" @click="approveCompliance()">
+            <i class="fas fa-check"></i>
+            <span>Approve</span>
+          </button>
+          <button class="reject-btn" @click="rejectCompliance()">
+            <i class="fas fa-times"></i>
+            <span>Reject</span>
+          </button>
         </div>
-        <div>
-          <label>Severity Rating:</label>
-          <input v-model="editingCompliance.ExtractedData.Impact" />
-        </div>
-        <div>
-          <label>Probability:</label>
-          <input v-model="editingCompliance.ExtractedData.Probability" />
-        </div>
-        <div>
-          <label>Mitigation:</label>
-          <textarea v-model="editingCompliance.ExtractedData.mitigation"></textarea>
-        </div>
-        <!-- Show rejection reason -->
-        <div>
-          <label>Rejection Reason:</label>
-          <div class="rejection-reason">{{ editingCompliance.ExtractedData.compliance_approval?.remarks }}</div>
-        </div>
-       
-        <button class="resubmit-btn" @click="resubmitCompliance(editingCompliance)">Resubmit for Review</button>
       </div>
     </div>
     
-    <!-- Add PopupModal component -->
-    <PopupModal />
+    <!-- Enhanced Rejection Modal -->
+    <div v-if="showRejectModal" class="reject-modal">
+      <div class="reject-modal-content">
+        <h4>
+          <i class="fas fa-times-circle"></i>
+          Rejection Reason Required
+        </h4>
+        <p>Please provide a detailed reason for rejecting this compliance item. This information will be used to improve future submissions.</p>
+        
+        <textarea
+          v-model="rejectionComment"
+          class="rejection-comment"
+          placeholder="Enter your detailed comments here...">
+        </textarea>
+        
+        <div class="reject-modal-actions">
+          <button class="cancel-btn" @click="cancelRejection">
+            <i class="fas fa-arrow-left"></i>
+            Cancel
+          </button>
+          <button class="confirm-btn" @click="confirmRejection">
+            <i class="fas fa-check"></i>
+            Confirm Rejection
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Popup Modal Component -->
+  <PopupModal />
+</template>
   </div>
 </template>
  
@@ -1455,5 +1541,38 @@ export default {
   padding: 15px;
   background-color: #fff8e1;
   border-radius: 4px;
+}
+
+.compliance-details-section {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  position: relative;
+  animation: fadeIn 0.3s;
+}
+.back-btn {
+  background: #f5f5f5;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.2s;
+}
+.back-btn:hover {
+  background: #e0e0e0;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 </style>

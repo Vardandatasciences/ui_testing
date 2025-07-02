@@ -3,15 +3,15 @@
     <!-- Page Header -->
     <div class="page-header">
       <div class="header-content">
-        <div class="header-left">
-          <button @click="goBack" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            Back
-          </button>
+        <div class="header-main">
           <div class="header-text">
             <h1>Copy Compliance Record</h1>
             <p>Create a new compliance item based on the selected one. Target location is auto-populated from current context.</p>
           </div>
+          <button @click="goBack" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
         </div>
       </div>
     </div>
@@ -1629,17 +1629,19 @@ export default {
   background-color: #f8fafc;
   display: flex;
   flex-direction: column;
+  margin-left: 280px;
 }
 
 /* Header Styles */
 .page-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2rem 0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  color: #1f2937;
+  padding: 1.5rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .header-content {
@@ -1648,16 +1650,29 @@ export default {
   padding: 0 2rem;
 }
 
-.header-left {
+.header-main {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
+}
+
+.header-text h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.header-text p {
+  margin: 0;
+  font-size: 1rem;
+  color: #6b7280;
 }
 
 .back-button {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
   font-weight: 600;
@@ -1669,20 +1684,9 @@ export default {
 }
 
 .back-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #e5e7eb;
+  color: #111827;
   transform: translateY(-1px);
-}
-
-.header-text h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.header-text p {
-  margin: 0;
-  font-size: 1.1rem;
-  opacity: 0.9;
 }
 
 /* Main Content */
@@ -1699,7 +1703,7 @@ export default {
   padding: 0 2rem;
   background-color: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 2rem;
 }
 
@@ -1722,7 +1726,7 @@ export default {
   width: 50px;
   height: 50px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #667eea;
+  border-top: 4px solid #3b82f6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1765,39 +1769,39 @@ export default {
 /* Field Groups */
 .field-group {
   margin-bottom: 2rem;
-  background-color: #f8fafc;
+  background-color: #f9fafb;
   border-radius: 8px;
   padding: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e5e7eb;
 }
 
 .field-group-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #111827;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #3b82f6;
 }
 
 .selection-fields {
-  background-color: #e0e7ff;
-  border: 1px solid #a5b4fc;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
 }
 
 .risk-fields {
-  background-color: #fef3c7;
-  border: 1px solid #fbbf24;
+  background-color: #fefce8;
+  border: 1px solid #fde047;
 }
 
 .classification-fields {
-  background-color: #ddd6fe;
-  border: 1px solid #a78bfa;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
 }
 
 .approval-fields {
-  background-color: #d1fae5;
-  border: 1px solid #34d399;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
 }
 
 /* Form Fields */
@@ -1834,8 +1838,8 @@ export default {
 .compliance-input:focus,
 .compliance-select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .compliance-input:disabled,
@@ -1881,12 +1885,12 @@ export default {
 
 /* Selection Info */
 .selection-info {
-  background-color: #e0f2fe;
-  border: 1px solid #0284c7;
+  background-color: #dbeafe;
+  border: 1px solid #60a5fa;
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1.5rem;
-  color: #0c4a6e;
+  color: #1e40af;
   font-size: 0.95rem;
   display: flex;
   align-items: center;
@@ -1894,7 +1898,7 @@ export default {
 }
 
 .selection-info i {
-  color: #0284c7;
+  color: #3b82f6;
   font-size: 1.25rem;
 }
 
@@ -1955,8 +1959,8 @@ export default {
 
 .dropdown-add-btn:hover {
   background: #f3f4f6;
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #3b82f6;
+  color: #3b82f6;
 }
 
 /* Submit Container */
@@ -1972,7 +1976,7 @@ export default {
 }
 
 .compliance-submit-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #3b82f6;
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -1989,8 +1993,9 @@ export default {
 }
 
 .compliance-submit-btn:hover:not(:disabled) {
+  background-color: #2563eb;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
 }
 
 .compliance-submit-btn:disabled {
@@ -2080,6 +2085,10 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .copy-compliance-page {
+    margin-left: 0;
+  }
+  
   .page-header {
     padding: 1.5rem 0;
   }
@@ -2088,7 +2097,7 @@ export default {
     padding: 0 1rem;
   }
   
-  .header-left {
+  .header-main {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
@@ -2143,52 +2152,11 @@ export default {
   background: #a8a8a8;
 }
 
-.field-error-message {
+.validation-error {
   color: #dc2626;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   margin-top: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  background-color: #fee2e2;
-  border-radius: 4px;
   font-weight: 500;
-}
-
-.compliance-input.error,
-.compliance-select.error {
-  border-color: #dc2626;
-  background-color: #fff5f5;
-}
-
-.compliance-input.error:focus,
-.compliance-select.error:focus {
-  border-color: #dc2626;
-  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
-}
-
-.required {
-  color: #dc2626;
-  margin-left: 0.25rem;
-}
-
-.field-requirements {
-  color: #6b7280;
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
-}
-
-.char-count {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  font-size: 0.75rem;
-  color: #6b7280;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.char-count.error {
-  color: #dc2626;
 }
 
 @keyframes highlightError {
@@ -2203,25 +2171,4 @@ export default {
 .compliance-field:target {
   animation: highlightError 2s ease-out;
 }
-
-.validation-feedback {
-  margin-top: 0.25rem;
-}
-
-.selection-info {
-  background-color: #e3f2fd;
-  border: 1px solid #90caf9;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  color: #1565c0;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.selection-info i {
-  color: #2196f3;
-}
-</style> 
+</style>
