@@ -68,13 +68,13 @@ body, .risk-resolution-container {
 
 /* Main Container */
 .risk-resolution-container {
-  padding: 20px;
-  max-width: calc(100% - 200px);
-  margin-left: 180px;
-  box-sizing: border-box;
-  position: relative;
-  overflow-x: hidden;
-  min-height: 100vh;
+  padding: 20px !important;
+  margin-left: 250px !important;
+  width: calc(100% - 250px) !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  overflow-x: hidden !important;
+  min-height: 100vh !important;
 }
 
 .risk-resolution-container h1 {
@@ -103,12 +103,14 @@ body, .risk-resolution-container {
 
 /* Filters Wrapper */
 .risk-resolution-filters-wrapper {
+  width: calc(100% - 40px) !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
   display: flex;
   flex-wrap: nowrap;
   gap: 15px;
   margin-bottom: 20px;
   align-items: center;
-  width: 100%;
   background: white;
   padding: 15px 20px;
   border-radius: 12px;
@@ -677,8 +679,10 @@ body, .risk-resolution-container {
   box-shadow: 0 4px 24px rgba(106, 90, 205, 0.10);
   padding: 2.5rem 2rem 2rem 2rem;
   margin: 2rem auto;
-  max-width: 1100px;
-  width: 98vw;
+  max-width: none !important;
+  width: calc(100% - 40px) !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
 }
 
 .risk-resolution-mitigation-header {
@@ -1034,36 +1038,42 @@ body, .risk-resolution-container {
 
 @media (max-width: 768px) {
   .risk-resolution-container {
-    margin-left: 60px;
-    max-width: calc(100% - 60px);
+    margin-left: 80px !important;
+    width: calc(100% - 80px) !important;
   }
 }
 
 /* Toggle Button Styles */
 .risk-resolution-toggle-buttons {
-  display: flex;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+  width: calc(100% - 40px) !important;
+  justify-content: center !important;
+  display: flex !important;
   background: #f8f9fa;
   border-radius: 50px;
   overflow: hidden;
-  width: fit-content;
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  margin: 30px auto;
+  max-width: 400px !important;
+  margin: 30px auto !important;
 }
 
 .risk-resolution-toggle-button {
-  padding: 12px 25px;
+  padding: 8px 35px !important;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px !important;
   font-weight: 600;
   color: #555;
   transition: all 0.3s ease;
   position: relative;
   outline: none;
-  min-width: 140px;
+  min-width: 180px !important;
   text-align: center;
+  flex: 1 !important;
+  line-height: 1.5 !important;
 }
 
 .risk-resolution-toggle-button:not(:last-child) {
@@ -1081,16 +1091,17 @@ body, .risk-resolution-container {
   box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
 }
 
+/* Responsive adjustments for toggle buttons */
 @media (max-width: 768px) {
   .risk-resolution-toggle-buttons {
-    width: 90%;
+    width: calc(100% - 40px) !important;
+    max-width: 350px !important;
   }
   
   .risk-resolution-toggle-button {
-    flex: 1;
-    padding: 10px 15px;
-    font-size: 13px;
-    min-width: auto;
+    padding: 6px 20px !important;
+    font-size: 14px !important;
+    min-width: 140px !important;
   }
 }
 
@@ -1162,8 +1173,10 @@ body, .risk-resolution-container {
 
 /* Collapsible Table Container */
 .risk-resolution-collapsible-container {
-  margin-top: 20px;
-  width: 100%;
+  width: calc(100% - 40px) !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+  overflow-x: auto !important;
 }
 
 /* Status Badge Styles for CollapsibleTable */

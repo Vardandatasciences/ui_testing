@@ -28,8 +28,8 @@ def analyze_incident_comprehensive(incident_title, incident_description):
             print("Ollama not available, using fallback analysis")
             return generate_comprehensive_fallback_analysis(incident_title, incident_description)
             
-        # Initialize the local SLM model
-        llm = OllamaLLM(model="llama3.2:3b", temperature=0.7)
+        # Initialize the local SLM model with increased timeout
+        llm = OllamaLLM(model="llama3.2:3b", temperature=0.7, request_timeout=60.0)
        
         prompt_template = PromptTemplate.from_template("""
         You are a senior cybersecurity analyst and risk management expert specializing in banking GRC (Governance, Risk, and Compliance) systems. 
@@ -55,6 +55,7 @@ def analyze_incident_comprehensive(incident_title, incident_description):
         - Ensure all arrays contain only strings
         - No trailing commas
         - Valid JSON syntax only
+        - IMPORTANT: Do not use escape characters or backslashes in your JSON output
 
         For banking context, consider:
         - Regulatory compliance (GLBA, BSA/AML, SOX, PCI DSS, FFIEC guidelines)
@@ -92,6 +93,7 @@ def analyze_incident_comprehensive(incident_title, incident_description):
         - Use banking and GRC terminology throughout
         - Consider both immediate and long-term implications
         - Focus on practical, implementable recommendations
+        - DO NOT use escape characters or backslashes in your output
 
         Incident Title: {title}
         Incident Description: {description}
@@ -129,32 +131,67 @@ def analyze_incident_comprehensive(incident_title, incident_description):
                 end_idx = json_text.rfind("}") + 1
                 json_text = json_text[start_idx:end_idx]
             
-            # Fix common JSON formatting issues from AI responses
-            # Fix numbered lists in arrays (e.g., "1. text" -> "text")
-            json_text = re.sub(r'(\d+)\.\s*"([^"]*)"', r'"\2"', json_text)
-            
-            # Fix trailing commas before closing brackets/braces
-            json_text = re.sub(r',(\s*[}\]])', r'\1', json_text)
-            
-            # Fix object values that should be strings but aren't quoted
-            json_text = re.sub(r':\s*([A-Za-z][^,}\]]*?)([,}\]])', r': "\1"\2', json_text)
-            
-            # Handle costOfIncident object - convert to string if it's an object
-            if '"costOfIncident":' in json_text and '{' in json_text.split('"costOfIncident":')[1].split(',')[0]:
-                # Extract the cost object and convert to a simple string
-                cost_match = re.search(r'"costOfIncident":\s*{[^}]*}', json_text)
-                if cost_match:
-                    json_text = json_text.replace(cost_match.group(0), '"costOfIncident": "$50,000 - $250,000"')
-            
-            # Handle initialImpactAssessment object - convert to string if it's an object
-            if '"initialImpactAssessment":' in json_text and '{' in json_text.split('"initialImpactAssessment":')[1].split(',')[0]:
-                # Extract the impact object and convert to a simple string
-                impact_match = re.search(r'"initialImpactAssessment":\s*{[^}]*}', json_text)
-                if impact_match:
-                    json_text = json_text.replace(impact_match.group(0), '"initialImpactAssessment": "Incident requires immediate assessment and containment measures."')
-            
             print(f"Cleaned JSON text: {json_text}")
-            incident_analysis = json.loads(json_text)
+            
+            try:
+                # First attempt: Try to parse the JSON directly
+                incident_analysis = json.loads(json_text)
+            except json.JSONDecodeError as e:
+                print(f"Initial JSON parsing failed: {e}")
+                
+                # Try to fix the JSON by removing problematic backslashes
+                try:
+                    # Fix the specific issue with escaped backslashes
+                    # This is the main issue we're seeing in the logs
+                    fixed_json = json_text.replace('\"', '"')
+                    
+                    # Try to parse the fixed JSON
+                    try:
+                        incident_analysis = json.loads(fixed_json)
+                        print("Successfully parsed JSON after fixing backslashes")
+                    except json.JSONDecodeError:
+                        # If still failing, try a more aggressive approach
+                        print("Still having JSON parsing issues, trying more aggressive fix")
+                        
+                        # Recreate the JSON from scratch
+                        import ast
+                        try:
+                            # Extract the raw data using regex patterns
+                            risk_priority = re.search(r'"riskPriority":\s*"([^"]+)"', json_text)
+                            criticality = re.search(r'"criticality":\s*"([^"]+)"', json_text)
+                            cost = re.search(r'"costOfIncident":\s*"([^"]+)"', json_text)
+                            damage = re.search(r'"possibleDamage":\s*"([^"]+)"', json_text)
+                            impact = re.search(r'"initialImpactAssessment":\s*"([^"]+)"', json_text)
+                            comments = re.search(r'"comments":\s*"([^"]+)"', json_text)
+                            
+                            # Create a new clean JSON structure
+                            incident_analysis = {
+                                "riskPriority": risk_priority.group(1) if risk_priority else "P1",
+                                "criticality": criticality.group(1) if criticality else "Medium",
+                                "costOfIncident": cost.group(1) if cost else "$50,000 - $250,000",
+                                "possibleDamage": damage.group(1) if damage else "Potential data exposure and operational disruption",
+                                "systemsInvolved": ["Core Banking System", "Network Infrastructure"],
+                                "initialImpactAssessment": impact.group(1) if impact else "Immediate assessment required",
+                                "mitigationSteps": [
+                                    "Isolate affected systems",
+                                    "Notify stakeholders",
+                                    "Conduct investigation"
+                                ],
+                                "comments": comments.group(1) if comments else "Incident requires immediate attention",
+                                "violatedPolicies": ["Data Protection Policy", "Security Policy"],
+                                "procedureControlFailures": ["Access Control", "Security Monitoring"],
+                                "lessonsLearned": ["Improve security controls", "Enhance monitoring"]
+                            }
+                            print("Created clean JSON structure from regex extraction")
+                        except Exception as regex_error:
+                            print(f"Regex extraction failed: {regex_error}")
+                            # If all else fails, use the fallback
+                            return generate_comprehensive_fallback_analysis(incident_title, incident_description)
+                except Exception as fix_error:
+                    print(f"Failed to fix JSON: {fix_error}")
+                    # If parsing still fails, fall back to the generated response
+                    print("Falling back to generated analysis")
+                    return generate_comprehensive_fallback_analysis(incident_title, incident_description)
             
             # Validate that we have the required fields
             required_fields = ['riskPriority', 'criticality', 'costOfIncident', 'possibleDamage', 
@@ -170,7 +207,7 @@ def analyze_incident_comprehensive(incident_title, incident_description):
             print(f"Successfully parsed comprehensive incident analysis: {incident_analysis}")
             return incident_analysis
             
-        except json.JSONDecodeError as e:
+        except Exception as e:
             print(f"JSON parsing error: {e}")
             print(f"Failed to parse JSON from: {json_text}")
             # If JSON parsing fails, fall back to the generated response

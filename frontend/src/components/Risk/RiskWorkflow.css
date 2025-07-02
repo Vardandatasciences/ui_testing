@@ -2166,9 +2166,10 @@ button.review-btn:hover, .user-tasks-table .review-btn:hover {
 }
 
 .risk-workflow-status-control {
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .risk-workflow-complete-btn, .risk-workflow-reset-btn {
@@ -2244,7 +2245,22 @@ button.review-btn:hover, .user-tasks-table .review-btn:hover {
 }
 
 .file-display a i {
-  margin-right: 8px;
+  margin-right: 5px;
+}
+
+.file-info-details {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.file-upload-date {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #f0f8ff;
+  border-radius: 3px;
+  border: 1px solid #d1e9ff;
 }
 
 /* Submission area styling */
@@ -3677,4 +3693,203 @@ button.review-btn:hover, .user-tasks-table .review-btn:hover {
   background-color: #389e0d;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transform: translateY(-1px);
+}
+
+/* Add new styles for step comments */
+.step-comments {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.step-comments label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+}
+
+.step-comments label i {
+  margin-right: 5px;
+  color: #3498db;
+}
+
+.step-comments-input {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.step-comments-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.step-comments-input::placeholder {
+  color: #aaa;
+}
+
+/* Display existing comments if available */
+.step-comments-display {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-left: 3px solid #3498db;
+  border-radius: 0 4px 4px 0;
+}
+
+.step-comments-display h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.step-comments-display p {
+  margin: 0;
+  font-style: italic;
+  color: #666;
+}
+
+/* File upload styles */
+.file-upload-container {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.file-upload-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+}
+
+.file-upload-container label i {
+  margin-right: 5px;
+  color: #3498db;
+}
+
+.file-upload-wrapper {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.file-upload-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.file-upload-label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px;
+  background-color: #f8f9fa;
+  border: 1px dashed #ced4da;
+  border-radius: 4px;
+  color: #6c757d;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.file-upload-label:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.file-upload-label i {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #3498db;
+}
+
+.file-preview {
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #f1f8ff;
+  border-radius: 4px;
+  border: 1px solid #d1e9ff;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #0366d6;
+}
+
+.file-info i {
+  margin-right: 5px;
+}
+
+.remove-file-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  margin-left: 10px;
+  transition: color 0.2s;
+}
+
+.remove-file-btn:hover {
+  color: #bd2130;
+}
+
+/* Display uploaded file if available */
+.file-display {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f1f8ff;
+  border-left: 3px solid #0366d6;
+  border-radius: 0 4px 4px 0;
+}
+
+.file-display h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #0366d6;
+  display: flex;
+  align-items: center;
+}
+
+.file-display h4 i {
+  margin-right: 5px;
+}
+
+.file-display a {
+  display: inline-flex;
+  align-items: center;
+  color: #0366d6;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.file-display a:hover {
+  text-decoration: underline;
+  color: #004ba0;
+}
+
+.file-display a i {
+  margin-right: 5px;
 }

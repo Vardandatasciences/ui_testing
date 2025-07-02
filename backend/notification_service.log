@@ -645,3 +645,934 @@ django.db.utils.OperationalError: (1213, 'Deadlock found when trying to get lock
 2025-07-02 02:36:14,151 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliant-incidents/
 2025-07-02 02:44:57,269 - django.request - WARNING - Bad Request: /api/risk-instances/13/
 2025-07-02 02:45:03,194 - django.request - WARNING - Bad Request: /api/risk-instances/13/
+2025-07-02 02:58:32,795 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 02:58:33,235 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 02:58:33,249 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 02:58:33,249 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 02:59:42,864 - django.request - WARNING - Bad Request: /api/risk-instances/13/
+2025-07-02 03:00:03,315 - django.request - WARNING - Bad Request: /api/risk-instances/13/
+2025-07-02 03:02:04,352 - django.request - WARNING - Bad Request: /api/risk-instances/13/
+2025-07-02 03:12:40,654 - django.request - WARNING - Bad Request: /api/risks/
+2025-07-02 03:23:54,107 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 03:24:44,550 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 03:25:40,114 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 03:30:22,674 - django.request - WARNING - Bad Request: /api/risks/
+2025-07-02 03:33:07,732 - django.request - WARNING - Bad Request: /api/risks/
+2025-07-02 03:33:43,772 - django.request - WARNING - Bad Request: /api/risks/
+2025-07-02 03:34:53,198 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 03:34:56,275 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 03:34:56,823 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 03:34:56,823 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 03:34:56,823 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 03:35:15,568 - django.request - WARNING - Not Found: /api/create-risk/
+2025-07-02 03:35:25,903 - django.request - WARNING - Not Found: /api/create-risk/
+2025-07-02 03:39:24,470 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 03:41:50,007 - django.request - ERROR - Internal Server Error: /api/risk-instances/
+2025-07-02 04:01:38,486 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:03:17,515 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:03:35,476 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:04:31,158 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:25,386 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:34,702 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:34,926 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:36,429 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:37,692 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:38,965 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:39,922 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:40,789 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:42,821 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:08:44,404 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:09:06,550 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:35:26,653 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:36:04,723 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:36:10,285 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:36:26,223 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:36:31,919 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:36:38,646 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:36:43,944 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:39:51,487 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:39:55,539 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:40:04,984 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:40:14,618 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:40:24,314 - django.request - WARNING - Not Found: /api/risk/metrics-by-category
+2025-07-02 04:40:24,316 - django.request - WARNING - Not Found: /api/risk/metrics-by-category/
+2025-07-02 04:40:24,322 - django.request - WARNING - Not Found: /api/risk/trend-over-time/
+2025-07-02 04:40:24,607 - django.request - WARNING - Not Found: /api/risk/custom-analysis/
+2025-07-02 04:40:24,609 - django.request - WARNING - Not Found: /api/risk/heatmap/
+2025-07-02 04:40:24,617 - django.request - WARNING - Not Found: /api/risk/categories-for-dropdown/
+2025-07-02 04:40:28,217 - django.request - ERROR - Internal Server Error: /api/risk/mitigation-completion-rate/
+2025-07-02 04:40:29,200 - django.request - WARNING - Not Found: /api/risk/metrics-by-category
+2025-07-02 04:40:29,203 - django.request - WARNING - Not Found: /api/risk/metrics-by-category/
+2025-07-02 04:40:29,208 - django.request - WARNING - Not Found: /api/risk/trend-over-time/
+2025-07-02 04:40:29,450 - django.request - WARNING - Not Found: /api/risk/custom-analysis/
+2025-07-02 04:40:29,464 - django.request - WARNING - Not Found: /api/risk/categories-for-dropdown/
+2025-07-02 04:40:29,469 - django.request - WARNING - Not Found: /api/risk/heatmap/
+2025-07-02 04:40:33,479 - django.request - WARNING - Not Found: /api/risk/categories-for-dropdown/
+2025-07-02 04:40:33,479 - django.request - WARNING - Not Found: /api/risk/metrics-by-category
+2025-07-02 04:40:33,485 - django.request - WARNING - Not Found: /api/risk/metrics-by-category/
+2025-07-02 04:40:33,485 - django.request - WARNING - Not Found: /api/risk/trend-over-time/
+2025-07-02 04:40:33,493 - django.request - WARNING - Not Found: /api/risk/custom-analysis/
+2025-07-02 04:40:33,596 - django.request - WARNING - Not Found: /api/risk/heatmap/
+2025-07-02 04:41:48,494 - django.request - WARNING - Not Found: /api/risks/
+2025-07-02 04:46:14,280 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 04:46:31,047 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 04:46:31,643 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 04:46:31,643 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 04:46:31,643 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 04:46:39,474 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 04:46:41,633 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 04:46:42,358 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 04:46:42,358 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 04:46:42,358 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 04:47:03,663 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 04:47:04,200 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 04:47:04,200 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 04:47:04,200 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 04:48:12,243 - django.request - WARNING - Bad Request: /api/risks/
+2025-07-02 05:02:45,992 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 05:03:33,874 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 05:03:59,350 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 05:04:18,319 - django.request - WARNING - Bad Request: /api/risk-instances/14/
+2025-07-02 05:05:09,381 - django.request - WARNING - Not Found: /api/risk-instances/14/
+2025-07-02 05:05:45,387 - django.request - WARNING - Not Found: /api/risk-instances/14/
+2025-07-02 05:07:26,584 - django.request - WARNING - Bad Request: /api/risk-instances/71/
+2025-07-02 05:31:14,653 - django.request - WARNING - Not Found: /api/save-uploaded-file/
+2025-07-02 05:32:19,137 - django.request - WARNING - Not Found: /api/save-uploaded-file/
+2025-07-02 05:40:25,100 - django.request - WARNING - Not Found: /api/save-uploaded-file/
+2025-07-02 06:18:45,188 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-02 06:18:45,216 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:18:45,216 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:18:45,216 - grc.incident_views - INFO -    User ID: 1
+2025-07-02 06:18:45,218 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:18:45,218 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:18:45,218 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:18:45,218 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:18:45,218 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:18:45,243 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:18:45,244 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:18:45,245 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-02 06:18:45,245 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:18:45,248 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:18:45,249 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:18:45,250 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-02 06:18:45,250 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:18:45,251 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:18:45,251 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:18:45,251 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-02 06:18:45,251 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:18:45,251 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:18:45,251 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:18:45,251 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-02 06:18:45,251 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:18:45,269 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:18:45,271 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:18:45,272 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-02 06:18:45,272 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:18:45,272 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:18:45,272 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:18:45,273 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:18:45,273 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:18:45,273 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:18:45,274 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:18:45,274 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:18:45.274846
+2025-07-02 06:18:45,275 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:20:22,028 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-02 06:20:22,028 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:22,028 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:20:22,028 - grc.incident_views - INFO -    User ID: 1
+2025-07-02 06:20:22,029 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:20:22,029 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:20:22,029 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:20:22,030 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:20:22,030 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:20:22,037 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:22,038 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:20:22,039 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-02 06:20:22,039 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:22,043 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:22,044 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:20:22,045 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-02 06:20:22,045 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:22,049 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:22,050 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:20:22,051 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-02 06:20:22,051 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:22,054 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:22,055 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:20:22,056 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-02 06:20:22,056 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:22,059 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:22,061 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:20:22,062 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-02 06:20:22,063 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:22,063 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:20:22,063 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:20:22,064 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:20:22,064 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:20:22,065 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:20:22,065 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:20:22,066 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:20:22.066436
+2025-07-02 06:20:22,066 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:20:25,721 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-02 06:20:25,722 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:25,722 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:20:25,722 - grc.incident_views - INFO -    User ID: 1
+2025-07-02 06:20:25,722 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:20:25,723 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:20:25,723 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:20:25,723 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:20:25,723 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:20:25,727 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:25,729 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:20:25,729 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-02 06:20:25,729 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:25,732 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:25,735 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:20:25,737 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-02 06:20:25,737 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:25,740 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:25,742 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:20:25,745 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-02 06:20:25,746 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:25,750 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:25,755 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:20:25,756 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-02 06:20:25,756 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:25,759 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:20:25,761 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:20:25,762 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-02 06:20:25,762 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:20:25,763 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:20:25,763 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:20:25,763 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:20:25,763 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:20:25,763 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:20:25,764 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:20:25,764 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:20:25.764400
+2025-07-02 06:20:25,764 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:22:26,285 - notification_service - INFO - Attempting to send email to radha.sharma@company.com using gmail for incidentAssigned
+2025-07-02 06:22:26,287 - notification_service - INFO - Template data: ['radha.sharma', 'ssdxfcvb', '2025-07-11']
+2025-07-02 06:22:26,287 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 06:22:26,287 - notification_service - INFO - Found template for incidentAssigned
+2025-07-02 06:22:26,288 - notification_service - INFO - Email subject: New Incident Assigned: "ssdxfcvb"
+2025-07-02 06:22:26,292 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 06:22:27,374 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 06:22:27,785 - notification_service - INFO - SMTP login successful
+2025-07-02 06:22:29,319 - notification_service - INFO - Email sent successfully to radha.sharma@company.com
+2025-07-02 06:22:29,751 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for incidentReviewerAssigned
+2025-07-02 06:22:29,752 - notification_service - INFO - Template data: ['vikram.patel', 'ssdxfcvb', 'radha.sharma']
+2025-07-02 06:22:29,752 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 06:22:29,752 - notification_service - ERROR - Unsupported notification type: incidentReviewerAssigned
+2025-07-02 06:22:29,753 - notification_service - ERROR - Error sending email: Unsupported notification type: incidentReviewerAssigned
+2025-07-02 06:22:29,773 - notification_service - ERROR - Full error details: Traceback (most recent call last):
+  File "C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\notification_service.py", line 1117, in send_email
+    raise ValueError(error_msg)
+ValueError: Unsupported notification type: incidentReviewerAssigned
+
+2025-07-02 06:22:29,962 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-02 06:22:29,962 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:22:29,963 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:22:29,963 - grc.incident_views - INFO -    User ID: 1
+2025-07-02 06:22:29,963 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:22:29,964 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:22:29,964 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:22:29,964 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:22:29,965 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:22:29,969 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:22:29,970 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:22:29,971 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-02 06:22:29,971 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:22:29,971 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:22:29,971 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:22:29,971 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-02 06:22:29,971 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:22:29,971 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:22:29,971 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:22:29,971 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-02 06:22:29,971 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:22:29,986 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:22:29,986 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:22:29,986 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-02 06:22:29,986 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:22:29,986 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:22:29,986 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:22:29,986 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-02 06:22:29,986 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:22:29.986131
+2025-07-02 06:22:29,986 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:24:47,004 - notification_service - INFO - Attempting to send email to radha.sharma@company.com using gmail for incidentRejected
+2025-07-02 06:24:47,004 - notification_service - INFO - Template data: ['radha.sharma', 'ssdxfcvb', 'vikram.patel', 'Please review and address the feedback provided']
+2025-07-02 06:24:47,004 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 06:24:47,004 - notification_service - ERROR - Unsupported notification type: incidentRejected
+2025-07-02 06:24:47,004 - notification_service - ERROR - Error sending email: Unsupported notification type: incidentRejected
+2025-07-02 06:24:47,004 - notification_service - ERROR - Full error details: Traceback (most recent call last):
+  File "C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\notification_service.py", line 1117, in send_email
+    raise ValueError(error_msg)
+ValueError: Unsupported notification type: incidentRejected
+
+2025-07-02 06:24:54,863 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-02 06:24:54,864 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:24:54,865 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:24:54,865 - grc.incident_views - INFO -    User ID: 1
+2025-07-02 06:24:54,865 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:24:54,866 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:24:54,866 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:24:54,867 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:24:54,868 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:24:54,871 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:24:54,873 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:24:54,873 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-02 06:24:54,873 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:24:54,878 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:24:54,883 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:24:54,883 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-02 06:24:54,884 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:24:54,891 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:24:54,894 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:24:54,895 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-02 06:24:54,895 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:24:54,899 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:24:54,901 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:24:54,901 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-02 06:24:54,902 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:24:54,906 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:24:54,907 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:24:54,908 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-02 06:24:54,908 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:24:54,909 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:24:54,909 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:24:54,909 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:24:54,910 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:24:54,910 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:24:54,911 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:24:54,911 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:24:54.911068
+2025-07-02 06:24:54,912 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:25:17,634 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 1
+2025-07-02 06:25:17,635 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 1: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:25:17,636 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:25:17,636 - grc.incident_views - INFO -    User ID: 1
+2025-07-02 06:25:17,636 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:25:17,637 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:25:17,637 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:25:17,638 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:25:17,638 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:25:17,644 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:25:17,647 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:25:17,648 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.view = True
+2025-07-02 06:25:17,648 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:25:17,652 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:25:17,652 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:25:17,652 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.create = True
+2025-07-02 06:25:17,652 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:25:17,658 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:25:17,658 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:25:17,658 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.edit = True
+2025-07-02 06:25:17,658 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:25:17,663 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:25:17,663 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:25:17,663 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.approve = False
+2025-07-02 06:25:17,663 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:25:17,663 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:25:17,671 - grc.rbac.utils - INFO - [RBAC] User 1 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:25:17,672 - grc.incident_views - INFO - [RBAC PERM CHECK] User 1 checking Incident.assign = True
+2025-07-02 06:25:17,672 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:25:17,672 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:25:17,672 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:25:17,673 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:25:17,673 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:25:17,673 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:25:17,673 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:25:17,673 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:25:17.673730
+2025-07-02 06:25:17,674 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:29:44,906 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\routes\policy.py changed, reloading.
+2025-07-02 06:31:08,070 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 06:31:13,108 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 06:31:17,227 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 06:31:22,873 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:31:23,626 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:31:23,626 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:31:23,627 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:38:18,923 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliance-repetitions/
+2025-07-02 06:38:19,067 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 06:38:19,068 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliant-incidents/
+2025-07-02 06:38:41,640 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliance-repetitions/
+2025-07-02 06:38:41,710 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 06:38:41,722 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/non-compliant-incidents/
+2025-07-02 06:40:13,158 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py changed, reloading.
+2025-07-02 06:40:15,209 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:40:15,695 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:40:15,695 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:40:15,695 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:40:20,192 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py changed, reloading.
+2025-07-02 06:40:30,553 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:40:31,205 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:40:31,212 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:40:31,212 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:40:39,265 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 06:43:08,059 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\compliance_views.py changed, reloading.
+2025-07-02 06:43:10,277 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:43:10,813 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:43:10,813 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:43:10,813 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:43:15,290 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\compliance_views.py changed, reloading.
+2025-07-02 06:43:17,260 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:43:17,843 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:43:17,843 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:43:17,844 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:43:38,029 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py changed, reloading.
+2025-07-02 06:43:43,069 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:43:43,487 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:43:43,487 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:43:43,487 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:43:55,397 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 06:43:56,542 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 06:43:58,991 - django.request - ERROR - Internal Server Error: /api/compliance/kpi-dashboard/analytics/remediation-cost/
+2025-07-02 06:45:29,792 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\compliance_views.py changed, reloading.
+2025-07-02 06:45:31,770 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 06:45:32,360 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 06:45:32,372 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 06:45:32,372 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 06:46:24,391 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 06:49:12,499 - grc.views - INFO - Login attempt for user: radha.sharma
+2025-07-02 06:49:12,983 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 06:49:13,001 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:49:13,002 - grc.rbac.utils - INFO - [RBAC] User ID: 1
+2025-07-02 06:49:13,003 - grc.rbac.utils - INFO - [RBAC] Username: radha.sharma
+2025-07-02 06:49:13,004 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 06:49:13,007 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 06:49:13,009 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 06:49:13.009402
+2025-07-02 06:49:13,010 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 06:49:13,012 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 06:49:13,012 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 06:49:13,013 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 06:49:13,014 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 06:49:13,015 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 06:49:13,016 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 06:49:13,017 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 06:49:13,019 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 06:49:13,021 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 06:49:13,022 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 06:49:13,023 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 06:49:13,024 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 06:49:13,025 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 06:49:13,026 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 06:49:13,027 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 06:49:13,028 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 06:49:13,029 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 06:49:13,044 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 06:49:13,054 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 06:49:13,054 - grc.views - INFO - Successful login for user: radha.sharma
+2025-07-02 06:49:40,434 - grc.views - INFO - Login attempt for user: vikram.patel
+2025-07-02 06:49:40,971 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 06:49:40,977 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:49:40,978 - grc.rbac.utils - INFO - [RBAC] User ID: 2
+2025-07-02 06:49:40,979 - grc.rbac.utils - INFO - [RBAC] Username: vikram.patel
+2025-07-02 06:49:40,981 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 06:49:40.982027
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 06:49:40,982 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 06:49:40,997 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 06:49:40,997 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 06:49:41,000 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 06:49:41,013 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 06:49:41,013 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 06:49:41,013 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 06:49:41,013 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 06:49:41,013 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 06:49:41,020 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 06:49:41,022 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 06:49:41,029 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 06:49:41,029 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 06:49:41,029 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 06:49:41,029 - grc.views - INFO - Successful login for user: vikram.patel
+2025-07-02 06:50:56,846 - grc.views - INFO - Login attempt for user: radha.sharma
+2025-07-02 06:50:57,361 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 06:50:57,367 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 1: role=GRC Administrator
+2025-07-02 06:50:57,367 - grc.rbac.utils - INFO - [RBAC] User ID: 1
+2025-07-02 06:50:57,368 - grc.rbac.utils - INFO - [RBAC] Username: radha.sharma
+2025-07-02 06:50:57,369 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 06:50:57,370 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 06:50:57,371 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 06:50:57.371797
+2025-07-02 06:50:57,371 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 06:50:57,374 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 06:50:57,376 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 06:50:57,377 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 06:50:57,392 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 06:50:57,408 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 06:50:57,408 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 06:50:57,408 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 06:50:57,408 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 06:50:57,412 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 06:50:57,412 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 06:50:57,412 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 06:50:57,412 - grc.views - INFO - Successful login for user: radha.sharma
+2025-07-02 06:51:00,084 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 06:51:02,701 - grc.routes.policy - INFO - Successfully retrieved 12 frameworks
+2025-07-02 06:51:45,838 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for auditCompleted
+2025-07-02 06:51:45,848 - notification_service - INFO - Template data: ['radha.sharma', 'Audit #37', 'vikram.patel', '2025-07-09']
+2025-07-02 06:51:45,848 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 06:51:45,848 - notification_service - INFO - Found template for auditCompleted
+2025-07-02 06:51:45,848 - notification_service - INFO - Email subject: Audit "{audit_title}" Ready for Review
+2025-07-02 06:51:45,848 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 06:51:46,995 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 06:51:47,403 - notification_service - INFO - SMTP login successful
+2025-07-02 06:51:49,096 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-02 06:51:49,466 - notification_service - INFO - Attempting to send email to vikram.patel@company.com using gmail for auditReviewed
+2025-07-02 06:51:49,466 - notification_service - INFO - Template data: ['vikram.patel', 'muni audir testing', 'Approved', 'radha.sharma', 'aesceacd']
+2025-07-02 06:51:49,466 - notification_service - INFO - Using email config: smtp.gmail.com:587
+2025-07-02 06:51:49,466 - notification_service - INFO - Found template for auditReviewed
+2025-07-02 06:51:49,480 - notification_service - INFO - Email subject: Your Audit "{audit_title}" Review Is Complete
+2025-07-02 06:51:49,480 - notification_service - INFO - Connecting to SMTP server smtp.gmail.com:587
+2025-07-02 06:51:50,662 - notification_service - INFO - Attempting SMTP auth with username: vardaan.rcms@gmail.com
+2025-07-02 06:51:51,062 - notification_service - INFO - SMTP login successful
+2025-07-02 06:51:52,634 - notification_service - INFO - Email sent successfully to vikram.patel@company.com
+2025-07-02 06:53:32,939 - grc.views - INFO - Login attempt for user: vikram.patel
+2025-07-02 06:53:33,489 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 06:53:33,495 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:53:33,497 - grc.rbac.utils - INFO - [RBAC] User ID: 2
+2025-07-02 06:53:33,498 - grc.rbac.utils - INFO - [RBAC] Username: vikram.patel
+2025-07-02 06:53:33,498 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 06:53:33.499702
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 06:53:33,499 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 06:53:33,514 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 06:53:33,530 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 06:53:33,530 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 06:53:33,530 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 06:53:33,530 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 06:53:33,533 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 06:53:33,533 - grc.views - INFO - Successful login for user: vikram.patel
+2025-07-02 06:53:46,730 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-02 06:53:46,730 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:53:46,730 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:53:46,730 - grc.incident_views - INFO -    User ID: 2
+2025-07-02 06:53:46,730 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:53:46,730 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:53:46,730 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:53:46,730 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:53:46,730 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:53:46,748 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:53:46,752 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:53:46,753 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-02 06:53:46,754 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:53:46,756 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:53:46,761 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:53:46,762 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-02 06:53:46,763 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:53:46,771 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:53:46,774 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:53:46,774 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-02 06:53:46,775 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:53:46,778 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:53:46,783 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:53:46,784 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-02 06:53:46,784 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:53:46,787 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:53:46,788 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:53:46,789 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-02 06:53:46,789 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:53:46,789 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:53:46,789 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:53:46,789 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:53:46,789 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:53:46,790 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:53:46,790 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:53:46,790 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:53:46.790975
+2025-07-02 06:53:46,790 - grc.incident_views - INFO -    ============================================================
+2025-07-02 06:54:02,400 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-02 06:54:02,400 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:54:02,400 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 06:54:02,403 - grc.incident_views - INFO -    User ID: 2
+2025-07-02 06:54:02,404 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 06:54:02,405 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 06:54:02,406 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 06:54:02,407 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 06:54:02,408 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 06:54:02,424 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:54:02,424 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 06:54:02,424 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-02 06:54:02,424 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:54:02,437 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:54:02,439 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 06:54:02,441 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-02 06:54:02,441 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:54:02,446 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:54:02,447 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 06:54:02,447 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-02 06:54:02,447 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:54:02,452 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:54:02,452 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 06:54:02,454 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-02 06:54:02,454 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:54:02,458 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 06:54:02,458 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 06:54:02,463 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-02 06:54:02,463 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 06:54:02,466 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 06:54:02,469 - grc.incident_views - INFO -       View: YES
+2025-07-02 06:54:02,472 - grc.incident_views - INFO -       Create: YES
+2025-07-02 06:54:02,475 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 06:54:02,477 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 06:54:02,481 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 06:54:02,483 - grc.incident_views - INFO -    Timestamp: 2025-07-02 06:54:02.483609
+2025-07-02 06:54:02,483 - grc.incident_views - INFO -    ============================================================
+2025-07-02 07:03:53,459 - django.request - WARNING - Not Found: /api/incidents/generate-analysis/
+2025-07-02 07:11:43,048 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 07:11:52,824 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:11:53,344 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:11:53,344 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:11:53,344 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:13:05,672 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 07:13:08,287 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:13:08,881 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:13:08,883 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:13:08,883 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:13:32,148 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:13:34,287 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:13:34,820 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:13:34,821 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:13:34,821 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:15:10,861 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 07:15:14,009 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:15:14,587 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:15:14,587 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:15:14,587 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:15:34,661 - django.request - WARNING - Not Found: /incidents/generate-analysis/
+2025-07-02 07:17:10,182 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:17:10,798 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:17:10,798 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:17:10,798 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:17:47,414 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 500 Internal Server Error"
+2025-07-02 07:22:00,445 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 500 Internal Server Error"
+2025-07-02 07:27:18,880 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-07-02 07:29:45,279 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_slm.py changed, reloading.
+2025-07-02 07:29:48,891 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:29:49,707 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:29:49,707 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:29:49,707 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:31:28,338 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:31:30,894 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:31:31,500 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:31:31,500 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:31:31,500 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:35:07,297 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:35:10,058 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:35:10,599 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:35:10,599 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:35:10,599 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:36:09,504 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-07-02 07:37:16,718 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:37:20,559 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:37:21,243 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:37:21,246 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:37:21,246 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:39:04,724 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:39:06,989 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:39:07,507 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:39:07,507 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:39:07,507 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:39:30,762 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:39:33,384 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:39:34,074 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:39:34,074 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:39:34,074 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:40:08,259 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-07-02 07:43:36,390 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_slm.py changed, reloading.
+2025-07-02 07:43:38,682 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:43:39,148 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:43:39,156 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:43:39,156 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:43:45,263 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 07:43:47,443 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:43:47,996 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:43:47,996 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:43:47,996 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:46:54,487 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 07:46:56,718 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:46:57,246 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:46:57,246 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:46:57,246 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:47:19,306 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 07:47:21,750 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 07:47:22,288 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 07:47:22,288 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 07:47:22,288 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 07:56:04,885 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-07-02 07:58:27,046 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-02 07:58:27,049 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:27,049 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 07:58:27,050 - grc.incident_views - INFO -    User ID: 2
+2025-07-02 07:58:27,050 - grc.incident_views - INFO -    Action: CREATE_INCIDENT
+2025-07-02 07:58:27,050 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 07:58:27,050 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 07:58:27,050 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 07:58:27,052 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 07:58:27,071 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:27,073 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 07:58:27,074 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-02 07:58:27,074 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:27,086 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:27,090 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 07:58:27,090 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-02 07:58:27,090 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:27,100 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:27,100 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 07:58:27,103 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-02 07:58:27,103 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:27,106 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:27,109 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 07:58:27,109 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-02 07:58:27,109 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:27,115 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:27,115 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 07:58:27,115 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-02 07:58:27,115 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -       View: YES
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -       Create: YES
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -    Timestamp: 2025-07-02 07:58:27.115246
+2025-07-02 07:58:27,115 - grc.incident_views - INFO -    ============================================================
+2025-07-02 07:58:29,321 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-02 07:58:29,325 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:29,326 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 07:58:29,327 - grc.incident_views - INFO -    User ID: 2
+2025-07-02 07:58:29,327 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 07:58:29,327 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 07:58:29,328 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 07:58:29,328 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 07:58:29,328 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 07:58:29,339 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:29,344 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 07:58:29,349 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-02 07:58:29,349 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:29,353 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:29,353 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 07:58:29,353 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-02 07:58:29,353 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:29,360 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:29,360 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 07:58:29,360 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-02 07:58:29,360 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:29,379 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:29,381 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 07:58:29,383 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-02 07:58:29,383 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:29,386 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 07:58:29,389 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 07:58:29,389 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-02 07:58:29,389 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 07:58:29,389 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 07:58:29,389 - grc.incident_views - INFO -       View: YES
+2025-07-02 07:58:29,391 - grc.incident_views - INFO -       Create: YES
+2025-07-02 07:58:29,391 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 07:58:29,391 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 07:58:29,391 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 07:58:29,391 - grc.incident_views - INFO -    Timestamp: 2025-07-02 07:58:29.391429
+2025-07-02 07:58:29,391 - grc.incident_views - INFO -    ============================================================
+2025-07-02 07:58:39,910 - django.request - ERROR - Internal Server Error: /api/incident/first-response-time/
+Traceback (most recent call last):
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1886, in transform
+    return self.try_transform(wrapped, name)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1423, in try_transform
+    raise FieldError(
+django.core.exceptions.FieldError: Unsupported lookup 'IdentifiedAt' for IntegerField or join on the field not permitted.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\kpis_incidents.py", line 1372, in first_response_time
+    queryset = queryset.annotate(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1630, in annotate
+    return self._annotate(args, kwargs, select=True)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\query.py", line 1680, in _annotate
+    clone.query.add_annotation(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1194, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\expressions.py", line 895, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 2026, in resolve_ref
+    transform = join_info.transform_function(targets[0], final_alias)
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1890, in transform
+    raise last_field_exception
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+  File "C:\Users\puttu\AppData\Roaming\Python\Python310\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'IdentifiedAt' into field. Join on 'IncidentId' not permitted.
+2025-07-02 07:58:41,745 - grc.rbac.utils - WARNING - [RBAC] No user_id found in session
+2025-07-02 07:58:41,748 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 07:58:41,748 - grc.incident_views - INFO -    User ID: None (could not extract from request)
+2025-07-02 07:58:41,748 - grc.incident_views - INFO -    Action: VIEW_RECENT_INCIDENTS
+2025-07-02 07:58:41,750 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 07:58:41,750 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 07:58:41,750 - grc.incident_views - INFO -    Status: FAILED - No user ID
+2025-07-02 07:58:41,752 - grc.incident_views - INFO -    ============================================================
+2025-07-02 07:58:41,805 - grc.rbac.utils - WARNING - [RBAC] No user_id found in session
+2025-07-02 07:58:41,805 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 07:58:41,805 - grc.incident_views - INFO -    User ID: None (could not extract from request)
+2025-07-02 07:58:41,805 - grc.incident_views - INFO -    Action: VIEW_INCIDENT_ANALYTICS
+2025-07-02 07:58:41,805 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 07:58:41,805 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 07:58:41,805 - grc.incident_views - INFO -    Status: FAILED - No user ID
+2025-07-02 07:58:41,805 - grc.incident_views - INFO -    ============================================================
+2025-07-02 07:58:58,412 - django.request - WARNING - Not Found: /api/risk/categories-for-dropdown/
+2025-07-02 07:58:58,428 - django.request - WARNING - Not Found: /api/risk/metrics-by-category
+2025-07-02 07:58:58,448 - django.request - WARNING - Not Found: /api/risk/custom-analysis/
+2025-07-02 07:58:58,450 - django.request - WARNING - Not Found: /api/risk/metrics-by-category/
+2025-07-02 07:58:58,450 - django.request - WARNING - Not Found: /api/risk/trend-over-time/
+2025-07-02 07:58:58,562 - django.request - WARNING - Not Found: /api/risk/heatmap/
+2025-07-02 10:10:49,458 - grc.rbac.utils - INFO - [RBAC] Successfully retrieved user_id from session: 2
+2025-07-02 10:10:49,466 - grc.incident_views - ERROR - [RBAC] Error getting detailed permissions for user 2: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 10:10:49,466 - grc.incident_views - INFO - [RBAC DEBUG] User Access Attempt:
+2025-07-02 10:10:49,468 - grc.incident_views - INFO -    User ID: 2
+2025-07-02 10:10:49,468 - grc.incident_views - INFO -    Action: LIST_INCIDENTS
+2025-07-02 10:10:49,470 - grc.incident_views - INFO -    Resource: incident (ID: None)
+2025-07-02 10:10:49,470 - grc.incident_views - INFO -    IP Address: 127.0.0.1
+2025-07-02 10:10:49,470 - grc.incident_views - INFO -    === DETAILED PERMISSIONS FROM DATABASE ===
+2025-07-02 10:10:49,474 - grc.incident_views - INFO -    No specific permissions found in database
+2025-07-02 10:10:49,484 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 10:10:49,484 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.view = ALLOWED
+2025-07-02 10:10:49,484 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.view = True
+2025-07-02 10:10:49,484 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 10:10:49,492 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 10:10:49,492 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.create = ALLOWED
+2025-07-02 10:10:49,492 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.create = True
+2025-07-02 10:10:49,492 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 10:10:49,501 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 10:10:49,501 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.edit = ALLOWED
+2025-07-02 10:10:49,501 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.edit = True
+2025-07-02 10:10:49,501 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 10:10:49,509 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 10:10:49,511 - grc.rbac.utils - ERROR - [RBAC] Invalid incident permission type: approve
+2025-07-02 10:10:49,511 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.approve = False
+2025-07-02 10:10:49,511 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 10:10:49,519 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 10:10:49,521 - grc.rbac.utils - INFO - [RBAC] User 2 (GRC Administrator) incident.assign = ALLOWED
+2025-07-02 10:10:49,521 - grc.incident_views - INFO - [RBAC PERM CHECK] User 2 checking Incident.assign = True
+2025-07-02 10:10:49,522 - grc.incident_views - ERROR - [RBAC PERM CHECK] Error debugging permission check: cannot import name 'RBACModulePermission' from 'grc.models' (C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\models.py)
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -    Module Permissions for Incident:
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -       View: YES
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -       Create: YES
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -       Edit: YES
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -       Approve: NO
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -       Assign: YES
+2025-07-02 10:10:49,522 - grc.incident_views - INFO -    Timestamp: 2025-07-02 10:10:49.522653
+2025-07-02 10:10:49,525 - grc.incident_views - INFO -    ============================================================
+2025-07-02 10:16:07,534 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-07-02 10:24:18,195 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\incident_views.py changed, reloading.
+2025-07-02 10:24:21,621 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:24:22,304 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:24:22,308 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:24:22,308 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin

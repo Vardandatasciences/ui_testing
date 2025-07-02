@@ -344,6 +344,61 @@
             </select>
             <span v-if="validationErrors.Appetite" class="validation-error">{{ validationErrors.Appetite }}</span>
           </div>
+
+          <div class="risk-scoring-detail-item">
+            <div class="risk-scoring-detail-label"><i class="fas fa-building"></i> Business Impact</div>
+            <div 
+              class="risk-scoring-business-impact-dropdown-header" 
+              @click.stop="toggleBusinessImpactDropdown"
+            >
+              <span v-if="selectedBusinessImpacts.length === 0">Select Business Impacts</span>
+              <span v-else>{{ selectedBusinessImpacts.length }} impact(s) selected</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div v-if="showBusinessImpactDropdown" class="risk-scoring-business-impact-dropdown" @click.stop>
+              <div class="risk-scoring-dropdown-search-container">
+                <input 
+                  type="text" 
+                  v-model="businessImpactSearch" 
+                  placeholder="Search impacts..." 
+                  class="risk-scoring-dropdown-search"
+                  @click.stop
+                >
+                <button type="button" class="risk-scoring-add-impact-btn" @click.stop.prevent="showAddImpactModal = true">
+                  <i class="fas fa-plus"></i> Add New
+                </button>
+              </div>
+              
+              <div class="risk-scoring-dropdown-items">
+                <div 
+                  v-for="impact in filteredBusinessImpacts" 
+                  :key="impact.id" 
+                  class="risk-scoring-dropdown-item"
+                  @click.stop="toggleBusinessImpact(impact)"
+                >
+                  <input 
+                    type="checkbox" 
+                    :id="'impact-' + impact.id" 
+                    :checked="isBusinessImpactSelected(impact)"
+                    @click.stop
+                  >
+                  <label :for="'impact-' + impact.id">{{ impact.value }}</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="risk-scoring-selected-items">
+              <div 
+                v-for="impact in selectedBusinessImpacts" 
+                :key="impact.id" 
+                class="risk-scoring-selected-item"
+              >
+                {{ sanitize.escapeHtml(impact.value) }}
+                <i class="fas fa-times" @click="toggleBusinessImpact(impact)"></i>
+              </div>
+            </div>
+          </div>
         </div>
         
         <div class="risk-scoring-detail-row">
@@ -366,14 +421,11 @@
             <div class="risk-scoring-detail-label">Risk Response Description</div>
             <textarea v-model="editedRiskInstance.RiskResponseDescription" class="risk-scoring-form-textarea" :readonly="isReadOnly"></textarea>
           </div>
-        </div>
-        
-        <div class="risk-scoring-detail-row">
-          <div class="risk-scoring-detail-item full-width">
+
+          <div class="risk-scoring-detail-item">
             <div class="risk-scoring-detail-label">Risk Mitigation</div>
             <div class="risk-scoring-mitigation-form">
               <div class="risk-scoring-mitigation-input-group">
-                <label>Description</label>
                 <textarea 
                   v-model="mitigationForm.description" 
                   class="risk-scoring-form-textarea"
@@ -384,20 +436,6 @@
                     updateMitigationJson();
                   }"
                 ></textarea>
-              </div>
-              
-              <div class="risk-scoring-mitigation-input-group">
-                <label>Status</label>
-                <select 
-                  v-model="mitigationForm.status" 
-                  class="risk-scoring-form-select"
-                  :disabled="isReadOnly"
-                  @change="updateMitigationJson"
-                >
-                  <option value="Not Started">Not Started</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                </select>
               </div>
               
               <div class="risk-scoring-mitigation-input-group">
@@ -439,62 +477,6 @@
               ></textarea>
             </div>
           </div>
-        </div>
-        
-        <!-- Business Impact Field (Moved to end of form) -->
-        <div class="risk-scoring-business-impact-standalone-section">
-            <div class="risk-scoring-detail-label"><i class="fas fa-building"></i> BUSINESS IMPACT</div>
-              <div 
-                class="risk-scoring-business-impact-dropdown-header" 
-                @click.stop="toggleBusinessImpactDropdown"
-              >
-                <span v-if="selectedBusinessImpacts.length === 0">Select Business Impacts</span>
-                <span v-else>{{ selectedBusinessImpacts.length }} impact(s) selected</span>
-                <i class="fas fa-chevron-down"></i>
-              </div>
-              
-              <div v-if="showBusinessImpactDropdown" class="risk-scoring-business-impact-dropdown" @click.stop>
-                <div class="risk-scoring-dropdown-search-container">
-                  <input 
-                    type="text" 
-                    v-model="businessImpactSearch" 
-                    placeholder="Search impacts..." 
-                    class="risk-scoring-dropdown-search"
-                    @click.stop
-                  >
-                  <button type="button" class="risk-scoring-add-impact-btn" @click.stop.prevent="showAddImpactModal = true">
-                    <i class="fas fa-plus"></i> Add New
-                  </button>
-                </div>
-                
-                <div class="risk-scoring-dropdown-items">
-                  <div 
-                    v-for="impact in filteredBusinessImpacts" 
-                    :key="impact.id" 
-                    class="risk-scoring-dropdown-item"
-                    @click.stop="toggleBusinessImpact(impact)"
-                  >
-                    <input 
-                      type="checkbox" 
-                      :id="'impact-' + impact.id" 
-                      :checked="isBusinessImpactSelected(impact)"
-                      @click.stop
-                    >
-                    <label :for="'impact-' + impact.id">{{ impact.value }}</label>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="risk-scoring-selected-items">
-                <div 
-                  v-for="impact in selectedBusinessImpacts" 
-                  :key="impact.id" 
-                  class="risk-scoring-selected-item"
-                >
-                  {{ sanitize.escapeHtml(impact.value) }}
-                  <i class="fas fa-times" @click="toggleBusinessImpact(impact)"></i>
-                </div>
-              </div>
         </div>
         
         <div class="risk-scoring-form-footer">
@@ -662,7 +644,6 @@ export default {
       newCategory: '',
       mitigationForm: {
         description: '',
-        status: 'Not Started',
         actions: []
       },
       
@@ -801,7 +782,10 @@ export default {
     fetchRiskInstance() {
       if (this.isCreateAction) {
         this.editedRiskInstance = this.getDefaultInstance();
-        this.riskMitigationJson = JSON.stringify({}, null, 2);
+        this.riskMitigationJson = JSON.stringify({
+          description: '',
+          actions: []
+        }, null, 2);
         this.loading = false;
         return;
       }
@@ -835,7 +819,7 @@ export default {
                 ? JSON.parse(this.editedRiskInstance.RiskMitigation)
                 : this.editedRiskInstance.RiskMitigation;
               
-              // Sanitize mitigation data
+              // Sanitize mitigation data without status
               if (mitigation.description) {
                 mitigation.description = this.sanitize.safeValue(mitigation.description);
               }
@@ -848,7 +832,10 @@ export default {
               this.riskMitigationJson = JSON.stringify(mitigation, null, 2);
             } catch (e) {
               console.error('Error parsing RiskMitigation:', e);
-              this.riskMitigationJson = JSON.stringify({}, null, 2);
+              this.riskMitigationJson = JSON.stringify({
+                description: '',
+                actions: []
+              }, null, 2);
             }
           }
 
@@ -866,7 +853,6 @@ export default {
             const mitigation = JSON.parse(this.riskMitigationJson);
             this.mitigationForm = {
               description: this.sanitize.safeValue(mitigation.description) || '',
-              status: mitigation.status || 'Not Started',
               actions: Array.isArray(mitigation.actions) 
                 ? mitigation.actions.map(action => this.sanitize.safeValue(action))
                 : []
@@ -875,7 +861,6 @@ export default {
             console.error('Error parsing mitigation JSON:', e);
             this.mitigationForm = {
               description: '',
-              status: 'Not Started',
               actions: []
             };
           }
@@ -1238,10 +1223,9 @@ export default {
     },
     
     updateMitigationJson() {
-      // Convert form data to JSON
+      // Convert form data to JSON without status field
       this.riskMitigationJson = JSON.stringify({
         description: this.mitigationForm.description,
-        status: this.mitigationForm.status,
         actions: this.mitigationForm.actions.filter(action => action.trim() !== '')
       }, null, 2);
     },

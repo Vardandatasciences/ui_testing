@@ -69,190 +69,120 @@
         </div>
       </div>
 
-      <!-- Incident Table -->
-      <div class="incident-table-container">
-        <div class="incident-table-header">
-          <div class="incident-header-cell id-header" @click="setSortField('IncidentId')" :class="{ 'incident-sorted': sortField === 'IncidentId' }">
-            ID
-            <span v-if="sortField === 'IncidentId'" class="incident-sort-indicator">
-              {{ sortOrder === 'asc' ? '↑' : '↓' }}
-            </span>
-          </div>
-          <div class="incident-header-cell title-header" @click="setSortField('IncidentTitle')" :class="{ 'incident-sorted': sortField === 'IncidentTitle' }">
-            Title
-            <span v-if="sortField === 'IncidentTitle'" class="incident-sort-indicator">
-              {{ sortOrder === 'asc' ? '↑' : '↓' }}
-            </span>
-          </div>
-          <div class="incident-header-cell origin-header" @click="setSortField('Origin')" :class="{ 'incident-sorted': sortField === 'Origin' }">
-            Origin
-            <span v-if="sortField === 'Origin'" class="incident-sort-indicator">
-              {{ sortOrder === 'asc' ? '↑' : '↓' }}
-            </span>
-          </div>
-          <div class="incident-header-cell priority-header" @click="setSortField('RiskPriority')" :class="{ 'incident-sorted': sortField === 'RiskPriority' }">
-            Priority
-            <span v-if="sortField === 'RiskPriority'" class="incident-sort-indicator">
-              {{ sortOrder === 'asc' ? '↑' : '↓' }}
-            </span>
-          </div>
-          <div class="incident-header-cell date-header" @click="setSortField('Date')" :class="{ 'incident-sorted': sortField === 'Date' }">
-            Date
-            <span v-if="sortField === 'Date'" class="incident-sort-indicator">
-              {{ sortOrder === 'asc' ? '↑' : '↓' }}
-            </span>
-          </div>
-          <div class="incident-header-cell actions-header">Actions</div>
-        </div>
+      <!-- Dynamic Table -->
+      <DynamicTable
+        :data="incidents"
+        :columns="tableColumns"
+        :uniqueKey="'IncidentId'"
+        :showActions="true"
+        :showPagination="true"
+        :pageSizeOptions="[10, 20, 50]"
+        :defaultPageSize="10"
+      >
+        <!-- Custom cell slots -->
+        <template #cell-IncidentTitle="{ row }">
+          <router-link :to="`/incident/${row.IncidentId}`" class="incident-title-link">
+            {{ row.IncidentTitle }}
+          </router-link>
+        </template>
 
-        <div v-if="isLoadingIncidents" class="incident-loading-message">
-          <div class="incident-loading-spinner"></div>
-          <p>Loading incidents...</p>
-        </div>
-        
-        <div v-else-if="paginatedIncidents.length === 0" class="incident-no-incidents-message">
-          <div v-if="searchQuery">
-            <p>No incidents found matching "{{ searchQuery }}"</p>
-            <button @click="clearSearch" class="incident-clear-search-results-btn">Clear search</button>
+        <template #cell-Origin="{ row }">
+          <span :class="['incident-origin-badge', getOriginClass(row.Origin)]">
+            {{ row.Origin }}
+          </span>
+        </template>
+
+        <template #cell-RiskPriority="{ row }">
+          <span :class="['incident-priority-badge', getPriorityClass(row.RiskPriority)]">
+            {{ row.RiskPriority }}
+          </span>
+        </template>
+
+        <template #cell-Date="{ row }">
+          {{ formatDate(row.Date) }}
+        </template>
+
+        <!-- Actions slot -->
+        <template #actions="{ row }">
+          <!-- Handle all possible status values -->
+          <div v-if="row.Status === 'Scheduled'">
+            <span class="incident-status-badge incident-mitigated">Mitigated to Risk</span>
           </div>
-          <div v-else>
-            <p>No incidents found. Create your first incident.</p>
-          </div>
-        </div>
-        
-        <div class="incident-table-row" v-for="incident in paginatedIncidents" :key="incident.IncidentId">
-          <div class="incident-table-cell incident-id-cell">{{ incident.IncidentId }}</div>
-          <div class="incident-table-cell incident-title-cell">
-            <router-link :to="`/incident/${incident.IncidentId}`" class="incident-title-link">
-              {{ incident.IncidentTitle }}
-            </router-link>
-          </div>
-          <div class="incident-table-cell incident-origin-cell">
-            <span :class="['incident-origin-badge', getOriginClass(incident.Origin)]">
-              {{ incident.Origin }}
+          <div v-else-if="row.Status === 'Rejected'">
+            <span class="incident-status-badge incident-rejected" :data-source="row.RejectionSource || 'INCIDENT'">
+              {{ row.RejectionSource === 'RISK' ? 'Rejected from Risk' : 'Rejected as Incident' }}
             </span>
           </div>
-          <div class="incident-table-cell incident-priority-cell">
-            <span :class="['incident-priority-badge', getPriorityClass(incident.RiskPriority)]">
-              {{ incident.RiskPriority }}
-            </span>
+          <div v-else-if="row.Status === 'Assigned'">
+            <span class="incident-status-badge incident-assigned">Assigned</span>
           </div>
-          <div class="incident-table-cell incident-date-cell">{{ formatDate(incident.Date) }}</div>
-          <div class="incident-table-cell incident-actions-cell">
-            <!-- Handle all possible status values -->
-            <div v-if="incident.Status === 'Scheduled'">
-              <span class="incident-status-badge incident-mitigated">Mitigated to Risk</span>
-            </div>
-            <div v-else-if="incident.Status === 'Rejected'">
-              <span class="incident-status-badge incident-rejected" :data-source="incident.RejectionSource || 'INCIDENT'">
-                {{ incident.RejectionSource === 'RISK' ? 'Rejected from Risk' : 'Rejected as Incident' }}
-              </span>
-            </div>
-            <div v-else-if="incident.Status === 'Assigned'">
-              <span class="incident-status-badge incident-assigned">Assigned</span>
-            </div>
-            <div v-else-if="incident.Status === 'Approved'">
-              <span class="incident-status-badge incident-approved">Approved</span>
-            </div>
-            <div v-else-if="incident.Status === 'Active'">
-              <span class="incident-status-badge incident-active">Active</span>
-            </div>
-            <div v-else-if="incident.Status === 'Under Review'">
-              <span class="incident-status-badge incident-under-review">Under Review</span>
-            </div>
-            <div v-else-if="incident.Status === 'Completed'">
-              <span class="incident-status-badge incident-completed">Completed</span>
-            </div>
-            <div v-else-if="incident.Status === 'Closed'">
-              <span class="incident-status-badge incident-closed">Closed</span>
-            </div>
-            <div v-else-if="incident.Status === 'Open' || !incident.Status || incident.Status.trim() === ''">
-              <!-- Action Dropdown for Open incidents -->
-              <div class="incident-action-dropdown-container" :class="{ 'dropdown-open': dropdownOpenFor === incident.IncidentId }">
-                <!-- Hand Pointer Indicator -->
-                <div class="incident-action-indicator">
-                  <i class="fas fa-hand-point-right incident-hand-pointer"></i>
+          <div v-else-if="row.Status === 'Approved'">
+            <span class="incident-status-badge incident-approved">Approved</span>
+          </div>
+          <div v-else-if="row.Status === 'Active'">
+            <span class="incident-status-badge incident-active">Active</span>
+          </div>
+          <div v-else-if="row.Status === 'Under Review'">
+            <span class="incident-status-badge incident-under-review">Under Review</span>
+          </div>
+          <div v-else-if="row.Status === 'Completed'">
+            <span class="incident-status-badge incident-completed">Completed</span>
+          </div>
+          <div v-else-if="row.Status === 'Closed'">
+            <span class="incident-status-badge incident-closed">Closed</span>
+          </div>
+          <div v-else-if="row.Status === 'Open' || !row.Status || row.Status.trim() === ''">
+            <!-- Action Dropdown for Open incidents -->
+            <div class="incident-action-dropdown-container" :class="{ 'dropdown-open': dropdownOpenFor === row.IncidentId }">
+              <!-- Hand Pointer Indicator -->
+              <div class="incident-action-indicator">
+                <i class="fas fa-hand-point-right incident-hand-pointer"></i>
+              </div>
+              
+              <button 
+                @click.stop="toggleActionDropdown(row.IncidentId)"
+                class="incident-action-dropdown-trigger"
+                :class="{ 'active': dropdownOpenFor === row.IncidentId }"
+              >
+                <i class="fas fa-cog incident-dropdown-icon incident-rotating-gear"></i>
+                <span>Actions</span>
+                <i class="fas fa-chevron-down incident-dropdown-arrow" :class="{ 'incident-rotated': dropdownOpenFor === row.IncidentId }"></i>
+              </button>
+              
+              <div 
+                v-show="dropdownOpenFor === row.IncidentId"
+                class="incident-action-dropdown-menu"
+                @click.stop
+              >
+                <div class="incident-dropdown-item incident-assign-item" @click.stop="handleDropdownAction('assign', row)">
+                  <i class="fas fa-user-plus"></i>
+                  <span>Assign as Incident</span>
                 </div>
-                
-                <button 
-                  @click.stop="toggleActionDropdown(incident.IncidentId)"
-                  class="incident-action-dropdown-trigger"
-                  :class="{ 'active': dropdownOpenFor === incident.IncidentId }"
-                >
-                  <i class="fas fa-cog incident-dropdown-icon incident-rotating-gear"></i>
-                  <span>Actions</span>
-                  <i class="fas fa-chevron-down incident-dropdown-arrow" :class="{ 'incident-rotated': dropdownOpenFor === incident.IncidentId }"></i>
-                </button>
-                
+                <div class="incident-dropdown-item incident-escalate-item" @click.stop="handleDropdownAction('escalate', row)">
+                  <i class="fas fa-arrow-up"></i>
+                  <span>Escalate to Risk</span>
+                </div>
+                <div class="incident-dropdown-item incident-reject-item" @click.stop="handleDropdownAction('reject', row)">
+                  <i class="fas fa-times"></i>
+                  <span>Reject Incident</span>
+                </div>
+                <!-- Show message if no permissions -->
                 <div 
-                  v-show="dropdownOpenFor === incident.IncidentId"
-                  class="incident-action-dropdown-menu"
-                  @click.stop
+                  v-if="!canAssignIncident() && !canEscalateIncident() && !canEditIncident()" 
+                  class="dropdown-item no-permission"
                 >
-                  <div class="incident-dropdown-item incident-assign-item" @click.stop="handleDropdownAction('assign', incident)">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Assign as Incident</span>
-                  </div>
-                  <div class="incident-dropdown-item incident-escalate-item" @click.stop="handleDropdownAction('escalate', incident)">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>Escalate to Risk</span>
-                  </div>
-                  <div class="incident-dropdown-item incident-reject-item" @click.stop="handleDropdownAction('reject', incident)">
-                    <i class="fas fa-times"></i>
-                    <span>Reject Incident</span>
-                  </div>
-                  <!-- Show message if no permissions -->
-                  <div 
-                    v-if="!canAssignIncident() && !canEscalateIncident() && !canEditIncident()" 
-                    class="dropdown-item no-permission"
-                  >
-                    <i class="fas fa-lock"></i>
-                    <span>No actions available</span>
-                  </div>
+                  <i class="fas fa-lock"></i>
+                  <span>No actions available</span>
                 </div>
               </div>
             </div>
-            <div v-else-if="incident.Status && incident.Status.trim() !== ''">
-              <!-- Show any other status that exists -->
-              <span class="incident-status-badge incident-other-status">{{ incident.Status }}</span>
-            </div>
           </div>
-        </div>
-      </div>
-      
-      <!-- Pagination controls -->
-      <div v-if="filteredIncidents.length > 0" class="incident-pagination-controls">
-        <button 
-          @click="changePage(currentPage - 1)" 
-          :disabled="currentPage === 1"
-          class="incident-pagination-btn prev-btn"
-        >
-          <span class="pagination-icon">«</span> Previous
-        </button>
-        
-        <div class="incident-pagination-numbers">
-          <button 
-            v-for="page in pageNumbers" 
-            :key="page" 
-            @click="changePage(page)"
-            :class="['incident-page-number', currentPage === page ? 'incident-active-page' : '']"
-          >
-            {{ page }}
-          </button>
-        </div>
-        
-        <div class="incident-pagination-info">
-          Page {{ currentPage }} of {{ totalPages }}
-        </div>
-        
-        <button 
-          @click="changePage(currentPage + 1)" 
-          :disabled="currentPage === totalPages"
-          class="incident-pagination-btn next-btn"
-        >
-          Next <span class="pagination-icon">»</span>
-        </button>
-      </div>
+          <div v-else-if="row.Status && row.Status.trim() !== ''">
+            <!-- Show any other status that exists -->
+            <span class="incident-status-badge incident-other-status">{{ row.Status }}</span>
+          </div>
+        </template>
+      </DynamicTable>
     </div>
     
     <!-- Modal for Solve/Reject -->
@@ -409,11 +339,13 @@ import axios from 'axios';
 import './Incident.css';
 import { PopupService, PopupModal } from '@/modules/popup';
 import { permissionMixin } from '@/mixins/permissionMixin.js';
+import DynamicTable from '@/components/DynamicTable.vue';
 
 export default {
   name: 'IncidentManagement',
   components: {
-    PopupModal
+    PopupModal,
+    DynamicTable
   },
   mixins: [permissionMixin],
   data() {
@@ -443,7 +375,54 @@ export default {
       newMitigationStep: '',
       mitigationDueDate: '',
       // Dropdown state
-      dropdownOpenFor: null
+      dropdownOpenFor: null,
+      // Table configuration
+      tableColumns: [
+        {
+          key: 'IncidentId',
+          label: 'ID',
+          sortable: true,
+          headerClass: 'incident-header-cell id-header',
+          cellClass: 'incident-table-cell incident-id-cell',
+          width: '50px'
+        },
+        {
+          key: 'IncidentTitle',
+          label: 'Title',
+          sortable: true,
+          headerClass: 'incident-header-cell title-header',
+          cellClass: 'incident-table-cell incident-title-cell',
+          slot: true,
+          width: 'auto'
+        },
+        {
+          key: 'Origin',
+          label: 'Origin',
+          sortable: true,
+          headerClass: 'incident-header-cell origin-header',
+          cellClass: 'incident-table-cell incident-origin-cell',
+          slot: true,
+          width: '100px'
+        },
+        {
+          key: 'RiskPriority',
+          label: 'Priority',
+          sortable: true,
+          headerClass: 'incident-header-cell priority-header',
+          cellClass: 'incident-table-cell incident-priority-cell',
+          slot: true,
+          width: '90px'
+        },
+        {
+          key: 'Date',
+          label: 'Date',
+          sortable: true,
+          headerClass: 'incident-header-cell date-header',
+          cellClass: 'incident-table-cell incident-date-cell',
+          slot: true,
+          width: '90px'
+        }
+      ]
     }
   },
   computed: {

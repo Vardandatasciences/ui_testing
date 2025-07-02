@@ -98,7 +98,14 @@
         
         <div class="tailoring-risk-form-group">
           <label><i class="fas fa-list"></i> Risk Type:</label>
-          <input type="text" v-model="risk.RiskType" class="tailoring-risk-form-control" />
+          <select v-model="risk.RiskType" class="tailoring-risk-form-control">
+            <option value="">Select Risk Type</option>
+            <option value="Current">Current</option>
+            <option value="Residual">Residual</option>
+            <option value="Inherent">Inherent</option>
+            <option value="Emerging">Emerging</option>
+            <option value="Accept">Accept</option>
+          </select>
         </div>
         
         <div class="tailoring-risk-form-group">
@@ -128,10 +135,7 @@
           <label><i class="fas fa-tachometer-alt"></i> Risk Exposure Rating:</label>
           <input type="number" v-model.number="risk.RiskExposureRating" class="tailoring-risk-form-control" readonly />
         </div>
-      </div>
-      
-      <!-- Detailed Information -->
-      <div class="tailoring-risk-form-row full-width">
+
         <div class="tailoring-risk-form-group">
           <label><i class="fas fa-building"></i> Business Impact:</label>
           <div class="tailoring-risk-business-impact-container">
@@ -234,38 +238,24 @@
         </div>
       </div>
         
-      <div class="tailoring-risk-form-row full-width">
+      <div class="tailoring-risk-form-row">
         <div class="tailoring-risk-form-group">
           <label><i class="fas fa-exclamation-circle"></i> Possible Damage:</label>
-          <textarea v-model="risk.PossibleDamage" rows="3" class="tailoring-risk-form-control"></textarea>
+          <textarea v-model="risk.PossibleDamage" rows="4" class="tailoring-risk-form-control"></textarea>
         </div>
-      </div>
-      
-      <div class="tailoring-risk-form-row full-width">
+
         <div class="tailoring-risk-form-group">
           <label><i class="fas fa-align-left"></i> Risk Description:</label>
           <textarea v-model="risk.RiskDescription" rows="4" class="tailoring-risk-form-control"></textarea>
         </div>
-      </div>
-      
-      <div class="tailoring-risk-form-row full-width">
+
         <div class="tailoring-risk-form-group">
           <label><i class="fas fa-shield-alt"></i> Risk Mitigation:</label>
           <textarea v-model="risk.RiskMitigation" rows="4" class="tailoring-risk-form-control"></textarea>
         </div>
       </div>
       
-      <div class="tailoring-risk-form-row">
-        <div class="tailoring-risk-form-group">
-          <label><i class="fas fa-globe"></i> Origin:</label>
-          <select v-model="risk.Origin" class="tailoring-risk-form-control">
-            <option value="">Select Origin</option>
-            <option value="Manual">Manual</option>
-            <option value="SIEM">SIEM</option>
-            <option value="Audit Findings">Audit Findings</option>
-          </select>
-        </div>
-      </div>
+      
       
       <!-- Form Actions -->
       <div class="tailoring-risk-form-actions">
@@ -281,11 +271,12 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch, getCurrentInstance } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import './TailoringRisk.css';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { PopupModal } from '@/modules/popup';
+import { popupService } from '@/modules/popup';
 
 export default {
   name: 'TailoringRisk',
@@ -294,7 +285,6 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
 
     // Reactive data
     const risk = ref({
@@ -310,8 +300,7 @@ export default {
       BusinessImpact: '',
       PossibleDamage: '',
       RiskDescription: '',
-      RiskMitigation: '',
-      Origin: ''
+      RiskMitigation: ''
     });
     
     const isLoading = ref(false);
@@ -382,8 +371,7 @@ export default {
             BusinessImpact: selectedRisk.BusinessImpact || '',
             PossibleDamage: selectedRisk.PossibleDamage || '',
             RiskDescription: selectedRisk.RiskDescription || '',
-            RiskMitigation: selectedRisk.RiskMitigation || '',
-            Origin: selectedRisk.Origin || ''
+            RiskMitigation: selectedRisk.RiskMitigation || ''
           });
           
           // Parse business impacts if they exist
@@ -448,12 +436,7 @@ export default {
         console.error('Error loading risks:', error);
         // Use popup service instead of alert
         // Note: In Composition API, we need to access popup service through getCurrentInstance
-        const instance = getCurrentInstance();
-        if (instance && instance.proxy && instance.proxy.$popup) {
-          instance.proxy.$popup.error('Failed to load risks. Please try again.');
-        } else {
-          console.error('Popup service not available');
-        }
+        popupService.error('Failed to load risks. Please try again.');
       } finally {
         isLoading.value = false;
       }
@@ -512,12 +495,7 @@ export default {
         }
       } catch (error) {
         console.error('Error adding new business impact:', error);
-        const instance = getCurrentInstance();
-        if (instance && instance.proxy && instance.proxy.$popup) {
-          instance.proxy.$popup.error('Failed to add new business impact: ' + (error.response?.data?.message || error.message));
-        } else {
-          console.error('Popup service not available');
-        }
+        popupService.error('Failed to add new business impact: ' + (error.response?.data?.message || error.message));
       }
     };
 
@@ -576,12 +554,7 @@ export default {
         }
       } catch (error) {
         console.error('Error adding new category:', error);
-        const instance = getCurrentInstance();
-        if (instance && instance.proxy && instance.proxy.$popup) {
-          instance.proxy.$popup.error('Failed to add new category: ' + (error.response?.data?.message || error.message));
-        } else {
-          console.error('Popup service not available');
-        }
+        popupService.error('Failed to add new category: ' + (error.response?.data?.message || error.message));
       }
     };
 
@@ -602,8 +575,7 @@ export default {
         BusinessImpact: '',
         PossibleDamage: '',
         RiskDescription: '',
-        RiskMitigation: '',
-        Origin: ''
+        RiskMitigation: ''
       });
     };
 
@@ -620,12 +592,6 @@ export default {
       const allowedPriority = ['High', 'Medium', 'Low'];
       if (!risk.value.RiskPriority || !allowedPriority.includes(risk.value.RiskPriority)) {
         errors.RiskPriority = `Invalid Risk Priority. Must be one of: ${allowedPriority.join(', ')}`;
-      }
-
-      // Origin validation
-      const allowedOrigin = ['Manual', 'SIEM', 'AuditFindings'];
-      if (!risk.value.Origin || !allowedOrigin.includes(risk.value.Origin)) {
-        errors.Origin = `Invalid Origin. Must be one of: ${allowedOrigin.join(', ')}`;
       }
 
       // RiskType validation
@@ -671,12 +637,7 @@ export default {
           const errorMessages = Object.entries(validationErrors)
             .map(([field, error]) => `${field}: ${error}`)
             .join('\n');
-          const instance = getCurrentInstance();
-          if (instance && instance.proxy && instance.proxy.$popup) {
-            instance.proxy.$popup.error('Please fix the following validation errors:\n\n' + errorMessages);
-          } else {
-            console.error('Popup service not available');
-          }
+          popupService.error('Please fix the following validation errors:\n\n' + errorMessages);
           return;
         }
 
@@ -691,25 +652,16 @@ export default {
         
         // Always create a new risk, even when editing an existing one
         await axios.post('http://localhost:8000/api/risks/', riskData);
-        const instance = getCurrentInstance();
-        if (instance && instance.proxy && instance.proxy.$popup) {
-          instance.proxy.$popup.success('Risk created successfully!');
-        } else {
-          console.error('Popup service not available');
-        }
-
-        router.push('/risk/riskregister-list');
+        popupService.success('Risk created successfully!');
+        
+        // Reset the form after successful save
+        resetForm();
       } catch (error) {
         console.error('Error saving risk:', error);
-        const instance = getCurrentInstance();
-        if (instance && instance.proxy && instance.proxy.$popup) {
-          if (error.response?.data?.detail) {
-            instance.proxy.$popup.error('Server validation error: ' + error.response.data.detail);
-          } else {
-            instance.proxy.$popup.error('Failed to save risk: ' + error.message);
-          }
+        if (error.response?.data?.detail) {
+          popupService.error('Server validation error: ' + error.response.data.detail);
         } else {
-          console.error('Popup service not available');
+          popupService.error('Failed to save risk: ' + error.message);
         }
       } finally {
         isLoading.value = false;

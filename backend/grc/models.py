@@ -643,8 +643,8 @@ class Entity(models.Model):
         return f"{self.EntityName} ({self.Location})"
 
 class LastChecklistItemVerified(models.Model):
-    Id = models.AutoField(primary_key=True)
-    ComplianceId = models.IntegerField()
+    # Id = models.AutoField(primary_key=True)
+    ComplianceId = models.IntegerField(primary_key=True)
     SubPolicyId = models.IntegerField()
     PolicyId = models.IntegerField()
     FrameworkId = models.IntegerField()

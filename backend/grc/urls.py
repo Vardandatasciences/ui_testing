@@ -402,6 +402,7 @@ urlpatterns = [
     path('complete-incident-review/', incident_views.complete_incident_review, name='complete-incident-review'),
     path('submit-incident-assessment/', incident_views.submit_incident_assessment, name='submit-incident-assessment'),
     path('incident-approval-data/<int:incident_id>/', incident_views.incident_approval_data, name='incident-approval-data'),
+    path('incidents/generate-analysis/', incident_views.generate_analysis, name='generate-analysis'),
     
     # Audit Finding User Tasks endpoints
     path('user-audit-findings/<int:user_id>/', incident_views.user_audit_findings, name='user-audit-findings'),

@@ -21,13 +21,17 @@
 }
 
 .risk-view-instance-container {
-  padding: 16px 16px 16px 210px;
+  padding: 24px 24px 24px 250px; /* Keep left padding for sidebar */
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: var(--risk-gray-800);
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 250px); /* Account for sidebar */
+  max-width: 1200px; /* Limit maximum width */
   box-sizing: border-box;
+  min-height: calc(100vh - 32px);
+  margin-left: auto;
+  margin-right: auto; /* Center the container */
 }
 
 .risk-view-instance-header {
@@ -87,8 +91,13 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding: 24px;
-  margin-bottom: 24px;
+  padding: 32px;
+  margin: 0 auto 24px; /* Center the card */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 900px; /* Make the card more compact */
+  width: 100%;
 }
 
 .risk-view-instance-details-header {
@@ -275,11 +284,19 @@
 /* Responsive adjustments */
 @media (max-width: 1200px) {
   .risk-view-instance-container {
-    padding: 16px 16px 16px 210px;
+    padding: 20px 20px 20px 240px;
+    width: calc(100% - 240px);
+    max-width: 1000px;
   }
 }
 
 @media (max-width: 992px) {
+  .risk-view-instance-container {
+    padding: 16px 16px 16px 220px;
+    width: calc(100% - 220px);
+    max-width: 800px;
+  }
+
   .risk-view-instance-details-grid {
     grid-template-columns: 1fr;
   }
@@ -293,6 +310,13 @@
 @media (max-width: 768px) {
   .risk-view-instance-container {
     padding: 16px;
+    width: 100%;
+    margin-left: 0;
+    max-width: 100%;
+  }
+  
+  .risk-view-instance-details-card {
+    padding: 24px;
   }
   
   .risk-view-instance-header {

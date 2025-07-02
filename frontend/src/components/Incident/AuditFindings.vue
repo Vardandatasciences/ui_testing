@@ -198,7 +198,7 @@
                   <button 
                     v-else
                     class="view-details-btn" 
-                    @click="viewIncidentDetails(item.IncidentId)" 
+                    @click="viewDetails(item)" 
                     title="View Details"
                   >
                     <i class="fas fa-eye"></i>
@@ -484,8 +484,8 @@ export default {
     };
     
     // Navigate to audit finding details
-    const viewIncidentDetails = (incidentId) => {
-      router.push(`/incident/audit-finding-details/${incidentId}`);
+    const viewDetails = (item) => {
+      router.push(`/incident/audit-finding-details/${item.IncidentId}`);
     };
     
     // Modal and workflow methods
@@ -864,7 +864,7 @@ export default {
       
       switch (action) {
         case 'view':
-          viewIncidentDetails(item.IncidentId);
+          viewDetails(item);
           break;
         case 'assign':
           openAssignModal(item);
@@ -931,7 +931,7 @@ export default {
       filterByStatus,
       getRowClass,
       getStatusClass,
-      viewIncidentDetails,
+      viewDetails,
       
       // Dropdown methods
       toggleActionDropdown,

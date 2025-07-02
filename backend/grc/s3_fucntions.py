@@ -7,7 +7,7 @@ import json
 class S3Client:
     """Client for interacting with the S3 microservice API."""
     
-    def __init__(self, base_url: str = "http://localhost:3000"):
+    def __init__(self, base_url: str = "http://localhost:5000"):
         """
         Initialize the S3 client.
         

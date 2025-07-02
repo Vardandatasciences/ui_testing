@@ -233,8 +233,63 @@
                 <i class="fas fa-lock"></i> Locked
               </div>
               
-                <!-- Add status control with complete button -->
+              <!-- Display existing comments if available -->
+              <div v-if="step.comments" class="step-comments-display">
+                <h4><i class="fas fa-comment-alt"></i> Your Comments</h4>
+                <p>{{ step.comments }}</p>
+              </div>
+              
+              <!-- Display uploaded file if available -->
+              <div v-if="step.fileData" class="file-display">
+                <h4><i class="fas fa-file-alt"></i> Uploaded Evidence</h4>
+                <a :href="step.s3Url || step.fileData" download :filename="step.fileName || 'evidence'">
+                  <i class="fas fa-download"></i> {{ step.fileName || 'Download file' }}
+                </a>
+                <div v-if="step.s3FileInfo" class="file-info-details">
+                  <span class="file-upload-date">Uploaded: {{ formatDateTime(step.s3FileInfo.uploadedAt) }}</span>
+                </div>
+              </div>
+              
+                <!-- Add status control with complete button and comments -->
   <div v-if="!step.approved && !isStepLocked(index)" class="risk-workflow-status-control">
+    <!-- Add comments text box -->
+    <div class="step-comments">
+      <label for="step-comments-input"><i class="fas fa-comment"></i> Comments:</label>
+      <textarea 
+        :id="'step-comments-input-' + index" 
+        v-model="step.comments" 
+        placeholder="Enter your comments for this mitigation step..."
+        class="step-comments-input"
+      ></textarea>
+    </div>
+    
+    <!-- Add file upload option -->
+    <div class="file-upload-container">
+      <label for="file-upload"><i class="fas fa-file-upload"></i> Upload Evidence:</label>
+      <div class="file-upload-wrapper">
+        <input 
+          type="file" 
+          :id="'file-upload-' + index" 
+          @change="handleFileUpload($event, index)" 
+          class="file-upload-input"
+        />
+        <label :for="'file-upload-' + index" class="file-upload-label">
+          <i class="fas fa-cloud-upload-alt"></i> 
+          <span>{{ step.fileName || 'Choose a file...' }}</span>
+        </label>
+      </div>
+      
+      <!-- Show file preview if uploaded -->
+      <div v-if="step.fileData" class="file-preview">
+        <div class="file-info">
+          <i class="fas fa-file-alt"></i> {{ step.fileName }}
+          <button @click="removeFile(index)" class="remove-file-btn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
     <button 
       @click="completeStep(index)" 
       class="risk-workflow-complete-btn"
@@ -1659,36 +1714,86 @@ export default {
         this.mitigationSteps[index].fileData = e.target.result;
         this.mitigationSteps[index].fileName = file.name;
         
-        // First save locally, then upload to S3
-        axios.post('http://localhost:8000/api/save-uploaded-file/', {
-          fileData: e.target.result,
-          fileName: file.name,
-          riskId: this.selectedRiskId,
-          category: this.userRisks.find(r => r.RiskInstanceId === this.selectedRiskId)?.Category || 'general',
-          mitigationNumber: index + 1
+        // Create form data for file upload
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('userId', this.selectedUserId || 'default-user');
+        formData.append('fileName', file.name);
+        formData.append('riskId', this.selectedRiskId);
+        formData.append('category', this.userRisks.find(r => r.RiskInstanceId === this.selectedRiskId)?.Category || 'general');
+        formData.append('mitigationNumber', index + 1);
+        
+        // Upload directly to S3 microservice
+        axios.post('http://localhost:5000/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
         .then(response => {
-          console.log('File processed successfully:', response.data);
+          console.log('File uploaded successfully to S3:', response.data);
           
-          // Store the S3 information
-          this.mitigationSteps[index].savedFileName = response.data.savedFileName;
-          this.mitigationSteps[index].s3FileInfo = response.data.s3FileInfo;
-          
-          // Optional: Add alert or notification
-          alert('File uploaded successfully');
+          if (response.data.success) {
+            // Store the S3 information
+            this.mitigationSteps[index].savedFileName = response.data.file.fileName;
+            this.mitigationSteps[index].s3FileInfo = response.data.file;
+            this.mitigationSteps[index].s3Url = response.data.file.url;
+            
+            // Optional: Add alert or notification
+            alert('File uploaded successfully');
+          } else {
+            console.error('S3 upload returned error:', response.data);
+            alert('Error uploading file. Please try again.');
+          }
         })
         .catch(error => {
-          console.error('Error processing file:', error);
+          console.error('Error uploading file to S3:', error);
           alert('Error uploading file. Please try again.');
         });
       };
       reader.readAsDataURL(file);
     },
     removeFile(index) {
-      this.mitigationSteps[index].fileData = null;
-      this.mitigationSteps[index].fileName = null;
-      // Reset the file input
-      document.getElementById(`file-upload-${index}`).value = '';
+      // If we have S3 file info, delete from S3 first
+      if (this.mitigationSteps[index].s3FileInfo && this.mitigationSteps[index].s3FileInfo.id) {
+        const fileId = this.mitigationSteps[index].s3FileInfo.id;
+        
+        // Call S3 microservice to delete the file
+        axios.delete(`http://localhost:5000/api/file/${fileId}`)
+          .then(response => {
+            console.log('File deleted from S3:', response.data);
+            
+            // Clear file data from the step
+            this.mitigationSteps[index].fileData = null;
+            this.mitigationSteps[index].fileName = null;
+            this.mitigationSteps[index].s3FileInfo = null;
+            this.mitigationSteps[index].s3Url = null;
+            
+            // Reset the file input
+            document.getElementById(`file-upload-${index}`).value = '';
+          })
+          .catch(error => {
+            console.error('Error deleting file from S3:', error);
+            alert('Error removing file. The file preview will be cleared, but the file may still exist on the server.');
+            
+            // Clear file data anyway
+            this.mitigationSteps[index].fileData = null;
+            this.mitigationSteps[index].fileName = null;
+            this.mitigationSteps[index].s3FileInfo = null;
+            this.mitigationSteps[index].s3Url = null;
+            
+            // Reset the file input
+            document.getElementById(`file-upload-${index}`).value = '';
+          });
+      } else {
+        // If no S3 info, just clear the local data
+        this.mitigationSteps[index].fileData = null;
+        this.mitigationSteps[index].fileName = null;
+        this.mitigationSteps[index].s3FileInfo = null;
+        this.mitigationSteps[index].s3Url = null;
+        
+        // Reset the file input
+        document.getElementById(`file-upload-${index}`).value = '';
+      }
     },
     fetchReviewerComments(riskId) {
       axios.get(`http://localhost:8000/api/reviewer-comments/${riskId}/`)

@@ -1535,13 +1535,14 @@ export default {
 
 /* Override any conflicting styles */
 .risk-instance-container {
-  padding: 20px !important;
+  padding: 15px !important;
   background: transparent !important;
   min-height: calc(100vh - 40px) !important;
-  width: calc(100% - 250px) !important;
+  width: calc(100% - 260px) !important;
   box-sizing: border-box !important;
   position: relative !important;
-  margin-left: 250px !important;
+  margin-left: 260px !important;
+  overflow-x: hidden !important;
 }
 
 .risk-instance-card {
@@ -1549,33 +1550,34 @@ export default {
   border-radius: 0 !important;
   box-shadow: none !important;
   padding: 0 !important;
-  margin-bottom: 24px !important;
+  margin-bottom: 16px !important;
   width: 100% !important;
 }
 
 .risk-instance-header {
-  margin-bottom: 24px !important;
+  margin-bottom: 16px !important;
 }
 
 .risk-instance-header h2 {
   color: var(--form-gray-900) !important;
-  font-size: 1.8rem !important;
+  font-size: 1.5rem !important;
   font-weight: 600 !important;
   margin: 0 !important;
-  padding-bottom: 8px !important;
+  padding-bottom: 6px !important;
 }
 
 .risk-instance-form {
   display: flex !important;
   flex-direction: column !important;
-  gap: 24px !important;
+  gap: 16px !important;
 }
 
 .form-section {
   display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 16px !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
   width: 100% !important;
+  max-width: 100% !important;
   background: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -1587,49 +1589,48 @@ export default {
   display: flex !important;
   flex-direction: column !important;
   gap: 2px !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 3px !important;
 }
 
 .form-group label {
   display: flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  font-size: 0.75rem !important;
+  gap: 4px !important;
+  font-size: 0.7rem !important;
   font-weight: 600 !important;
   color: var(--form-gray-700) !important;
-  margin-bottom: 3px !important;
+  margin-bottom: 2px !important;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  padding: 8px 10px !important;
+  padding: 6px 8px !important;
   border: 1px solid var(--form-gray-300) !important;
-  border-left: 3px solid var(--form-primary) !important;
+  border-left: 2px solid var(--form-primary) !important;
   border-radius: 6px !important;
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   font-family: inherit !important;
   resize: none !important;
   transition: all 0.3s ease !important;
   background-color: var(--form-gray-100) !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  height: 36px !important;
+  height: 32px !important;
 }
 
-/* Ensure form actions are properly styled */
 .form-actions {
   display: flex !important;
   justify-content: flex-end !important;
-  gap: 15px !important;
-  margin-top: 24px !important;
+  gap: 12px !important;
+  margin-top: 16px !important;
 }
 
 .risk-instance-btn-submit,
 .risk-instance-btn-cancel {
-  padding: 8px 24px !important;
+  padding: 6px 20px !important;
   border-radius: 6px !important;
-  font-size: 0.9rem !important;
+  font-size: 0.85rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
   transition: all 0.3s ease !important;
@@ -1654,19 +1655,28 @@ export default {
 }
 
 /* Responsive design overrides */
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .form-section {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .risk-instance-container {
+    width: calc(100% - 240px) !important;
+    margin-left: 240px !important;
   }
 }
 
 @media (max-width: 768px) {
-  .form-section {
-    grid-template-columns: 1fr !important;
+  .risk-instance-container {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 10px !important;
   }
   
-  .risk-instance-container {
-    padding: 12px !important;
+  .form-section {
+    grid-template-columns: 1fr !important;
   }
 }
 </style>

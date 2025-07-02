@@ -15,7 +15,7 @@
         <div class="incident-title-description-section">
           <div class="section-header">
             <h3><i class="fas fa-edit"></i>Incident Overview</h3>
-            <button type="button" @click="generateAnalysis" class="generate-analysis-btn">
+            <button type="button" @click="generateAnalysis" class="generate-analysis-btn" :disabled="isGeneratingAnalysis">
               <i class="fas fa-magic"></i> Generate Analysis
             </button>
           </div>
@@ -579,6 +579,7 @@ export default {
 
     // Validation errors
     const validationErrors = ref({})
+    const isGeneratingAnalysis = ref(false)
 
     // Compliance-related reactive data
     const compliances = ref([])
@@ -1100,11 +1101,150 @@ export default {
       router.push('/incident/incident')
     }
 
-    const generateAnalysis = () => {
-      // TODO: Implement AI-powered analysis generation
-      PopupService.info('Analysis generation feature coming soon! This will help auto-fill incident details based on the title and description.')
-    }
+    const generateAnalysis = async () => {
+      // Validate that we have title and description
+      if (!formData.value.IncidentTitle || !formData.value.Description) {
+        PopupService.error('Please enter both incident title and description before generating analysis.')
+        return
+      }
 
+      if (formData.value.IncidentTitle.trim().length < 3) {
+        PopupService.error('Incident title must be at least 3 characters long.')
+        return
+      }
+
+      if (formData.value.Description.trim().length < 10) {
+        PopupService.error('Incident description must be at least 10 characters long.')
+        return
+      }
+
+      isGeneratingAnalysis.value = true
+
+      try {
+        PopupService.info('Generating analysis... This may take a few moments.')
+        
+        // Call the analysis API with increased timeout
+        const response = await axios.post('api/incidents/generate-analysis/', {
+          title: formData.value.IncidentTitle.trim(),
+          description: formData.value.Description.trim()
+        }, {
+          timeout: 60000 // Increase timeout to 60 seconds
+        })
+
+        if (response.data.success && response.data.analysis) {
+          const analysis = response.data.analysis
+          console.log('Analysis received:', analysis)
+
+          // Map the analysis results to form fields
+          if (analysis.riskPriority) {
+            // Map P0/P1/P2/P3 to High/Medium/Low priority system
+            const priorityMap = {
+              'P0': 'High',
+              'P1': 'High', 
+              'P2': 'Medium',
+              'P3': 'Low'
+            }
+            formData.value.RiskPriority = priorityMap[analysis.riskPriority] || analysis.riskPriority
+          }
+
+          if (analysis.criticality) {
+            formData.value.Criticality = analysis.criticality
+          }
+
+          if (analysis.costOfIncident) {
+            formData.value.CostOfIncident = analysis.costOfIncident
+          }
+
+          if (analysis.possibleDamage) {
+            formData.value.PossibleDamage = analysis.possibleDamage
+          }
+
+          if (analysis.systemsInvolved && Array.isArray(analysis.systemsInvolved)) {
+            formData.value.SystemsAssetsInvolved = analysis.systemsInvolved.join(', ')
+          }
+
+          if (analysis.initialImpactAssessment) {
+            formData.value.InitialImpactAssessment = analysis.initialImpactAssessment
+          }
+
+          if (analysis.mitigationSteps && Array.isArray(analysis.mitigationSteps)) {
+            formData.value.Mitigation = analysis.mitigationSteps.join('\n')
+          }
+
+          if (analysis.comments) {
+            formData.value.Comments = analysis.comments
+          }
+
+          if (analysis.violatedPolicies && Array.isArray(analysis.violatedPolicies)) {
+            formData.value.RelevantPoliciesProceduresViolated = analysis.violatedPolicies.join('\n')
+          }
+
+          if (analysis.procedureControlFailures && Array.isArray(analysis.procedureControlFailures)) {
+            formData.value.ControlFailures = analysis.procedureControlFailures.join('\n')
+          }
+
+          if (analysis.lessonsLearned && Array.isArray(analysis.lessonsLearned)) {
+            formData.value.LessonsLearned = analysis.lessonsLearned.join('\n')
+          }
+
+          // Handle risk categories - try to extract categories from the analysis
+          if (analysis.riskCategory || analysis.category) {
+            const categoryText = analysis.riskCategory || analysis.category
+            // Clear existing categories and add the new one
+            selectedCategories.value = []
+            
+            if (typeof categoryText === 'string') {
+              // Split by common delimiters and clean up
+              const categories = categoryText.split(/[,;|&]/).map(cat => cat.trim()).filter(cat => cat.length > 0)
+              
+              for (const category of categories) {
+                // Add to available categories if not exists
+                if (!availableCategories.value.some(cat => cat.toLowerCase() === category.toLowerCase())) {
+                  availableCategories.value.push(category)
+                }
+                
+                // Add to selected categories
+                if (!selectedCategories.value.includes(category)) {
+                  selectedCategories.value.push(category)
+                }
+              }
+              
+              updateFormDataCategories()
+            }
+          }
+
+          // Clear any validation errors for fields that were populated
+          Object.keys(validationErrors.value).forEach(field => {
+            if (formData.value[field] && formData.value[field].toString().trim()) {
+              delete validationErrors.value[field]
+            }
+          })
+
+          PopupService.success('Analysis completed! Form fields have been populated with AI-generated insights. Please review and modify as needed before saving.')
+          
+        } else {
+          throw new Error(response.data.error || 'Analysis failed')
+        }
+
+      } catch (error) {
+        console.error('Error generating analysis:', error)
+        let errorMessage = 'Failed to generate analysis. '
+        
+        if (error.code === 'ECONNABORTED') {
+          errorMessage += 'Request timed out. The server took too long to respond. Please try again or fill the form manually.'
+        } else if (error.response && error.response.data && error.response.data.error) {
+          errorMessage += error.response.data.error
+        } else if (error.message) {
+          errorMessage += error.message
+        } else {
+          errorMessage += 'Please try again or fill the form manually.'
+        }
+        
+        PopupService.error(errorMessage)
+      } finally {
+        isGeneratingAnalysis.value = false
+      }
+    }
     // Category dropdown methods
     const fetchCategories = async () => {
       try {
@@ -1387,6 +1527,8 @@ export default {
       clearCompliance,
       filterCompliances,
       hideDropdownDelayed,
+      // Loading states
+      isGeneratingAnalysis,
       // Category methods
       fetchCategories,
       toggleCategoryDropdown,

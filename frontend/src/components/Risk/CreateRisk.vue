@@ -750,7 +750,9 @@ export default {
       console.log(`Fetching incident data for ID: ${this.incidentId}`)
       
       // Fetch the incident data
-      axios.get(`http://localhost:8000/api/incidents/${this.incidentId}/`)
+      axios.get(`http://localhost:8000/api/incidents/${this.incidentId}/`, {
+        timeout: 80000 // Increased timeout to 80000ms to prevent timeout errors
+      })
         .then(response => {
           const incident = response.data
           console.log('Incident data loaded:', incident)
@@ -801,7 +803,9 @@ export default {
       console.log('Sending to AI analysis:', analysisData)
       
       // Call the backend API to analyze the incident
-      axios.post('http://localhost:8000/api/analyze-incident/', analysisData)
+      axios.post('http://localhost:8000/api/analyze-incident/', analysisData, {
+        timeout: 80000 // Increased timeout to 80000ms to prevent timeout errors
+      })
         .then(response => {
           console.log('AI Analysis Response:', response.data)
           

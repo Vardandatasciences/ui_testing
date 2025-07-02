@@ -185,13 +185,16 @@
   border-collapse: collapse;
   font-size: 14px;
   table-layout: fixed;
+  border-spacing: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .risk-scoring-container .dynamic-table th {
   background-color: #f2f2f2;
   color: #333;
   font-weight: bold;
-  padding: 12px 8px;
+  padding: 6px 2px;
   text-align: left;
   border-bottom: 2px solid #ddd;
   position: sticky;
@@ -200,46 +203,48 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0;
 }
 
 .risk-scoring-container .dynamic-table td {
-  padding: 10px 8px;
+  padding: 6px 2px;
   border-bottom: 1px solid #ddd;
   vertical-align: top;
   white-space: normal;
   word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0;
 }
 
 /* Column Widths */
 .risk-scoring-col-risk-id { 
-  width: 100px; 
-  min-width: 100px;
+  width: 20px; 
+  min-width: 30px;
 }
 .risk-scoring-col-incident-id { 
-  width: 120px; 
-  min-width: 120px;
+  width: 60px; 
+  min-width: 60px;
 }
 .risk-scoring-col-compliance-id { 
-  width: 140px; 
-  min-width: 140px;
+  width: 80px; 
+  min-width: 80px;
 }
 .risk-scoring-col-risk-title { 
-  width: 200px; 
-  min-width: 200px;
+  width: 150px; 
+  min-width: 150px;
 }
 .risk-scoring-col-category { 
-  width: 140px; 
-  min-width: 140px;
+  width: 90px; 
+  min-width: 90px;
 }
 .risk-scoring-col-description { 
-  width: 300px; 
-  min-width: 300px;
-}
-.risk-scoring-col-actions { 
   width: 180px; 
   min-width: 180px;
+}
+.risk-scoring-col-actions { 
+  width: 80px; 
+  min-width: 160px;
 }
 
 .risk-scoring-container .dynamic-table tr:hover {
@@ -297,13 +302,10 @@
     min-width: 600px;
   }
   
-  .risk-scoring-col-risk-id { width: 80px; min-width: 80px; }
-  .risk-scoring-col-incident-id { width: 100px; min-width: 100px; }
-  .risk-scoring-col-compliance-id { width: 120px; min-width: 120px; }
-  .risk-scoring-col-risk-title { width: 150px; min-width: 150px; }
-  .risk-scoring-col-category { width: 120px; min-width: 120px; }
-  .risk-scoring-col-description { width: 200px; min-width: 200px; }
-  .risk-scoring-col-actions { width: 150px; min-width: 150px; }
+  .risk-scoring-container .dynamic-table th,
+  .risk-scoring-container .dynamic-table td {
+    padding: 4px 1px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -382,16 +384,16 @@
   
   .risk-scoring-container .dynamic-table th,
   .risk-scoring-container .dynamic-table td {
-    padding: 8px 6px;
+    padding: 3px 1px;
   }
   
-  .risk-scoring-col-risk-id { width: 70px; min-width: 70px; }
-  .risk-scoring-col-incident-id { width: 80px; min-width: 80px; }
-  .risk-scoring-col-compliance-id { width: 100px; min-width: 100px; }
+  .risk-scoring-col-risk-id { width: 60px; min-width: 60px; }
+  .risk-scoring-col-incident-id { width: 60px; min-width: 60px; }
+  .risk-scoring-col-compliance-id { width: 80px; min-width: 80px; }
   .risk-scoring-col-risk-title { width: 120px; min-width: 120px; }
   .risk-scoring-col-category { width: 100px; min-width: 100px; }
   .risk-scoring-col-description { width: 150px; min-width: 150px; }
-  .risk-scoring-col-actions { width: 120px; min-width: 120px; }
+  .risk-scoring-col-actions { width: 160px; min-width: 160px; }
 }
 
 /* Toggle Button Styles */

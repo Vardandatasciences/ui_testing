@@ -185,41 +185,355 @@
   border-radius: 2px 2px 0 0;
 }
 
-/* Table styles */
+/* Table Container */
 .user-tasks-table-responsive {
   overflow-x: auto;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(106, 90, 205, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Base Styles */
+.user-tasks-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  table-layout: fixed; /* Fixed layout for consistent column widths */
+}
+
+/* Column Widths - Must match in both header and body */
+.user-tasks-table th:nth-child(1),
+.user-tasks-table td:nth-child(1) {
+  width: 8%;
+  min-width: 80px;
+  padding-left: 20px;
+}
+
+.user-tasks-table th:nth-child(2),
+.user-tasks-table td:nth-child(2) {
+  width: 30%;
+  min-width: 200px;
+}
+
+.user-tasks-table th:nth-child(3),
+.user-tasks-table td:nth-child(3) {
+  width: 15%;
+  min-width: 100px;
+}
+
+.user-tasks-table th:nth-child(4),
+.user-tasks-table td:nth-child(4) {
+  width: 15%;
+  min-width: 100px;
+}
+
+.user-tasks-table th:nth-child(5),
+.user-tasks-table td:nth-child(5) {
+  width: 15%;
+  min-width: 100px;
+}
+
+.user-tasks-table th:nth-child(6),
+.user-tasks-table td:nth-child(6) {
+  width: 17%;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Header Styles - matching compliance approval */
+.user-tasks-table thead th {
+  padding: 16px 12px;
+  background: #f5f6f8 !important;
+  color: #000000 !important;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Cell Styles */
+.user-tasks-table tbody td {
+  padding: 16px 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ID Column Specific */
+.user-tasks-table td.id-column {
+  font-weight: 500;
+  color: #1e293b;
+  text-align: left;
+  padding-left: 20px;
+}
+
+/* Title Column with Status Dot */
+.user-tasks-table td.title-column {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 16px;
+}
+
+.user-tasks-table td.title-column .title-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Origin Column */
+.user-tasks-table td.origin-column {
+  font-weight: 500;
+}
+
+/* Priority Column */
+.user-tasks-table td.priority-column {
+  text-align: left;
+}
+
+.priority-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 80px;
+}
+
+/* Date Column */
+.user-tasks-table td.date-column {
+  white-space: nowrap;
+}
+
+/* Actions Column */
+.user-tasks-table td.actions-column {
+  text-align: center;
+}
+
+.user-tasks-table td.actions-column button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 100px;
+}
+
+/* Status Dot */
+.status-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* Hover Effects */
+.user-tasks-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Collapsible Content */
+.collapsible-content {
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.collapsible-content.expanded {
+  padding: 15px;
+  background: white;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Ensure consistent spacing */
+.user-tasks-table-responsive:last-child {
+  margin-bottom: 0;
+}
+
+/* Row hover effect */
+.user-tasks-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Collapsible section styles */
+.collapsible-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+  background: white;
+  border-radius: 0 0 12px 12px;
+}
+
+.collapsible-content.expanded {
+  max-height: 2000px; /* Large enough to show content */
+  padding: 15px;
+}
+
+/* Status section container */
+.approved-section,
+.rejected-section,
+.pending-review-section,
+.assigned-section {
+  margin-bottom: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Status header styles */
+.status-header {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: white;
+  border-radius: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.status-header:hover {
+  background-color: #f8f9fa;
+}
+
+.status-header .status-icon {
+  margin-right: 12px;
+  width: 24px;
+  text-align: center;
+}
+
+.status-header .status-count {
+  margin-left: auto;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-header .arrow-indicator {
+  margin-left: 12px;
+  transition: transform 0.3s ease;
+}
+
+.status-header .arrow-indicator.expanded {
+  transform: rotate(180deg);
+}
+
+/* Table container styles */
+.user-tasks-table-responsive {
+  margin: 0;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
 }
 
 .user-tasks-table {
-  width: 100%;
-  border-collapse: collapse;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Ensure proper spacing in expanded state */
+.collapsible-content.expanded .user-tasks-table-responsive {
+  margin-top: 10px;
+}
+
+/* Status-specific styles */
+.approved-section .status-header {
+  color: #10b981;
+}
+
+.rejected-section .status-header {
+  color: #ef4444;
+}
+
+.pending-review-section .status-header {
+  color: #f59e0b;
+}
+
+.assigned-section .status-header {
+  color: #6366f1;
+}
+
+/* Table data alignment fixes */
+.user-tasks-table td {
+  vertical-align: middle;
+}
+
+.user-tasks-table td.id-column {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.user-tasks-table td.title-column {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-tasks-table td.title-column .title-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ensure proper spacing between sections */
+.rejected-section + .pending-review-section,
+.pending-review-section + .assigned-section {
+  margin-top: 20px;
+}
+
+/* Status dot alignment */
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Priority badge alignment */
+.priority-badge {
+  display: inline-block;
+  text-align: center;
+  width: fit-content;
+}
+
+/* Status section styles */
+.approved-section,
+.rejected-section,
+.pending-review-section,
+.assigned-section {
+  margin-bottom: 20px;
   background: white;
   border-radius: 12px;
   overflow: hidden;
 }
 
-.user-tasks-table th {
-  background: #4f7cff;
-  color: white;
-  padding: 15px 12px;
-  text-align: left;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* Ensure consistent spacing in cells */
+.user-tasks-table td > * {
+  margin: 0;
 }
 
-.user-tasks-table td {
-  padding: 15px 12px;
-  border-bottom: 1px solid #f0f0f0;
-  vertical-align: middle;
+/* Fix button alignment in action column */
+.user-tasks-table td:last-child {
+  padding: 8px 12px;
 }
 
-.user-tasks-table tr:hover {
-  background: linear-gradient(135deg, rgba(106, 90, 205, 0.05), rgba(63, 63, 63, 0.05));
+.user-tasks-table td:last-child button {
+  width: auto;
+  min-width: 100px;
 }
 
 .rejection-notice {
@@ -1041,12 +1355,15 @@
   position: relative;
 }
 
-.status-rejected::before {
+/* Remove pseudo-elements from table rows to fix alignment */
+/* These pseudo-elements were causing misalignment in table layouts */
+/* Only apply to specific badge elements, not table rows */
+.status-badge.status-rejected::before {
   content: "⚠️";
   margin-right: 4px;
 }
 
-.status-approved::before {
+.status-badge.status-approved::before {
   content: "✅";
   margin-right: 4px;
 }
@@ -1090,15 +1407,17 @@
   line-height: 1.4;
 }
 
-/* Row highlighting for rejected incidents */
+/* Row highlighting for rejected incidents - removed to fix alignment issues */
+/* Comment out these rules to ensure consistent alignment across all sections */
+/*
 .user-tasks-table tr:has(.status-rejected) {
   background-color: rgba(254, 226, 226, 0.3);
-  border-left: 4px solid #ef4444;
 }
 
 .user-tasks-table tr:has(.status-rejected):hover {
   background-color: rgba(254, 226, 226, 0.5);
 }
+*/
 
 /* Resubmission call-to-action styling */
 .resubmit-notice {
@@ -2195,6 +2514,13 @@
   font-size: 18px;
 }
 
+.status-header .status-title {
+  display: inline-block;
+  margin-right: auto;
+  font-weight: 600;
+  font-size: 16px;
+}
+
 /* Status icon colors */
 .status-header.approved .status-icon {
   color: #4CAF50;
@@ -2228,35 +2554,8 @@
   background-color: rgba(33, 150, 243, 0.1);
 }
 
-/* Status count badge */
-.status-count {
-  background-color: #f0f0f0;
-  color: #333;
-  border-radius: 12px;
-  padding: 2px 8px;
-  font-size: 12px;
-  margin-left: 10px;
-}
-
-.approved-section .status-count {
-  background-color: rgba(76, 175, 80, 0.2);
-  color: #2E7D32;
-}
-
-.rejected-section .status-count {
-  background-color: rgba(244, 67, 54, 0.2);
-  color: #C62828;
-}
-
-.pending-review-section .status-count {
-  background-color: rgba(255, 152, 0, 0.2);
-  color: #EF6C00;
-}
-
-.assigned-section .status-count {
-  background-color: rgba(33, 150, 243, 0.2);
-  color: #1565C0;
-}
+/* Status count badge - REMOVED since count is now inline with title */
+/* Count is now displayed as part of the status title */
 
 /* Collapsible content */
 .collapsible-content {
@@ -2281,7 +2580,9 @@
   transform: rotate(180deg);
 }
 
-/* Simple status colors for table rows */
+/* Simple status colors for table rows - REMOVED to ensure consistent alignment */
+/* Comment out all row background colors to fix alignment issues */
+/*
 .user-tasks-table tr.status-approved {
   background-color: rgba(76, 175, 80, 0.05);
 }
@@ -2296,6 +2597,38 @@
 
 .user-tasks-table tr.status-assigned {
   background-color: rgba(33, 150, 243, 0.05);
+}
+*/
+
+/* Apply consistent styling to all table rows regardless of status */
+.user-tasks-table tr.status-approved,
+.user-tasks-table tr.status-rejected,
+.user-tasks-table tr.status-pending-review,
+.user-tasks-table tr.status-assigned {
+  /* Ensure consistent alignment and spacing */
+  background-color: transparent !important;
+}
+
+.user-tasks-table tr.status-approved:hover,
+.user-tasks-table tr.status-rejected:hover,
+.user-tasks-table tr.status-pending-review:hover,
+.user-tasks-table tr.status-assigned:hover {
+  background-color: rgba(79, 124, 255, 0.05) !important;
+}
+
+/* Ensure all table cells have transparent backgrounds */
+.user-tasks-table tr td {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Override any specific status-based cell coloring */
+.user-tasks-table tr.status-rejected td,
+.user-tasks-table tr.status-approved td,
+.user-tasks-table tr.status-pending-review td,
+.user-tasks-table tr.status-assigned td {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* Status indicator dot in table rows */
@@ -2332,4 +2665,133 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure consistent table styling across all sections */
+.approved-section .user-tasks-table,
+.rejected-section .user-tasks-table,
+.pending-review-section .user-tasks-table,
+.assigned-section .user-tasks-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  table-layout: fixed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Ensure consistent column widths across all sections */
+.approved-section .user-tasks-table th,
+.rejected-section .user-tasks-table th,
+.pending-review-section .user-tasks-table th,
+.assigned-section .user-tasks-table th,
+.approved-section .user-tasks-table td,
+.rejected-section .user-tasks-table td,
+.pending-review-section .user-tasks-table td,
+.assigned-section .user-tasks-table td {
+  padding: 16px 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Ensure consistent header styling across all sections - matching compliance approval */
+.approved-section .user-tasks-table thead th,
+.rejected-section .user-tasks-table thead th,
+.pending-review-section .user-tasks-table thead th,
+.assigned-section .user-tasks-table thead th {
+  padding: 16px 12px;
+  background: #f5f6f8 !important;
+  color: #000000 !important;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure consistent actions column alignment across all sections */
+.approved-section .user-tasks-table th:nth-child(6),
+.rejected-section .user-tasks-table th:nth-child(6),
+.pending-review-section .user-tasks-table th:nth-child(6),
+.assigned-section .user-tasks-table th:nth-child(6),
+.approved-section .user-tasks-table td:nth-child(6),
+.rejected-section .user-tasks-table td:nth-child(6),
+.pending-review-section .user-tasks-table td:nth-child(6),
+.assigned-section .user-tasks-table td:nth-child(6) {
+  text-align: center !important;
+  width: 17% !important;
+  min-width: 120px !important;
+}
+
+/* Ensure consistent button styling across all sections */
+.approved-section .user-tasks-table .view-btn,
+.rejected-section .user-tasks-table .view-btn,
+.pending-review-section .user-tasks-table .view-btn,
+.assigned-section .user-tasks-table .view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 100px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Override any specific styling that might affect table row alignment */
+.approved-section .user-tasks-table tr,
+.rejected-section .user-tasks-table tr,
+.pending-review-section .user-tasks-table tr,
+.assigned-section .user-tasks-table tr {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Ensure consistent table cell styling */
+.approved-section .user-tasks-table tr td,
+.rejected-section .user-tasks-table tr td,
+.pending-review-section .user-tasks-table tr td,
+.assigned-section .user-tasks-table tr td {
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  margin: 0 !important;
+  position: relative !important;
+  background-color: transparent !important;
+}
+
+/* Remove any pink/red background from rejected title cells */
+.rejected-section .user-tasks-table tr td.title-column,
+.rejected-section .user-tasks-table tr td.title-column *,
+.rejected-section .user-tasks-table tr td,
+.rejected-section .user-tasks-table tr {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Remove any pseudo-elements from table rows */
+.approved-section .user-tasks-table tr::before,
+.rejected-section .user-tasks-table tr::before,
+.pending-review-section .user-tasks-table tr::before,
+.assigned-section .user-tasks-table tr::before,
+.approved-section .user-tasks-table tr::after,
+.rejected-section .user-tasks-table tr::after,
+.pending-review-section .user-tasks-table tr::after,
+.assigned-section .user-tasks-table tr::after {
+  display: none !important;
 }

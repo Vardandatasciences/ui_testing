@@ -4158,10 +4158,10 @@ def get_remediation_cost_kpi(request):
         # Use raw SQL to get all risk instances with RiskFormDetails
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT RiskFormDetails, Date
+                SELECT RiskFormDetails,CreatedAt
                 FROM risk_instance 
                 WHERE RiskFormDetails IS NOT NULL
-                ORDER BY Date
+                ORDER BY CreatedAt
             """)
             rows = cursor.fetchall()
         
