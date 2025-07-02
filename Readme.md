@@ -4,7 +4,9 @@
 
 This is a Governance, Risk, and Compliance (GRC) application built with Django REST Framework backend and Vue.js frontend.
 
-## Project Structure
+## Project Structur
+added to tets
+
 
 ```
 GRC_SETUP/
