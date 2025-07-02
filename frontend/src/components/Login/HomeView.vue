@@ -10,7 +10,7 @@
         <router-link to="/policy/dashboard">Policies</router-link>
         <router-link to="/compliance/user-dashboard">Compliance</router-link>
         <router-link to="/risk/riskdashboard">Risk</router-link>
-        <router-link to="/auditor/dashboard">Audits</router-link>
+        <router-link to="/auditor/performance/userdashboard">Audits</router-link>
         <router-link to="/incident/dashboard">Incidents</router-link>
       </nav>
       <button @click="logout" class="logout-btn">Logout</button>

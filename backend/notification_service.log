@@ -1576,3 +1576,116 @@ django.core.exceptions.FieldError: Cannot resolve keyword 'IdentifiedAt' into fi
 2025-07-02 10:24:22,304 - mysql.connector - INFO - package: mysql.connector.plugins
 2025-07-02 10:24:22,308 - mysql.connector - INFO - plugin_name: caching_sha2_password
 2025-07-02 10:24:22,308 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:46:06,820 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:46:09,528 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:46:10,036 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:46:10,036 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:46:10,036 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:46:27,185 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:46:29,568 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:46:30,187 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:46:30,187 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:46:30,187 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:46:35,195 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:46:37,401 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:46:38,041 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:46:38,041 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:46:38,041 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:46:47,367 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:46:50,040 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:46:50,540 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:46:50,548 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:46:50,548 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:46:57,446 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:47:00,146 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:47:00,663 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:47:00,663 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:47:00,663 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:47:24,155 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:47:26,565 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:47:27,036 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:47:27,036 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:47:27,036 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 10:56:23,976 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/generate "HTTP/1.1 200 OK"
+2025-07-02 10:57:27,313 - django.request - ERROR - Internal Server Error: /api/risk/mitigation-completion-rate/
+2025-07-02 10:57:30,297 - django.request - WARNING - Not Found: /api/risk/metrics-by-category
+2025-07-02 10:57:30,371 - django.request - WARNING - Not Found: /api/risk/metrics-by-category/
+2025-07-02 10:57:30,371 - django.request - WARNING - Not Found: /api/risk/trend-over-time/
+2025-07-02 10:57:30,371 - django.request - WARNING - Not Found: /api/risk/custom-analysis/
+2025-07-02 10:57:30,521 - django.request - WARNING - Not Found: /api/risk/categories-for-dropdown/
+2025-07-02 10:57:30,529 - django.request - WARNING - Not Found: /api/risk/heatmap/
+2025-07-02 10:59:20,959 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 10:59:23,641 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 10:59:24,275 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 10:59:24,275 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 10:59:24,275 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 11:00:03,473 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 11:00:06,544 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 11:00:07,080 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 11:00:07,080 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 11:00:07,080 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 11:00:15,777 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 11:00:18,298 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 11:00:18,806 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 11:00:18,806 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 11:00:18,806 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 11:00:24,240 - django.utils.autoreload - INFO - C:\Users\puttu\Music\GRC-no_rbac_main\backend\grc\urls.py changed, reloading.
+2025-07-02 11:00:26,831 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2025-07-02 11:00:27,276 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-07-02 11:00:27,276 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-07-02 11:00:27,276 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-07-02 11:00:31,925 - django.request - WARNING - Not Found: /api/current-user/
+2025-07-02 11:00:32,559 - django.request - ERROR - Internal Server Error: /api/risk/mitigation-completion-rate/
+2025-07-02 11:01:03,498 - django.request - WARNING - Not Found: /api/current-user/
+2025-07-02 11:01:03,854 - django.request - ERROR - Internal Server Error: /api/risk/mitigation-completion-rate/
+2025-07-02 11:01:16,312 - grc.views - INFO - Login attempt for user: vikram.patel
+2025-07-02 11:01:17,346 - grc.rbac.utils - INFO - [RBAC] ===== USER LOGIN PERMISSIONS AUDIT =====
+2025-07-02 11:01:17,361 - grc.rbac.utils - INFO - [RBAC] Found active RBAC record for user 2: role=GRC Administrator
+2025-07-02 11:01:17,363 - grc.rbac.utils - INFO - [RBAC] User ID: 2
+2025-07-02 11:01:17,367 - grc.rbac.utils - INFO - [RBAC] Username: vikram.patel
+2025-07-02 11:01:17,371 - grc.rbac.utils - INFO - [RBAC] Role: GRC Administrator
+2025-07-02 11:01:17,371 - grc.rbac.utils - INFO - [RBAC] Account Status: ACTIVE
+2025-07-02 11:01:17,371 - grc.rbac.utils - INFO - [RBAC] Login Time: 2025-07-02 11:01:17.371686
+2025-07-02 11:01:17,378 - grc.rbac.utils - INFO - [RBAC] 
+2025-07-02 11:01:17,378 - grc.rbac.utils - INFO - [RBAC] === INCIDENT MODULE PERMISSIONS ===
+2025-07-02 11:01:17,378 - grc.rbac.utils - INFO - [RBAC] Create Incidents: YES
+2025-07-02 11:01:17,387 - grc.rbac.utils - INFO - [RBAC] View All Incidents: YES
+2025-07-02 11:01:17,387 - grc.rbac.utils - INFO - [RBAC] Edit Incidents: YES
+2025-07-02 11:01:17,387 - grc.rbac.utils - INFO - [RBAC] Assign Incidents: YES
+2025-07-02 11:01:17,393 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Incidents: YES
+2025-07-02 11:01:17,393 - grc.rbac.utils - INFO - [RBAC] Escalate to Risk: YES
+2025-07-02 11:01:17,393 - grc.rbac.utils - INFO - [RBAC] Incident Analytics: YES
+2025-07-02 11:01:17,398 - grc.rbac.utils - INFO - [RBAC] === POLICY MODULE PERMISSIONS ===
+2025-07-02 11:01:17,398 - grc.rbac.utils - INFO - [RBAC] Create Policy: YES
+2025-07-02 11:01:17,398 - grc.rbac.utils - INFO - [RBAC] View All Policy: YES
+2025-07-02 11:01:17,398 - grc.rbac.utils - INFO - [RBAC] Edit Policy: YES
+2025-07-02 11:01:17,398 - grc.rbac.utils - INFO - [RBAC] Approve Policy: YES
+2025-07-02 11:01:17,398 - grc.rbac.utils - INFO - [RBAC] Create Framework: YES
+2025-07-02 11:01:17,406 - grc.rbac.utils - INFO - [RBAC] Approve Framework: YES
+2025-07-02 11:01:17,406 - grc.rbac.utils - INFO - [RBAC] Policy Analytics: YES
+2025-07-02 11:01:17,406 - grc.rbac.utils - INFO - [RBAC] === AUDIT MODULE PERMISSIONS ===
+2025-07-02 11:01:17,406 - grc.rbac.utils - INFO - [RBAC] Assign Audit: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Conduct Audit: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Review Audit: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] View Audit Reports: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Audit Analytics: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] === RISK MODULE PERMISSIONS ===
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Create Risk: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] View All Risk: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Edit Risk: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Approve Risk: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Assign Risk: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Evaluate Assigned Risk: YES
+2025-07-02 11:01:17,414 - grc.rbac.utils - INFO - [RBAC] Risk Analytics: YES
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] === COMPLIANCE MODULE PERMISSIONS ===
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] Create Compliance: YES
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] View All Compliance: YES
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] Edit Compliance: YES
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] Approve Compliance: YES
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] Compliance Analytics: YES
+2025-07-02 11:01:17,430 - grc.rbac.utils - INFO - [RBAC] ===============================================
+2025-07-02 11:01:17,430 - grc.views - INFO - Successful login for user: vikram.patel
+2025-07-02 11:01:17,543 - django.request - WARNING - Not Found: /api/current-user/
+2025-07-02 11:14:32,103 - django.request - WARNING - Not Found: /api/current-user/
+2025-07-02 11:16:22,865 - django.request - WARNING - Not Found: /api/current-user/
+2025-07-02 11:16:24,621 - django.request - ERROR - Internal Server Error: /api/risk/mitigation-completion-rate/

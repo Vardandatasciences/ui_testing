@@ -1133,6 +1133,7 @@ export default {
           console.log('Risk instance created successfully:', response.data);
           this.$popup.success('Risk instance created successfully!');
           this.resetForm();
+          this.sendPushNotification(submissionData);
         })
         .catch(error => {
           console.error('Error creating risk instance:', error);
@@ -1524,10 +1525,39 @@ export default {
         .replace(/\t/g, '\\t')
         .replace(/\f/g, '\\f')
         .replace(/<\/script>/ig, '<\\/script>');
+    },
+    async sendPushNotification(riskData) {
+      try {
+        const notificationData = {
+          title: 'New Risk Instance Created',
+          message: `A new risk instance "${riskData.RiskTitle || 'Untitled Risk'}" has been created in the Risk module.`,
+          category: 'risk',
+          priority: 'high',
+          user_id: 'default_user' // You can replace this with actual user ID
+        };
+ 
+        const response = await fetch('http://localhost:8000/api/push-notification/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(notificationData)
+        });
+ 
+        if (response.ok) {
+          console.log('Push notification sent successfully');
+        } else {
+          console.error('Failed to send push notification');
+        }
+      } catch (error) {
+        console.error('Error sending push notification:', error);
+      }
     }
+
   }
 }
 </script>
+
 
 <style lang="css" scoped>
 /* Import the CSS file */

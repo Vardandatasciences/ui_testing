@@ -26,7 +26,7 @@ from .assign_audit import get_frameworks, get_policies, get_subpolicies, get_use
 from .auditing import get_audit_task_details, save_audit_version, send_audit_for_review
 from . import reviewing
 
-
+from .routes.notifications import push_notification, get_notifications, mark_as_read, mark_all_as_read
 from grc.rbac import views as rbac_views
 
 
@@ -203,6 +203,11 @@ risk_urlpatterns = [
     path('risk-update-mitigation/<int:risk_id>/', risk_views.update_risk_mitigation, name='risk-update-mitigation'),
     path('risk-form-details/<int:risk_id>/', risk_views.get_risk_form_details, name='risk-form-details'),
     # Add incident management URLs
+    path('risk/categories-for-dropdown/', risk_views.get_risk_categories_for_dropdown, name='risk_categories_for_dropdown'),
+    path('risk/heatmap/', risk_views.get_risk_heatmap_data, name='risk_heatmap'),
+    path('risk/trend-over-time/', risk_views.risk_trend_over_time, name='risk_trend_over_time'),
+    path('risk/metrics-by-category/', risk_views.risk_metrics_by_category, name='risk_metrics_by_category'),
+    path('risk/custom-analysis/', risk_views.custom_risk_analysis, name='risk_custom_analysis'),
     path('last-incident/', risk_views.last_incident, name='last-incident'),
     path('compliance-by-incident/<int:incident_id>/', risk_views.get_compliance_by_incident, name='compliance-by-incident'),
     path('risks-by-incident/<int:incident_id>/', risk_views.get_risks_by_incident, name='risks-by-incident'),
@@ -210,6 +215,13 @@ risk_urlpatterns = [
     path('compliances-for-dropdown/', risk_views.get_all_compliances_for_dropdown, name='compliances-for-dropdown'),
     path('users-for-dropdown/', risk_views.get_users_for_dropdown, name='users-for-dropdown'),
     path('analyze-incident/', risk_views.analyze_incident, name='analyze-incident'),
+]
+# Notification URLs
+notification_urlpatterns = [
+    path('push-notification/', push_notification, name='push-notification'),
+    path('get-notifications/', get_notifications, name='get-notifications'),
+    path('mark-as-read/', mark_as_read, name='mark-as-read'),
+    path('mark-all-as-read/', mark_all_as_read, name='mark-all-as-read'),
 ]
 
 # Risk reviewer URLs
@@ -289,6 +301,7 @@ urlpatterns = [
     *log_urlpatterns,
     *risk_kpi_urlpatterns,
     *compliance_urlpatterns,
+    *notification_urlpatterns,
 
 
 
@@ -544,7 +557,12 @@ urlpatterns = [
 
 
 
-
+# Notification endpoints
+    path('push-notification/', push_notification, name='push-notification'),
+    path('get-notifications/', get_notifications, name='get-notifications'),
+    path('mark-as-read/', mark_as_read, name='mark-as-read'),
+    path('mark-all-as-read/', mark_all_as_read, name='mark-all-as-read'),
+ 
 
 
 

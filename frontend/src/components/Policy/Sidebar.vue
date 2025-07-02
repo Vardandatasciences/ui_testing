@@ -337,6 +337,14 @@
     </nav>
 
     <div class="bottom-section">
+      <!-- Notifications Tab -->
+      <div @click="navigate('/notifications')" class="notification-menu-item">
+        <i class="fas fa-bell icon bell-theme"></i>
+        <span v-if="!isCollapsed">Notifications</span>
+        <span v-if="unreadCount > 0" class="notification-badge">{{ unreadCount }}</span>
+        <audio ref="notifAudio" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" preload="auto"></audio>
+      </div>
+      
       <!-- Theme Menu -->
       <div @click="toggleThemeMenu" class="theme-menu-item">
         <i class="fas fa-palette icon"></i>
@@ -366,14 +374,14 @@
       <!-- User Profile -->
       <div class="bottom-profile">
         <i class="fas fa-user icon"></i>
-        <span v-if="!isCollapsed">User Profile</span>
+        <span v-if="!isCollapsed">{{ username }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import logo from '../../assets/grc_logo1.png'
 import '@fortawesome/fontawesome-free/css/all.min.css'
@@ -385,6 +393,11 @@ export default {
     const isCollapsed = ref(false)
     const themeMenuOpen = ref(false)
     const currentTheme = ref('light')
+    const unreadCount = ref(0)
+    const username = ref('User')
+    let prevUnreadCount = 0
+    let pollInterval = null
+    const notifAudio = ref(null)
     
     const openMenus = ref({
       policy: false,
@@ -443,10 +456,59 @@ export default {
       router.push(path)
     }
 
-    // Initialize theme on component mount
+    // Poll unread notifications every 10 seconds
+    const fetchUnreadCount = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/get-notifications/?user_id=default_user');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status === 'success') {
+            const count = (data.notifications || []).filter(n => n.status && !n.status.isRead).length;
+            if (count > prevUnreadCount && prevUnreadCount !== 0) {
+              // Play sound only if new notification arrives (not on first load)
+              if (notifAudio.value) notifAudio.value.play();
+            }
+            unreadCount.value = count;
+            prevUnreadCount = count;
+          }
+        }
+      } catch (e) {
+        // Ignore errors
+      }
+    }
+
+    // Get logged in username
+    const fetchUsername = async () => {
+      try {
+        // Assuming you store the username in localStorage after login
+        const storedUsername = localStorage.getItem('username')
+        if (storedUsername) {
+          username.value = storedUsername
+        } else {
+          // If not in localStorage, try to fetch from API
+          const response = await fetch('http://localhost:8000/api/current-user/')
+          if (response.ok) {
+            const data = await response.json()
+            if (data.username) {
+              username.value = data.username
+              localStorage.setItem('username', data.username)
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching username:', e)
+      }
+    }
+
     onMounted(() => {
+      fetchUnreadCount();
+      fetchUsername();
+      pollInterval = setInterval(fetchUnreadCount, 10000);
       const savedTheme = localStorage.getItem('selected-theme') || 'light'
       setTheme(savedTheme)
+    })
+    onUnmounted(() => {
+      if (pollInterval) clearInterval(pollInterval)
     })
 
     return {
@@ -455,12 +517,15 @@ export default {
       themeMenuOpen,
       currentTheme,
       logo,
+      username,
       toggleCollapse,
       toggleSubmenu,
       toggleThemeMenu,
       setTheme,
       navigate,
-      handleDashboardClick
+      handleDashboardClick,
+      unreadCount,
+      notifAudio
     }
   }
 }
@@ -469,4 +534,42 @@ export default {
 <style scoped>
 /* Import the existing CSS file */
 @import './sidebar.css';
+
+/* Notification tab style */
+.notification-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+.notification-menu-item:hover {
+  background: #f0f4ff;
+}
+.notification-menu-item .icon {
+  margin-right: 12px;
+  font-size: 1.2rem;
+  color: #575757 !important;
+}
+.bell-theme {
+  color:  #646464 !important;
+}
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  left: 28px;
+  background:  #ff3e3e !important;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.18);
+  z-index: 2;
+}
 </style> 

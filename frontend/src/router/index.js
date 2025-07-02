@@ -72,7 +72,8 @@ import ComplianceTailoring from '../components/Compliance/ComplianceTailoring.vu
 import ComplianceVersioning from '../components/Compliance/ComplianceVersioning.vue'
 import ComplianceKPI from '../components/Compliance/ComplianceKPI.vue'
 import PopupDemo from '../components/Compliance/PopupDemo.vue'
-import UploadFramework from '../components/Policy/UploadFramework.vue'
+
+import Notifications from '../views/Notifications.vue'
 
 
 
@@ -432,11 +433,6 @@ const routes = [
     component: AuditReport
   },
   {
-    path: '/create-policy/upload-framework',
-    name: 'UploadFramework',
-    component: UploadFramework
-  },
-  {
     path: '/auditor/performance',
     component: PerformanceAnalysis,
     children: [
@@ -523,6 +519,12 @@ const routes = [
     path: '/compliance/copy/:id',
     name: 'CopyCompliance',
     component: CopyCompliance
+  },
+  {
+    path: '/notifications',
+    name: 'Notifications',
+    component: Notifications,
+    meta: { requiresAuth: true }
   }
 ]
 
