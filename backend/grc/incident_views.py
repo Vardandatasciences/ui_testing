@@ -13,6 +13,7 @@ from .serializers import (
 from .models import Incident, AuditFinding, Users, Workflow, Compliance, Framework, PolicyVersion, PolicyApproval, Policy, SubPolicy, RiskInstance, LastChecklistItemVerified, IncidentApproval, ExportTask, ExportTask,CategoryBusinessUnit, GRCLog
 from .notification_service import NotificationService
 # Import KPI functions from separate module
+from django.db.models import Q
 from .kpis_incidents import (
     incident_mttd, incident_mttr, incident_mttc, incident_mttrv,
     incident_volume, incidents_by_severity, incident_root_causes,
@@ -5714,9 +5715,9 @@ def get_audit_findings(request):
             additionalInfo={"status_filter": status_filter, "search_query": search_query}
         )
             
-        # Query incidents with origin = "Audit Finding"
-        queryset = Incident.objects.filter(Origin='Audit Finding')
-        
+            # Query incidents with origin = "Audit Finding"
+        queryset = Incident.objects.filter(Q(Origin='Audit Finding') | Q(Origin='audit findings'))
+            
         # Apply search filter
         if search_query:
             queryset = queryset.filter(
@@ -6356,9 +6357,11 @@ def audit_finding_incident_detail(request, incident_id):
         except ValidationError as e:
             return Response({'success': False, 'message': str(e)}, status=400)
         
-        # Get the specific incident (audit finding)
-        incident = Incident.objects.get(IncidentId=validated_incident_id, Origin='Audit Finding')
-        
+      # Get the incident with IncidentId and Origin either 'Audit Finding' or 'audit findings'
+        incident = Incident.objects.get(
+            IncidentId=validated_incident_id,
+            Origin__in=['Audit Finding', 'audit findings']
+        )
         # Use the serializer to properly convert the model to JSON-serializable data
         serializer = IncidentSerializer(incident)
         incident_data = serializer.data

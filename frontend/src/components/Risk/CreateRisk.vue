@@ -751,7 +751,7 @@ export default {
       
       // Fetch the incident data
       axios.get(`http://localhost:8000/api/incidents/${this.incidentId}/`, {
-        timeout: 80000 // Increased timeout to 80000ms to prevent timeout errors
+        timeout: 8000000// Increased timeout to 80000ms to prevent timeout errors
       })
         .then(response => {
           const incident = response.data
@@ -905,17 +905,17 @@ export default {
       // Map risk exposure rating based on the exposure rating from AI
       if (analysis.riskExposureRating) {
         const exposureMap = {
-          'Critical Exposure': '9.0',
-          'High Exposure': '7.5',
-          'Elevated Exposure': '5.5',
-          'Low Exposure': '3.0'
+          'Critical Exposure': 9,
+          'High Exposure': 8,
+          'Elevated Exposure': 6,
+          'Low Exposure': 3
         }
-        this.newRisk.RiskExposureRating = exposureMap[analysis.riskExposureRating] || '6.0'
+        this.newRisk.RiskExposureRating = exposureMap[analysis.riskExposureRating] || 6
       } else {
         // Calculate exposure rating as likelihood * impact if not provided
-        const likelihood = parseFloat(this.newRisk.RiskLikelihood) || 5.0
-        const impact = parseFloat(this.newRisk.RiskImpact) || 5.0
-        this.newRisk.RiskExposureRating = ((likelihood * impact) / 10).toFixed(1)
+        const likelihood = parseInt(this.newRisk.RiskLikelihood) || 5
+        const impact = parseInt(this.newRisk.RiskImpact) || 5
+        this.newRisk.RiskExposureRating = likelihood * impact
       }
       
       // Map risk priority
@@ -937,8 +937,10 @@ export default {
       // Map business impact from the description
       this.newRisk.BusinessImpact = this.aiInput.description || ''
       
-      // Map risk type based on category
-      this.newRisk.RiskType = analysis.category || ''
+      // Map risk type based on category - ensure it's a valid value
+      const validRiskTypes = ['Current', 'Residual', 'Inherent', 'Emerging', 'Accepted'];
+      // Default to 'Current' if category is not a valid risk type
+      this.newRisk.RiskType = validRiskTypes.includes(analysis.category) ? analysis.category : 'Current';
       
       // Auto-generate a compliance ID if not already set
       if (!this.newRisk.ComplianceId && this.incidentId) {
@@ -1140,7 +1142,7 @@ export default {
         BusinessImpact: this.selectedBusinessImpacts.map(i => this.sanitizeInput(i.value)).join(', '),
         RiskLikelihood: parseInt(this.newRisk.RiskLikelihood) || 1,
         RiskImpact: parseInt(this.newRisk.RiskImpact) || 1,
-        RiskExposureRating: parseFloat(this.newRisk.RiskExposureRating) || 1,
+        RiskExposureRating: parseInt(this.newRisk.RiskExposureRating) || 1,
       };
 
       try {
@@ -1186,7 +1188,7 @@ export default {
 
       // Validate RiskType
       if (this.newRisk.RiskType) {
-        const allowedRiskType = ['Current', 'Residual', 'Inherent', 'Emerging', 'Accept'];
+        const allowedRiskType = ['Current', 'Residual', 'Inherent', 'Emerging', 'Accepted'];
         if (!allowedRiskType.includes(this.newRisk.RiskType)) {
           errors.RiskType = `Must be one of: ${allowedRiskType.join(', ')}`;
         }

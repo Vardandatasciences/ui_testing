@@ -38,7 +38,7 @@ def analyze_incident_comprehensive(incident_title, incident_description):
 
         1. "riskPriority": Priority level for risk register (P0, P1, P2, P3) where P0 is critical, P1 is high, P2 is medium, P3 is low
         2. "criticality": Severity level (Critical, High, Medium, Low) based on business impact and urgency
-        3. "costOfIncident": Estimated financial impact as a STRING (e.g., "$50,000 - $250,000", "$100,000", "€25,000")
+        3. "costOfIncident": Estimated financial impact as a STRING (e.g., "$50,000 ,$250,000", "$100,000", "€25,000")
         4. "possibleDamage": Detailed description as a STRING of potential harm including operational, financial, reputational, and regulatory consequences
         5. "systemsInvolved": Array of strings listing specific banking systems, applications, networks, or infrastructure components affected
         6. "initialImpactAssessment": STRING describing immediate assessment of what has been compromised, affected, or at risk

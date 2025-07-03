@@ -1124,11 +1124,11 @@ export default {
         PopupService.info('Generating analysis... This may take a few moments.')
         
         // Call the analysis API with increased timeout
-        const response = await axios.post('api/incidents/generate-analysis/', {
+        const response = await axios.post('/api/incidents/generate-analysis/', {
           title: formData.value.IncidentTitle.trim(),
           description: formData.value.Description.trim()
         }, {
-          timeout: 60000 // Increase timeout to 60 seconds
+          timeout: 8000000
         })
 
         if (response.data.success && response.data.analysis) {
